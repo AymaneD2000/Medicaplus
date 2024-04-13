@@ -1,0 +1,119 @@
+[
+  {
+    "médicament": "AMOXICILLINE",
+    "forme": "oral",
+    "prescription": "sous contrôle médical et automédication",
+    "action_thérapeutique": "Antibactérien de la famille des pénicillines (pénicillines A ou Aminopénicillines)",
+    "indications": [
+      "Antibiothérapie ou Antibioprophylaxie à spectre large",
+      "Otite moyenne, Angine streptococcique, Sinusite, Bronchite, Pneumonie aiguës",
+      "Infection à Helicobacter pylori (en association avec l'oméprazole et la clarithromycine)",
+      "Leptospirose, Charbon cutané non compliqué",
+      "Fièvre typhoïde non compliquée (si la souche est sensible - antibiogramme récent)",
+      "Relais d’une pénicilline ou céphalosporine injectable"
+    ],
+    "présentation": [
+      "comprimés_gélules 250 mg, 500 mg, 1000 mg",
+      "comprimé_dispersible_sécable 250 mg (usage pédiatrique)",
+      "poudre_pour_suspension_orale 125 mg/5 ml"
+  ],
+    "posologie": [
+      "posologie_usuelle_(exemple:_leptospirose,_angine,_infection_à_H._pylori)",
+        "enfant 25 mg/kg (max. 1 g) 2 fois par jour ,",
+        "Adulte 1 g 2 fois par jour"
+      ,
+      "posologie_élevée_(exemple:_fièvre_typhoïde,_infections_à_pneumocoques_résistants,_charbon cutané)",
+        "enfant 0 mg/kg (max. 1 g) 3 fois par jour",
+        "Adulte 1 g 3 fois par jour"
+    ],
+    "durée": [
+      "otite_moyenne 5 jours",
+      "angine 6 jours",
+      "leptospirose, infection_H_pylori 7 jours",
+      "pneumonie, sinusite 7 à 10 jours",
+      "charbon_cutané 7 à 14 jours (selon la sévérité)",
+      "fièvre_typhoïde 14 jours"
+    ],
+    "remarques":[],
+    "contre-indications_effets_indésirables_précautions": [
+      "contre-indications Ne pas administrer en cas d'allergie aux pénicillines ou de mononucléose infectieuse.",
+      "effets_indésirables Peut provoquer :",
+        "troubles digestifs",
+        "réactions allergiques parfois sévères (En cas de réaction allergique, arrêter immédiatement le traitement.)",
+      "précautions",
+        "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible)",
+        "Réduire la posologie en cas d'insuffisance rénale sévère.",
+        "Ne pas associer avec le méthotrexate."
+    ],
+    "Grossesse et Allaitement":"Pas de contre-indication",
+    "conservation": [
+      "Température inférieure à 25 °C",
+      "Pour la suspension orale (poudre ou suspension reconstituée) : se conformer aux instructions du fabricant."
+    ]
+  },
+  {
+    "médicament": "Acide ACÉTYLSALICYLIQUE",
+    "autre_noms": ["ASPIRINE", "AAS", "ASA"],
+    "forme": "oral",
+    "prescription": " contrôle médical",
+    "actiosousn_thérapeutique": [
+      "Analgésique, antipyrétique",
+      "anti-inflammatoire non stéroïdien (AINS)",
+      "Antiagrégant plaquettaire (à faible dose)"
+    ],
+    "indications": [
+      "Douleurs d'intensité faible",
+      "Fièvre",
+      "Prévention secondaire de la pré-éclampsie sévère",
+      "inflammation"
+    ],
+    "présentation": [
+      "Comprimé gastro-résistant à 75 mg",
+      "comprimé 100 mg", 
+      "comprimé 300 mg à 1 g",
+      "comprimé 4 à 5 g"
+    ],
+    "posologie_et_durée": {
+      "Douleur et fièvre": "Adolescent de plus de 16 ans et Adulte : 300 mg à 1 g toutes les 4 à 6 heures (max. 4 g par jour), pendant 1 à 3 jours",
+      "Prévention de la pré-éclampsie": "75 à 150 mg une fois par jour de la 12e à la 36e semaine d'aménorrhée. Arrêter le traitement 5 à 10 jours avant la date prévue de l'accouchement.",
+      "Antiagrégant plaquettaire": "100 mg, Pour la prévention primaire des maladies cardiovasculaires chez les Adultes à haut risque ",
+      "Anti-inflammatoire non stéroïdien (AINS)":"4 à 5 g"
+    },
+    "contre-indications_effets_indésirables_précautions": {
+      "contre-indications": [
+        "Ne pas administrer en cas d'allergie à l'aspirine et aux AINS, ulcère gastroduodénal, anomalie de l'hémostase, hémorragie, insuffisance rénale, hépatique ou cardiaque sévères.",
+        "Ne pas administrer chez l’enfant dans la douleur et la fièvre (utiliser le paracétamol)."
+      ],
+      "précautions":[
+        "Administrer avec prudence chez les sujets âgés ou asthmatiques.",
+        "Ne pas associer avec méthotrexate, anticoagulants et AINS.",
+        "Surveiller l'association avec l'insuline (majoration de l'hypoglycémie) et les corticoïdes.",
+        "Ne pas dépasser les doses indiquées, en particulier chez les sujets âgés. Les intoxications sont graves, voire mortelles."
+      ],
+      "effets_indésirables":[ "Peut provoquer :",
+      "réactions allergiques, douleur gastrique, ulcère gastroduodénal, hémorragies ;",
+      "vertiges, bourdonnements d'oreille (signes précoces de surdosage) ;",
+      "syndrome Reye chez l’enfant (encéphalopathie et troubles hépatiques graves).",
+      "Dans tous ces cas, arrêter l'acide acétylsalicylique."
+      ]
+       
+    },
+    "Grossesse et Allaitement":[
+      "Grossesse",
+        "douleur et fièvre À éviter. CONTRE-INDIQUÉ à partir du début du 6e mois. Utiliser le paracétamol.",
+        "prévention de la pré-éclampsie ne pas dépasser 150 mg par jour."
+      ,
+      "Allaitement" , "À éviter. Utiliser le paracétamol."
+    ],
+    "remarques": [
+      "Prendre au milieu des repas, de préférence avec beaucoup d'eau.",
+      "Ne pas écraser les comprimés gastro-résistants.",
+      "L'acide acétylsalicylique est aussi utilisé dans la prévention secondaire des accidents thrombo-emboliques liés à l'athérosclérose, à la dose de 75 à 300 mg par jour.",
+      "Il existe aussi des comprimés à 100 mg et 500 mg et des comprimés dispersibles à 300 mg."
+    ],
+    "conservation": [
+      "Température inférieure à 25 °C",
+      "Ne pas utiliser si les comprimés dégagent une forte odeur vinaigrée. Une légère odeur vinaigrée est normale."
+    ]
+  }
+]

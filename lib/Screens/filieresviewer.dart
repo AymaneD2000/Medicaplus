@@ -45,8 +45,7 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
               ? Center()
               : GestureDetector(
                   onTap: () {
-                    // Action à effectuer lorsque l'utilisateur appuie sur une filière
-                    // Par exemple : navigation vers une autre page
+                    
                   },
                   child: Card(
                     elevation: 5.0,

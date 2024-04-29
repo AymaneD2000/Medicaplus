@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moussa_project/Models/classemodel.dart';
 import 'package:moussa_project/Screens/classviewr.dart';
 import 'package:moussa_project/Screens/medicamentscreen.dart';
-import 'package:moussa_project/widgets/card.dart';
+import 'package:moussa_project/Widgets/card.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard();

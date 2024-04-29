@@ -1,68 +1,199 @@
 [
 
 {
+  "Médicament": "",
+  "Alias": "",
+  "Pharmacies": [
+      ""], 
+  "Classe Thérapeutique": [
+      ""],
+  "Propriété":[
+      "A"], 
+  "Indications": [
+    ""
+  ],
+  "Contre-indications":[ "Ne pas administrer en cas de :",
+    ""
+  ],
+  "Effets indésirables":[ "Peut provoquer :",
+    ""
+  ],
+  "Précautions d'emploi":[
+    ""
+  ],
+  "Grossesse et Allaitement":[
+    "Grossesse : Autorisé",
+    "Allaitement : Autorisé"
+  ]
+}, 
+{
   "Médicament": "ABACAVIR",
   "Alias": "ABC",
-  "Pharmacies":[
+  "Pharmacies": [
     "ZIAGEN"
   ],
-  "Classe Thérapeutique": "Antiviraux",
+  "Classe Thérapeutique": ["Antiviraux", "Antirétroviral/Anti-VIH"],
   "Propriété": [
-    "Antirétroviral, inhibiteur nucléosidique de la transcriptase inverse du  HIV (VIH)"
+    "Antirétroviral, inhibiteur nucléosidique de la transcriptase inverse du VIH-1"
   ],
   "Indications": [
-    "Infection par le  HIV (VIH), ou en association avec d'autres antirétroviraux"
+    "Traitement initial de l'infection par le VIH-1, en association avec d'autres antirétroviraux"
   ],
-  "Contre-indications":[ "Ne pas administrer en cas de",
-    "Antécédent d'insuffisance hépatique sévère",
-    "Réaction d'hypersensibilité à l'abacavir"
+  "Contre-indications":[ "Ne pas administrer en cas de :",
+    "D'antécédent d'insuffisance hépatique ou rénal sévère","Réaction d'hypersensibilité à l'abacavir"
   ],
   "Effets indésirables":[ "Peut provoquer :",
     "Réactions d'hypersensibilité : fièvre, rash, troubles digestifs (nausées, vomissements, diarrhées, douleurs abdominales)", 
     "Pharyngite, toux, dyspnée, malaise, céphalées, léthargie, myalgies, arthralgies",
     "Acidose lactique, pancréatite et atteinte hépatique.",
-    "Dans tous ces cas, arrêter immédiatement et définitivement l'abacavir."
+    "Dans tous ces cas, arrêter immédiatement et définitivement l'abacavir"
   ],
-  "Précautions":[
+  "Précautions d'emploi":[
     "Administrer avec prudence en cas d'hypertension, diabète, hyperlipidémie (pourrait augmenter le risque de maladie coronarienne)."
   ],
   "Grossesse et Allaitement":[
-    "Grossesse : pas de contre-indication",
-    "Allaitement : pas de contre-indication"
+    "Grossesse : Autorisé",
+    "Allaitement : Autorisé"
   ]
   
 },
 {
   "Médicament": "PARACÉTAMOL",
   "Alias": "ACÉTAMINOPHÈNE",
-  "Pharmacies":[
-    "DOLIPRANE"
-  ],
-  "Action Thérapeutique": ["Antagique", "Antagique/Antipyrétique"],
+  "Pharmacies": [
+      "DOLIPRANE", "THERMODOL", "EFFERALGAN"], 
+  "Classe Thérapeutique": [
+      "Antalgique", "Antalgique/Antipyrétique"],
   "Propriété":[
-    "Antalgique periphérique et antipyrétique"
-  ],
+      "Antalgique périphérique et antipyrétique"], 
   "Indications": [
     "Douleurs d'intensité faible",
     "Fièvre"
   ],
-  "Contre-indications":[ "Ne pas administrer en cas",
-    "D'insuffisance hépatique."
+  "Contre-indications":[ "Ne pas administrer en cas de",
+    "Insuffisance hépatique."
   ],
   "Effets indésirables":[ "Peut provoquer :",
-    "Rarement réactions d'hypersensibilité "
+    "Rarement réactions d'hypersensibilité : rashs cutanés avec érythème ou urticaire, nécessitant l'arrêt du traitement", 
+    "Rares hépatites exceptionnelles (surdosage)."
   ],
-  "Précautions":[
+  "Précautions d'emploi":[
     "Ne pas dépasser les posologies indiquées, en particulier chez l'enfant et le sujet âgé. Les intoxications sont graves (cytolyse hépatique).",
-    "Réduire la dose chez : les enfants souffrant de malnutrition aiguë sévère (10 mg/kg jusqu'à 3 fois maximum par 24 heures)",
+    "Réduire la dose chez : les enfants souffrant de malnutrition aiguë sévère (10 mg/kg jusqu'à 3 fois maximum par 24 heures) et en cas d'insuffisance rénal",
     "Dans le traitement des douleurs modérées, le paracétamol est utilisé en association avec un AINS et la codéïne ou le tramadol.",
     "Le paracétamol n'a pas de propriété anti-inflammatoire."
   ],
   "Grossesse et Allaitement":[
-    "Grossesse : pas de contre-indication",
-    "Allaitement : pas de contre-indication"
+    "Grossesse : Autorisé",
+    "Allaitement : Autorisé"
   ]
-  
+}, 
+{
+  "Médicament": "ASPIRINE",
+  "Alias": "ACIDE ACÉTYLSALICYLIQUE",
+  "Pharmacies": [
+      "ASPIRINE UPSA", "ASPÉGIC"], 
+  "Classe Thérapeutique": [
+      "Antalgique", "Antalgique/Antipyrétique", "Anti-inflammatoire non stéroïdiens à visée antalgique"],
+  "Propriété":[
+      "Antalgique périphérique et antipyrétique (1 g) , Anti-inflammatoire non stéroïdiens (AINS)  à dose élevée (4-5 g) , Antiagrégant plaquettaire à dose faible (75-100 mg)"], 
+  "Indications": [
+    "Douleurs d'intensité faible, fièvre",
+"Prévention secondaire de la pré-éclampsie sévère",
+"Prévention secondaire des accidents thromboemboliques liés à l'athérosclérose",
+"Affections rhumatismales"
+  ],
+  "Contre-indications":[ "Ne pas administrer en cas de :",
+  "Allergie à l'aspirine et aux AINS",
+  "ulcère gastroduodénal", "anomalie de l'hémostase", "hémorragie",
+  "insuffisance rénale, hépatique ou cardiaque sévères"
+  ],
+  "Effets indésirables":[ "Peut provoquer :",
+    "Réactions allergiques : œdème de Quincke, urticaire, asthme, anaphylaxie",
+    "Douleur gastrique, ulcère gastroduodénal, hémorragies", 
+"Vertiges, bourdonnements d'oreille (signes précoces de surdosage)", 
+"Syndrome Reye chez l’enfant (encéphalopathie et troubles hépatiques graves)"
+  ],
+  "Précautions d'emploi":[
+    "Ne pas associer avec : méthotrexate, anticoagulants et AINS (augmentation du risque ulcérogène et hémorragique)", 
+    "Surveiller l'association avec l'insuline ou antidiabétiques hypoglycémiants (majoration de l'hypoglycémie) et les corticoïdes (diminution de la salicylémie)",
+    "Ne pas administrer chez l’enfant dans la douleur et la fièvre (utiliser le paracétamol)",
+"Administrer avec prudence chez les sujets âgés ou asthmatiques"
+  ],
+  "Grossesse et Allaitement":[
+    "Grossesse : À éviter, contre-indiqués à partir du 6 e mois; avant, uniquement si nécessaire et en traitement ponctuel",
+    "Allaitement : Déconseillé"
+  ]
+}, 
+{
+  "Médicament": "TRAMADOL",
+  "Alias": "",
+  "Pharmacies": [
+      "TRAMADOL", "TRAMADIS"], 
+  "Classe Thérapeutique": [
+      "Antalgique", "Antalgique/Opioïde"],
+  "Propriété":[
+      "Analgésique opioïde, central. Les autres effets des opioïdes sont moindres"], 
+  "Indications": [
+    "Douleurs d’intensité modérée de l'adulte, seul ou en association avec un analgésique non-opioïde"
+  ],
+  "Contre-indications":[ "Ne pas administrer en cas de :",
+    "Insuffisance respiratoire sévère et hépatocellulaire grave",
+    "Chez les patients susceptibles de convulser (p. ex: épilepsie, trauma crânien, méningite)"
+  ],
+  "Effets indésirables":[ "Peut provoquer :",
+    "vertiges, nausées, vomissements, somnolence, hypersudation, sécheresse buccale, constipation en cas de prise prolongée",
+"rarement : réactions allergiques, convulsions, confusion, syndrome de sevrage, dépression respiratoire en cas de surdosage."
+  ],
+  "Précautions d'emploi":[
+    "Ne pas associer avec : les IMAO et les morphiniques, y compris la codéine", 
+"Eviter l’association avec carbamazépine, fluoxétine, chlorpromazine, prométhazine, clomipramine, halopéridol, digoxine", "Consommation d'alcool déconseillée", 
+    "Réduire la posologie en cas d'insuffisance rénale, d'insuffisance respiratoire, si sujet âgé", 
+"Prudence en cas d'hypertension intracrânienne", 
+"Antiacides : respecter un intervalle de 2 h entre leur prise et celle du tramadol."
+  ],
+  "Grossesse et Allaitement":[
+    "Grossesse : Pas de contre-indication. Il existe un risque de syndrome de sevrage, dépression respiratoire et sédation chez le nouveau-né en cas d’administration prolongée de doses élevées en fin de 3e trimestre. Dans ce cas, surveiller étroitement le nouveau-né",
+    "Allaitement : Contre-indication par prudence. Administrer avec prudence, pour une durée très brève (2-3 jours) à la plus petite dose efficace. Surveiller la mère et l’enfant : en cas de somnolence excessive, arrêter le traitement"
+  ]
+},
+{
+  "Médicament": "FENTANYL",
+  "Alias": "",
+  "Pharmacies": [
+      "VERFEN"], 
+  "Classe Thérapeutique": [
+      "Antalgique", "Antalgique/Opioïde"],
+  "Propriété":[
+      "Sels morphiniques,  Analgésique opioïde central"], 
+  "Indications": [
+    "Traitement des douleurs chroniques sévères", 
+    "Traitement des accès douloureux paroxystiques chez l'adulte recevant déjà un traitement de fond opioïde pour des douleurs chroniques d'origine cancéreuse."
+  ],
+  "Contre-indications":[ "Ne pas administrer en cas de :",
+    "Insuffisance respiratoire",
+    "Syndrome abdominal aigu d'origine inconnue", 
+    "Insuffisance hépatocellulaire grave", 
+    "Traumatisme crânien et hypertension intracrânienne, état convulsif", 
+"Les solutions nasales sont également contre-indiquées en cas d'épisodes récurrents d'épistaxis et chez les moins de 18 ans."
+  ],
+  "Effets indésirables":[ "Peut provoquer :",
+    "Constipation, nausées, vomissements, confusion",
+    "Sédation, excitation, délire, hallucinations, rétention urinaire, dépression respiratoire", 
+    "Augmentation de la pression intracrânienne, de la voie biliaire principale", 
+    "Dépendance physique, psychique, syndrome de privation"
+  ],
+  "Précautions d'emploi":[
+    "À adapter dans le contexte du traitement des douleurs cancéreuses chroniques", 
+    "Prudence avec : Sujet âgé, Insuffisance hépatique, Accoutumance, Hypertension intracrânienne." 
+],
+  "Grossesse et Allaitement":[
+    "Grossesse : Contre-indiquer",
+    "Allaitement : Contre-indiquer"
+  ]
 }
+
+
+
 
 ]

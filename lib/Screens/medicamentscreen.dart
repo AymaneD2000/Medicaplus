@@ -1,7 +1,17 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
+
+// Custom text styles for headers and subheaders
+const TextStyle headerStyle = TextStyle(
+  fontSize: 20.0,
+  fontWeight: FontWeight.bold,
+);
+
+const TextStyle subHeaderStyle = TextStyle(
+  fontSize: 16.0,
+  color: Colors.grey,
+);
 
 class MedicamentsScreen extends StatefulWidget {
   @override
@@ -10,6 +20,22 @@ class MedicamentsScreen extends StatefulWidget {
 
 class _MedicamentsScreenState extends State<MedicamentsScreen> {
   List<dynamic> medicamentsData = [];
+  final Tabs = <Tab>[
+    const Tab(
+      icon: Icon(
+        Icons.list, // Changed icon
+        size: 30,
+      ),
+      text: "By Name",
+    ),
+    const Tab(
+      icon: Icon(
+        Icons.category, // Changed icon
+        size: 30,
+      ),
+      text: "By Class",
+    )
+  ];
 
   @override
   void initState() {
@@ -27,16 +53,42 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Liste des médicaments'),
-      ),
-      body: ListView.builder(
-        itemCount: medicamentsData.length,
-        itemBuilder: (BuildContext context, int index) {
-          final medicament = medicamentsData[index];
-          return MedicamentCard(medicament: medicament);
-        },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Medicaments"),
+          backgroundColor: Colors.teal, // Primary color
+          bottom: TabBar(
+            tabs: Tabs,
+            indicatorColor: Colors.white, // Tab indicator color
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            // First tab: List of medicaments
+            ListView.builder(
+              itemCount: medicamentsData.length,
+              itemBuilder: (BuildContext context, int index) {
+                final medicament = medicamentsData[index];
+                return Hero(
+                  tag: medicament['Médicament'],
+                  child: MedicamentCard(medicament: medicament),
+                );
+              },
+            ),
+            // Second tab: Placeholder content or additional functionality
+            Center(
+              child: Text(
+                "Medicaments by Class - Coming Soon",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -53,26 +105,43 @@ class MedicamentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(8.0),
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(10.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0), // Rounded corners
+      ),
+      elevation: 5,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.white, Colors.teal.withOpacity(0.2)], // Gradient
+          ),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              medicament['Médicament'],
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                Icon(Icons.medical_services, color: Colors.teal), // Icon
+                const SizedBox(width: 8.0),
+                Text(
+                  medicament['Médicament'],
+                  style: headerStyle,
+                ),
+              ],
             ),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 8.0),
             Text(
-              '${medicament['Action Thérapeutique']}',
-              style: TextStyle(fontSize: 16.0),
+              '${medicament['Classe Thérapeutique'].join(', ')}',
+              style: subHeaderStyle,
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.teal, // Button background color
+                backgroundColor: Colors.white, // Button text color
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -82,7 +151,7 @@ class MedicamentCard extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('Voir les détails'),
+              child: const Text("See Details"),
             ),
           ],
         ),

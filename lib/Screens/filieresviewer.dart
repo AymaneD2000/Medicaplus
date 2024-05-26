@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
 import 'package:moussa_project/Models/filiere.dart';
+import 'package:moussa_project/Screens/pdfclientview.dart';
 
 class FiliereGridScreen extends StatefulWidget {
   final String className;
@@ -45,7 +46,12 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
               ? Center()
               : GestureDetector(
                   onTap: () {
-                    
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PdfGridScreen(
+                                  filiereId: _filieres[index].id,
+                                )));
                   },
                   child: Card(
                     elevation: 5.0,

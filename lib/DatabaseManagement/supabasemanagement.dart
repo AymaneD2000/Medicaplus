@@ -1,20 +1,36 @@
 import 'package:moussa_project/Models/classemodel.dart';
+import 'package:moussa_project/Models/faculter.dart';
 import 'package:moussa_project/Models/filiere.dart';
 import 'package:moussa_project/Models/pdf.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseManagement {
   static final supabase = Supabase.instance.client;
-  Future<List<Classe>> getClasse() async {
+  Future<List<Classe>> getClasse(int id) async {
+    final response =
+        await supabase.from('classe').select("*").eq("faculter", id);
+    List<Classe> classes = response.map((e) => Classe.fromSnapshot(e)).toList();
+    return classes;
+  }
+
+  Future<List<Classe>> getAllClasse() async {
     final response = await supabase.from('classe').select("*");
     List<Classe> classes = response.map((e) => Classe.fromSnapshot(e)).toList();
     return classes;
   }
 
+  Future<List<Fac>?> faculter() async {
+    try {
+      final response = await supabase.from('faculter').select("*");
+      List<Fac> classes = response.map((e) => Fac.fromSnapshot(e)).toList();
+      return classes;
+    } catch (expe) {}
+  }
+
   addClasse(Classe c) async {
     await supabase.from('classe').insert(c.toMap()).then((value) {
       print(value);
-      getClasse();
+      getAllClasse();
     });
   }
 

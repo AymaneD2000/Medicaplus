@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:moussa_project/Models/amo.dart';
 import 'package:moussa_project/Models/med.dart';
+import 'package:moussa_project/Widgets/amoattributescard.dart';
 import 'package:moussa_project/Widgets/attributesCard.dart';
 
 // Définition des styles de texte
@@ -14,9 +16,9 @@ const TextStyle detailTextStyle = TextStyle(
   color: Colors.black,
 );
 
-class MedicamentDetailsScreen extends StatelessWidget {
-  final Med medicament;
-  const MedicamentDetailsScreen({Key? key, required this.medicament})
+class AmoDetailsScreen extends StatelessWidget {
+  final Amo medicament;
+  const AmoDetailsScreen({Key? key, required this.medicament})
       : super(key: key);
 
   @override
@@ -30,54 +32,24 @@ class MedicamentDetailsScreen extends StatelessWidget {
         margin: EdgeInsets.only(right: 10, left: 10, top: 10),
         child: ListView(
           children: [
-            AttributesCard(
-                alias: medicament.alias,
-                couleurs: Colors.grey,
-                image: "assets/images/medocw.png",
-                description: medicament.name,
-                title: "Médicament (Alias)"),
-            AttributesCard(
-                //alias: medicament['Alias'],
-                couleurs: Colors.yellow,
-                image: "assets/images/CategorieMed.jpeg",
-                description: medicament.classtherapique.join('\n'),
-                title: "Classe Thérapeutique"),
-            AttributesCard(
-                //alias: medicament['Alias'],
-                couleurs: Colors.green,
-                image: "assets/images/indicw.png",
-                description: medicament.indication.join('\n -'),
-                title: "Indications"),
-            AttributesCard(
-                //alias: medicament['Alias'],
-                couleurs: Colors.green,
-                image: "assets/images/indicw.png",
-                description: medicament.effetindesirable.join('\n -'),
-                title: "Effets indésirables"),
-            AttributesCard(
-                //alias: medicament['Alias'],
-                couleurs: Colors.pinkAccent,
-                image: "assets/images/contreindicw.png",
-                description: medicament.contreindication.join('\n -'),
-                title: "Contre-indications"),
-            AttributesCard(
-                //alias: medicament['Alias'],
-                couleurs: Colors.green,
-                image: "assets/images/indicw.png",
-                description: medicament.grosseseallaitement.join('\n -'),
-                title: "Grossesse et Allaitement"),
-            AttributesCard(
-                //alias: medicament['Alias'],
-                couleurs: Colors.green,
-                image: "assets/images/indicw.png",
-                description: medicament.precaution.join('\n -'),
-                title: "Précautions d'emploi"),
-            AttributesCard(
-                //alias: medicament['Alias'],
-                couleurs: Colors.green,
-                image: "assets/images/indicw.png",
-                description: medicament.propriete.join('\n -'),
-                title: "Propriété"),
+            AmoCard(subtitile: medicament.name, tile: "Nom commercial"),
+            AmoCard(
+                subtitile: medicament.classtherapique.join('\n'),
+                tile: "Classe Thérapeutique"),
+            AmoCard(
+                subtitile: medicament.formedosage.join('\n -'),
+                tile: "Forme et dosage"),
+            AmoCard(
+                subtitile: medicament.dci.join('\n -'),
+                tile: "D.C.I/Composition"),
+            AmoCard(
+                subtitile: medicament.specialitepharmaco.join('\n -'),
+                tile: "Spécialité pharmaco-thérapeutique"),
+            AmoCard(
+                subtitile: medicament.presantation.join('\n -'),
+                tile: "Présentation"),
+            AmoCard(
+                subtitile: medicament.prix.join('\n -'), tile: "Prix public"),
           ],
         ),
       ),

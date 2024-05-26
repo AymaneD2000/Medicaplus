@@ -22,7 +22,7 @@ class _ManageClasseState extends State<ManageClasse> {
 
   Future<void> getClasseList() async {
     try {
-      List<Classe> classeList = await SupabaseManagement().getClasse();
+      List<Classe> classeList = await SupabaseManagement().getAllClasse();
       setState(() {
         _classes = classeList;
       });
@@ -31,9 +31,10 @@ class _ManageClasseState extends State<ManageClasse> {
     }
   }
 
-  Future<void> addClasse() async {
+  Future<void> addClasse(int id) async {
     try {
-      Classe newClasse = Classe(nom: _classeController.text, description: "");
+      Classe newClasse =
+          Classe(nom: _classeController.text, description: "", idfaculter: id);
       await SupabaseManagement().addClasse(newClasse);
       setState(() {
         _classeController.clear();
@@ -54,6 +55,8 @@ class _ManageClasseState extends State<ManageClasse> {
       print('Erreur lors de la suppression de la classe : $error');
     }
   }
+
+  String _selectedGroup = "fmos";
 
   @override
   Widget build(BuildContext context) {
@@ -121,19 +124,54 @@ class _ManageClasseState extends State<ManageClasse> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: const Text('Ajouter une Classe'),
+                title: Text('Ajouter une Classe'),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
                       controller: _classeController,
-                      decoration:
-                          const InputDecoration(labelText: 'Nom de la Classe'),
+                      decoration: InputDecoration(
+                        labelText: 'Nom de la Classe',
+                        border: OutlineInputBorder(), // Ajoute un contour
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+                    Text("Sélectionnez le type de classe:"),
+                    ListTile(
+                      title: Text("fmos"),
+                      leading: Radio<String>(
+                        value: "fmos",
+                        groupValue: _selectedGroup,
+                        onChanged: (String? value) {
+                          setState(() {
+                            _selectedGroup = value!;
+                          });
+                        },
+                      ),
+                    ),
+                    ListTile(
+                      title: Text("faph"),
+                      leading: Radio<String>(
+                        value: "faph",
+                        groupValue: _selectedGroup,
+                        onChanged: (String? value) {
+                          setState(() {
+                            _selectedGroup = value!;
+                          });
+                        },
+                      ),
                     ),
                     const SizedBox(height: 16.0),
                     ElevatedButton(
-                      onPressed: addClasse,
-                      child: const Text('Ajouter'),
+                      onPressed: () {
+                        // Ajoute la classe avec une valeur différente selon le choix
+                        if (_selectedGroup == "fmos") {
+                          addClasse(0); // fmos -> 0
+                        } else {
+                          addClasse(1); // faph -> 1
+                        }
+                      },
+                      child: Text('Ajouter'),
                     ),
                   ],
                 ),
@@ -141,9 +179,8 @@ class _ManageClasseState extends State<ManageClasse> {
             },
           );
         },
-        backgroundColor:
-            Colors.blue, // Changement de la couleur du bouton flottant
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.blue,
+        child: Icon(Icons.add),
       ),
     );
   }

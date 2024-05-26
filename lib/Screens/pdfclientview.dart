@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
 import 'package:moussa_project/Models/pdf.dart';
+import 'package:moussa_project/Screens/pdfview.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PdfGridScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class PdfGridScreen extends StatefulWidget {
 }
 
 class _PdfGridScreenState extends State<PdfGridScreen> {
-List<Pdf> _pdfs = [];
+  List<Pdf> _pdfs = [];
   @override
   void initState() {
     super.initState();
@@ -35,7 +36,7 @@ List<Pdf> _pdfs = [];
         title: Text('Liste des PDFs'),
       ),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10.0,
           mainAxisSpacing: 10.0,
@@ -44,8 +45,8 @@ List<Pdf> _pdfs = [];
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              // Action à effectuer lorsque l'utilisateur appuie sur un PDF
-              // Par exemple : ouvrir le PDF
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PDFScreen()));
             },
             child: Card(
               elevation: 5.0,

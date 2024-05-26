@@ -4,9 +4,11 @@ class CardE extends StatefulWidget {
   String title;
   Color backgroundColor;
   TextStyle textStyle;
+  String image;
 
   CardE({
     Key? key,
+    required this.image,
     required this.title,
     this.backgroundColor = const Color.fromARGB(255, 250, 213, 213),
     this.textStyle = const TextStyle(color: Colors.black),
@@ -21,11 +23,17 @@ class _CardEState extends State<CardE> {
   Widget build(BuildContext context) {
     return Card(
       color: widget.backgroundColor,
-      child: Center(
-        child: Text(
-          widget.title,
-          style: widget.textStyle,
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(widget.title),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.12,
+            child: Image.asset(
+              widget.image,
+            ),
+          )
+        ],
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:moussa_project/Screens/classviewr.dart';
 import 'package:moussa_project/Screens/faculterScreenPage.dart';
 import 'package:moussa_project/Screens/medicamentscreen.dart';
 import 'package:moussa_project/Screens/pharmacie.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:moussa_project/Widgets/card.dart';
 
 class DashBoard extends StatefulWidget {
@@ -31,84 +32,85 @@ class _DashBoardState extends State<DashBoard> {
         ],
         title: const Text('Dashboard'),
       ),
-      body: Column(
-        children: [
-          _buildPublicationCard(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: GridView(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildPublicationCard(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MedicamentsScreen()));
+                    },
+                    child: CardE(
+                      image: "assets/images/medecine.png",
+                      title: "Medicament",
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Faculter(),
+                          ));
+                    },
+                    child: CardE(
+                      image: "assets/images/cours.png",
+                      title: "Cours",
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PharmacieScreen()));
+                    },
+                    child: CardE(
+                      image: "assets/images/pharmacy.png",
+                      title: "Pharmacie",
+                    ),
+                  ),
+                  CardE(
+                    image: "assets/images/Calcule.png",
+                    title: "Calcule",
+                  ),
+                  CardE(
+                    image: "assets/images/posow.png",
+                    title: "",
+                  ),
+                  CardE(
+                    image: "assets/images/posow.png",
+                    title: "",
+                  )
+                ],
               ),
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MedicamentsScreen()));
-                  },
-                  child: CardE(
-                    image: "assets/images/posow.png",
-                    title: "Medicament",
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Faculter(),
-                        ));
-                  },
-                  child: CardE(
-                    image: "assets/images/posow.png",
-                    title: "Cours",
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PharmacieScreen()));
-                  },
-                  child: CardE(
-                    image: "assets/images/posow.png",
-                    title: "Pharmacie",
-                  ),
-                ),
-                CardE(
-                  image: "assets/images/posow.png",
-                  title: "Calcul",
-                ),
-                CardE(
-                  image: "assets/images/posow.png",
-                  title: "",
-                ),
-                CardE(
-                  image: "assets/images/posow.png",
-                  title: "",
-                )
-              ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildPublicationCard() {
-    return Card(
-      child: Container(
-        color: Colors.red,
-        height: 100,
-        width: 100,
-        child: const Center(
-          child: Text("Publications"),
-        ),
-      ),
-    );
+    return CarouselSlider(
+        items: [
+          Image.asset("assets/images/posow.png"),
+          Image.asset("assets/images/pharmacy.png"),
+          Image.asset("assets/images/Calcule.png"),
+          Image.asset("assets/images/cours.png")
+        ],
+        options: CarouselOptions(
+            autoPlay: true, autoPlayInterval: Duration(seconds: 1)));
   }
 
   Widget _buildGridView() {

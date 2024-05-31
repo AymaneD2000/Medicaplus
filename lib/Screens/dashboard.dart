@@ -22,16 +22,42 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ManageClasse()));
-              },
-              icon: Icon(Icons.manage_accounts))
-        ],
-        title: const Text('Dashboard'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ManageClasse()));
+          },
+          icon: Icon(Icons.manage_accounts),
+          tooltip: 'Manage Classes',
+        )
+      ],
+      title: const Text(
+        'Dashboard',
+        style: TextStyle(
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        ),
       ),
+      centerTitle: true,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.purple],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
+      elevation: 10,
+      shadowColor: Colors.black54,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(20),
+        ),
+      ),
+    ),
       body: SingleChildScrollView(
         child: Column(
           children: [

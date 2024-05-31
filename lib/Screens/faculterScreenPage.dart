@@ -34,9 +34,15 @@ class _FaculterState extends State<Faculter> {
         appBar: AppBar(
           title: const Text("List of Faculties"),
         ),
-        body: faculties != null
-            ? faculties!.isNotEmpty
-                ? ListView.builder(
+        body: 
+        FutureBuilder(future: supabaseManagement.faculter(), builder: (context,snapshot){
+          if(snapshot.connectionState == ConnectionState.waiting){
+                return Center(child: CircularProgressIndicator());
+              }
+              else if(snapshot.hasError){
+                return Text(snapshot.error.toString());
+              }else if(snapshot.hasData){
+                return ListView.builder(
                     itemCount: faculties!.length,
                     itemBuilder: (context, index) {
                       final fac = faculties![index];
@@ -96,24 +102,16 @@ class _FaculterState extends State<Faculter> {
                         ),
                       );
                     },
-                  )
-                : const Center(child: CircularProgressIndicator())
-            : const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      color: Colors.red,
-                      size: 60,
-                    ),
-                    Text(
-                      "Connexion internet indisponible, verifier votre reseau",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ));
+                  ); 
+                }else{
+                  return Center(
+                    child: Text("No Data Found"));
+                }
+        })
+        
+        
+        
+        ,
+                );
   }
 }

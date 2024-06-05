@@ -50,14 +50,14 @@ class _PdfScreenState extends State<PdfScreen> {
       final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
       final filePath = fileName;
 
-      await SupabaseManagement.supabase.storage.from('images').upload(
+      await SupabaseManagement.supabase.storage.from('avatars').upload(
             filePath,
             File(imageFile.path),
             fileOptions: FileOptions(contentType: 'image/*'),
           );
 
       _imageUrl = await SupabaseManagement.supabase.storage
-          .from('images')
+          .from('avatars')
           .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
     } on StorageException catch (error) {
       if (mounted) {
@@ -176,56 +176,58 @@ class _PdfScreenState extends State<PdfScreen> {
     return showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Ajouter un PDF'),
-          content: Column(
-            children: [
-              TextField(
-                onChanged: (value) {
-                  nom = value;
+        return SingleChildScrollView(
+          child: AlertDialog(
+            title: const Text('Ajouter un PDF'),
+            content: Column(
+              children: [
+                TextField(
+                  onChanged: (value) {
+                    nom = value;
+                  },
+                  decoration: const InputDecoration(labelText: 'Nom du PDF'),
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  onChanged: (value) {
+                    description = value;
+                  },
+                  decoration:
+                      const InputDecoration(labelText: 'Description du PDF'),
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () async {
+                    await _uploadPdf();
+                  },
+                  child: const Text('Télécharger PDF'),
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () async {
+                    await _uploadImage(); // Appeler la fonction pour télécharger l'image
+                  },
+                  child: const Text('Télécharger Image'),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
                 },
-                decoration: const InputDecoration(labelText: 'Nom du PDF'),
+                child: const Text('Annuler'),
               ),
-              const SizedBox(height: 16.0),
-              TextField(
-                onChanged: (value) {
-                  description = value;
-                },
-                decoration:
-                    const InputDecoration(labelText: 'Description du PDF'),
-              ),
-              const SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: () async {
-                  await _uploadPdf();
+                onPressed: () {
+                  _addPdf(nom, description, _pdfUrl,
+                      _imageUrl); // Passer l'URL de l'image
+                  Navigator.of(context).pop();
                 },
-                child: const Text('Télécharger PDF'),
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () async {
-                  await _uploadImage(); // Appeler la fonction pour télécharger l'image
-                },
-                child: const Text('Télécharger Image'),
+                child: const Text('Ajouter'),
               ),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Annuler'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _addPdf(nom, description, _pdfUrl,
-                    _imageUrl); // Passer l'URL de l'image
-                Navigator.of(context).pop();
-              },
-              child: const Text('Ajouter'),
-            ),
-          ],
         );
       },
     );

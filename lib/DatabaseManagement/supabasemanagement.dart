@@ -84,7 +84,8 @@ class SupabaseManagement {
   }
 
   Future<List<Pdf>> getPDF(String id) async {
-    final response = await supabase.from('pdf').select("*").eq("id", id);
+    final response =
+        await supabase.from('pdf').select("*").eq("filiere_id", id);
     List<Pdf> documents = response.map((e) => Pdf.fromSnapshot(e)).toList();
     return documents;
   }

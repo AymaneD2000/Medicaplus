@@ -23,7 +23,8 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
 
   Future<void> _fetchPdfs() async {
     final supabaseManagement = SupabaseManagement();
-    final pdfs = await supabaseManagement.getDocuments();
+    print(widget.filiereId);
+    final pdfs = await supabaseManagement.getPDF(widget.filiereId);
     setState(() {
       _pdfs = pdfs;
     });
@@ -45,8 +46,12 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PDFScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PDFScreen(
+                            path: _pdfs[index].url,
+                          )));
             },
             child: Card(
               elevation: 5.0,

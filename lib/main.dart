@@ -1,5 +1,9 @@
 import 'package:moussa_project/Screens/AddClasseScreen.dart';
+import 'package:moussa_project/Screens/IMC.dart';
 import 'package:moussa_project/Screens/dashboard.dart';
+import 'package:moussa_project/Screens/glascow.dart';
+import 'package:moussa_project/Screens/manageMateriels.dart';
+import 'package:moussa_project/Screens/venteMaetiels.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
 

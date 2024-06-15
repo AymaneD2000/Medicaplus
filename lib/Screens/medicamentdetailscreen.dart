@@ -31,16 +31,28 @@ class MedicamentDetailsScreen extends StatelessWidget {
         child: ListView(
           children: [
             AttributesCard(
-                alias: medicament.alias,
+                alias: "",
                 couleurs: Color(0xFFB3CDE0),
                 image: "assets/images/medocw.png",
                 description: medicament.name,
                 title: "Médicament (Alias)"),
+                AttributesCard(
+                alias: "",
+                couleurs: Color(0xFFB3CDE0),
+                image: "assets/images/medocw.png",
+                description: medicament.nomCommercial.join('\n'),
+                title: "Nom Commercial"),
+                AttributesCard(
+                // alias: medicament.alias,
+                couleurs: Color(0xFFB3CDE0),
+                image: "assets/images/medocw.png",
+                description: medicament.posologie.join('\n'),
+                title: "Posologie et durée"),
             AttributesCard(
                 //alias: medicament['Alias'],
                 couleurs: Color(0xFFFFEB3B),
                 image: "assets/images/CategorieMed.jpeg",
-                description: medicament.classtherapique.join('\n'),
+                description: medicament.classtherapique,
                 title: "Classe Thérapeutique"),
             AttributesCard(
                 //alias: medicament['Alias'],

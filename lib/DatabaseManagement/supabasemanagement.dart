@@ -36,6 +36,9 @@ class SupabaseManagement {
   }
 
   addClasse(Classe c) async {
+    print("this is id faculter");
+    print(c.idfaculter);
+    print("ss");
     await supabase.from('classe').insert(c.toMap()).then((value) {
       print(value);
       getAllClasse();

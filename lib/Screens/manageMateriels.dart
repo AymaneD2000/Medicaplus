@@ -7,19 +7,6 @@ import 'dart:io';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class MaterielApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Materiel Management',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        // /brightness: Brightness.dark,
-      ),
-      home: MaterielHomePage(),
-    );
-  }
-}
 
 class MaterielHomePage extends StatefulWidget {
   @override
@@ -100,7 +87,7 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
                   return ListTile(
                     leading: Image.network(materiel.image),
                     title: Text(materiel.title),
-                    subtitle: Text('${materiel.price} - ${materiel.sales}'),
+                    subtitle: Text('${materiel.price}'),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -144,7 +131,6 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
   final _formKey = GlobalKey<FormState>();
   late String _title;
   late num _price;
-  late int _sales;
   String _imageUrl = '';
 
   @override
@@ -153,12 +139,10 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
     if (widget.materiel != null) {
       _title = widget.materiel!.title;
       _price = widget.materiel!.price;
-      _sales = widget.materiel!.sales;
       _imageUrl = widget.materiel!.image;
     } else {
       _title = '';
       _price = 0.0;
-      _sales = 0;
       _imageUrl = '';
     }
   }
@@ -215,7 +199,6 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
       final newMateriel = Materiel(
         title: _title,
         price: _price,
-        sales: _sales,
         image: _imageUrl,
         id: widget.materiel?.id,
       );
@@ -270,20 +253,20 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
                   _price = num.parse(value!);
                 },
               ),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                initialValue: _sales.toString(),
-                decoration: InputDecoration(labelText: 'Ventes'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer le nombre de ventes';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _sales = int.parse(value!);
-                },
-              ),
+              // TextFormField(
+              //   keyboardType: TextInputType.number,
+              //   initialValue: _sales.toString(),
+              //   decoration: InputDecoration(labelText: 'Ventes'),
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Veuillez entrer le nombre de ventes';
+              //     }
+              //     return null;
+              //   },
+              //   onSaved: (value) {
+              //     // _sales = int.parse(value!);
+              //   },
+              // ),
               SizedBox(height: 16),
               _imageUrl.isNotEmpty
                   ? Image.network(_imageUrl)

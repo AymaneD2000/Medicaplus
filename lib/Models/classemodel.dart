@@ -5,7 +5,7 @@ class Classe {
   Classe(
       {required this.nom, required this.description, required this.idfaculter});
   Map<String, dynamic> toMap() {
-    return {'nom': nom, 'description': description};
+    return {'nom': nom, 'description': description, "faculter":idfaculter};
   }
 
   factory Classe.fromSnapshot(Map<String, dynamic> value) {

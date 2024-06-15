@@ -35,11 +35,17 @@ class _ManageClasseState extends State<ManageClasse> {
     try {
       Classe newClasse =
           Classe(nom: _classeController.text, description: "", idfaculter: id);
-      await SupabaseManagement().addClasse(newClasse);
-      setState(() {
+          if (_classeController.text != ""){
+            await SupabaseManagement().addClasse(newClasse);
+            setState(() {
         _classeController.clear();
         getClasseList();
+        Navigator.pop(context);
       });
+          }else{
+            
+          }
+    
     } catch (error) {
       print('Erreur lors de l\'ajout de la classe : $error');
     }
@@ -125,55 +131,57 @@ class _ManageClasseState extends State<ManageClasse> {
             builder: (context) {
               return AlertDialog(
                 title: Text('Ajouter une Classe'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: _classeController,
-                      decoration: InputDecoration(
-                        labelText: 'Nom de la Classe',
-                        border: OutlineInputBorder(), // Ajoute un contour
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: _classeController,
+                        decoration: InputDecoration(
+                          labelText: 'Nom de la Classe',
+                          border: OutlineInputBorder(), // Ajoute un contour
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    Text("Sélectionnez le type de classe:"),
-                    ListTile(
-                      title: Text("fmos"),
-                      leading: Radio<String>(
-                        value: "fmos",
-                        groupValue: _selectedGroup,
-                        onChanged: (String? value) {
-                          setState(() {
-                            _selectedGroup = value!;
-                          });
+                      const SizedBox(height: 16.0),
+                      Text("Sélectionnez le type de classe:"),
+                      ListTile(
+                        title: Text("fmos"),
+                        leading: Radio<String>(
+                          value: "fmos",
+                          groupValue: _selectedGroup,
+                          onChanged: (String? value) {
+                            setState(() {
+                              _selectedGroup = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: Text("faph"),
+                        leading: Radio<String>(
+                          value: "faph",
+                          groupValue: _selectedGroup,
+                          onChanged: (String? value) {
+                            setState(() {
+                              _selectedGroup = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Ajoute la classe avec une valeur différente selon le choix
+                          if (_selectedGroup == "fmos") {
+                            addClasse(0); // fmos -> 0
+                          } else {
+                            addClasse(1); // faph -> 1
+                          }
                         },
+                        child: Text('Ajouter'),
                       ),
-                    ),
-                    ListTile(
-                      title: Text("faph"),
-                      leading: Radio<String>(
-                        value: "faph",
-                        groupValue: _selectedGroup,
-                        onChanged: (String? value) {
-                          setState(() {
-                            _selectedGroup = value!;
-                          });
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Ajoute la classe avec une valeur différente selon le choix
-                        if (_selectedGroup == "fmos") {
-                          addClasse(0); // fmos -> 0
-                        } else {
-                          addClasse(1); // faph -> 1
-                        }
-                      },
-                      child: Text('Ajouter'),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

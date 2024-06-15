@@ -113,13 +113,13 @@ class _BooksHomePageState extends State<BooksHomePage> {
               style: TextStyle(color: Colors.yellow),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "${book.sales} Ventes",
-              style: TextStyle(color: Colors.green),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Text(
+          //     "${book.sales} Ventes",
+          //     style: TextStyle(color: Colors.green),
+          //   ),
+          // ),
         ],
       ),
     );

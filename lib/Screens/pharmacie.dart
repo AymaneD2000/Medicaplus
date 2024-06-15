@@ -1,10 +1,8 @@
-
 import 'dart:convert';
-import 'package:moussa_project/Models/amo.dart';
-import 'package:moussa_project/Screens/AmoView.dart';
-import 'package:sticky_az_list/sticky_az_list.dart';
 import 'package:flutter/material.dart';
-// import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
+import 'package:moussa_project/Models/amo.dart';
+import 'package:sticky_az_list/sticky_az_list.dart';
+import 'package:moussa_project/Screens/AmoView.dart';
 
 class PharmacieScreen extends StatefulWidget {
   @override
@@ -12,9 +10,10 @@ class PharmacieScreen extends StatefulWidget {
 }
 
 class _PharmacieScreenState extends State<PharmacieScreen> {
-  // List<dynamic> medicamentsData = [];
-  // List<Amo> medNameList = [];
   Future<String>? data;
+  List<Amo> medNameList = [];
+  List<Amo> filteredMedNameList = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -24,21 +23,33 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
 
   Future<void> _loadMedicamentsData() async {
     try {
-      data =
-          DefaultAssetBundle.of(context).loadString('assets/amo.json');
-      // setState(() async{
-      //   medicamentsData = json.decode( await data);
-      //   medNameList =
-      //       medicamentsData.map((item) => Amo.fromSanpshot(item)).toList();
-      // });
+      String jsonData =
+          await DefaultAssetBundle.of(context).loadString('assets/amo.json');
+      setState(() {
+        medNameList = (json.decode(jsonData) as List)
+            .map((item) => Amo.fromSanpshot(item))
+            .toList();
+        filteredMedNameList = medNameList;
+      });
     } catch (e) {
       print("Error loading JSON data: $e");
     }
   }
 
+  void _filterMedicaments(String query) {
+    final filtered = medNameList.where((med) {
+      final medNameLower = med.name.toLowerCase();
+      final queryLower = query.toLowerCase();
+      return medNameLower.contains(queryLower);
+    }).toList();
+
+    setState(() {
+      filteredMedNameList = filtered;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    setState(() {});
     return Scaffold(
       body: Column(
         children: [
@@ -60,64 +71,54 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: 'Rechercher des médicaments...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              onChanged: _filterMedicaments,
+            ),
+          ),
           Flexible(
-            child: FutureBuilder(future: data, builder: (context, snapshot){
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return Center(child: CircularProgressIndicator());
-              }
-              else if(snapshot.hasError){
-                return Text(snapshot.error.toString());
-              }
-              else if(snapshot.hasData){
-                final medicamentData = json.decode(snapshot.data??"");
-                List<Amo> medNameList = [];
-            for (var item in medicamentData) {
-              medNameList.add(Amo.fromSanpshot(item));
-            }
-             //medicamentData.map((item) => Amo.fromSanpshot(item)).toList();
-             return StickyAzList(
-                      options: const StickyAzOptions(
-                          listOptions: ListOptions(showSectionHeader: false)),
-                      items: medNameList,
-                      builder: (context, index, items) {
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AmoDetailsScreen(
-                                      medicament: medNameList[index]),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  border: BorderDirectional(
-                                      bottom: BorderSide(width: 0.5))),
-                              child: ListTile(
-                                title: Text(
-                                  items.name,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.green),
-                                ),
-                                subtitle: Text(items.dci.join(',')),
+            child: filteredMedNameList.isEmpty
+                ? Center(child: Text("No data available"))
+                : StickyAzList(
+                    options: const StickyAzOptions(
+                        listOptions: ListOptions(showSectionHeader: false)),
+                    items: filteredMedNameList,
+                    builder: (context, index, items) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AmoDetailsScreen(
+                                    medicament: filteredMedNameList[index]),
                               ),
-                            ));
-                      },
-                    );
-              }
-              else{
-                return Text("No data available");
-              }
-            }),
+                            );
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                border: BorderDirectional(
+                                    bottom: BorderSide(width: 0.5))),
+                            child: ListTile(
+                              title: Text(
+                                items.name,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green),
+                              ),
+                              subtitle: Text(items.dci.join(',')),
+                            ),
+                          ));
+                    }),
           )
-          // Flexible(
-          //   // Utilisation de Flexible au lieu de Expanded
-          //   child: medNameList.isEmpty
-          //       ? Center(child: Text("No data available"))
-          //       : 
-          // ),
         ],
       ),
     );

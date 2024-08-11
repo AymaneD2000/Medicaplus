@@ -77,14 +77,16 @@ class _IMCCalculatorState extends State<IMCCalculator> {
               SizedBox(height: 16.0),
               Text(
                 'Résultat:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+fontFamily: 'TimesNewRoman',fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.0),
               Text('Votre IMC est $_imc'),
               SizedBox(height: 16.0),
               Text(
                 'Pour rappel (selon l\'OMS), un résultat:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+fontFamily: 'TimesNewRoman',fontWeight: FontWeight.bold),
               ),
               Text('- Inférieur à 16 correspond à "Anorexie/dénutrition".'),
               Text('- Entre 16,5 et 18 correspond à "Maigreur".'),
@@ -99,6 +101,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                 child: Text(
                   'Plus d\'infos sur : www.calculersonimc.fr',
                   style: TextStyle(
+fontFamily: 'TimesNewRoman',
                     color: Colors.blue,
                     decoration: TextDecoration.underline,
                   ),

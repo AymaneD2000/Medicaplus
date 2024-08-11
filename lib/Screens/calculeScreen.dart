@@ -30,7 +30,10 @@ class _CalculeScreenState extends State<CalculeScreen> {
                       MaterialPageRoute(builder: (context) => IMCCalculator()));
                 },
                 child:
-                    CardE(image: 'assets/images/medecine.png', title: "IMC")),
+                    CardE(
+                      image: 'assets/images/Calcule.png',
+                      backgroundColor: Color(0xFF4A90E2),
+                      title: "IMC")),
             GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -38,7 +41,11 @@ class _CalculeScreenState extends State<CalculeScreen> {
                       MaterialPageRoute(
                           builder: (context) => GlasgowHomePage()));
                 },
-                child: CardE(image: 'assets/images/imc.png', title: "Glascow")),
+                child: CardE(
+                  image: 'assets/images/Calcule.png',
+                  backgroundColor: Colors.white,
+                  borderColor: Color(0xFF4A90E2),
+                  title: "Glascow")),
                 GestureDetector(
                 onTap: () {
                   Navigator.push(

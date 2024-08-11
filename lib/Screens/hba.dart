@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class HbA1cScreen extends StatefulWidget {
@@ -10,14 +11,150 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
   final TextEditingController _controller = TextEditingController();
   String _selectedUnit = '%';
   double? _glycemiaGpl;
+  String interpretation = "";
+  Text intreprete = Text("");
   double? _glycemiaMmol;
+  
 
   void _calculateGlycemia() {
+    final t = _controller.text.replaceAll(RegExp(','),'.');
+    print(t);
     setState(() {
-      double hbA1c = double.tryParse(_controller.text) ?? 0.0;
+      double hbA1c = double.tryParse(t) ?? 0.0;
       if (_selectedUnit == '%') {
-        _glycemiaGpl = hbA1c * 1.59 - 2.59;
-        _glycemiaMmol = _glycemiaGpl! * 5.5;
+        if(hbA1c >=2 && hbA1c<=20){
+          _glycemiaMmol = hbA1c * 1.59 - 2.59;
+        print("-----------------------------");
+        print(_glycemiaMmol);
+        _glycemiaGpl = _glycemiaMmol! / 0.055;
+        if(hbA1c >= 2 && hbA1c < 4){
+          setState(() {
+            interpretation = "Hypo-Glycémie chronique\n Risque de pathologies hépatiques";
+            intreprete = Text(
+              textAlign: TextAlign.center,
+                      interpretation,
+                      style: TextStyle(
+                          fontFamily: 'TimesNewRoman',
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    );
+          });
+        }
+        // else if(hbA1c >= 4 && hbA1c <= 4.6){
+        //   setState(() {
+        //     interpretation = "Super Optimal";
+        //     intreprete = Text(
+        //         interpretation,
+        //         style: TextStyle(
+        //         fontFamily: 'TimesNewRoman',
+        //           fontSize: 20,
+        //           fontStyle: FontStyle.italic,
+        //           color: Color(0xff056906),
+        //         ),
+        //       );
+        //   });
+        // }
+        else if(hbA1c >= 4 && hbA1c <= 5.1)
+        {
+          setState(() {
+            interpretation = "Optimal";
+            intreprete = Text(
+                interpretation,
+                style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Color(0xff369736),
+                ));
+          });
+        }
+        else if(hbA1c >= 5.2 && hbA1c <= 5.7)
+        {
+          setState(() {
+            interpretation = "Normal";
+            intreprete = Text(
+                interpretation,
+                style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Color(0xff19FD05),
+                ));
+          });
+        }
+        else if(hbA1c >= 5.8 && hbA1c <= 6.4)
+        {
+          setState(() {
+            interpretation = "Pré-Diabete\n Risque d'hyperglycémie";
+            intreprete = Text(
+                interpretation,
+                style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Color(0xffFFFE06),
+                ));
+          });
+        }
+        else if(hbA1c >= 6.5 && hbA1c <= 7.1){
+          setState(() {
+            interpretation = "Diabete";
+            intreprete = Text(
+                interpretation,
+                style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Color(0xffFF6501),
+                ));
+          });
+        }
+        else if(hbA1c >= 7.2 && hbA1c <= 9){
+          setState(() {
+            interpretation = "Diabetes sucré";
+            intreprete = Text(
+                interpretation,
+                style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Color(0xffFE0000),
+                ));
+          });
+        }else if(hbA1c >= 9.1 && hbA1c <= 20){
+          setState(() {
+            interpretation = "dangereux ou risque lever de complication";
+            intreprete = Text(
+                interpretation,
+                style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Color(0xffC20000),
+                ));
+          });
+        }
+        else{
+
+        }
+
+        }else{
+          interpretation = "Merci de renseignez un nombre entre 2% et 20%";
+            intreprete = Text(
+                textAlign: TextAlign.center,
+                interpretation,
+                style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.red,
+                ));
+        }
+        
       } else {
         _glycemiaGpl = hbA1c / 10.929;
         _glycemiaMmol = hbA1c / 1.098;
@@ -29,79 +166,136 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
+      appBar: AppBar(
+        title: Center(
                 child: Text(
                   'HbA1c vers Glycémie Plasmatique Moyenne',
                   textAlign: TextAlign.center,
                   style: TextStyle(
+                  fontFamily: 'TimesNewRoman',
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.blue,
                   ),
                 ),
               ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+               Text(
+                'Definition :',
+                style: TextStyle(
+                  fontFamily: 'TimesNewRoman',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                "L'hémoglobine glyquée (HbA1c) est le reflet de l'équilibre glycémique des trois derniers mois. "
+                "Cette formule permet de faire le lien entre HbA1c et la glycémie plasmatique moyenne présente chez un patient.",
+                style:
+                TextStyle(
+                  //fontFamily: 'TimesNewRoman',
+                  fontSize: 17,
+                  // fontFamily: 'TimesNewRoman',
+                  color: Colors.black,
+                ),
+              ),
               SizedBox(height: 16),
               Center(
-                child: Icon(
-                  Icons.medical_services,
-                  size: 50,
-                  color: Colors.blue,
-                ),
+                child: Image.asset('assets/images/diabete.gif',scale: 6,),
               ),
               SizedBox(height: 16),
               Row(
                 children: [
                   Text(
                     'HbA1c :',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                    fontFamily: 'TimesNewRoman',fontSize: 18),
                   ),
                   SizedBox(width: 8),
                   Expanded(
                     child: TextField(
+                      textAlign: TextAlign.center,
                       controller: _controller,
+                      
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(width: 4)),
                         contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                       ),
                       keyboardType: TextInputType.number,
                     ),
                   ),
                   SizedBox(width: 8),
-                  DropdownButton<String>(
-                    value: _selectedUnit,
-                    items: <String>['%', 'mmol/mol'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedUnit = newValue!;
-                      });
-                    },
+                  Container(
+                    // /padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Color(0xff33CCCC),
+                      borderRadius:  BorderRadius.circular(15),
+                      border: Border.all()),
+                    child: DropdownButton<String>(
+                      underline: Container(),
+                      alignment: Alignment.center,
+                      borderRadius: BorderRadius.circular(20),
+                      value: _selectedUnit,
+                      items: <String>['%', 'mmol/mol'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          alignment: Alignment.centerRight,
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedUnit = newValue!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: _calculateGlycemia,
+                      style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
+                      child: Text('Calculer', style: TextStyle(
+                            fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
+                    ),
+                  ),
+                  SizedBox(width: 20,),
+                  Center(
+                    child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
+                      onPressed:(){
+                        setState(() {
+                          _controller.clear();
+                        _glycemiaMmol = 0;
+                        _glycemiaGpl = 0;
+                        });
+                      },
+                      child: Text('Reprendre', style: TextStyle(
+                      fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 16),
               Center(
-                child: ElevatedButton(
-                  onPressed: _calculateGlycemia,
-                  child: Text('Calculer'),
-                ),
-              ),
-              SizedBox(height: 16),
-              Center(
                 child: Text(
-                  'Glycémie plasmatique moyenne :',
+                  'Glycémie plasmatique moyenne',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontFamily: 'TimesNewRoman',
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: Colors.red,
                   ),
@@ -113,34 +307,41 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _glycemiaGpl!.toStringAsFixed(4),
+                      _glycemiaGpl!.toStringAsFixed(2),
                       style: TextStyle(
-                        fontSize: 24,
+                          fontFamily: 'TimesNewRoman',
+                        fontSize: 28,
+                        fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
                     SizedBox(width: 8),
                     Text(
-                      'g/l',
+                      'mg/dL',
                       style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      fontFamily: 'TimesNewRoman',
                         fontSize: 18,
                         color: Colors.black,
                       ),
                     ),
                     SizedBox(width: 16),
                     Text(
-                      _glycemiaMmol!.toStringAsFixed(4),
+                      "${_glycemiaMmol!.toStringAsFixed(2)}",
                       style: TextStyle(
-                        fontSize: 24,
+                        fontFamily: 'TimesNewRoman',
+                        fontSize: 28,
+                        fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
                     SizedBox(width: 8),
                     Text(
-                      'mmol/l',
+                      'mmol/L',
                       style: TextStyle(
+                        fontFamily: 'TimesNewRoman',
                         fontSize: 18,
                         color: Colors.black,
                       ),
@@ -148,27 +349,24 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   ],
                 ),
               SizedBox(height: 16),
-              Text(
-                'Interprétation:',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
+              Center(
+                child: Text(
+                  'Interprétation',
+                  style: TextStyle(
+                    fontFamily: 'TimesNewRoman',
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff33CCCC),
+                  ),
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
-                "L'hémoglobine glyquée (HbA1C) est le reflet de l'équilibre glycémique des trois derniers mois. "
-                "Cette formule permet de faire le lien entre HbA1c et la glycémie plasmatique moyenne présente chez un patient.",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                ),
-              ),
+              SizedBox(height: 16),
+              Center(child: intreprete),
               SizedBox(height: 16),
               Text(
                 'Références:',
                 style: TextStyle(
+                fontFamily: 'TimesNewRoman',
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -176,34 +374,14 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               ),
               SizedBox(height: 8),
               Text(
-                "Formule: Glycémie Moyenne = HbA1c (en %) x 1,59 - 2,59.\n"
-                "David M. Nathan, Judith Kuenen, Rikke Borg et al.\n"
-                "Translating the A1C Assay Into Estimated Average Glucose Values. Diabetes Care. 2008 Aug; 31(8): 1473–1478.",
+                "Formule: Glycémie Moyenne = HbA1c (en %) x 1,59 - 2,59.\n",
                 style: TextStyle(
+                  fontFamily: 'TimesNewRoman',
                   fontSize: 14,
                   color: Colors.black,
                 ),
               ),
               SizedBox(height: 16),
-              Center(
-                child: Wrap(
-                  spacing: 8.0,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text('[Racine]'),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text('[Alphabétique]'),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text('[Spécialités]'),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

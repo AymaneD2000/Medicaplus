@@ -72,6 +72,7 @@ class AttributesCard extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
+fontFamily: 'TimesNewRoman',
                       fontWeight: FontWeight.bold,
                       fontSize: 6 * MediaQuery.devicePixelRatioOf(context),
                     ),

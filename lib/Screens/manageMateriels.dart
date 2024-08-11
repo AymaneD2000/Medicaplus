@@ -59,7 +59,7 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
 
   void _deleteMateriel(Materiel materiel) {
     setState(() {
-      materiels.remove(materiel);
+      SupabaseManagement().removeMateriel(materiel);
     });
   }
 
@@ -130,8 +130,11 @@ class MaterielFormPage extends StatefulWidget {
 class _MaterielFormPageState extends State<MaterielFormPage> {
   final _formKey = GlobalKey<FormState>();
   late String _title;
-  late num _price;
+  late String _price;
+  late String _description;
+  late String _telephone;
   String _imageUrl = '';
+  File? imageFile;
 
   @override
   void initState() {
@@ -140,36 +143,51 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
       _title = widget.materiel!.title;
       _price = widget.materiel!.price;
       _imageUrl = widget.materiel!.image;
+      _description = widget.materiel!.description??"";
+      _telephone = widget.materiel!.telephone;
     } else {
       _title = '';
-      _price = 0.0;
+      _description = "";
+      _telephone = "";
+      _price = "";
       _imageUrl = '';
     }
   }
 
-  Future<void> _uploadImage() async {
+  Future<File?> UploadeFile()async{
     final picker = ImagePicker();
-    final imageFile = await picker.pickImage(source: ImageSource.gallery);
+    final imageFiles = await picker.pickImage(source: ImageSource.gallery);
 
-    if (imageFile == null) {
-      return;
-    }
+    if (imageFiles == null)
+      {
+        return null;
+      }
 
-    try {
-      final bytes = await File(imageFile.path).readAsBytes();
-      final fileExt = imageFile.path.split('.').last;
+    //final bytes = await File(imageFile.path).readAsBytes();
+      final fileExt = imageFiles.path.split('.').last;
       final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
       final filePath = fileName;
+      imageFile = File(filePath);
+      setState(() {
+        
+      });
+    return File(filePath);
+  }
 
+  Future<void> _uploadImageToSuppabse() async {
+    final imageFiles = await UploadeFile();
+
+    try {
       await Supabase.instance.client.storage.from('avatars').upload(
-            filePath,
-            File(imageFile.path),
+            imageFiles!.path,
+            imageFiles,
             fileOptions: FileOptions(contentType: 'image/*'),
           );
 
       _imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+          .createSignedUrl(imageFiles.path, 60 * 60 * 24 * 365 * 10);
+          setState(() {});
     } on StorageException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -189,15 +207,16 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
         );
       }
     }
-
-    setState(() {});
   }
 
   void _saveForm() {
-    if (_formKey.currentState!.validate()) {
+    _uploadImageToSuppabse();
+    if (_formKey.currentState!.validate() && _imageUrl !="") {
       _formKey.currentState!.save();
       final newMateriel = Materiel(
+        description:  _description,
         title: _title,
+        telephone: _telephone,
         price: _price,
         image: _imageUrl,
         id: widget.materiel?.id,
@@ -250,29 +269,37 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _price = num.parse(value!);
+                  _price = value!;
                 },
               ),
-              // TextFormField(
-              //   keyboardType: TextInputType.number,
-              //   initialValue: _sales.toString(),
-              //   decoration: InputDecoration(labelText: 'Ventes'),
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Veuillez entrer le nombre de ventes';
-              //     }
-              //     return null;
-              //   },
-              //   onSaved: (value) {
-              //     // _sales = int.parse(value!);
-              //   },
-              // ),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                initialValue: _description,
+                decoration: InputDecoration(labelText: 'description'),
+                onSaved: (value) {
+                  _description = value!;
+                },
+              ),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                initialValue: _telephone,
+                decoration: InputDecoration(labelText: 'Telephone'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez entrer un numero de telephone';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _telephone = value!;
+                },
+              ),
               SizedBox(height: 16),
-              _imageUrl.isNotEmpty
-                  ? Image.network(_imageUrl)
+              imageFile != null
+                  ? Image.file(imageFile!)
                   : Text('Aucune image sélectionnée'),
               ElevatedButton(
-                onPressed: _uploadImage,
+                onPressed: UploadeFile,
                 child: Text('Télécharger une Image'),
               ),
             ],

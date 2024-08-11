@@ -1,30 +1,64 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
+import 'package:moussa_project/DatabaseManagement/provider.dart';
 import 'package:moussa_project/Models/med.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:moussa_project/Widgets/attributesCard.dart';
+import 'package:provider/provider.dart';
 
 // Définition des styles de texte
 const TextStyle sectionTitleStyle = TextStyle(
+fontFamily: 'TimesNewRoman',
   fontSize: 18.0,
   fontWeight: FontWeight.bold,
   color: Colors.teal,
 );
 
 const TextStyle detailTextStyle = TextStyle(
+fontFamily: 'TimesNewRoman',
   fontSize: 16.0,
   color: Colors.black,
 );
 
-class MedicamentDetailsScreen extends StatelessWidget {
+class MedicamentDetailsScreen extends StatefulWidget {
   final Med medicament;
   const MedicamentDetailsScreen({Key? key, required this.medicament})
       : super(key: key);
 
   @override
+  State<MedicamentDetailsScreen> createState() => _MedicamentDetailsScreenState();
+}
+
+class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
+  //late MyProvider chatModel;
+  @override
+  void initState() {
+    // TODO: implement initState
+    //chatModel = Provider.of<MyProvider>(context, listen: false);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Détails du médicament'),
         backgroundColor: Colors.blue,
+        actions: [GestureDetector(
+          onTap: ()async{
+            //bool isTrue = await chatModel.changeFavoris(widget.medicament.name);
+            bool isTrue = await context.read<MyProvider>().changeFavoris(widget.medicament.name);
+            setState(() {
+              if(isTrue){
+                widget.medicament.isFavoris = !widget.medicament.isFavoris;
+              }
+            });
+          },
+          child: widget.medicament.isFavoris? Image.asset("assets/images/star.png", height: 30,):Image.asset("assets/images/etoile.png",height: 30,)), Gap(15)],
       ),
       body: Container(
         margin: EdgeInsets.only(right: 10, left: 10, top: 10),
@@ -32,63 +66,70 @@ class MedicamentDetailsScreen extends StatelessWidget {
           children: [
             AttributesCard(
                 alias: "",
-                couleurs: Color(0xFFB3CDE0),
-                image: "assets/images/medocw.png",
-                description: medicament.name,
-                title: "Médicament (Alias)"),
+                couleurs: Color.fromARGB(206, 50, 204, 204),
+                image: "assets/images/dci.png",
+                description: widget.medicament.name,
+                title: "Médicament/D.C.I (Alias)"),
                 AttributesCard(
                 alias: "",
-                couleurs: Color(0xFFB3CDE0),
-                image: "assets/images/medocw.png",
-                description: medicament.nomCommercial.join('\n'),
+                couleurs: Color.fromARGB(179, 48, 184, 229),
+                image: "assets/images/nom commercial.png",
+                description: widget.medicament.nomCommercial.join('\n'),
                 title: "Nom Commercial"),
                 AttributesCard(
-                // alias: medicament.alias,
-                couleurs: Color(0xFFB3CDE0),
-                image: "assets/images/medocw.png",
-                description: medicament.posologie.join('\n'),
-                title: "Posologie et durée"),
-            AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xFFFFEB3B),
-                image: "assets/images/CategorieMed.jpeg",
-                description: medicament.classtherapique,
+                couleurs: Color.fromARGB(207, 236, 232, 105),
+                image: "assets/images/classe.png",
+                description: widget.medicament.classtherapique.join('\n'),
                 title: "Classe Thérapeutique"),
-            AttributesCard(
+                AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xFFCFD8DC),
-                image: "assets/images/remarquew.png",
-                description: medicament.propriete.join('\n -'),
+                couleurs: Color(0xffC7CFDC),
+                image: "assets/images/propriété.png",
+                description: widget.medicament.propriete.join('\n -'),
                 title: "Propriété"),
-            AttributesCard(
+                    widget.medicament.activiteantibacterienne != null? AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xFFA5D6A7),
-                image: "assets/images/indicw.png",
-                description: medicament.indication.join('\n -'),
+                couleurs: Color.fromARGB(207, 236, 232, 105),
+                image: "assets/images/les-bacteries.png",
+                description: widget.medicament.activiteantibacterienne!.join('\n'),
+                title: "Activité antibactérienne"):Center(),
+                AttributesCard(
+                //alias: medicament['Alias'],
+                couleurs: Color.fromARGB(171, 82, 216, 153),
+                image: "assets/images/indication.png",
+                description: widget.medicament.indication.join('\n -'),
                 title: "Indications"),
-            AttributesCard(
+                AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xFFFFE0B2),
-                image: "assets/images/bewarew.png",
-                description: medicament.effetindesirable.join('\n -'),
+                couleurs: Color(0xFFFFDD1B6),
+                image: "assets/images/effet secondaire.png",
+                description: widget.medicament.effetindesirable.join('\n -'),
                 title: "Effets indésirables"),
-            AttributesCard(
+                AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xFFFFCDD2),
-                image: "assets/images/contreindicw.png",
-                description: medicament.contreindication.join('\n -'),
+                couleurs: Color.fromARGB(143, 240, 73, 90),
+                image: "assets/images/contre-indication.png",
+                description: widget.medicament.contreindication.join('\n -'),
                 title: "Contre-indications"),
-            AttributesCard(
+                AttributesCard(
+                // alias: medicament.alias,`
+                couleurs: Color.fromARGB(106, 29, 77, 198),
+                image: "assets/images/posologie.png",
+                description: widget.medicament.posologie.join('\n'),
+                title: "Posologie et durée"),
+                AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xFFF8BBD0),
-                image: "assets/images/indicw.png",
-                description: medicament.precaution.join('\n -'),
+                couleurs: Color.fromRGBO(198, 132, 228, 0.644),
+                image: "assets/images/Precaution.png",
+
+                description: widget.medicament.precaution.join('\n -'),
                 title: "Précautions d'emploi"),
-            AttributesCard(
+                AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xFFF8BBD0),
-                image: "assets/images/indicw.png",
-                description: medicament.grosseseallaitement.join('\n -'),
+                couleurs: Color.fromARGB(148, 255, 139, 228),
+                image: "assets/images/grossesse.png",
+                description: widget.medicament.grosseseallaitement.join('\n -'),
                 title: "Grossesse et Allaitement"),
           ],
         ),

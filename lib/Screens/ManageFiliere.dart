@@ -75,8 +75,6 @@ class _FiliereScreenState extends State<FiliereScreen> {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(
       source: ImageSource.gallery,
-      maxWidth: 300,
-      maxHeight: 300,
     );
 
     if (imageFile == null) {
@@ -84,27 +82,34 @@ class _FiliereScreenState extends State<FiliereScreen> {
     }
 
     try {
-      final bytes = await imageFile.readAsBytes();
+      //final bytes = await imageFile.readAsBytes();
       final fileExt = imageFile.path.split('.').last;
       final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
       final filePath = fileName;
-      await SupabaseManagement.supabase.storage.from('avatars').uploadBinary(
+      await SupabaseManagement.supabase.storage.from('avatars').upload(
             filePath,
-            bytes,
-            fileOptions: FileOptions(contentType: imageFile.mimeType),
+            File(imageFile.path),
+            fileOptions: FileOptions(contentType: 'image/*'),
           );
-      _avatarUrl = await SupabaseManagement.supabase.storage
+      _avatarUrl = await Supabase.instance.client.storage
           .from('avatars')
           .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+          setState(() {
+          });
     } on StorageException catch (error) {
       if (mounted) {
+        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(error.message),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
+         setState(() {});
+        return;
       }
+       setState(() {});
+      return;
     } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -113,15 +118,17 @@ class _FiliereScreenState extends State<FiliereScreen> {
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
+         setState(() {});
+        return;
       }
+       setState(() {});
+      return;
     }
 
-    setState(() {});
   }
 
   Future<void> _showAddFiliereDialog(BuildContext context) async {
     String nom = '';
-    String image = '';
 
     return showDialog(
       context: context,
@@ -139,12 +146,10 @@ class _FiliereScreenState extends State<FiliereScreen> {
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: () async {
-                  await _chargerImage();
-                  image = _avatarUrl;
-                },
+                onPressed: _chargerImage,
                 child: const Text('Choisir Image'),
               ),
+            _avatarUrl.isNotEmpty? Image.network(_avatarUrl):Center(child: Text("Choisisez une image"),)
             ],
           ),
           actions: [
@@ -156,7 +161,8 @@ class _FiliereScreenState extends State<FiliereScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                _addFiliere(nom, image);
+                _addFiliere(nom, _avatarUrl);
+                _avatarUrl = '';
                 Navigator.of(context).pop();
               },
               child: const Text('Ajouter'),

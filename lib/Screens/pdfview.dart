@@ -39,7 +39,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
         children: <Widget>[
           SfPdfViewer.network(widget.path!),
           errorMessage.isEmpty
-              ? !isReady
+              ? isReady
                   ? Center(
                       child: CircularProgressIndicator(),
                     )

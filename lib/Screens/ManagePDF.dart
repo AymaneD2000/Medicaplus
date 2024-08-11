@@ -47,7 +47,7 @@ class _PdfScreenState extends State<PdfScreen> {
     try {
       final bytes = await File(imageFile.path).readAsBytes();
       final fileExt = imageFile.path.split('.').last;
-      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
+      final fileName = '${imageFile.name}';
       final filePath = fileName;
 
       await SupabaseManagement.supabase.storage.from('avatars').upload(
@@ -59,6 +59,9 @@ class _PdfScreenState extends State<PdfScreen> {
       _imageUrl = await SupabaseManagement.supabase.storage
           .from('avatars')
           .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+      setState(() {
+        
+      });
     } on StorageException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -94,7 +97,7 @@ class _PdfScreenState extends State<PdfScreen> {
       String nom, String description, String url, String image) async {
     final supabaseManagement = SupabaseManagement();
 
-    if (nom.isNotEmpty && description.isNotEmpty && url.isNotEmpty) {
+    if (nom.isNotEmpty && description.isNotEmpty && url.isNotEmpty && _imageUrl.isNotEmpty) {
       final pdf = Pdf(
         nom: nom,
         description: description,
@@ -108,10 +111,15 @@ class _PdfScreenState extends State<PdfScreen> {
       await supabaseManagement.addPdf(pdf);
       _fetchPdfs();
       setState(() {
-        _selectedPdf = null;
+        //_selectedPdf = null;
       });
     } else {
-      print('Veuillez remplir tous les champs');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Veuillez choisir une image ou pdf ou ajouter un nom et description s\'il vous plait!'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
     }
   }
 
@@ -135,7 +143,7 @@ class _PdfScreenState extends State<PdfScreen> {
     try {
       final bytes = await pdfFile.files.first.bytes;
       final fileExt = pdfFile.files.first.path!.split('.').last;
-      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
+      final fileName = '${pdfFile.names.first}.$fileExt';
       final f = File(pdfFile.files.first.path!);
       final filePath = fileName;
       await SupabaseManagement.supabase.storage.from('avatars').upload(
@@ -198,17 +206,26 @@ class _PdfScreenState extends State<PdfScreen> {
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
-                    await _uploadPdf();
+                    setState(() {
+                      
+                    });
+                    setState(() {
+                      _uploadPdf();  
+                    });
                   },
                   child: const Text('Télécharger PDF'),
                 ),
+                Text(_pdfUrl.isEmpty?"Aucun Pdf choisie":"pdf selectionner avec success"),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
-                    await _uploadImage(); // Appeler la fonction pour télécharger l'image
+                    setState(() {
+                      _uploadImage(); // Appeler la fonction pour télécharger l'image
+                    });
                   },
                   child: const Text('Télécharger Image'),
                 ),
+                Text(_imageUrl.isEmpty?"Aucune image choisie":"image selectionner avec success"),
               ],
             ),
             actions: [

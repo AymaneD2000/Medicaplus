@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:moussa_project/Models/classemodel.dart';
 import 'package:moussa_project/Screens/AddClasseScreen.dart';
 import 'package:moussa_project/Screens/home.dart';
 import 'package:moussa_project/Screens/manageMateriels.dart';
@@ -14,21 +17,22 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:86078232.
-  List<BottomNavigationBarItem> items = [
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'), 
-    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favoris')
-    ];
-  List<Widget> Screens = [Home(),Center(child: Text(""),),Center(child: Text("Favoris"),)];
-  int index = 0;
-  void onTap(int index) {
-    setState(() {
-      this.index = index;
-    });
-  }
+  // List<BottomNavigationBarItem> items = [
+  //   BottomNavigationBarItem(icon: Image.asset("assets/images/home.png", height: 40,), label: "Home"),
+  //   BottomNavigationBarItem(icon: Image.asset("assets/images/profile.png", height: 40,), label: 'Abreviation'), 
+  //   BottomNavigationBarItem(icon: Image.asset("assets/images/3916582.png", height: 40,), label: 'Favoris')
+  //   ];
+  // List<Widget> Screens = [Home(),Center(child: Text(""),),Center(child: Text("Favoris"),)];
+  // int index = 0;
+  // void onTap(int index) {
+  //   setState(() {
+  //     this.index = index;
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(),
       appBar: AppBar(
         actions: [
           IconButton(
@@ -49,7 +53,7 @@ class _DashBoardState extends State<DashBoard> {
         title: const Text(
           'Dashboard',
           style: TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'TimesNewRoman',
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
@@ -72,9 +76,9 @@ class _DashBoardState extends State<DashBoard> {
           ),
         ),
       ),
-      body: Screens[index],
-      bottomNavigationBar: BottomNavigationBar(items: items,onTap: onTap,currentIndex: index,),
+      body: Home(),
+      //bottomNavigationBar: BottomNavigationBar(items: items,onTap: onTap,currentIndex: index,),
     );
-  }
+            }
 
 }

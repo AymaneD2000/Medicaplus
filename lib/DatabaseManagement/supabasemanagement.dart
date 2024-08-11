@@ -27,12 +27,10 @@ class SupabaseManagement {
   //   return materiels;
   // }
 
-  Future<List<Fac>?> faculter() async {
-    try {
+  Future<List<Fac>> faculter() async {
       final response = await supabase.from('faculter').select("*");
       List<Fac> classes = response.map((e) => Fac.fromSnapshot(e)).toList();
       return classes;
-    } catch (expe) {}
   }
 
   addClasse(Classe c) async {
@@ -74,17 +72,20 @@ class SupabaseManagement {
     await supabase.from('materiel').insert(p.toMap()).then((value) {
       print(value);
     });
-    getMateriel();
+    ///getMateriel();
   }
 
   removeClasse(Classe c) async {
     await supabase.from('classe').delete().eq('nom', c.nom).then((value) {
+      print("Is deleted");
       print(value);
     });
   }
 
   removeMateriel(Materiel c) async {
-    await supabase.from('Materiel').delete().eq('id', c.id!).then((value) {
+    print(c);
+    print(c.id!);
+    await supabase.from('materiel').delete().eq('id', c.id!).then((value) {
       print(value);
     });
   }

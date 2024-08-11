@@ -34,16 +34,14 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double cardHeight = screenHeight * 0.26;
     return Scaffold(
+      backgroundColor: Color(0xFFD4EEED),
       appBar: AppBar(
         title: const Text('Liste des Classes'),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-        ),
+      body: ListView.builder(
         itemCount: _classes.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
@@ -56,20 +54,45 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
             },
             child: _classes.isEmpty
                 ? const Center()
-                : Card(
-                    elevation: 5.0,
-                    child: Center(
-                      child: Text(
-                        _classes[index].nom,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent,
-                        ),
-                      ),
-                    ),
-                  ),
+                : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                            margin: const EdgeInsets.only(left:  55, right: 55, bottom: 12),
+                            //shape: UnderlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                            child: SizedBox(
+                              height: cardHeight,
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  // image: DecorationImage(
+                                  //   image: NetworkImage(fac.image),
+                                  //   fit: BoxFit.cover,
+                                  // ),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                ),
+                                child: Column(
+                                  //alignment: Alignment.bottomLeft,
+                                  children: [
+                                    Expanded(child: Image.network(_classes[index].image, fit: BoxFit.contain,)),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        _classes[index].nom,
+                                        style: const TextStyle(
+                                          fontFamily: 'TimesNewRoman',
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                ),
           );
         },
       ),

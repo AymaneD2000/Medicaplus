@@ -1,26 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:moussa_project/DatabaseManagement/provider.dart';
 import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
 import 'package:moussa_project/Models/materiels.dart';
+import 'package:moussa_project/Screens/ventesCover.dart';
+import 'package:provider/provider.dart';
 
-class BooksApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Books For Sale',
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
-        brightness: Brightness.dark,
-        textTheme: TextTheme(
-          headlineMedium:
-              TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold),
-          bodyMedium: TextStyle(color: Colors.white),
-          bodySmall: TextStyle(color: Colors.white),
-        ),
-      ),
-      home: BooksHomePage(),
-    );
-  }
-}
+
 
 class BooksHomePage extends StatefulWidget {
   @override
@@ -30,25 +16,23 @@ class BooksHomePage extends StatefulWidget {
 class _BooksHomePageState extends State<BooksHomePage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Materieles En Vente'),
-        leading: Icon(Icons.arrow_back),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text('Mes Achats')),
-          ),
-        ],
+        backgroundColor: Colors.orange,
+        title: Text('Matériels en vente'),
+        leading: GestureDetector(onTap: (){
+          Navigator.pop(context);
+        }, child: Icon(Icons.arrow_back)),
+
       ),
-      body: FutureBuilder(
-          future: SupabaseManagement().getMateriel(),
+      body: FutureBuilder<List<Materiel>>(
+          future: context.read<MyProvider>().getMateriel(),
           builder: (context, snapshot) {
             final data = snapshot.data;
             if (snapshot.hasData) {
@@ -63,17 +47,55 @@ class _BooksHomePageState extends State<BooksHomePage> {
                   ),
                   itemCount: data!.length,
                   itemBuilder: (context, index) {
-                    return buildBookCard(data[index]);
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>VenteCover(materiel: data[index],)));
+                      },
+                      child: buildBookCard(data[index]));
                   },
                 ),
               );
             } else if (snapshot.hasError) {
-              return Center(
-                child:
-                    Text("Nous avons rencontrer une erreur lors du chargement"),
+              return Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child:
+                      Column(
+                        children: [
+                        Image.asset('assets/images/wifi.png', color: Colors.red,scale: 2,),
+                        Text("Désolé, mais un problème de connexion s'est produit.",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        textAlign: TextAlign.center,
+                        ),
+                        Gap(30),
+                        Text("Appuyer sur Actualiser ou Redémarrer l'application",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12)),
+                        Gap(50),
+                        TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    //SupabaseManagement().getMateriel();
+                  });
+                },
+                label: Text("Actualiser"),
+                icon: Image.asset(
+                  "assets/images/refresh.png",
+                  scale: 20,
+                ),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.orange,
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  textStyle: TextStyle(fontSize: 18),
+                ),
+                            ),
+                        ],
+                      ),
+                ),
               );
             } else {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           }),
     );
@@ -81,7 +103,7 @@ class _BooksHomePageState extends State<BooksHomePage> {
 
   Widget buildBookCard(Materiel book) {
     return Card(
-      color: Colors.black,
+      color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -90,7 +112,7 @@ class _BooksHomePageState extends State<BooksHomePage> {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(8), bottom: Radius.circular(8)),
               child: Image.network(
                 book.image,
                 fit: BoxFit.cover,
@@ -100,28 +122,49 @@ class _BooksHomePageState extends State<BooksHomePage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              book.title,
-              style: Theme.of(context).textTheme.bodyMedium,
-              overflow: TextOverflow.ellipsis,
+            child: Center(
+              child: Text(
+                book.title,
+                style: Theme.of(context).textTheme.bodyMedium,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              "${book.price} XOF",
-              style: TextStyle(color: Colors.yellow),
+            child: Center(
+              child: Text(
+                "${book.price} XOF",
+                style: TextStyle(
+                fontFamily: 'TimesNewRoman',color: Colors.orange),
+              ),
             ),
           ),
           // Padding(
-          //   padding: const EdgeInsets.all(8.0),
+          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
           //   child: Text(
-          //     "${book.sales} Ventes",
-          //     style: TextStyle(color: Colors.green),
+          //     "${book.description}",
+          //     style: TextStyle(
+          //     fontFamily: 'TimesNewRoman',color: Colors.blue),
           //   ),
           // ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Text(
+          //     "En vente au ${book.telephone}",
+          //     style: TextStyle(
+          //     fontFamily: 'TimesNewRoman',color: Colors.green),
+          //   ),
+          // ),
+          // MaterialButton(
+          //   onPressed: (){_launchWhatsApp(
+          //     context,
+          //     book.telephone,
+          //     "Comment avoir ce produit Nom: ${book.title}, description: ${book.description} et prix:${book.price}?",
+          //   );},child: Text("Acheter"),)
         ],
       ),
     );
   }
+
 }

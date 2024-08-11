@@ -22,6 +22,7 @@ class AmoCard extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
+fontFamily: 'TimesNewRoman',
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 color: Colors.teal,
@@ -31,6 +32,7 @@ class AmoCard extends StatelessWidget {
             Text(
               subtitle,
               style: TextStyle(
+fontFamily: 'TimesNewRoman',
                 fontSize: 16,
                 color: Colors.black87,
               ),

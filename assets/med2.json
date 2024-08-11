@@ -1,0 +1,2363 @@
+[
+ 
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Paracétamol (Acétaminophène)",
+    "Nom commercial": [
+      "Strimol, Efferalgan, Doliprane"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ], 
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      "Antalgique périphérique et antipyrétique", 
+      "Antalgique de niveau I selon la classification de l'OMS"
+    ], 
+    "Indications":[
+      "Douleurs d'intensité faible",
+      "Fièvre"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Rarement réactions d'hypersensibilité : rashs cutanés avec érythème ou urticaire, nécessitant l'arret du traitement",
+      "Rarement hépatites exceptionnelles (surdosage)"
+    ],
+    "Contre-indications":[
+      "Insuffisance hépatique"
+    ],
+    "Posologie et durée":[
+      "Nouveau-né : 7,5 mg/kg (0,75 ml/kg) 3 ou 4 fois par jour (max. 30 mg/kg par jour)",
+      "Enfant de moins de 1 mois : 10 mg/kg 3 ou 4 fois par jour (max. 40 mg/kg par jour)",
+      "Enfant de 1 mois et plus : 15 mg/kg 3 ou 4 fois par jour (max. 60 mg/kg par jour)",
+      "Adulte : 1 g 3 ou 4 fois par jour (max. 4 g par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Ne pas dépasser les posologies indiquées, en particulier chez l'enfant et le sujet âgé. Les intoxications sont graves (cytolyse hépatique)",
+      "Réduire la dose chez : les enfants souffrant de malnutrition aiguë sévère (10 mg/kg jusqu'à 3 fois maximum par 24 heures) et en cas d'insuffisance rénal",
+      "Dans le traitement des douleurs modérées, le paracétamol est utilisé en association avec un AINS et la codéïne ou le tramadol",
+      "Le paracétamol n'a pas de propriété anti-inflammatoire",
+      "La N-acétylcystéine IV est l'antidote en cas d'intoxication au paracétamol"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Métamizole (Dipyrone, Noramidopyrine)",
+    "Nom commercial": [
+      "Novalgine, Restriva"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      "Antalgique périphérique et antipyrétique, dérivé de la pyrazolone qui agit comme antipyrétique et qui possède des propriétés analgésiques et spasmolytiques modérées avec un effet anti-inflammatoire léger possible", 
+      "Antalgique de niveau I selon la classification de l'OMS"
+    ], 
+    "Indications":[
+      "Douleurs d'intensité faible",
+      "Fièvre", 
+      "Douleurs spasmodiques"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Toxicité hématologique grave",
+      "Agranulocytose grave, parfois mortelle, indépendamment de la dose administrée et la durée du traitement",
+      "Choc anaphylactique", 
+      "Réactions cutanées sévères, voire syndrome de Lyell et syndrome de Stevens-Johnson", 
+      "Lésions hépatiques",
+      "Hypotension et irritation veineuse (Administration intraveineuse)"
+    ],
+    "Contre-indications":[
+      "Hypotension",
+      "Instabilité hémodynamique (en cas d’administration intraveineuse)",
+      "Affections hématologiques"
+    ],
+    "Posologie et durée":[
+      "Adulte : 500 mg à 1 g 2 ou 3 fois par jour (max. 4 g par jour)"
+    ],
+    "Précautions d'emploi":[
+      "En raison de ses effets indésirables graves, fréquentes et de l'existence d'alternatives plus sûres, Ce médicaments n'est pas justifié en première intention",
+      "Administrer avec prudence en cas de déficit en G6PD (risque d’anémie hémolytique), d’asthme ou d’atopie et chez les sujets âgés"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée (diminution de la fonction rénale et constriction du canal artériel chez l’enfant)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Aspirine (Acide acétylsalicylique)",
+    "Nom commercial": [
+      "Aspegic"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      "Antiagregant plaquettaire à faible dose (75 à 100 mg)",
+      "Antalgique périphérique et antipyrétique à dose standard (1g) de niveau I selon la classification de l'OMS",
+      "Anti-inflammatoire non stéroïdien (AINS) à forte dose (3 à 4 g)"
+    ], 
+    "Indications":[
+      "Douleur d'intensé faible et fièvre",
+      "Prévention secondaire des accidents thrombo-embolique lié à l'arthérosclérose",
+      "Traitement secondaire de la pré-éclampsie sévère",
+      "Affections rhumatismales"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réactions allergiques (2%) : éruptions cutanées, oedème de Quincke, asthme, anaphylaxie",
+      "Troubles digestifs : douleur gastrique, ulcère gastroduodénal",
+      "Syndrome hémorragies avec allongement du TS persistant 4 à 8 jours après l'arrêt", 
+      "Vertiges, bourdonnements d'oreille (signes précoces de surdosage)", 
+      "Syndrome Reye chez l’enfant (encéphalopathie et troubles hépatiques graves)"
+    ],
+    "Contre-indications":[
+      "Allergie à l'aspirine et aux AINS", 
+      "Maladies ulcèreuses gastro-duodénales", 
+      "Anomalie de l'hémostase, Hémorragie",
+      "Insuffisance rénale, hépatique et cardiaque sévère"
+    ],
+    "Posologie et durée":[
+      "Enfant : 80 mg/kg par jour (max. 4g par jour) pendant 1 à 3 jours",
+      "Adulte : 1 g 3 ou 4 fois par jour (max. 4 g par jour)",
+      "Prévention de la pré-éclampsie : 75 à 150 mg une fois par jour de la 12e à la 36e semaine d'aménorrhée"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant(AVK) et AINS (Augmentation du risque ulcèrogène et hémorragique)", 
+      "Déconseillé dans les viroses chez l'enfant < 16 ans (risque de syndrome de Reye)", 
+      "Administrer avec prudence chez les sujets âgés ou asthmatique",
+      "Surveiller l'association avec l'insuline (majoration de l'hypogycémie) et les corticoïdes (diminution de la salycémie)"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Déconseillée, utilisé uniquement si nécessaire et en traitement ponctuel. Contre-indiquée à partir du début du 6e mois",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Ibuprofène",
+    "Nom commercial": [
+      "Brufen"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des acides arylcarboxyliques inhibant la synthèse des prostaglandines n'apparaît qu'à à forte dose (Chez l'adulte au-dèla de 1200 mg/jour)", 
+      "Antalgique périphérique et antipyrétique à faible dose de niveau I selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Douleur d'intensité faible à modérée et fièvre",
+      "Traitement symptomatique de courte durée des dysménorrhées",
+      "Crises de coliques néphrétiques"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : prurit, éruptions cutanées, oedème de Quincke",
+      "Douleur ou ulcère gastrique",
+      "Nausées, vomissements, dyspepsie, diarrhée", 
+      "Hémorragie digestive occulte"
+    ],
+    "Contre-indications":[
+      "Allergie aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Anomalie de l'hemostase, Hémorragie", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Malnutrition sévère ou hypovolémie non corrigées", 
+      "Infection grave", 
+      "Lupus érythèmateux dissèminé"
+    ],
+    "Posologie et durée":[
+      "Enfant de plus de 3 mois et < 12 ans : 5 à 10 mg/kg 3 ou 4 fois par jour (max. 30 mg/kg par jour)",
+      "Adulte : 200 à 400 mg 3 ou 4 fois par jour (max. 1200 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant, énoxacine, ticlopidine et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence chez les sujets âgés ou asthmatique et en cas de déshydratation, HTA, antécédent d'ulcère",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, digoxine, thrombolytique",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Déconseillée, utilisé uniquement si nécessaire et en traitement ponctuel. Contre-indiquée à partir du début du 6e mois",
+      "Allaitement : Déconseillé, traitement court"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Kétoprofène",
+    "Nom commercial": [
+      "Toprec"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des acides arylcarboxyliques inhibant la synthèse des prostaglandines n'apparaît qu'à forte dose (Chez l'adulte au-dèla de 1500 mg/jour)", 
+      "Antalgique périphérique et antipyrétique à faible dose de niveau I selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Affections rhumatismales",
+      "Crises de coliques néphrétiques",
+      "Douleur d'intensité faible à modérée et fièvre",
+      "Traitement symptomatique de courte durée des dysménorrhées"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : prurit, éruptions cutanées, oedème de Quincke",
+      "Douleur ou ulcère gastrique",
+      "Nausées, vomissements, dyspepsie, diarrhée", 
+      "Hémorragie digestive occulte"
+    ],
+    "Contre-indications":[
+      "Allergie aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Anomalie de l'hemostase, Hémorragie", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Infection grave"
+    ],
+    "Posologie et durée":[
+      "Enfant de plus de 3 mois et < 12 ans : 5 à 10 mg/kg 3 ou 4 fois par jour (max. 50 mg/kg par jour)",
+      "Adulte : 200 à 400 mg 3 ou 4 fois par jour (max. 1500 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant, énoxacine, ticlopidine et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence chez les sujets âgés ou asthmatique et en cas de déshydratation, HTA, antécédent d'ulcère",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, digoxine, thrombolytique",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Déconseillée, utilisé uniquement si nécessaire et en traitement ponctuel. Contre-indiquée à partir du début du 6e mois",
+      "Allaitement : Déconseillé, traitement court"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Néfopam",
+    "Nom commercial": [
+      "Acupan, Nefopam"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      "Antalgique central non morphinique (par inhibition du recaptage de la sérotonine, de la noradrénaline et de la dopamine). ayant des propriétés anticholinergiques faibles, dépourvu d'effet dépresseur respiratoire (l'injection de 20 mg aurait une activité antalgique comparable à celle de l'injection de 10 mg de morphine en SC)", 
+      "Antalgique de niveau II selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Affections douloureuses aiguës, notamment des douleurs post-opératoires"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Sueurs, somnolence, nausées, plus rarement vomissements, vertiges",
+      "Effets atropiniques : sécheresse buccale, tachycardie, palpitations, rétention d'urines, excitabilité, irritabilité, confusion mentale, hallucinations, convulsions, coma"
+    ],
+    "Contre-indications":[
+      "Épilepsie et antécédents de troubles convulsifs", 
+      "Risque de glaucome par fermeture de l'angle", 
+      "Risque de rétention urinaire par obstacle urétro-prostatique", 
+      "Enfant < 15 ans (absence d'étude clinique)"
+    ],
+    "Posologie et durée":[
+      "Adulte : 20 mg par injection IV ou IM à répéter si besoin toutes les 4 à 6 heures (max. 120 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Administrer de préférence chez un sujet couché (Risque convulsif)",
+      "Administrer avec prudence en cas d'insuffisance hépatique ou rénale",
+      "Ne prévient pas le syndrome de sevrage morphinique",
+      "En raison d'un risque de pharmacodépendance, éviter son utilisation dans les douleurs chroniques", 
+      "Surveiller l'association avec d'autres anticholinergiques car addition des effets"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Déconseillée (absence d'étude clinique)",
+      "Allaitement : Déconseillé (absence d'étude clinique)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Codéine (Antalgique)",
+    "Nom commercial": [
+      "Efferalgan codéine, Codoliprane"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      "Antalgique opioïdes faibles et dérivé semi-synthétique de la morphine (effet analgésique 5 à 10 fois plus faible que celui de la morphine et durée d'action de 4 heures), ayant un effet dépresseur respiratoire faible,  employé de façon optimale avec un analgésique périphérique", 
+      "En association avec Paracétamol ou Ibuprofène",
+      "Antalgique de niveau II selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Affections douloureuses ne répondant pas à l'utilisation d'analgésiques périphériques et/ou d'AINS en première intention"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Constipation, nausées et somnolence",
+      "Rares : réactions cutanées allergiques, bronchospasme, vomissements, sensations vertigineuses, dépression respiratoire (modérée aux doses thérapeutiques)", 
+      "Surdosage"
+    ],
+    "Contre-indications":[
+      "Allergie à la codéine ou à la dihydrocodéine", 
+      "Asthme, insuffisance respiratoire, insuffisance hépatique, toxicomanes", 
+      "Association aux agonistes-antagonistes morphiniques",
+      "Suites d'amygdalectomie ou d'adénoïdectomie",
+      "Métaboliseurs ultrarapides des substrats du cytochrome P450 2D6", 
+      "Enfant < 12 ans (risque de dépression respiratoire)"
+    ],
+    "Posologie et durée":[
+      "Enfant > 12 ans et Adulte : 20 mg (+ Paracétamol 400 mg) ou 30 mg (+ Paracétamol 500 mg ou 1000 mg) 2 ou 3 fois par jour  (max. 120 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : Agonistes-antagonistes morphiniques (et IMAO non sélectifs avec la dihydrocodéine)",
+      "Éviter toute utilisation prolongée à forte dose (risque de dépendance)", 
+      "Administrer avec prudence chez les sujets âgés",
+      "Surveiller l'association avec autres morphiniques et antitussifs opiacés, autres dépresseurs du SNC (effets sédatifs accrus). Pour l'ibuprofène : médicaments hyperkaliémiants, anticoagulants. antiagrégants plaquettaire",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée (risques d'apnée et syndrome de sevrage chez le nouveau-né)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Tramadol",
+    "Nom commercial": [
+      "Tramadis, Tracedol, Trabar"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      "Antalgique opioïde faible, agissant par fixation sur les récepteurs opioïdes de type µ et par inhibition du recaptage de la noradrénaline et de la sérotonine",
+      "Antalgique de niveau II selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Douleurs modérées à intenses"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Très fréquents (> 10 %) : en particulier chez les sujets âgés : étourdissements, nausées, constipation, céphalées, somnolence, risque de surdosage",
+      "Fréquents (1 à 10 %) : vomissements, prurit, hyponatrémie, œdèmes, anxiété, agitation, états confusionnels et hallucinations, sueurs, sécheresse buccale, douleurs abdominales, asthénie, troubles visuels, dépression respiratoire, réactions allergiques (urticaire, œdème de Quincke, bronchospasme, choc anaphylactique), troubles mictionnels voire rétention urinaire, diarrhée", 
+      "Rares (< 1 %) : convulsions (attention aux facteurs favorisants : épilepsie, médicaments abaissant le seuil épileptogène). hypoglycémie parfois sévère, hyponatrémie, insuffisance surrénalienne, cholestase, hypertransaminasémie, pancréatite"
+    ],
+    "Contre-indications":[
+      "Hypersensibilité connue au tramadol ou aux opiacés", 
+      "Insuffisance respiratoire sévère",
+      "Insuffisance hépatique grave, épilepsie non contrôlée", 
+      "Intoxication aiguë ou surdosage avec produits dépresseurs du SNC et/ou alcool", 
+      "Phénylcétonurie (pour les comprimés effervescents car présence d'aspartam)", 
+      "Association aux agonistes-antagonistes morphiniques et aux IMAO", 
+      "Enfants < 12 ans"
+    ],
+    "Posologie et durée":[
+      "Enfant > 12 ans et Adulte : 50 à 100 mg à répéter si besoin toutes les 4 à 6 heures (max. 400 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : IMAO sélectifs ou non (intervalle de 15 jours après arrêt des IMAO), agonistes-antagonistes morphiniques",
+      "Administrer avec prudence chez les patients présentant une hypertension intracrânienne ou des convulsions",
+      "Réduire la posologie chez le sujet âgé et en cas d' insuffisance rénale ou hépatique", 
+      "Du fait des risques de mésusage et de dépendance, la durée de prescription est limitée à 3 mois. Au-delà, une nouvelle ordonnance est requise",
+      "Déconseillé l'alcool", 
+      "Surveiller l'association avec antivitamines K et digoxine (risque de surdosage en ces produits), anti-acides (intervalle de 2 heures entre les prises orales), médicaments abaissant le seuil épileptogène, autres morphiniques et antitussifs opiacés, dépresseurs du SNC"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée (risque de syndrome de sevrage, dépression respiratoire et sédation chez le nouveau né)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Morphine",
+    "Nom commercial": [
+      "Morphine injectable, Sevredol"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      "Antalgique opioïde fort et majeur de référence (agoniste opioïde pur des récepteurs µ), ayant un effet antalgique dose-dépendant sans plafonnement de l'action antalgique, déprimant les centres respiratoires et de la toux, augmentant le tonus des sphincters musculaires lisses, entraînant une bronchoconstriction, un myosis, ayant un effet psychodysleptique et toxicomanogène", 
+      "Antalgique de niveau III selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Douleurs intenses et/ou rebelles aux autres produits, notamment algies post-opératoires ou d'origine traumatiques ou cancéreuses"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Constipation et nausées à prévenir systématiquement dès le début du traitement coprescrire un laxatif et un anti-émétique, plus rarement vomissements, dépression respiratoire (modérée aux doses thérapeutiques mais sévère en cas de surdosage)",
+      "Sédation, manifestations dysphoriques (chez les sujets âgés surtout), confusion mentale, vertiges, hypotension orthostatique, bradycardie",
+      "Augmentation de la pression intracrânienne, de la pression dans les voies biliaires, rétention urinaire en cas d'obstacle urétroprostatique",
+      "Dépendance physique et psychique avec accoutumance pouvant apparaître après 1 à 2 semaines",
+      "Syndrome de sevrage (sueurs, bâillements, rhinorrhée, larmoiement, puis dans les 12 heures, agitation, sensations de froid, mydriase, myalgies, douleurs osseuses, anxiété, insomnie, nausées, tachycardie, hypertension artérielle, diarrhée, parfois vomissements et fièvre, ces troubles s'estompant au bout de 4 à 5 jours)"
+    ],
+    "Contre-indications":[
+      "Intoxication alcoolique aiguë, delirium tremens, allergie aux opiacées", 
+      "Traumatismes crâniens, hypertension intracrânienne, épilepsie non contrôlée",
+      "Syndrome abdominal aigu d'étiologie non déterminée", 
+      "Insuffisance respiratoire décompensée",
+      "Insuffisance hépato-cellulaire sévère"
+    ],
+    "Posologie et durée":[
+      "Voie orale : 1 mg",
+      "Voie SC : 1/2 à 1/3 mg",
+      "Voie IV : 1/3 à 1/4 mg",
+      "Péridurale : 1/10 à 1/20 mg",
+      "Intrathécale : 1/50 à 1/200 mg",
+      "Posologie initiale = 1 mg/kg/24 h chez l'adulte et l'enfant, soit 50 à 60 mg/24 h chez l'adulte (mais réduire les doses de 50 % soit seulement 20 à 30 mg/24 h chez le sujet agé ou insuffisant rénal)",
+      "Adaptation posologique : augmenter de 25-50 % la dose par prise en cas d'inefficacité (appréciée après deux périodes de durée d'action) jusqu'à la posologie efficace qui est très variable selon les sujets (de 20 à 600 mg/24 h chez l'adulte avec une posologie moyenne de 120 mg/24 h)",
+      "Lors du relais d'une forme orale à libération immédiate par une forme orale à libération prolongée, la dose quotidienne sera inchangée"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : agonistes-antagonistes morphiniques (avec tous les autres morphiniques), naltrexone, IMAO sélectifs ou non", 
+      "Associer un antispasmodique dans les coliques hépatiques ou néphrétiques",
+      "Administrer avec prudence chez chez le sujet âgé (accroissement très progressif des doses), l'enfant et en cas d'insuffisance rénale, hépatique ou surrénalienne, d'hypothyroïdie, de risque de rétention urinaire, de choc",
+      "Ne pas utiliser après 5 cm de dilatation du col au cours du travail et en cas de prématurité (dépression respiratoire du nouveau-né)",
+      "Déconseillé l'alcool",
+      "Surveiller l'association avec d'autres analgésiques morphiniques mineurs et antitussifs opiacés, autres dépresseurs du SNC, anticholinestérasiques"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Oxycodone",
+    "Nom commercial": [
+      "Oxynorm"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      " Antalgique opioïde fort, agoniste opioïde des récepteurs µ et x (dérivé de la codéine), 2 fois plus puissant que la morphine (biodisponibilité orale de 60 à 87 %), métabolisé par voie hépatique par le cytochrome P450 en dérivé actif (noroxycodone) et en dérivés inactifs éliminés par voie urinaire (meilleure tolérance que la morphine en cas d' insuffisance rénale)", 
+      "Antalgique de niveau III selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Douleurs sévères qui ne peuvent être correctement traitées que par des analgésiques opioïdes forts, en particulier dans les douleurs d'origine cancéreuse",
+      "Syndrome idiopathique des jambes sans repos sévère à très sévère. après échec d'un traitement dopaminergique"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Constipation et nausées à prévenir systématiquement dès le début du traitement coprescrire un laxatif et un anti-émétique, plus rarement vomissements, dépression respiratoire (modérée aux doses thérapeutiques mais sévère en cas de surdosage)",
+      "Sédation, manifestations dysphoriques (chez les sujets âgés surtout), confusion mentale, vertiges, hypotension orthostatique, bradycardie",
+      "Augmentation de la pression intracrânienne, de la pression dans les voies biliaires, rétention urinaire en cas d'obstacle urétroprostatique",
+      "Dépendance physique et psychique avec accoutumance pouvant apparaître après 1 à 2 semaines",
+      "Syndrome de sevrage (sueurs, bâillements, rhinorrhée, larmoiement, puis dans les 12 heures, agitation, sensations de froid, mydriase, myalgies, douleurs osseuses, anxiété, insomnie, nausées, tachycardie, hypertension artérielle, diarrhée, parfois vomissements et fièvre, ces troubles s'estompant au bout de 4 à 5 jours)"
+    ],
+    "Contre-indications":[
+      "Insuffisance respiratoire décompensée",
+      "Insuffisance hépatique sévère",
+      "Iléus paralytique",
+      "Cœur pulmonaire chronique",
+      "Enfant < 18 ans"
+    ],
+    "Posologie et durée":[
+      "Adulte : 1 mg/kg par voie orale  |  0,5 mg/kg par injection IV ou SC à répéter si besoin toutes les 4 à 6 heures (max. 60 mg par jour)", 
+      "Adaptation pososogique : augmenter de 25-50 % la dose par prise en cas d' inefficacité (appréciée après 24 à 48 heures pour la forme LP) Jusqu'à la posologie efficace"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : agonistes-antagonistes morphiniques (avec tous les autres morphiniques), naltrexone (réduction d'effet), IMAO sélectifs ou non",
+      "Dose équi-analgésique : 10 mg d'oxycodone per os= 20 mg de morphine per os",
+      "Déconseillé l'alcool (effet sédatif)",
+      "En raison d'un risque de pharmacodépendance et d'abus il doit être pris en compte lors de l'instauration du traitement et nécessite une surveillance étroite", 
+      "Surveiller l'association avec d'autres analgésiques morphoniques, autres médicaments sédatifs (antitussifs, psychotropes ... )"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Fentanyl",
+    "Nom commercial": [
+      "Fentanyl Injectable, Ionsys, Matrifen, Actiq, Abstralo, Instanyl"
+    ],
+    "Icon": [
+      "assets/images/Antalgique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antalgique"
+    ],
+    "Propriété":[
+      "Antalgique opioïde fort, morphinique de synthèse ayant une action antalgique qualitativement identique à celle de la morphine, présenté sous forme de dispositifs transdermiques (délai d'action très long mais délivrance systémique continue avec une durée d'action prolongée 72 heures), utiliser au début en association avec un analgésique d'action rapide, puis. après identification de la dose optimale en monothérapie", 
+      "Antalgique de niveau III selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Douleurs chroniques d'origine cancéreuse, intenses ou rebelles aux autres antalgiques, en cas de douleurs stables (alternative possible à la morphine chez les sujets intolérants à celle-ci, ou en cas d' impossibilité des voies orale et injectable, avec une action antalgique équivalente à celle des spécialités de morphine per os à libération prolongée)",
+      "Douleurs non cancéreuses intenses et réfractaires aux autres antalgiques (mais à l'exception des douleurs fonctionnelles ou nociplastiques : glossodynie, fibromyalgie, algodystrophie, intestin irritable, céphalées chroniques)", 
+      "Douleurs post-opératoires aiguës modérées à sévères uniquement en milieu hospitalier"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Possibilité d'intolérance locale au dispositif adhésif (environ 3 % des cas)",
+      "Les autres effets indésirables sont globalement semblables à ceux des agonistes morphiniques, mais, pour un malade donné intolérant à la morphine, le fentanyl percutané peut constituer un recours, ainsi qu'en cas d'administration orale ou injectable impossible"
+    ],
+    "Contre-indications":[
+      "Insuffisance respiratoire décompensée",
+      "Insuffisance hépatique sévère",
+      "Iléus paralytique",
+      "Cœur pulmonaire chronique",
+      "Enfant < 18 ans"
+    ],
+    "Posologie et durée":[
+      "Fentanyl Injectable : Anesthésie général (Chirurgie mineure = 0,001 à 0,002 mg/kg et Chirurgie majeure = 0,002 à 0,03 mg/kg), Analgésie post-opératoire (0,0007 à 0,0015 mg/kg)", 
+      "Fentanyl percutané : dispositifs transdermiques à coller sur une zone cutanée non irritée et non irradiée avec dose équi-analgésique : 12 µg/h correspondent à environ 30 mg/24 h de morphine per os", 
+      "Fentanyl transdermique iontophorétique : Titration : une dose à 40 µg par période de 10 minutes 6 doses max./heure, 80 doses max./24 heures, 72 heures max. de traitement", 
+      "Fentanyl oral transmuqueux : à l'aide de l'applicateur : 200 µg/prise unitaire, puis adaptation jusqu'à la dose efficace utile (max. 4 unités/24 h)",
+      "Fentanyl sublingual ou gingival : comprimé à laisser fondre sous la langue à à la dose initiale de 1 00 µg à adapter par titration",
+      "Fentanyl par voie nasale : solution avec pulvérisation nasale, à la dose initiale de 50 µg à adapter par titration "
+    ],
+    "Précautions d'emploi":[
+      "Le fentanyl n'est pas adapté aux traitements des douleurs aiguës en dehors des accès douloureux paroxystiques",
+      "Associations contre-indiquées : agonistes-antagonistes morphiniques (avec tous les autres morphiniques), naltrexone (réduction d'effet), IMAO sélectifs ou non",
+      "Ces patchs sont transparents et de petite dimension (0,5 à 2 cm), donc peu visibles (ne pas les oublier et les rechercher en cas de signes de surdosage)",
+      "Déconseillé l'alcool (effet sédatif)",
+      "En raison d'un risque de pharmacodépendance et d'abus il doit être pris en compte lors de l'instauration du traitement et nécessite une surveillance étroite", 
+      "Essentiellement dans les douleurs non cancéreuses avec un accroissement important de mésusages, d'abus, d'effets indésirables graves et de décès"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Diclofénac",
+    "Nom commercial": [
+      "Voltarène"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des acides arylcarboxyliques inhibant la synthèse des prostaglandines liés à l'inhibition des cyclo-oxygénases 1 et 2 (Cox-1 et Cox-2)", 
+      "Antalgique périphérique"
+    ],
+    "Indications":[
+      "Douleurs d'intensité faible à modérée, ou d'origine néoplasique, crises de migraine",
+      "Traitement symptomatique de courte durée des dysménorrhées", 
+      "Traitement symptomatique au long cours des rhumatismes inflammatoires chroniques et de certaines arthroses douloureuses et invalidantes",
+      "Traitement symptomatique de courte durée des poussées aiguës des rhumatismes abarticulaires, arthroses, arthrites microcristallines, lombalgies, radiculalgies sévères"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : prurit, éruptions cutanées, oedème de Quincke",
+      "Douleur ou ulcère gastrique",
+      "Nausées, vomissements, dyspepsie, diarrhée", 
+      "Hémorragie digestive occulte", 
+      "Risque accru de troubles du rythme cardiaque, de thromboses et d'accidents cardiovasculaires et cérébraux , comparable à celui des inh ibiteurs de Cox-2",
+      "Risque accru de complications infectieuses graves cutanées, pleuro-pulmonaires, cérébrales"
+    ],
+    "Contre-indications":[
+      "Allergie aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Anomalie de l'hemostase, Hémorragie", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Enfant < 15 ans "
+    ],
+    "Posologie et durée":[
+      "Adulte : 200 à 400 mg 2 ou 3 ou 4 fois par jour (max. 1200 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant, énoxacine, ticlopidine et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence chez les sujets âgés ou asthmatique et en cas de déshydratation, HTA, antécédent d'ulcère et hernie hiatale",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, digoxine, thrombolytique",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée, exposent le fœtus à des troubles parfois mortels (hypertension artérielle pulmonaire, insuffisance rénale)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Acéclofénac",
+    "Nom commercial": [
+      "Acofan"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des acides arylcarboxyliques inhibant la synthèse des prostaglandines liés à l'inhibition des cyclo-oxygénases 1 et 2 (Cox-1 et Cox-2)", 
+      "Antalgique périphérique"
+    ],
+    "Indications":[
+      "Douleurs d'intensité faible à modérée, ou d'origine néoplasique, crises de migraine",
+      "Traitement symptomatique de courte durée des dysménorrhées", 
+      "Traitement symptomatique au long cours des rhumatismes inflammatoires chroniques et de certaines arthroses douloureuses et invalidantes",
+      "Traitement symptomatique de courte durée des poussées aiguës des rhumatismes abarticulaires, arthroses, arthrites microcristallines, lombalgies, radiculalgies sévères"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : prurit, éruptions cutanées, oedème de Quincke",
+      "Douleur ou ulcère gastrique",
+      "Nausées, vomissements, dyspepsie, diarrhée", 
+      "Hémorragie digestive occulte", 
+      "Risque accru de troubles du rythme cardiaque, de thromboses et d'accidents cardiovasculaires et cérébraux , comparable à celui des inh ibiteurs de Cox-2",
+      "Risque accru de complications infectieuses graves cutanées, pleuro-pulmonaires, cérébrales"
+    ],
+    "Contre-indications":[
+      "Allergie aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Anomalie de l'hemostase, Hémorragie", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Enfant < 15 ans"
+    ],
+    "Posologie et durée":[
+      "Adulte : 200 à 400 mg 2 ou 3 ou 4 fois par jour (max. 1200 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant, énoxacine, ticlopidine et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence chez les sujets âgés ou asthmatique et en cas de déshydratation, HTA, antécédent d'ulcère et hernie hiatale",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, digoxine, thrombolytique",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée, exposent le fœtus à des troubles parfois mortels (hypertension artérielle pulmonaire, insuffisance rénale)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Naproxène",
+    "Nom commercial": [
+      "Apranax"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des acides arylcarboxyliques inhibant la synthèse des prostaglandines liés à l'inhibition des cyclo-oxygénases 1 et 2 (Cox-1 et Cox-2)", 
+      "Antalgique périphérique"
+    ],
+    "Indications":[
+      "Douleurs d'intensité faible à modérée, ou d'origine néoplasique, crises de migraine",
+      "Traitement symptomatique de courte durée des dysménorrhées", 
+      "Traitement symptomatique au long cours des rhumatismes inflammatoires chroniques et de certaines arthroses douloureuses et invalidantes",
+      "Traitement symptomatique de courte durée des poussées aiguës des rhumatismes abarticulaires, arthroses, arthrites microcristallines, lombalgies, radiculalgies sévères"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : prurit, éruptions cutanées, oedème de Quincke",
+      "Douleur ou ulcère gastrique",
+      "Nausées, vomissements, dyspepsie, diarrhée", 
+      "Hémorragie digestive occulte", 
+      "Risque accru de troubles du rythme cardiaque, de thromboses et d'accidents cardiovasculaires et cérébraux , comparable à celui des inhibiteurs de Cox-2",
+      "Risque accru de complications infectieuses graves cutanées, pleuro-pulmonaires, cérébrales"
+    ],
+    "Contre-indications":[
+      "Allergie aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Anomalie de l'hemostase, Hémorragie", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Enfant < 15 ans "
+    ],
+    "Posologie et durée":[
+      "Enfant > 15 ans : 10 mg/kg 1 ou 2 fois par jour", 
+      "Adulte : 500 à 1100 mg 1 ou 2 fois par jour (max. 1200 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant, énoxacine, ticlopidine et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence chez les sujets âgés ou asthmatique et en cas de déshydratation, HTA, antécédent d'ulcère et hernie hiatale",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, digoxine, thrombolytique",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée, exposent le fœtus à des troubles parfois mortels (hypertension artérielle pulmonaire, insuffisance rénale)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Acide niflumique",
+    "Nom commercial": [
+      "Nifluril"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des fénamates (acide méfénamique), inhibant la synthèse des prostaglandines liés à l'inhibition des cyclo-oxygénases 1 et 2 (Cox-1 et Cox-2)", 
+      "Antalgique périphérique de niveau I selon la classification de l'OMS"
+    ],
+    "Indications":[
+      "Douleurs post-opératoires, crises de migraine, crises de coliques néphrétiques", 
+      "Traitement symptomatique de la douleur en ORL (sinusites , angines, otites aiguës) et en stomatologie, en appoint de l'antibiothérapie, en cure de 4 à 5 jours",
+      "Traitement symptomatique au long cours des rhumatismes inflammatoires chroniques et de certaines arthroses douloureuses et invalidantes",
+      "Traitement symptomatique de courte durée des poussées aiguës des rhumatismes abarticulaires, arthroses, arthrites microcristallines, lombalgies, radiculalgies sévères"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : prurit, éruptions cutanées, oedème de Quincke",
+      "Douleur ou ulcère gastrique",
+      "Nausées, vomissements, dyspepsie, diarrhée", 
+      "Hémorragie digestive occulte", 
+      "Risque accru de troubles du rythme cardiaque, de thromboses et d'accidents cardiovasculaires et cérébraux , comparable à celui des inh ibiteurs de Cox-2",
+      "Vertiges, somnolence"
+    ],
+    "Contre-indications":[
+      "Allergie aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Anomalie de l'hemostase, Hémorragie", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Enfant < 15 ans "
+    ],
+    "Posologie et durée":[
+      "Adulte : 250 à 700 mg 2 ou 3 fois par jour (max. 2200 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant, énoxacine, ticlopidine et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence chez les sujets âgés ou asthmatique et en cas de déshydratation, HTA, antécédent d'ulcère et hernie hiatale",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, digoxine, thrombolytique",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée, exposent le fœtus à des troubles parfois mortels (hypertension artérielle pulmonaire, insuffisance rénale)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Célécoxib",
+    "Nom commercial": [
+      "Celebrex"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des coxibs inhibant la synthèse des prostaglandines liés à l'inhibition sélective de  la cyclo-oxygénase 2 aux doses indiquées, avec effets antalgiques, anti-inflammatoires, antipyrétiques comparables à ceux des AINS non sélectifs, avec une tolérance digestive un peu supérieure mais un risque vasculaire accru (x 2), d'autant qu'il n'y a pas d'effet antiagrégant plaquettaire "
+    ],
+    "Indications":[
+      "Traitement symptomatique de l'arthrose et de la polyarthrite rhumatoïde",
+      "Goutte"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : éruptions cutanées, érythème polymorphe, dermatite exfoliatrice,angiœdème, bronchospasme, choc anaphylactique",
+      "Fréquents (1 à 10%) : dyspepsie, nausées, diarrhée, douleur abdominale, œdèmes, HTA, étourdissements, céphalées, prurit, élévation des transaminases",
+      "Risque accru de troubles du rythme cardiaque, de thromboses et d'accidents cardiovasculaires et cérébraux"
+    ],
+    "Contre-indications":[
+      "Allergie aux coxibs ou aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Saignement gastro-intestinal", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Maladie inflammatoire de l'intestin", 
+      "Cardiopathie ischémique, AIT, AVC, Artheriopathie"
+    ],
+    "Posologie et durée":[
+      "Adulte : 200 mg 1 ou 2 fois par jour (max. 400 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence en cas de risque cardio-vasculaire (HTA, Hyperlipidémie, Diabète, Tabagisme)", 
+      "Administrer avec prudence chez les sujets âgés et en cas déshydratation, antécédent d'ulcère et hernie hiatale",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, neuroleptique, antidépresseur, rifampicine, fluconazole ciclosporine et tacrolimus",
+      "Association possible avec l'aspirine à faible dose (à titre d'antiagrégant plaquettaire)",
+      "L'utilisation des coxibs doit faire l'objet d'une évaluation approfondie du rapport bénéfice/risque pour chaque patient en raison de l'augmentation du risque cardiovasculaire", 
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée, exposent le fœtus à des troubles parfois mortels (hypertension artérielle pulmonaire, insuffisance rénale)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Étoricoxib",
+    "Nom commercial": [
+      "Erocab, Aricoxia"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des coxibs inhibant la synthèse des prostaglandines liés à l'inhibition sélective de  la cyclo-oxygénase 2 aux doses indiquées, avec effets antalgiques, anti-inflammatoires, antipyrétiques comparables à ceux des AINS non sélectifs, avec une tolérance digestive un peu supérieure mais un risque vasculaire accru (x 2), d'autant qu'il n'y a pas d'effet antiagrégant plaquettaire"
+    ],
+    "Indications":[
+      "Traitement symptomatique de l'arthrose et de la polyarthrite rhumatoïde",
+      "Goutte"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : éruptions cutanées, érythème polymorphe, dermatite exfoliatrice,angiœdème, bronchospasme, choc anaphylactique",
+      "Fréquents (1 à 10%) : dyspepsie, nausées, diarrhée, douleur abdominale, œdèmes, HTA, étourdissements, céphalées, prurit, élévation des transaminases",
+      "Risque accru de troubles du rythme cardiaque, de thromboses et d'accidents cardiovasculaires et cérébraux"
+    ],
+    "Contre-indications":[
+      "Allergie aux coxibs ou aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Saignement gastro-intestinal", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Maladie inflammatoire de l'intestin", 
+      "Cardiopathie ischémique, AIT, AVC, Artheriopathie"
+    ],
+    "Posologie et durée":[
+      "Arthrose : 60 à 120 mg 1 fois par jour",
+      "Polyarthrite rhumatoïde : 90 mg 1 fois par jour",
+      "Goutte : 120 mg 1 fois par jour"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence en cas de risque cardio-vasculaire (HTA, Hyperlipidémie, Diabète, Tabagisme)", 
+      "Administrer avec prudence chez les sujets âgés et en cas déshydratation, antécédent d'ulcère et hernie hiatale",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, neuroleptique, antidépresseur, rifampicine, fluconazole ciclosporine et tacrolimus",
+      "Association possible avec l'aspirine à faible dose (à titre d'antiagrégant plaquettaire)",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée, exposent le fœtus à des troubles parfois mortels (hypertension artérielle pulmonaire, insuffisance rénale)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Piroxicam",
+    "Nom commercial": [
+      "Feldène"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des oxicams inhibant la synthèse des prostaglandines liés à l'inhibition des cyclo-oxygénases 1 et 2 (Cox-1 et Cox-2)", 
+      "Antalgique périphérique"
+    ],
+    "Indications":[
+      "Traitement symptomatique au long cours des rhumatismes inflammatoires chroniques", 
+      "Traitement symptomatique de courte durée des poussées aiguës des rhumatismes abarticulaires, arthroses, arthrites microcristallines, lombalgies, radiculalgies sévères"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : prurit, éruptions cutanées, crises d'asthme,  oedème de Quincke",
+      "Digestifs : nausées, gastralgies, vomissements, dyspepsie, diarrhée, hémorrag ie digestive occulte, intolérance locale (par voie rectale), plus rarement ulcère gastro-duodénal",
+      "Perforation et hémorragie digestive patente, colites, rectites"
+    ],
+    "Contre-indications":[
+      "Allergie aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Hémorragie ou perforation gastro-duodenale", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Enfant < 15 ans "
+    ],
+    "Posologie et durée":[
+      "Adulte : 10 à 20 mg 1 ou 2 fois par jour (max. 40 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant, énoxacine, ticlopidine et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence chez les sujets âgés ou asthmatique et en cas de déshydratation, HTA, antécédent d'ulcère et hernie hiatale",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, thrombolytique, interféron alpha",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée, exposent le fœtus à des troubles parfois mortels (hypertension artérielle pulmonaire, insuffisance rénale)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Méloxicam",
+    "Nom commercial": [
+      "Melonax, Caplin"
+    ],
+    "Icon": [
+      "assets/images/AINS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire non stéroïdien (AINS)"
+    ],
+    "Propriété":[
+      "Anti-inflammatoire non stéroïdien du groupe des oxicams inhibant la synthèse des prostaglandines liés à l'inhibition des cyclo-oxygénases 1 et 2 (Cox-1 et Cox-2)", 
+      "Antalgique périphérique"
+    ],
+    "Indications":[
+      "Traitement symptomatique au long cours des rhumatismes inflammatoires chroniques", 
+      "Traitement symptomatique de courte durée des poussées aiguës des rhumatismes abarticulaires, arthroses, arthrites microcristallines, lombalgies, radiculalgies sévères"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réaction allergique : prurit, éruptions cutanées, crises d'asthme,  oedème de Quincke",
+      "Digestifs : nausées, gastralgies, vomissements, dyspepsie, diarrhée, hémorrag ie digestive occulte, intolérance locale (par voie rectale), plus rarement ulcère gastro-duodénal",
+      "Perforation et hémorragie digestive patente, colites, rectites"
+    ],
+    "Contre-indications":[
+      "Allergie aux AINS", 
+      "Ulcère gastroduodénal", 
+      "Hémorragie ou perforation gastro-duodenale", 
+      "Insuffisance rénale, hépatique et cardiaque sévère",
+      "Enfant < 15 ans "
+    ],
+    "Posologie et durée":[
+      "Adulte : 7,5 à 15 mg 1 par jour (max. 15 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexate, anticoagulant, énoxacine, ticlopidine et AINS (Augmentation du risque ulcèrogène et hémorragique), lithium (Augmentation de la lithémie)",
+      "Administrer avec prudence chez les sujets âgés ou asthmatique et en cas de déshydratation, HTA, antécédent d'ulcère et hernie hiatale",
+      "Surveiller l'association avec antihypertenseurs (diurétiques et IEC), corticoïdes, thrombolytique, interféron alpha",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée, exposent le fœtus à des troubles parfois mortels (hypertension artérielle pulmonaire, insuffisance rénale)",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Phloroglucinol",
+    "Nom commercial": [
+      "Spasfon, Spasmosyl"
+    ],
+    "Icon": [
+      "assets/images/Antispasmodique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antispasmodique"
+    ],
+    "Propriété":[
+      "Antispasmodiques musculotropes (sans effets anticholinergiques), agissant de façon directe au niveau des fibres musculaires lisses du tube digestif, des voies urinaires et du muscle utérin"
+    ], 
+    "Indications":[
+      "Traitement adjuvant des contractions au cours de la grossesse",
+      "Manifestations spasmodiques et/ou douloureuses au niveau du tube digestif (colopathies fonctionnelles notamment), des voies biliaires (coliques hépatiques) et urinaires (coliques néphrétiques)",
+      "Manifestations spasmodiques et/ou douloureuses d'origine utérine (spasmes du col utérin, dysménorrhées d'origine spasmodique)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Manifestations cutanées allergiques : éruption , urticaire, prurit",
+      "Réactions sévères et Rares : épigastralgies, choc anaphylactique, oedème de Quincke, vascularite cutanée, syndrome de Lyell"
+    ],
+    "Contre-indications":[
+      "Allergie",
+      "Enfants < 2 ans"
+    ],
+    "Posologie et durée":[
+      "Enfant > 2 ans : 80 mg 1 ou 2 fois par jour (max. 160 mg par jour)",
+      "Adulte : 40 à 150 mg 2 ou 3 fois par jour (max. 450 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : antalgiques morphiniques majeurs (effet antispasmodique annulé)", 
+      "Possibilité de lipothymies en cas d'injection veineuse trop rapide (l'injection par voie IV doit être faite en 3 à 5 minutes)"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Déconseillé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Pinavérium",
+    "Nom commercial": [
+      "Dicétel"
+    ],
+    "Icon": [
+      "assets/images/Antispasmodique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antispasmodique"
+    ],
+    "Propriété":[
+      "Antispasmodiques musculotropes (sans effets anticholinergiques), agissant de façon directe au niveau des fibres musculaires lisses du tube digestif, des voies urinaires et du muscle utérin"
+    ], 
+    "Indications":[
+      "Manifestations spasmodiques et/ou douloureuses au niveau du tube digestif (colopathies fonctionnelles notamment), des voies biliaires (coliques hépatiques) et urinaires (coliques néphrétiques)",
+      "Manifestations spasmodiques et/ou douloureuses d'origine utérine (spasmes du col utérin, dysménorrhées d'origine spasmodique)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Possibilité d'oesophagite voire d'ulcérations iatrogènes par adhérence  à la muqueuse oesophagienne en cas d'ingestion en position couchée et/ou sans une quantité suffisante d'eau"
+    ],
+    "Contre-indications":[
+      "Allergie",
+      "Enfants < 2 ans"
+    ],
+    "Posologie et durée":[
+      "Enfant > 2 ans : 50 mg 1 ou 2 fois par jour (max. 150 mg par jour)",
+      "Adulte : 50 à 100 mg 2 ou 3 fois par jour (max. 400 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : phloroglucinol et antalgiques morphiniques majeurs (effet antispasmodique annulé)", 
+      "Avaler les comprimés en position debout ou assise mais jamais en position allongée ni juste avant l'heure du coucher, sans les croquer ni les sucer, et avec une  quantité suffisante d'eau afin d'éviter toute adhérence à la muqueuse oesophagienne"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée (absence d'étude clinique)",
+      "Allaitement : Déconseillé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Trimébutine",
+    "Nom commercial": [
+      "Trimébutine BOICARE, Trimébutine-GH, Spasmobutine"
+    ],
+    "Icon": [
+      "assets/images/Antispasmodique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antispasmodique"
+    ],
+    "Propriété":[
+      "Antispasmodiques musculotropes (sans effets anticholinergiques), agissant de façon directe au niveau des fibres musculaires lisses du tube digestif, des voies urinaires et du muscle utérin"
+    ], 
+    "Indications":[
+      "Manifestations spasmodiques et/ou douloureuses au niveau du tube digestif (colopathies fonctionnelles notamment), des voies biliaires (coliques hépatiques) et urinaires (coliques néphrétiques)",
+      "Manifestations spasmodiques et/ou douloureuses d'origine utérine (spasmes du col utérin, dysménorrhées d'origine spasmodique)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Manifestations cutanées allergiques : éruption , urticaire, prurit",
+      "Réactions sévères et Rares : épigastralgies, choc anaphylactique, oedème de Quincke, vascularite cutanée, syndrome de Lyell"
+    ],
+    "Contre-indications":[
+      "Allergie",
+      "Enfants < 2 ans"
+    ],
+    "Posologie et durée":[
+      "Enfant > 2 ans : 1 mg/kg 3 fois par jour (max. 600 mg par jour)",
+      "Adulte : 100 mg à 200 mg 2 ou 3 fois par jour (max. 600 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : phloroglucinol et antalgiques morphiniques majeurs (effet antispasmodique annulé)", 
+      "Incompatibilité physico-chimique avec bipénicilline, gamma-OH, pentobarbital sodique, dihydrostreptomycine"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée (absence d'étude clinique)",
+      "Allaitement : Déconseillé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Mébévèrine",
+    "Nom commercial": [
+      "Duspatalin, Mebeverine Forte"
+    ],
+    "Icon": [
+      "assets/images/Antispasmodique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antispasmodique"
+    ],
+    "Propriété":[
+      "Antispasmodiques musculotropes (sans effets anticholinergiques), agissant de façon directe au niveau des fibres musculaires lisses du tube digestif, des voies urinaires et du muscle utérin"
+    ], 
+    "Indications":[
+      "Manifestations spasmodiques et/ou douloureuses au niveau du tube digestif (colopathies fonctionnelles notamment), des voies biliaires (coliques hépatiques) et urinaires (coliques néphrétiques)",
+      "Manifestations spasmodiques et/ou douloureuses d'origine utérine (spasmes du col utérin, dysménorrhées d'origine spasmodique)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Manifestations cutanées allergiques : éruption , urticaire, prurit"
+    ],
+    "Contre-indications":[
+      "Allergie",
+      "Myasthénie"
+    ],
+    "Posologie et durée":[
+      "Adulte : 200 mg 2 ou 3 fois par jour (max. 600 mg par jour)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : phloroglucinol et antalgiques morphiniques majeurs (effet antispasmodique annulé)"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée (absence d'étude clinique)",
+      "Allaitement : Déconseillé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Clidinium bromure",
+    "Nom commercial": [
+      "Librax"
+    ],
+    "Icon": [
+      "assets/images/Antispasmodique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antispasmodique"
+    ],
+    "Propriété":[
+      "Anticholinergiques de synthèse agissant par antagonisme des effets muscariniques de l'acétylcholine, ayant une action antispasmodique au niveau des fibres musculaires lisses du tube digestif, des voies biliaires et urinaires. Le chlordiazépoxide est une benzodiazépine anxiolytique et myorelaxante "
+    ], 
+    "Indications":[
+      "Traitement symptomatique des manifestations anxieuses sévères s'accompagnant de troubles fonctionnels digestifs à composante spasmodique ",
+      "Manifestations spasmodiques et/ou douloureuses au niveau du tube digestif (colopathies fonctionnelles notamment), des voies biliaires (coliques hépatiques) et urinaires (coliques néphrétiques)",
+      "Manifestations spasmodiques et/ou douloureuses d'origine utérine (spasmes du col utérin, dysménorrhées d'origine spasmodique)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Effets atropiniques dose-dépendants : bouche sèche, constipation, mydriase, troubles de l'accommodation, élévation de la pression intra-oculaire, diminution de la sécrétion lacrymale, tachycardie, palpitations", 
+      "Rares : parotidite suppurative, éruptions cutanées allergiques"
+    ],
+    "Contre-indications":[
+      "Risque de glaucome par fermeture de l'angle",
+      "Risque de rétention urinaire par obstacle urétro-prostatique Iléus paralytique, achalasie, spasmes de l'œsophage", 
+      "Cardiopathies décompensées", 
+      "Chlordiazépoxide : insuffisance respiratoire ou hépatique", 
+      "Myasthénie, enfant< 6 ans, âge > 75 ans"
+    ],
+    "Posologie et durée":[
+      "Adulte : 2,5 mg + Chlordiazépoxide 5 mg 2 ou 4 fois par jour"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : cisapride, dompéridone et métoclopramide (inhibition de leurs effets sur la motricité digestive), triphosadénine injectable (antagonisme), anticholinestérasiques (antagonisme)", 
+      "Administrer avec prudence en cas troubles du rythme, angor, hyperthyroïdie, bronchite chronique (viscosité accrue des sécrétions bronchiques), chez les sujets âgés",
+      "Surveiller l'association avec autres anticholinergiques, neuroleptiques, amantadine, lisuride"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée (risques d'iléus méconial chez l'enfant)",
+      "Allaitement : Déconseillé (réduction de la sécrétion lactée et passage dans le lait)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Atropine",
+    "Nom commercial": [
+      "Atropine Injectable"
+    ],
+    "Icon": [
+      "assets/images/Antispasmodique.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antispasmodique"
+    ],
+    "Propriété":[
+      "Anticholinergique s'opposant aux effets bradycardisants de l'acétylcholine, ayant une action antispasmodique au niveau des fibres musculaires lisses du tube digestif et des voies biliaires et urinaires, ralentissant la vidange gastrique et diminuant les sécrétions gastrique, salivaire, lacrymale, sudorale"
+    ], 
+    "Indications":[
+      "Prémédication anesthésique en prévention des manifestations vagales",
+      "Prévention et traitement des bradycardies sinusales et blocs auriculo-ventriculaires ou atrio-ventriculaires",
+      "Antidote spécifique des intoxications aiguës par anticholinestérasiques (insecticides organophosphorés et carbamates) ou par parasympathicomimétiques",
+      "Spasmes douloureux de l'appareil digestif, des voies urinaires (coliques néphrétiques notamment), des voies biliaires"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Effets atropiniques dose-dépendants : bouche sèche, constipation, mydriase,  élévation de la pression intra-oculaire, diminution de la sécrétion lacrymale, tachycardie, palpitations",
+      "Risques de rétention urinaire en cas d'obstacle urètre-prostatique",
+      "Risque de tachycardie si injection IV trop rapide",
+      "Surdosage : effets atropiniques"
+    ],
+    "Contre-indications":[
+      "Pathologie urétro-prostatique",
+      "Troubles cardiaques",
+      "Glaucome à angle fermé",
+      "Fièvre élevée chez l'enfant"
+    ],
+    "Posologie et durée":[
+      "Prémédication en anesthésie : Enfant (0,01 à 0,02 mg/kg par voie SC ou IV). Adulte (1 mg par voie SC ou IV)",
+      "Spasmes douloureux : Enfant de 2 à 6 ans (0,25 mg par voie SC, dose unique). Enfant de plus de 6 ans (0,5 mg par voie SC, dose unique). Adulte (0,25 à 1 mg par voie SC toutes les 6 heures si nécessaire (max. 2 mg par jour))",
+      "Intoxication : Enfant (0,02 à 0,05 mg/kg par voie IM ou IV lente). Adulte : 2 mg par voie IM ou IV lente",
+      "Ces doses sont à renouveler toutes les 5 à 10 minutes jusqu’à l’apparition de signes d’atropinisation (diminution des sécrétions, tachycardie, mydriase)"
+    ],
+    "Précautions d'emploi":[
+      "Injection IV lente en 3 à 5 minutes (risque de tachycardie si injection IV trop rapide)",
+      "Surveiller l'association avec d'autres anticholinergiques (majoration des effets atropiniques) : antiparkinsoniens, antispasmodiques, antisécrétoires, antidépresseurs imipraminiques, maprotiline, antihistaminiques H1, disopyramide, néfopam, oxybutynine, neuroleptiques phénothiaziniques", 
+      " Administrer avec prudence en cas de troubles du rythme, angor, hyperthyroïdie, bronchite chronique (viscosité accrue des sécrétions bronchiques) et chez les sujets âgés"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Déconseillée, à éviter en fin de grossesse (risque d'iléus méconial chez l'enfant)",
+      "Allaitement : Déconseillé, réduction de la sécrétion lactée et passage dans le lait (toxicité neurologique)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Lidocaïne",
+    "Nom commercial": [
+      "Xylocaïne, Xylocaïne-Adrénaline, Lidocaïne-Adrénaline"
+    ],
+    "Icon": [
+      "assets/images/Anesthésique local.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anesthésique local"
+    ],
+    "Propriété":[
+      "Anesthésique local du groupe des anesthésiques à liaison amide, à courte durée d'action (en 5 à 10 minutes, durant 45 à 90 minutes environ)"
+    ], 
+    "Indications":[
+      "Anesthésie locale par infiltration",
+      "Anesthésie régionale lors d' intervention chirurgicale", 
+      "Traitement symptomatique des douleurs neuropathiques post-zoostériennes (emplâtre)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Malaise vagal : bâillements, fatigue, pâleur, sueurs, nausées, oppression respiratoire, bradycardie, hypotension, lipothymie voire perte de connaissance brève",
+      "Réactions affergiques exceptionnelles (ne pas confondre avec un malaise vagal , plus fréquent) : malaise avec prurit, urticaire, œdème sous-cutané, toux , bronchospasme, œdème laryngé, chute tensionnelle, voire col lapsus cardio-vasculaire",
+      "Surdosage (taux plasmatique > 5 µg/ml) : paresthésies des extrémités et des lèvres, puis angoisse, agitation, hallucinations, nausées, céphalées, acouphènes, nystagmus, confusion, tachypnée, tremblements, convulsions, somnolence puis coma, dépression respiratoire, troubles du rythme et de la conduction cardiaque, collapsus cardio-vasculaire"
+    ],
+    "Contre-indications":[
+      "Anesthésie de zones infectées (risque de diffusion de l'infection)",
+      "Troubles de la conduction intracardiaque (auriculo-ventriculaire)",
+      "Allergie aux anesthésiques à liaison amide ou au parahydroxybenzoate de méthyle",
+      "Épilepsies non contrôlées", 
+      "Enfant < 1 mois",
+      "Formes adrénalinées : allergie aux sulfites, anesthésie des extrémités, Hyperthyroïdie, injection IV, insuffisance coronaire, arythmie ventriculaire Cardiomyopathie obstructive"
+    ],
+    "Posologie et durée":[
+      "Délai d'action : 5 à 10 minutes. Durée d'action : 60 à 90 minutes",
+      "Anesthésie locale par infiltration (5 à 20 ml à 0,5 ou 1 ou 2 % chez l'adulte, 5 mg/kg chez l'enfant en utilisant chez lui de la lidocaïne sans adrénaline à 0,5 ou 1 ou 2 %)",
+      "Infiltrations sympathiques (3 à 20 ml à 0,5 ou 1 ou 2 %)",
+      "Injections périarticulaires (10 à 15 ml à 1 %)",
+      "Injections intra-articulaires (2 à 3 ml à 1 %)",
+      "Dose max. Enfant : 5 mg/kg/injection",
+      "Dose max. Adulte : 200 mg soit 20 ml solution à 1% ou 10 ml solution à 2%"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : IMAO non sélectifs (avec les formes adrénalinées), antiarythmiques, bêta-bloquants",
+      "La lidocaïne additionnée d'épinéphrine (adrénaline) permet de réaliser des anesthésies plus longues",
+      "Administrer avec prudence en cas d' insuffisance cardiaque ou hépatique sévère, d'hypovolémie, d'hypoxie, d 'hyperkaliémie ou d'acidose",
+      "Injecter strictement par voie extravasculaire (à contrôler par des aspirations répétées), sauf anesthésie loco-régionale intraveineuse",
+      "Ne pas utiliser les formes adrénalinées pour l'anesthésie des extrémités"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Mépivacaïne",
+    "Nom commercial": [
+      "Carbocaïne"
+    ],
+    "Icon": [
+      "assets/images/Anesthésique local.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anesthésique local"
+    ],
+    "Propriété":[
+      "Anesthésique local du groupe des anesthésiques à liaison amide, à courte durée d'action (en 10 à 30 minutes, durant 1 à 3 heures environ)"
+    ], 
+    "Indications":[
+      "Anesthésie tronculaire, plexique, caudale, péridurale", 
+      "Anesthésie locale par infiltration",
+      "Anesthésie régionale lors d' intervention chirurgicale"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Malaise vagal : bâillements, fatigue, pâleur, sueurs, nausées, oppression respiratoire, bradycardie, hypotension, lipothymie voire perte de connaissance brève",
+      "Réactions affergiques exceptionnelles (ne pas confondre avec un malaise vagal , plus fréquent) : malaise avec prurit, urticaire, œdème sous-cutané, toux , bronchospasme, œdème laryngé, chute tensionnelle, voire col lapsus cardio-vasculaire",
+      "Surdosage (taux plasmatique > 5 µg/ml) : paresthésies des extrémités et des lèvres, puis angoisse, agitation, hallucinations, nausées, céphalées, acouphènes, nystagmus, confusion, tachypnée, tremblements, convulsions, somnolence puis coma, dépression respiratoire, troubles du rythme et de la conduction cardiaque, collapsus cardio-vasculaire"
+    ],
+    "Contre-indications":[
+      "Anesthésie de zones infectées (risque de diffusion de l'infection)",
+      "Troubles de la conduction intracardiaque (auriculo-ventriculaire)",
+      "Allergie aux anesthésiques à liaison amide ou au parahydroxybenzoate de méthyle",
+      "Épilepsies non contrôlées", 
+      "Enfant < 1 mois"
+    ],
+    "Posologie et durée":[
+      "Délai d'action : 10 à 30 minutes. Durée d'action : 1 à 3 heures",
+      "Anesthésie locale par infiltration (5 à 20 ml à 0,5 ou 1 ou 2 % chez l'adulte, 5 mg/kg chez l'enfant)",
+      "Infiltrations sympathiques (3 à 20 ml à 0,5 ou 1 ou 2 %)",
+      "Injections périarticulaires (10 à 15 ml à 1 %)",
+      "Injections intra-articulaires (2 à 3 ml à 1 %)",
+      "Dose max. Enfant : 5 mg/kg/injection",
+      "Dose max. Adulte : 400 mg soit 20 ml solution 2%"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : IMAO non sélectifs (avec les formes adrénalinées), antiarythmiques, bêta-bloquants",
+      "Administrer avec prudence en cas d' insuffisance cardiaque ou hépatique sévère, d'hypovolémie, d'hypoxie, d 'hyperkaliémie ou d'acidose",
+      "Injecter strictement par voie extravasculaire (à contrôler par des aspirations répétées), sauf anesthésie loco-régionale intraveineuse"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Ropivacaïne",
+    "Nom commercial": [
+      "Naropeïne"
+    ],
+    "Icon": [
+      "assets/images/Anesthésique local.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anesthésique local"
+    ],
+    "Propriété":[
+      "Anesthésique local du groupe des anesthésiques à liaison amide, à courte durée d'action (en 10 à 30 minutes, durant 1 à 3 heures environ)"
+    ], 
+    "Indications":[
+      "Anesthésie tronculaire, plexique, caudale, péridurale", 
+      "Anesthésie locale par infiltration",
+      "Anesthésie régionale lors d' intervention chirurgicale"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Malaise vagal : bâillements, fatigue, pâleur, sueurs, nausées, oppression respiratoire, bradycardie, hypotension, lipothymie voire perte de connaissance brève",
+      "Réactions affergiques exceptionnelles (ne pas confondre avec un malaise vagal , plus fréquent) : malaise avec prurit, urticaire, œdème sous-cutané, toux , bronchospasme, œdème laryngé, chute tensionnelle, voire col lapsus cardio-vasculaire",
+      "Surdosage (taux plasmatique > 5 µg/ml) : paresthésies des extrémités et des lèvres, puis angoisse, agitation, hallucinations, nausées, céphalées, acouphènes, nystagmus, confusion, tachypnée, tremblements, convulsions, somnolence puis coma, dépression respiratoire, troubles du rythme et de la conduction cardiaque, collapsus cardio-vasculaire"
+    ],
+    "Contre-indications":[
+      "Anesthésie de zones infectées (risque de diffusion de l'infection)",
+      "Troubles de la conduction intracardiaque (auriculo-ventriculaire)",
+      "Allergie aux anesthésiques à liaison amide ou au parahydroxybenzoate de méthyle",
+      "Épilepsies non contrôlées", 
+      "Enfant < 1 mois"
+    ],
+    "Posologie et durée":[
+      "Délai d'action : 10 à 30 minutes. Durée d'action : 1 à 3 heures",
+      "Anesthésie locale par infiltration (10 mg/ml 1 ou 2 à 3 fois)",
+      "Infiltrations sympathiques (10 mg/ml 1 ou 2 à 3 fois)",
+      "Injections périarticulaires (10 mg/ml 1 ou 2 à 3 fois)",
+      "Injections intra-articulaires (10 mg/ml 2 à 3 fois)",
+      "Dose max. Enfant : 5 mg/kg/injection",
+      "Dose max. Adulte : 500 mg soit 20 m"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : IMAO non sélectifs (avec les formes adrénalinées), antiarythmiques, bêta-bloquants",
+      "Administrer avec prudence en cas d' insuffisance cardiaque ou hépatique sévère, d'hypovolémie, d'hypoxie, d 'hyperkaliémie ou d'acidose",
+      "Injecter strictement par voie extravasculaire (à contrôler par des aspirations répétées), sauf anesthésie loco-régionale intraveineuse"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Contre-indiquée",
+      "Allaitement : Contre-indiqué"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Dexaméthasone",
+    "Nom commercial": [
+      "Dexaméthasone Injectable, Dectancyl"
+    ],
+    "Icon": [
+      "assets/images/AIS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire stéroïdien (AIS ou Corticoïde)"
+    ],
+    "Propriété":[
+      "Corticoïdes de synthèse différant des glucocorticoïdes physiologiques (cortisone et hydrocortisone) par des effets métaboliques et de rétention hydrosodée réduits, inhibant la synthèse des leucotriènes liés à l'inhibition de la lipo-oxygénase utilisés pour leur effet anti-inflammatoire, antiallergique, minéralo-corticoïde et immunosuppresseur"
+    ],
+    "Indications":[
+      "Réactions allergiques sévères : œdème de Quincke, urticaire géante, états allergiques sévères, choc anaphylactique (en complément de l'adrénaline), maladie sérique",
+      "Réactions inflammatoires sévères : œdème laryngé, laryngite suffocante, épiglottite aiguë, œdème pulmonaire infectieux ou toxique, œdème cérébral, choc septique, syndrome malin des maladies infectieuses, méningite tuberculeuse avec blocage du LCR, péricardite, otite séreuse sévère",
+      "Affections pulmonaires : asthme grave, état de mal asthmatique, sarcoïdose évolutive, pneumopathie interstitielle diffuse, poussée aiguë d'insuffisance respiratoire",
+      "Maladies auto-immunes : anémie hémolytique auto-immune, purpura thrombopénrque auto-immun, lupus érythémateux disséminé, dermatopolymyosite, polymyosite, fasciite à éosinophiles, hépatite chronique auto-immune, polyarthrite rhumatoïde, myasthénie",
+      "Divers : Rhinite et sinusite, rhumatisme articulaire aigu, syndrome néphrotique, sclérose en plaques, certaines névrites optiques, colites ulcéreuses et maladie de Crohn, érythroblastopénie chronique, transplantation d'organe, chimiothérapies émétisantes, traitement d'appoint de certains cancers et hémopathies",
+      "Maturation pulmonaire foetale, en cas de menace de naissance prématurée avant 34 semaines d'aménorrhée",
+      "Usage local : infiltrations en rhumatologie, cicatrices chéloïdes"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles métaboliques : rétention hydrosodée (œdème et hypertension), hypokaliémie, effet orexigène et diabétogène, augmentation du catabolisme protéique (amyotrophie et faiblesse musculaire, ostéoporose, tassements vertébraux), ralentissement de croissance chez l'enfant, retard de cicatrisation, ruptures tendineuses",
+      "Troubles endocriniens : syndrome cushingoïde, irrégularités menstruelles, atrophie cortico-surrénale secondaire",
+      "Troubles digestifs : risque d'ulcère gastro-duodénal, perforation et hémorragie digestive parfois inaugurales",
+      "Troubles psychiques : euphorie, exitation, insomnie, état maniaque ou confusionnel",
+      "Risque infectieux accru parfois d'évolution torpide : tuberculose, viroses, mycoses, anguillulose, toxoplasmose, et risque d'infections bactériennes",
+      "Divers : acné (surtout dorsale), hypertrichose, atrophie cutanée, purpura, ecchymoses",
+      "Intoxication digitalique due à une fuite de potassium chez les patients sous digitaliques"
+    ],
+    "Contre-indications":[
+      "Aucune contre-indication absolue pour une corticotherapie d'indication vitale",
+      "Certaines viroses en évolution (herpès et zona oculaires, hépatites virales aiguës)",
+      "États infectieux (en particulier tuberculose) ou mycosiques non contrôlés",
+      "Ulcère gastro-duodénal en évolution",
+      "vaccins vivants atténués",
+      "Troubles psychiques sévères"
+    ],
+    "Posologie et durée":[
+      "Enfant : Traitement d'attaque (0,1 à 0,6 mg/kg/jour par IV ou IM (max. 16 mg)). Traitement d'entretien (0,03 mg/kg par jour)",
+      "Adulte : Traitement d'attaque (2 à 24 mg par jour par voie IV ou IM). Traitement d'entretien (0,5 à 1,5 mg/kg par jour)",
+      "Les posologies des traitements d'attaque et la durée dépend de l'indication. En raison de la longue demi-vie de la dexaméthasone, un traitement de 1 ou 2 jours est en général suffisant. En cas de traitement supérieur à 10 jours, réduire progressivement la dose pour éviter une insuffisance surrénale",
+      "Maturation pulmonaire fœtale (Chez la mère) : 6 mg en injection IM toutes les 12 heures pendant 48 heures (dose totale : 24 mg)",
+      "0,75 mg de dexaméthasone a la même activité que 5 mg de prednisolone ou de prednisone et 20 mg d'hydrocortisone"
+    ],
+    "Précautions d'emploi":[
+      "En cas d'infection systémique, n'administrer que si le patient est sous traitement antimicrobien",
+      "Administrer avec prudence  en cas d'antécédents ulcéreux ou psychiatriques, HTA, diabète, ostéoporose, colite ulcéreuse (risque de perforation), sigmoïdite diverticulaire (risque d'abcès et de perforation à bas bruit), épilepsie, glaucome (surveiller la pression intra-oculaire surtout si > 65 ans)",
+      "Surveiller l'association avec AINS, anticoagulants, digitaliques, biguanides, hormone de croissance, inducteurs enzymatiques, insulines, interleukine-2, isoniazide, hypokaliémiants (amphoténcine B, diurétiques, laxatifs)",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée, traitement court (risque accru de diabète, HTA et prise de poids excessive chez la mère, et possibilité d' insuffisance surrénalienne néonatale chez l'enfant)",
+      "Allaitement : Déconseillé, traitement court (passage dans le lait maternelle)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Bétaméthasone",
+    "Nom commercial": [
+      "Célestène, Bétaméthasone Injectable"
+    ],
+    "Icon": [
+      "assets/images/AIS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire stéroïdien (AIS ou Corticoïde)"
+    ],
+    "Propriété":[
+      "Corticoïdes de synthèse différant des glucocorticoïdes physiologiques (cortisone et hydrocortisone) par des effets métaboliques et de rétention hydrosodée réduits, inhibant la synthèse des leucotriènes liés à l'inhibition de la lipo-oxygénase utilisés pour leur effet anti-inflammatoire, antiallergique, minéralo-corticoïde et immunosuppresseur"
+    ],
+    "Indications":[
+      "Dermocorticoïdes d'activité très forte : Eczéma de contact, dermatite atopique, psoriasis (traitement d'attaque surtout), lupus érythémateux cutané, chéloïdes (traitement préventif surtout), piqûres d'insecte, dermatite séborrhéique, psoriasis modéré du cuir chevelu (shampoing)", 
+      "Réactions allergiques sévères : œdème de Quincke, urticaire géante, états allergiques sévères, choc anaphylactique (en complément de l'adrénaline), maladie sérique",
+      "Réactions inflammatoires sévères : œdème laryngé, laryngite suffocante, épiglottite aiguë, œdème pulmonaire infectieux ou toxique, œdème cérébral, choc septique, syndrome malin des maladies infectieuses, méningite tuberculeuse avec blocage du LCR, péricardite, otite séreuse sévère",
+      "Affections pulmonaires : asthme grave, état de mal asthmatique, sarcoïdose évolutive, pneumopathie interstitielle diffuse, poussée aiguë d'insuffisance respiratoire",
+      "Maladies auto-immunes : anémie hémolytique auto-immune, purpura thrombopénrque auto-immun, lupus érythémateux disséminé, dermatopolymyosite, polymyosite, fasciite à éosinophiles, hépatite chronique auto-immune, polyarthrite rhumatoïde, myasthénie",
+      "Divers : Rhinite et sinusite, rhumatisme articulaire aigu, syndrome néphrotique, sclérose en plaques, certaines névrites optiques, colites ulcéreuses et maladie de Crohn, érythroblastopénie chronique, transplantation d'organe, chimiothérapies émétisantes, traitement d'appoint de certains cancers et hémopathies"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles métaboliques : rétention hydrosodée (œdème et hypertension), hypokaliémie, effet orexigène et diabétogène, augmentation du catabolisme protéique (amyotrophie et faiblesse musculaire, ostéoporose, tassements vertébraux), ralentissement de croissance chez l'enfant, retard de cicatrisation, ruptures tendineuses",
+      "Troubles endocriniens : syndrome cushingoïde, irrégularités menstruelles, atrophie cortico-surrénale secondaire",
+      "Troubles digestifs : risque d'ulcère gastro-duodénal, perforation et hémorragie digestive parfois inaugurales",
+      "Troubles psychiques : euphorie, exitation, insomnie, état maniaque ou confusionnel",
+      "Risque infectieux accru parfois d'évolution torpide : tuberculose, viroses, mycoses, anguillulose, toxoplasmose, et risque d'infections bactériennes",
+      "Divers : acné (surtout dorsale), hypertrichose, atrophie cutanée, purpura, ecchymoses",
+      "Intoxication digitalique due à une fuite de potassium chez les patients sous digitaliques"
+    ],
+    "Contre-indications":[
+      "Aucune contre-indication absolue pour une corticotherapie d'indication vitale",
+      "Certaines viroses en évolution (herpès et zona oculaires, hépatites virales aiguës)",
+      "États infectieux (en particulier tuberculose) ou mycosiques non contrôlés",
+      "Ulcère gastro-duodénal en évolution",
+      "vaccins vivants atténués",
+      "Troubles psychiques sévères"
+    ],
+    "Posologie et durée":[
+      "Enfant : Traitement d'attaque (0,1 à 0,6 mg/kg/jour par IV ou IM (max. 16 mg)). Traitement d'entretien (0,03 mg/kg par jour)",
+      "Adulte : Traitement d'attaque (2 à 24 mg par jour par voie IV ou IM). Traitement d'entretien (0,5 à 1,5 mg/kg par jour)",
+      "Activité dermocorticoïde : une application 1 ou 2 fois par jour, en couche mince, uniquement sur les lésions, pendant 7 jours maximum", 
+      "Les posologies des traitements d'attaque et la durée dépend de l'indication. En raison de la longue demi-vie de la dexaméthasone, un traitement de 1 ou 2 jours est en général suffisant. En cas de traitement supérieur à 10 jours, réduire progressivement la dose pour éviter une insuffisance surrénale",
+      "0,75 mg de bétaméthasone a la même activité que 5 mg de prednisolone ou de prednisone et 20 mg d'hydrocortisone"
+    ],
+    "Précautions d'emploi":[
+      "En cas d'infection systémique, n'administrer que si le patient est sous traitement antimicrobien",
+      "Administrer avec prudence  en cas d'antécédents ulcéreux ou psychiatriques, HTA, diabète, ostéoporose, colite ulcéreuse (risque de perforation), sigmoïdite diverticulaire (risque d'abcès et de perforation à bas bruit), épilepsie, glaucome (surveiller la pression intra-oculaire surtout si > 65 ans)",
+      "Surveiller l'association avec AINS, anticoagulants, digitaliques, biguanides, hormone de croissance, inducteurs enzymatiques, insulines, interleukine-2, isoniazide, hypokaliémiants (amphoténcine B, diurétiques, laxatifs)",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée, traitement court (risque accru de diabète, HTA et prise de poids excessive chez la mère, et possibilité d' insuffisance surrénalienne néonatale chez l'enfant)",
+      "Allaitement : Déconseillé, traitement court (passage dans le lait maternelle)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Prednisone",
+    "Nom commercial": [
+      "Cortancyl"
+    ],
+    "Icon": [
+      "assets/images/AIS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire stéroïdien (AIS ou Corticoïde)"
+    ],
+    "Propriété":[
+      "Corticoïdes de synthèse différant des glucocorticoïdes physiologiques (cortisone et hydrocortisone) par des effets métaboliques et de rétention hydrosodée réduits, inhibant la synthèse des leucotriènes liés à l'inhibition de la lipo-oxygénase utilisés pour leur effet anti-inflammatoire, antiallergique, minéralo-corticoïde et immunosuppresseur"
+    ],
+    "Indications":[
+      "Réactions allergiques sévères : œdème de Quincke, urticaire géante, états allergiques sévères, choc anaphylactique (en complément de l'adrénaline), maladie sérique",
+      "Réactions inflammatoires sévères : œdème laryngé, laryngite suffocante, épiglottite aiguë, œdème pulmonaire infectieux ou toxique, œdème cérébral, choc septique, syndrome malin des maladies infectieuses, méningite tuberculeuse avec blocage du LCR, péricardite, otite séreuse sévère",
+      "Affections pulmonaires : asthme grave, état de mal asthmatique, sarcoïdose évolutive, pneumopathie interstitielle diffuse, poussée aiguë d'insuffisance respiratoire",
+      "Maladies auto-immunes : anémie hémolytique auto-immune, purpura thrombopénrque auto-immun, lupus érythémateux disséminé, dermatopolymyosite, polymyosite, fasciite à éosinophiles, hépatite chronique auto-immune, polyarthrite rhumatoïde, myasthénie",
+      "Divers : Rhinite et sinusite, rhumatisme articulaire aigu, syndrome néphrotique, sclérose en plaques, certaines névrites optiques, colites ulcéreuses et maladie de Crohn, érythroblastopénie chronique, transplantation d'organe, chimiothérapies émétisantes, traitement d'appoint de certains cancers et hémopathies",
+      "Usage local : infiltrations en rhumatologie, cicatrices chéloïdes"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles métaboliques : rétention hydrosodée (œdème et hypertension), hypokaliémie, effet orexigène et diabétogène, augmentation du catabolisme protéique (amyotrophie et faiblesse musculaire, ostéoporose, tassements vertébraux), ralentissement de croissance chez l'enfant, retard de cicatrisation, ruptures tendineuses",
+      "Troubles endocriniens : syndrome cushingoïde, irrégularités menstruelles, atrophie cortico-surrénale secondaire",
+      "Troubles digestifs : risque d'ulcère gastro-duodénal, perforation et hémorragie digestive parfois inaugurales",
+      "Troubles psychiques : euphorie, exitation, insomnie, état maniaque ou confusionnel",
+      "Risque infectieux accru parfois d'évolution torpide : tuberculose, viroses, mycoses, anguillulose, toxoplasmose, et risque d'infections bactériennes",
+      "Divers : acné (surtout dorsale), hypertrichose, atrophie cutanée, purpura, ecchymoses",
+      "Intoxication digitalique due à une fuite de potassium chez les patients sous digitaliques"
+    ],
+    "Contre-indications":[
+      "Aucune contre-indication absolue pour une corticotherapie d'indication vitale",
+      "Certaines viroses en évolution (herpès et zona oculaires, hépatites virales aiguës)",
+      "États infectieux (en particulier tuberculose) ou mycosiques non contrôlés",
+      "Ulcère gastro-duodénal en évolution",
+      "vaccins vivants atténués",
+      "Troubles psychiques sévères"
+    ],
+    "Posologie et durée":[
+      "Enfant : Traitement d'attaque (1 à 3 mg/kg par jour). Traitement d'entretien (0,25 à 0,5 mg/kg par jour)",
+      "Adulte : Traitement d'attaque (0,5 à 1,5 mg/kg par jour). Traitement d'entretien (0,25 à 0,5 mg/kg par jour)",
+      "Les posologies des traitements d'attaque varient selon les indications. Elles peuvent constituer un relais après des bolus IV de méthylprednisolone. La durée du traitement d'attaque est également variable, de quelques jours à 4 semaines",
+      "Les modalités du traitement d'entretien varient selon les indications, l'âge et le poids. Le traitement peut être maintenu de quelques mois à quelques années, voire indéfiniment"
+    ],
+    "Précautions d'emploi":[
+      "En cas d'infection systémique, n'administrer que si le patient est sous traitement antimicrobien",
+      "Administrer avec prudence  en cas d'antécédents ulcéreux ou psychiatriques, HTA, diabète, ostéoporose, colite ulcéreuse (risque de perforation), sigmoïdite diverticulaire (risque d'abcès et de perforation à bas bruit), épilepsie, glaucome (surveiller la pression intra-oculaire surtout si > 65 ans)",
+      "Surveiller l'association avec AINS, anticoagulants, digitaliques, biguanides, hormone de croissance, inducteurs enzymatiques, insulines, interleukine-2, isoniazide, hypokaliémiants (amphoténcine B, diurétiques, laxatifs)",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée, traitement court (risque accru de diabète, HTA et prise de poids excessive chez la mère, et possibilité d' insuffisance surrénalienne néonatale chez l'enfant)",
+      "Allaitement : Déconseillé, traitement court (passage dans le lait maternelle)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Prednisolone",
+    "Nom commercial": [
+      "Solupred"
+    ],
+    "Icon": [
+      "assets/images/AIS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire stéroïdien (AIS ou Corticoïde)"
+    ],
+    "Propriété":[
+      "Corticoïdes de synthèse différant des glucocorticoïdes physiologiques (cortisone et hydrocortisone) par des effets métaboliques et de rétention hydrosodée réduits, inhibant la synthèse des leucotriènes liés à l'inhibition de la lipo-oxygénase utilisés pour leur effet anti-inflammatoire, antiallergique, minéralo-corticoïde et immunosuppresseur"
+    ],
+    "Indications":[
+      "Réactions allergiques sévères : œdème de Quincke, urticaire géante, états allergiques sévères, choc anaphylactique (en complément de l'adrénaline), maladie sérique",
+      "Réactions inflammatoires sévères : œdème laryngé, laryngite suffocante, épiglottite aiguë, œdème pulmonaire infectieux ou toxique, œdème cérébral, choc septique, syndrome malin des maladies infectieuses, méningite tuberculeuse avec blocage du LCR, péricardite, otite séreuse sévère",
+      "Affections pulmonaires : asthme grave, état de mal asthmatique, sarcoïdose évolutive, pneumopathie interstitielle diffuse, poussée aiguë d'insuffisance respiratoire",
+      "Maladies auto-immunes : anémie hémolytique auto-immune, purpura thrombopénrque auto-immun, lupus érythémateux disséminé, dermatopolymyosite, polymyosite, fasciite à éosinophiles, hépatite chronique auto-immune, polyarthrite rhumatoïde, myasthénie",
+      "Divers : Rhinite et sinusite, rhumatisme articulaire aigu, syndrome néphrotique, sclérose en plaques, certaines névrites optiques, colites ulcéreuses et maladie de Crohn, érythroblastopénie chronique, transplantation d'organe, chimiothérapies émétisantes, traitement d'appoint de certains cancers et hémopathies",
+      "Usage local : infiltrations en rhumatologie, cicatrices chéloïdes"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles métaboliques : rétention hydrosodée (œdème et hypertension), hypokaliémie, effet orexigène et diabétogène, augmentation du catabolisme protéique (amyotrophie et faiblesse musculaire, ostéoporose, tassements vertébraux), ralentissement de croissance chez l'enfant, retard de cicatrisation, ruptures tendineuses",
+      "Troubles endocriniens : syndrome cushingoïde, irrégularités menstruelles, atrophie cortico-surrénale secondaire",
+      "Troubles digestifs : risque d'ulcère gastro-duodénal, perforation et hémorragie digestive parfois inaugurales",
+      "Troubles psychiques : euphorie, exitation, insomnie, état maniaque ou confusionnel",
+      "Risque infectieux accru parfois d'évolution torpide : tuberculose, viroses, mycoses, anguillulose, toxoplasmose, et risque d'infections bactériennes",
+      "Divers : acné (surtout dorsale), hypertrichose, atrophie cutanée, purpura, ecchymoses",
+      "Intoxication digitalique due à une fuite de potassium chez les patients sous digitaliques"
+    ],
+    "Contre-indications":[
+      "Aucune contre-indication absolue pour une corticotherapie d'indication vitale",
+      "Certaines viroses en évolution (herpès et zona oculaires, hépatites virales aiguës)",
+      "États infectieux (en particulier tuberculose) ou mycosiques non contrôlés",
+      "Ulcère gastro-duodénal en évolution",
+      "vaccins vivants atténués",
+      "Troubles psychiques sévères"
+    ],
+    "Posologie et durée":[
+      "Enfant : Traitement d'attaque (1 à 3 mg/kg par jour). Traitement d'entretien (0,25 à 0,5 mg/kg par jour)",
+      "Adulte : Traitement d'attaque (0,5 à 1,5 mg/kg par jour). Traitement d'entretien (0,25 à 0,5 mg/kg par jour)",
+      "Les posologies des traitements d'attaque varient selon les indications. Elles peuvent constituer un relais après des bolus IV de méthylprednisolone. La durée du traitement d'attaque est également variable, de quelques jours à 4 semaines",
+      "Les modalités du traitement d'entretien varient selon les indications, l'âge et le poids. Le traitement peut être maintenu de quelques mois à quelques années, voire indéfiniment",
+      "5 mg de prednisolone a la même activité que 5 mg de prednisone et 20 mg d'hydrocortisone"
+    ],
+    "Précautions d'emploi":[
+      "En cas d'infection systémique, n'administrer que si le patient est sous traitement antimicrobien",
+      "Administrer avec prudence  en cas d'antécédents ulcéreux ou psychiatriques, HTA, diabète, ostéoporose, colite ulcéreuse (risque de perforation), sigmoïdite diverticulaire (risque d'abcès et de perforation à bas bruit), épilepsie, glaucome (surveiller la pression intra-oculaire surtout si > 65 ans)",
+      "Surveiller l'association avec AINS, anticoagulants, digitaliques, biguanides, hormone de croissance, inducteurs enzymatiques, insulines, interleukine-2, isoniazide, hypokaliémiants (amphoténcine B, diurétiques, laxatifs)",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée, traitement court (risque accru de diabète, HTA et prise de poids excessive chez la mère, et possibilité d' insuffisance surrénalienne néonatale chez l'enfant)",
+      "Allaitement : Déconseillé, traitement court (passage dans le lait maternelle)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Méthylprednisolone",
+    "Nom commercial": [
+      "Solumedrol, Medrol"
+    ],
+    "Icon": [
+      "assets/images/AIS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire stéroïdien (AIS ou Corticoïde)"
+    ],
+    "Propriété":[
+      "Corticoïdes de synthèse différant des glucocorticoïdes physiologiques (cortisone et hydrocortisone) par des effets métaboliques et de rétention hydrosodée réduits, inhibant la synthèse des leucotriènes liés à l'inhibition de la lipo-oxygénase utilisés pour leur effet anti-inflammatoire, antiallergique, minéralo-corticoïde et immunosuppresseur"
+    ],
+    "Indications":[
+      "Les rejets de greffes", 
+      "Réactions allergiques sévères : œdème de Quincke, urticaire géante, états allergiques sévères, choc anaphylactique (en complément de l'adrénaline), maladie sérique",
+      "Réactions inflammatoires sévères : œdème laryngé, laryngite suffocante, épiglottite aiguë, œdème pulmonaire infectieux ou toxique, œdème cérébral, choc septique, syndrome malin des maladies infectieuses, méningite tuberculeuse avec blocage du LCR, péricardite, otite séreuse sévère",
+      "Affections pulmonaires : asthme grave, état de mal asthmatique, sarcoïdose évolutive, pneumopathie interstitielle diffuse, poussée aiguë d'insuffisance respiratoire",
+      "Maladies auto-immunes : anémie hémolytique auto-immune, purpura thrombopénrque auto-immun, lupus érythémateux disséminé, dermatopolymyosite, polymyosite, fasciite à éosinophiles, hépatite chronique auto-immune, polyarthrite rhumatoïde, myasthénie",
+      "Divers : Rhinite et sinusite, rhumatisme articulaire aigu, syndrome néphrotique, sclérose en plaques, certaines névrites optiques, colites ulcéreuses et maladie de Crohn, érythroblastopénie chronique, transplantation d'organe, chimiothérapies émétisantes, traitement d'appoint de certains cancers et hémopathies", 
+      "Usage local : infiltrations en rhumatologie, cicatrices chéloïdes"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles métaboliques : rétention hydrosodée (œdème et hypertension), hypokaliémie, effet orexigène et diabétogène, augmentation du catabolisme protéique (amyotrophie et faiblesse musculaire, ostéoporose, tassements vertébraux), ralentissement de croissance chez l'enfant, retard de cicatrisation, ruptures tendineuses",
+      "Troubles endocriniens : syndrome cushingoïde, irrégularités menstruelles, atrophie cortico-surrénale secondaire",
+      "Troubles digestifs : risque d'ulcère gastro-duodénal, perforation et hémorragie digestive parfois inaugurales",
+      "Troubles psychiques : euphorie, excitation, insomnie, état maniaque ou confusionnel",
+      "Risque infectieux accru parfois d'évolution torpide : tuberculose, viroses, mycoses, anguillulose, toxoplasmose, et risque d'infections bactériennes",
+      "Divers : acné (surtout dorsale), hypertrichose, atrophie cutanée, purpura, ecchymoses",
+      "Intoxication digitalique due à une fuite de potassium chez les patients sous digitaliques"
+    ],
+    "Contre-indications":[
+      "Aucune contre-indication absolue pour une corticotherapie d'indication vitale",
+      "Certaines viroses en évolution (herpès et zona oculaires, hépatites virales aiguës)",
+      "États infectieux (en particulier tuberculose) ou mycosiques non contrôlés",
+      "Ulcère gastro-duodénal en évolution",
+      "vaccins vivants atténués",
+      "Troubles psychiques sévères"
+    ],
+    "Posologie et durée":[
+      "Enfant : Traitement d'attaque (0,4 à 1,6 mg/kg/jour par voie orale ou 1 à 3 mg/kg/jour par IV ou IM). Traitement d'entretien (0,2 mg/kg par jour)",
+      "Adulte : Traitement d'attaque (0,3 à 1 mg/kg/jour par voie orale ou 20 à 60 mg/kg/jour par voie IV ou IM). Traitement d'entretien (4 à 12 mg/kg par jour)",
+      "Les posologies des traitements d'attaque varient selon les indications. La durée du traitement d'attaque est également variable, de quelques jours à 4 semaines",
+      "Les modalités du traitement d'entretien varient selon les indications, l'âge et le poids. Le traitement peut être maintenu de quelques mois à quelques années, voire indéfiniment",
+      "4 mg de méthylprednisolone a la même activité que 5 mg de prednisolone ou de prednisone et 20 mg d'hydrocortisone"
+    ],
+    "Précautions d'emploi":[
+      "En cas d'infection systémique, n'administrer que si le patient est sous traitement antimicrobien",
+      "Administrer avec prudence  en cas d'antécédents ulcéreux ou psychiatriques, HTA, diabète, ostéoporose, colite ulcéreuse (risque de perforation), sigmoïdite diverticulaire (risque d'abcès et de perforation à bas bruit), épilepsie, glaucome (surveiller la pression intra-oculaire surtout si > 65 ans)",
+      "Surveiller l'association avec AINS, anticoagulants, digitaliques, biguanides, hormone de croissance, inducteurs enzymatiques, insulines, interleukine-2, isoniazide, hypokaliémiants (amphoténcine B, diurétiques, laxatifs)",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée, traitement court (risque accru de diabète, HTA et prise de poids excessive chez la mère, et possibilité d' insuffisance surrénalienne néonatale chez l'enfant)",
+      "Allaitement : Déconseillé, traitement court (passage dans le lait maternelle)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Hydrocortisone",
+    "Nom commercial": [
+      "Hydrocortisone"
+    ],
+    "Icon": [
+      "assets/images/AIS.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Anti-inflammatoire stéroïdien (AIS ou Corticoïde)"
+    ],
+    "Propriété":[
+      "Glucocorticoïdes physiologiques utilisés pour leur effet anti-inflammatoire, antiallergique, minéralo-corticoïde faible et immunosuppresseur"
+    ],
+    "Indications":[
+      "Insuffisance surrénale chronique, maladie d'Addison, surrénalectomie bilatérale, insuffisance antihypophysaire",
+      "Insuffisance surrénale aiguë (hydrocortisone par voie IV + réhydratation par voie IV)",
+      "Prévention de l'insuffisance surrénale aiguë",
+      "Réactions allergiques et inflammatoires sévëres (hydrocortisone IV à forte dose)",
+      "Hyperplasie congénitale des surrénales avec ou sans syndrome de perte de sel (syndrome de Debré-Fibiger)", 
+      "Dermocorticoïdes d'activité très forte : Eczéma de contact, dermatite atopique, psoriasis, lupus érythémateux cutané, chéloïdes, piqûres d'insecte, dermatite séborrhéique, psoriasis modéré du cuir chevelu (shampoing)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles métaboliques : rétention hydrosodée (œdème et hypertension), hypokaliémie, effet orexigène et diabétogène, augmentation du catabolisme protéique (amyotrophie et faiblesse musculaire, ostéoporose, tassements vertébraux), ralentissement de croissance chez l'enfant, retard de cicatrisation, ruptures tendineuses",
+      "Troubles endocriniens : syndrome cushingoïde, irrégularités menstruelles, atrophie cortico-surrénale secondaire",
+      "Troubles digestifs : risque d'ulcère gastro-duodénal, perforation et hémorragie digestive parfois inaugurales",
+      "Troubles psychiques : euphorie, excitation, insomnie, état maniaque ou confusionnel",
+      "Risque infectieux accru parfois d'évolution torpide : tuberculose, viroses, mycoses, anguillulose, toxoplasmose, et risque d'infections bactériennes",
+      "Divers : acné (surtout dorsale), hypertrichose, atrophie cutanée, purpura, ecchymoses",
+      "Intoxication digitalique due à une fuite de potassium chez les patients sous digitaliques"
+    ],
+    "Contre-indications":[
+      "Aucune contre-indication absolue pour une corticotherapie d'indication vitale",
+      "Certaines viroses en évolution (herpès et zona oculaires, hépatites virales aiguës)",
+      "États infectieux (en particulier tuberculose) ou mycosiques non contrôlés",
+      "Ulcère gastro-duodénal en évolution",
+      "vaccins vivants atténués",
+      "Troubles psychiques sévères"
+    ],
+    "Posologie et durée":[
+      "Enfant : Voie orale (12 à 20 mg 2 ou 3 fois par jour). Voie IV Lente (4 mg/kg par jour (max. 100 mg))",
+      "Adulte : Voie orale (20 à 40 mg 2 ou 3 fois par jour). Voie IV Lente (50 à 200 mg par jour)",
+      "Activité dermocorticoïde : une application 1 ou 2 fois par jour, en couche mince, uniquement sur les lésions, pendant 7 jours maximum", 
+      "Les posologies et la durée varient selon les indications",
+      "20 mg d'hydrocortisone a la même activité que 5 mg de prednisolone ou de prednisone"
+    ],
+    "Précautions d'emploi":[
+      "En cas d'infection systémique, n'administrer que si le patient est sous traitement antimicrobien",
+      "Administrer avec prudence  en cas d'antécédents ulcéreux ou psychiatriques, HTA, diabète, ostéoporose, colite ulcéreuse (risque de perforation), sigmoïdite diverticulaire (risque d'abcès et de perforation à bas bruit), épilepsie, glaucome (surveiller la pression intra-oculaire surtout si > 65 ans)",
+      "Surveiller l'association avec AINS, anticoagulants, digitaliques, biguanides, hormone de croissance, inducteurs enzymatiques, insulines, interleukine-2, isoniazide, hypokaliémiants (amphoténcine B, diurétiques, laxatifs)",
+      "Respecter l'intervalle de 2 heures ou plus entre les prises et les topiques gastro-intestinaux"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée, traitement court (risque accru de diabète, HTA et prise de poids excessive chez la mère, et possibilité d' insuffisance surrénalienne néonatale chez l'enfant)",
+      "Allaitement : Déconseillé, traitement court (passage dans le lait maternelle)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Benzylpénicilline (Pénicilline G)",
+    "Nom commercial": [
+      "Benzylpénicilline Injectable, Dicacilline"
+    ],
+    "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ], 
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines",
+      "Pénicilline G bactéricide inhibant la synthèse du peptidoglycane de la paroi bactérienne, après fixation sur des enzymes de la membrane cytoplasmique bactérienne (PLP ou protéines liant les pénicillines)",
+      "Inactivité per os (instabilité en milieu acide) imposant l'administration parentérale, diffusion tissulaire correcte (sauf dans le SNC, l'œil, la prostate, le tissu osseux) avec passage dans le LCR faible et seulement en cas d'inflammation méningée"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action : streptocoques et pneumocoques, Neisseria (gonocoques, méningocoques), bacilles Gram positif (Bacillus anthracis, Corynebacterium diphteriae, Erysipelothrix, Listeria), spirochètes (Borrelia, Leptospira, Treponema), anaérobies stricts (Actinomyces, Clostridum, Fusobacterium, Peptococcus, Peptostreptococcus) sauf Bacteroides fragilis",
+      "Résistance acquise de nombreuses souches de staphylocoques (85-95 %), résistance croissante des gonocoques (20 %) et pneumocoques (30%)",
+      "Résistance naturelle des Staphylococcus et des bacilles Gram négatif, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium, Nocardia"
+    ],  
+    "Indications":[
+      "Syphilis congénitale, Neurosyphilis",
+      "Infections à streptocoques, pneumocoques, méningocoques, tréponèmes",
+      "Infections à Clostridium perfringens, prévention de la gangrène gazeuse, Charbon, érysipèloïde",
+      "Infections à germes sensibles dans leurs localisations broncho-pulmonaires, ORL, stomatologiques, rénales, uro-génitales, cutanées, des tissus mous, endocardiques et septicémiques (en association à un aminoside dans les infections sévères)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs",
+      "Réactions allergiques parfois sévères"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines"
+    ],
+    "Posologie et durée":[
+      "Enfant : 50.000 à 100.000 UI/kg/jour (max. 250.000 UI/Kg/jour)",
+      "Adulte : 50.000 à 100.000 UI/Kg/jour (max. 50 M UI/jour)",
+      "Les posologies et la durée varient selon les indications",
+      "Neurosyphilis (Adulte) : 2 à 4 MUI (1200 à 2400 mg) en IV",
+      "Syphilis congénitale : 50 000 UI (30 mg)/kg en IV toutes les 12 heures de J1 à J7 puis 50 000 UI (30 mg)/kg en IV toutes les 8 heures de J8 à J10"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale",
+      "Ne pas confondre la benzylpénicilline d'action rapide, administrée plusieurs fois par jour en IV, avec les pénicillines d'action prolongée (benzathine benzylpénicilline et benzylpénicilline procaïne) administrées uniquement en IM",
+      "Ne pas mélanger avec d'autres médicaments dans la même seringue ou perfusion"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée, si nécessaire (passage transplacentaire)",
+      "Allaitement : Autorisé, si nécessaire (passage dans le lait maternelle)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Oracilline (Phénoxyméthylpénicilline ou Pénicilline V)",
+    "Nom commercial": [
+      "Oracilline"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines",
+      "Pénicilline V bactéricide inhibant la synthèse du peptidoglycane de la paroi bactérienne, après fixation sur des enzymes de la membrane cytoplasmique bactérienne (PLP ou protéines liant les pénicillines)",
+      "Analogue de la pénicilline G utilisable par voie orale en raison de sa stabilité en milieu acide et de son absorption digestive correcte (40 à 60 %)"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action : streptocoques et pneumocoques, Neisseria (gonocoques, méningocoques), bacilles Gram positif (Bacillus anthracis, Corynebacterium diphteriae, Erysipelothrix, Listeria), spirochètes (Borrelia, Leptospira, Treponema), anaérobies stricts (Actinomyces, Clostridum, Fusobacterium, Peptococcus, Peptostreptococcus) sauf Bacteroides fragilis",
+      "Résistance acquise de nombreuses souches de staphylocoques (85-95 %), résistance croissante des gonocoques (20 %) et pneumocoques (30%)",
+      "Résistance naturelle des Staphylococcus et des bacilles Gram négatif, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium, Nocardia"
+    ],  
+    "Indications":[
+      "Infections d'intensité moyenne à germes pénicillino-sensibles dans leurs localisations cutanées, respiratoires, ORL, stomatologiques, notamment les infections dues à des streptocoques (angines, impétigo streptococcique, érysipèle, scarlatine, ... )",
+      "Alternative au traitement antibiotique de première intention de la diphtérie",
+      "Relais de la pénicilline injectable",
+      "Prophylaxie des rechutes de rhumatisme articulaire aigu",
+      "Prophylaxie de l'érysipèle récidivant, scarlatine, infections à pneumocoques chez les sujets splénectomisés, drépanocytaires ou aspléniques (associé au vaccin antipneumococcique)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Diarrhée, nausées",
+      "Réactions allergiques parfois sévères"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines"
+    ],
+    "Posologie et durée":[
+      "Enfant : Traitement prophylactique et curatif (50.000 UI/kg en prise 2 par jour (max. 2 M UI/Kg/jour)).",
+      "Adulte : Traitement prophylactique (2 M UI en 2 prise par jour)",
+      "Adulte : Traitement curatif (2 à 4 M UI en 2 prise par jour)", 
+      "La durée varie selon les indications : Angine streptoccocique, scarlatine et érysipèle (10 jours), Diphtérie (14 jours)"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale",
+      "Prendre en dehors des repas"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée, si nécessaire (passage transplacentaire)",
+      "Allaitement : Autorisé, si nécessaire (passage dans le lait maternelle)"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Oxacilline",
+    "Nom commercial": [
+      "Bristopen"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline M)",
+      "Antistaphylococcique inhibant la synthèse du peptidoglycane de la paroi bactérienne, après fixation sur des enzymes de la membrane cytoplasmique bactérienne (PLP ou protéines liant les pénicillines)"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action étroit : staphylocoques (sauf les souches méti-R résistantes à toutes les bêta-lactamines), et streptocoques (excepté les entérocoques), pneumocoques, gonocoques, méningocoques, Clostridium perfringens",
+      "Staphylocoques méti-R ou résistants hétérogènes seulement 1 % des souches en ambulatoire, mais 12 à 30 % dans certains services hospitaliers (ces souches sont résistantes à toutes les bêta-lactamines, mais aussi actuellement dans la plupart des cas aux macrolides, lincosanides, aminosides, et parfois aux fluoroquinolones)",
+      "Résistance naturelle des bacilles Gram négatif, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium", 
+      "Association synergique avec fosfomycine (même sur les souches méti-R), aminosides"
+    ],  
+    "Indications":[
+      "Première intention des infections à staphylocoques sensibles à ce groupe de pénicillines",
+      "Infections sévères à streptocoques et/ou staphylocoques : méningite, pneumonie, omphalite, septicémie d’origine cutanée, endocardite, ostéomyélite, infections nécrosantes de la peau et des tissus mous... )", 
+      "Érysipèle, cellulite", 
+      "Prophylaxie des infections post-opératoires"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissements",
+      "Réactions allergiques parfois sévères",
+      "Rarement troubles hématologiques : neutropénie, anémie, thrombopénie latente en règle générale"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines"
+    ],
+    "Posologie et durée":[
+      "Infections sévères Nouveau-né : (0 à 7 jours (< 2 kg) : 50 mg/kg toutes 12 heures). (0 à 7 jours (≥ 2 kg) : 50 mg/kg toutes 8 heures). (8 jours à < 1 mois (< 2 kg) : 50 mg/kg toutes 8 heures). (8 jours à < 1 mois (≥ 2 kg) : 50 mg/kg toutes 6 heures",
+      "Infections sévères Enfant de 1 mois et plus : 25 à 50 mg/kg (max. 2 g) toutes 6 heures",
+      "Infections sévères Adulte : 2 g toutes 6 heures",
+      "La durée varie selon les indications et la sévèrité",
+      "Enfant : 15 à 50 mg/kg 3 fois par jour (max. 3 g par jour) pour la forme orale", 
+      "Adulte : 1 g 3 fois par jour (max. 4 g par jour) pour la forme orale"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale",
+      "Incompatibilités physico-chimiques nombreuses : ne pas mélanger avec d'autres produits dans les flacons de perfusion (en particulier avec des solutés de lipides, d'acides aminés et d'autres antibiotiques)",
+      "Ne pas administrer par voie IM"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Flucloxacilline",
+    "Nom commercial": [
+      "Astaph, Flucanol Injectable"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline M)",
+      "Antistaphylococcique inhibant la synthèse du peptidoglycane de la paroi bactérienne, après fixation sur des enzymes de la membrane cytoplasmique bactérienne (PLP ou protéines liant les pénicillines)"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action étroit : staphylocoques (sauf les souches méti-R résistantes à toutes les bêta-lactamines), et streptocoques (excepté les entérocoques), pneumocoques, gonocoques, méningocoques, Clostridium perfringens",
+      "Staphylocoques méti-R ou résistants hétérogènes seulement 1 % des souches en ambulatoire, mais 12 à 30 % dans certains services hospitaliers (ces souches sont résistantes à toutes les bêta-lactamines, mais aussi actuellement dans la plupart des cas aux macrolides, lincosanides, aminosides, et parfois aux fluoroquinolones)",
+      "Résistance naturelle des bacilles Gram négatif, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium", 
+      "Association synergique avec fosfomycine (même sur les souches méti-R), aminosides"
+    ],  
+    "Indications":[
+      "Première intention des infections à staphylocoques sensibles à ce groupe de pénicillines",
+      "Infections sévères à streptocoques et/ou staphylocoques : méningite, pneumonie, omphalite, septicémie d’origine cutanée, endocardite, ostéomyélite, infections nécrosantes de la peau et des tissus mous... )", 
+      "Érysipèle, cellulite", 
+      "Prophylaxie des infections post-opératoires"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissements",
+      "Réactions allergiques parfois sévères",
+      "Rarement troubles hématologiques : neutropénie, anémie, thrombopénie latente en règle générale"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines"
+    ],
+    "Posologie et durée":[
+      "Infections sévères Nouveau-né : (0 à 7 jours (< 2 kg) : 50 mg/kg toutes 12 heures). (0 à 7 jours (≥ 2 kg) : 50 mg/kg toutes 8 heures). (8 jours à < 1 mois (< 2 kg) : 50 mg/kg toutes 8 heures). (8 jours à < 1 mois (≥ 2 kg) : 50 mg/kg toutes 6 heures",
+      "Infections sévères Enfant de 1 mois et plus : 25 à 50 mg/kg (max. 2 g) toutes 6 heures",
+      "Infections sévères Adulte : 2 g toutes 6 heures",
+      "La durée varie selon les indications et la sévèrité",
+      "Enfant : 15 à 50 mg/kg 3 fois par jour (max. 3 g par jour) pour la forme orale", 
+      "Adulte : 1 g 3 fois par jour (max. 4 g par jour) pour la forme orale"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale",
+      "Incompatibilités physico-chimiques nombreuses : ne pas mélanger avec d'autres produits dans les flacons de perfusion (en particulier avec des solutés de lipides, d'acides aminés et d'autres antibiotiques)",
+      "Ne pas administrer par voie IM"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Cloxacilline",
+    "Nom commercial": [
+      "Cloxacillin Injectable, Cloxacilline"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline M)",
+      "Antistaphylococcique inhibant la synthèse du peptidoglycane de la paroi bactérienne, après fixation sur des enzymes de la membrane cytoplasmique bactérienne (PLP ou protéines liant les pénicillines)"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action étroit : staphylocoques (sauf les souches méti-R résistantes à toutes les bêta-lactamines), et streptocoques (excepté les entérocoques), pneumocoques, gonocoques, méningocoques, Clostridium perfringens",
+      "Staphylocoques méti-R ou résistants hétérogènes seulement 1 % des souches en ambulatoire, mais 12 à 30 % dans certains services hospitaliers (ces souches sont résistantes à toutes les bêta-lactamines, mais aussi actuellement dans la plupart des cas aux macrolides, lincosanides, aminosides, et parfois aux fluoroquinolones)",
+      "Résistance naturelle des bacilles Gram négatif, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium", 
+      "Association synergique avec fosfomycine (même sur les souches méti-R), aminosides"
+    ],  
+    "Indications":[
+      "Première intention des infections à staphylocoques sensibles à ce groupe de pénicillines",
+      "Infections sévères à streptocoques et/ou staphylocoques : méningite, pneumonie, omphalite, septicémie d’origine cutanée, endocardite, ostéomyélite, infections nécrosantes de la peau et des tissus mous... )", 
+      "Érysipèle, cellulite", 
+      "Prophylaxie des infections post-opératoires"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissements",
+      "Réactions allergiques parfois sévères",
+      "Rarement troubles hématologiques : neutropénie, anémie, thrombopénie latente en règle générale"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines"
+    ],
+    "Posologie et durée":[
+      "Infections sévères Nouveau-né : (0 à 7 jours (< 2 kg) : 50 mg/kg toutes 12 heures). (0 à 7 jours (≥ 2 kg) : 50 mg/kg toutes 8 heures). (8 jours à < 1 mois (< 2 kg) : 50 mg/kg toutes 8 heures). (8 jours à < 1 mois (≥ 2 kg) : 50 mg/kg toutes 6 heures",
+      "Infections sévères Enfant de 1 mois et plus : 25 à 50 mg/kg (max. 2 g) toutes 6 heures",
+      "Infections sévères Adulte : 2 g toutes 6 heures",
+      "La durée varie selon les indications et la sévèrité",
+      "Enfant : 15 à 50 mg/kg 3 fois par jour (max. 3 g par jour) pour la forme orale", 
+      "Adulte : 1 g 3 fois par jour (max. 4 g par jour) pour la forme orale"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale",
+      "Incompatibilités physico-chimiques nombreuses : ne pas mélanger avec d'autres produits dans les flacons de perfusion (en particulier avec des solutés de lipides, d'acides aminés et d'autres antibiotiques)",
+      "Ne pas administrer par voie IM"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Dicloxacilline",
+    "Nom commercial": [
+      "Dicloxacilline"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline M)",
+      "Antistaphylococcique inhibant la synthèse du peptidoglycane de la paroi bactérienne, après fixation sur des enzymes de la membrane cytoplasmique bactérienne (PLP ou protéines liant les pénicillines)"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action étroit : staphylocoques (sauf les souches méti-R résistantes à toutes les bêta-lactamines), et streptocoques (excepté les entérocoques), pneumocoques, gonocoques, méningocoques, Clostridium perfringens",
+      "Staphylocoques méti-R ou résistants hétérogènes seulement 1 % des souches en ambulatoire, mais 12 à 30 % dans certains services hospitaliers (ces souches sont résistantes à toutes les bêta-lactamines, mais aussi actuellement dans la plupart des cas aux macrolides, lincosanides, aminosides, et parfois aux fluoroquinolones)",
+      "Résistance naturelle des bacilles Gram négatif, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium", 
+      "Association synergique avec fosfomycine (même sur les souches méti-R), aminosides"
+    ],
+    "Indications":[
+      "Première intention des infections à staphylocoques sensibles à ce groupe de pénicillines",
+      "Infections sévères à streptocoques et/ou staphylocoques : méningite, pneumonie, omphalite, septicémie d’origine cutanée, endocardite, ostéomyélite, infections nécrosantes de la peau et des tissus mous... )", 
+      "Érysipèle, cellulite", 
+      "Prophylaxie des infections post-opératoires"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissements",
+      "Réactions allergiques parfois sévères",
+      "Rarement troubles hématologiques : neutropénie, anémie, thrombopénie latente en règle générale"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines"
+    ],
+    "Posologie et durée":[
+      "Infections sévères Nouveau-né : (0 à 7 jours (< 2 kg) : 50 mg/kg toutes 12 heures). (0 à 7 jours (≥ 2 kg) : 50 mg/kg toutes 8 heures). (8 jours à < 1 mois (< 2 kg) : 50 mg/kg toutes 8 heures). (8 jours à < 1 mois (≥ 2 kg) : 50 mg/kg toutes 6 heures",
+      "Infections sévères Enfant de 1 mois et plus : 25 à 50 mg/kg (max. 2 g) toutes 6 heures",
+      "Infections sévères Adulte : 2 g toutes 6 heures",
+      "La durée varie selon les indications et la sévèrité",
+      "Enfant : 15 à 50 mg/kg 3 fois par jour (max. 3 g par jour) pour la forme orale", 
+      "Adulte : 1 g 3 fois par jour (max. 4 g par jour) pour la forme orale"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale",
+      "Incompatibilités physico-chimiques nombreuses : ne pas mélanger avec d'autres produits dans les flacons de perfusion (en particulier avec des solutés de lipides, d'acides aminés et d'autres antibiotiques)",
+      "Ne pas administrer par voie IM"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Amoxicilline",
+    "Nom commercial": [
+      "Amoxi-DENK, Alfamox"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ], 
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline A ou Aminopénicilline)",
+      "Aminopénicilline inhibant la synthèse du peptidoglycane de la paroi bactérienne ayant un spectre d'action élargi actif sur les entérocoques, streptocoques, pneumocoque, neisseria (gonocoques, méningocoques), entérobactéries et à certains bacilles Gram négatif"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action large : Spectre d'action de la pénicilline G mais élargi aux entérocoques et à certains bacilles Gram négatif : Escherichia coli, Proteus mirabilis, Salmonella, Shigella, Brucella, Haemophilus influenzae, Vibrio cholerae",
+      "Résistances acquises croissantes de Escherichia coli (30 %), Haemophilus influenzae (25 %), Proteus mirabilis (10 à 15 %), Salmonella (≥ 10 %), gonocoques (≥ 15 %), staphylocoques (90 % dûe au production de bêtalactamases)",
+      "Résistance naturelle de certaines entérobactéries (Klebsiella, Enterobacter, Serratia, Proteus indologenes, Providencia, Yersinia), Pseudomonas, Acinetobacter, Bacteroides, Clostridium difficile, Legionella, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium, Nocardia...",
+      "Association synergique avec l'acide clavulanique et les aminosides"
+    ],
+    "Indications":[
+      "Infections à germes sensibles dans leurs localisations ORL, broncho-pulmonaires, rénales, uro-génitales, biliaires, digestives, méningées, endocardiques, septicémiques",
+      "Otite moyenne, angine streptococcique, sinusite, bronchite, pneumonie aiguës, leptospirose, charbon cutané non compliqué",
+      "Infection à Helicobacter pylori (en association avec IPP et la clarithromycine)",
+      "Fièvre typhoïde non compliquée, si la souche est sensible (antibiogramme récent)",
+      "Maladie de Lyme, listériose, abcès dentaires avec cellulite",
+      "Prophylaxie de l'endocardite"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissement, colites pseudomembraneuses, candidoses digestives",
+      "Réactions allergiques parfois sévères",
+      "Toxicité neurologique (à fortes doses, favorisée par une insuffisance rénale) : convulsions, encéphalopathie", 
+      "Rares : augmentation modérée et transitoire des transaminases, neutropénie, anémie hémolytique, allongement du TS, thrombopénie, néphrite interstitielle aiguë"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines",
+      "Mononucléose infectieuse (risque accru d'éruptions cutanées)"
+    ],
+    "Posologie et durée":[
+      "Posologie usuelle (p. ex. leptospirose, angine, infection à H. pylori) :  |  Enfant : 25 mg/kg (max. 1 g) 2 fois par jour  |  Adulte : 1 g 2 fois par jour",
+      "Posologie élevée (p. ex. fièvre typhoïde, infections à pneumocoques résistants, charbon cutané)  |  Enfant : 30 mg/kg (max. 1 g) 3 fois par jour  |  Adulte : 1 g 3 fois par jour",
+      "La durée varie selon les indications : Angine (6 jours), Otite moyenne (5 jours), Leptospirose, H. pylori (14 jours), Pneumonie, sinusite (7 à 10 jours), Charbon cutané (7 à 14 jours selon la sévérité) etc... "
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale",
+      "Éviter les traitements de plus de 14 jours (troubles hépatiques)"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Ampicilline",
+    "Nom commercial": [
+      "Gynopen, Solpox, Ampicilline Injectable"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline A ou Aminopénicilline)",
+      "Aminopénicilline inhibant la synthèse du peptidoglycane de la paroi bactérienne ayant un spectre d'action élargi actif sur les entérocoques, streptocoques, pneumocoque, neisseria (gonocoques, méningocoques), entérobactéries et à certains bacilles Gram négatif"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action large : Spectre d'action de la pénicilline G mais élargi aux entérocoques et à certains bacilles Gram négatif : Escherichia coli, Proteus mirabilis, Salmonella, Shigella, Brucella, Haemophilus influenzae, Vibrio cholerae",
+      "Résistances acquises croissantes de Escherichia coli (30 %), Haemophilus influenzae (25 %), Proteus mirabilis (10 à 15 %), Salmonella (≥ 10 %), gonocoques (≥ 15 %), staphylocoques (90 % dûe au production de bêtalactamases)",
+      "Résistance naturelle de certaines entérobactéries (Klebsiella, Enterobacter, Serratia, Proteus indologenes, Providencia, Yersinia), Pseudomonas, Acinetobacter, Bacteroides, Clostridium difficile, Legionella, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium, Nocardia...",
+      "Association synergique avec l'acide clavulanique et les aminosides"
+    ],  
+    "Indications":[
+      "Infections à germes sensibles dans leurs localisations ORL, broncho-pulmonaires, rénales, uro-génitales, biliaires, digestives, méningées, endocardiques, septicémiques",
+      "Otite moyenne, angine streptococcique, sinusite, bronchite, pneumonie aiguës, leptospirose, charbon cutané non compliqué",
+      "Fièvre typhoïde non compliquée, si la souche est sensible (antibiogramme récent)",
+      "Maladie de Lyme, listériose, abcès dentaires avec cellulite"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissement, colites pseudomembraneuses, candidoses digestives",
+      "Réactions allergiques parfois sévères",
+      "Toxicité neurologique (à fortes doses, favorisée par une insuffisance rénale) : convulsions, encéphalopathie", 
+      "Rares : neutropénie, anémie hémolytique, allongement du TS, thrombopénie, néphrite interstitielle aiguë"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines",
+      "Mononucléose infectieuse (risque accru d'éruptions cutanées)"
+    ],
+    "Posologie et durée":[
+      "Posologie usuelle (p. ex. leptospirose, angine) :   |   Enfant : 25 mg/kg (max. 1 g) 2 fois par jourcAdulte : 1 g 2 fois par jour",
+      "Posologie élevée (p. ex. fièvre typhoïde, infections à pneumocoques résistants, charbon cutané)  |  Enfant : 30 mg/kg (max. 1 g) 3 fois par jour  |  Adulte : 1 g 3 fois par jour",
+      "La durée varie selon les indications : Angine (6 jours), Otite moyenne (5 jours), Leptospirose (14 jours), Pneumonie, sinusite (7 à 10 jours), Charbon cutané (7 à 14 jours selon la sévérité) etc... "
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale",
+      "Ne pas mélanger avec un autre médicament dans la même seringue ou perfusion"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Autorisée",
+      "Allaitement : Autorisé"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Amoxicilline + Acide clavulanique",
+    "Nom commercial": [
+      "Curam, Aclav, Clavicin"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline A ou Aminopénicilline) + Inhibiteur des beta-lactamases",
+      "Association d'amoxicilline et d'acide clavulanique (inhibiteur des bêta-lactamases qui permet de restituer l'activité bactéricide des pénicillines sur des souches bactériennes résistantes par production de pénicillinases, notamment : Haemophilus influenzae, Branhamella catarrhalis . Escherichia coli, Proteus mirabilis, Proteus vulgaris, Klebsiella, Bacteroides fragilis, staphylocoques hormis les souches Méti-R, gonocoques) qui élargit son spectre d’activité pour couvrir les germes Gram positif et négatif producteurs de bêta-lactamases et les anaérobies"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action très large : cocci Gram positif (sauf staphylocoques Méti-R). cocci Gram négatif, bacilles Gram positif, bacilles Gram négatif (Haemophilus, Escherichia coli, Proteus mirabilis, Proteus vulgaris, Klebsiella, Salmonella, Shigella, Vibrio cholerae, Yersinia enterocolitica, Brucella, Pasteurella, Campylobacter fetus , spirochètes), anaérobies Gram positif (Clostridium , Peptostreptococcus, Peptococcus) et anaérobies Gram négatif (Bacteroides, Fusobacterium)",
+      "Résistance des staphylocoques Méti-R, Acinetobacter, Citrobacter, Enterobacter, Proteus rettgeri, Proteusmorganii, Providencia, Pseudomonas, Serratia, Legionella, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium"
+    ],  
+    "Indications":[
+      "Infections à germes sensibles dans leurs localisations ORL, broncho-pulmonaires, rénales, uro-génitales, biliaires, digestives, ostéo-articulaires, digestives, cutanées et des tissus mous, endocardiques (sauf les méningites), septicémiques",
+      "Infections ORL sévères (mastoïdite, épiglottite, sinusite, amygdalite) et bronchopathies chroniques (fréquence des H. influenzae ampi-R et de Branhamella catarrhalis)",
+      "Infections nécrosantes de la peau et des tissus mous (fasciite nécrosante, gangrène gazeuse, etc.)",
+      "Infection génitale haute sévère",
+      "Prophylaxie des infections post-opératoires (chirurgie digestive, biliaire, pelvienne, cervicale)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissement, colites pseudomembraneuses, candidoses digestives",
+      "Réactions allergiques parfois sévères",
+      "Rares : augmentation modérée et transitoire des transaminases, neutropénie, anémie hémolytique, allongement du TS, thrombopénie, néphrite interstitielle aiguë"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines et acide clavulanique",
+      "Mononucléose infectieuse (risque accru d'éruptions cutanées)"
+    ],
+    "Posologie et durée":[
+      "La dose est exprimée en amoxicilline",
+      "Posologie usuelle (p. ex. Érysipèle, cellulite...) :  |  Enfant : 25 à 30 mg/kg (max. 3 g) 2 fois par jour  |  Adulte : 1 g 2 ou 3 fois par jour",
+      "Posologie élevée (p. ex. Infections nécrosantes, Infection génitale haut...)  |  Enfant : 30 à 50 mg/kg (max. 3 g) 3 ou 4 fois par jour  |  Adulte : 1 g 3 ou 4 fois par jour",
+      "La durée varie selon les indications et l’évolution clinique : Angine (6 jours), Otite moyenne (5 jours), Infections nécrosantes (14 jours), Pneumonie, sinusite (7 à 10 jours),Infection génitale haute (selon la sévérité et l'évolution clinique) etc..."
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate), allopurinol et tisopurine (éruptions cutanées)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale et hépatique",
+      "Éviter les traitements prolongées de plus de 14 jours (ictère et hépatite cholestatique)"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Non tératogène mais innocuité non établie",
+      "Allaitement : Non tératogène mais innocuité non établie"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Amoxicilline + Sulbactam",
+    "Nom commercial": [
+      "Trifamox"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline A ou Aminopénicilline) + Inhibiteur des beta-lactamases",
+      "Association d'amoxicilline et sulbactam (inhibiteur des bêta-lactamases qui permet de restituer l'activité bactéricide des pénicillines sur des souches bactériennes résistantes par production de pénicillinases, notamment : Haemophilus influenzae, Branhamella catarrhalis . Escherichia coli, Proteus mirabilis, Proteus vulgaris, Klebsiella, Bacteroides fragilis, staphylocoques hormis les souches Méti-R, gonocoques) qui élargit son spectre d’activité pour couvrir les germes Gram positif et négatif producteurs de bêta-lactamases et les anaérobies"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action très large : cocci Gram positif (sauf staphylocoques Méti-R). cocci Gram négatif, bacilles Gram positif, bacilles Gram négatif (Haemophilus, Escherichia coli, Proteus mirabilis, Proteus vulgaris, Klebsiella, Salmonella, Shigella, Vibrio cholerae, Yersinia enterocolitica, Brucella, Pasteurella, Campylobacter fetus , spirochètes), anaérobies Gram positif (Clostridium , Peptostreptococcus, Peptococcus) et anaérobies Gram négatif (Bacteroides, Fusobacterium)",
+      "Résistance des staphylocoques Méti-R, Acinetobacter, Citrobacter, Enterobacter, Proteus rettgeri, Proteusmorganii, Providencia, Pseudomonas, Serratia, Legionella, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium"
+    ],  
+    "Indications":[
+      "Infections à germes sensibles dans leurs localisations ORL, broncho-pulmonaires, rénales, uro-génitales, biliaires, digestives, ostéo-articulaires, digestives, cutanées et des tissus mous, endocardiques (sauf les méningites), septicémiques",
+      "Infections ORL sévères (mastoïdite, épiglottite, sinusite, amygdalite) et bronchopathies chroniques (fréquence des H. influenzae ampi-R et de Branhamella catarrhalis)",
+      "Infections nécrosantes de la peau et des tissus mous (fasciite nécrosante, gangrène gazeuse, etc.)",
+      "Infection génitale haute sévère",
+      "Prophylaxie des infections post-opératoires (chirurgie digestive, biliaire, pelvienne, cervicale)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissement, colites pseudomembraneuses, candidoses digestives",
+      "Réactions allergiques parfois sévères",
+      "Rares : augmentation modérée et transitoire des transaminases, neutropénie, anémie hémolytique, allongement du TS, thrombopénie, néphrite interstitielle aiguë"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines et sulbactam",
+      "Mononucléose infectieuse (risque accru d'éruptions cutanées)"
+    ],
+    "Posologie et durée":[
+      "La dose est exprimée en amoxicilline",
+      "Posologie usuelle (p. ex. Érysipèle, cellulite...) :  |  Enfant : 25 à 30 mg/kg (max. 3 g) 2 fois par jour  |  Adulte : 1 g 2 ou 3 fois par jour",
+      "Posologie élevée (p. ex. Infections nécrosantes, Infection génitale haut...)  |  Enfant : 30 à 50 mg/kg (max. 3 g) 3 ou 4 fois par jour  |  Adulte : 1 g 3 ou 4 fois par jour",
+      "La durée varie selon les indications et l’évolution clinique : Angine (6 jours), Otite moyenne (5 jours), Infections nécrosantes (14 jours), Pneumonie, sinusite (7 à 10 jours),Infection génitale haute (selon la sévérité et l'évolution clinique) etc..."
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate), allopurinol et tisopurine (éruptions cutanées)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale et hépatique",
+      "Éviter les traitements prolongées de plus de 14 jours (ictère et hépatite cholestatique)"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Non tératogène mais innocuité non établie",
+      "Allaitement : Non tératogène mais innocuité non établie"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Ampicilline + Sulbactam",
+    "Nom commercial": [
+      "Unacim"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des pénicillines (Pénicilline A ou Aminopénicilline) + Inhibiteur des beta-lactamases",
+      "Association d'ampicilline et de sulbactam (inhibiteur des bêta-lactamases qui permet de restituer l'activité bactéricide des pénicillines sur des souches bactériennes résistantes par production de pénicillinases, notamment : Haemophilus influenzae, Branhamella catarrhalis . Escherichia coli, Proteus mirabilis, Proteus vulgaris, Klebsiella, Bacteroides fragilis, staphylocoques hormis les souches Méti-R, gonocoques) qui élargit son spectre d’activité pour couvrir les germes Gram positif et négatif producteurs de bêta-lactamases et les anaérobies"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action très large : cocci Gram positif (sauf staphylocoques Méti-R). cocci Gram négatif, bacilles Gram positif, bacilles Gram négatif (Haemophilus, Escherichia coli, Proteus mirabilis, Proteus vulgaris, Klebsiella, Salmonella, Shigella, Vibrio cholerae, Yersinia enterocolitica, Brucella, Pasteurella, Campylobacter fetus , spirochètes), anaérobies Gram positif (Clostridium , Peptostreptococcus, Peptococcus) et anaérobies Gram négatif (Bacteroides, Fusobacterium)",
+      "Résistance des staphylocoques Méti-R, Acinetobacter, Citrobacter, Enterobacter, Proteus rettgeri, Proteusmorganii, Providencia, Pseudomonas, Serratia, Legionella, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium"
+    ],  
+    "Indications":[
+      "Infections à germes sensibles dans leurs localisations ORL, broncho-pulmonaires, rénales, uro-génitales, biliaires, digestives, ostéo-articulaires, digestives, cutanées et des tissus mous, endocardiques (sauf les méningites), septicémiques",
+      "Infections ORL sévères (mastoïdite, épiglottite, sinusite, amygdalite) et bronchopathies chroniques (fréquence des H. influenzae ampi-R et de Branhamella catarrhalis)",
+      "Infections nécrosantes de la peau et des tissus mous (fasciite nécrosante, gangrène gazeuse, etc.)",
+      "Infection génitale haute sévère",
+      "Prophylaxie des infections post-opératoires (chirurgie digestive, biliaire, pelvienne, cervicale)"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Troubles digestifs : diarrhée en particulier, nausées, vomissement, colites pseudomembraneuses, candidoses digestives",
+      "Réactions allergiques parfois sévères",
+      "Rares : augmentation modérée et transitoire des transaminases, neutropénie, anémie hémolytique, allongement du TS, thrombopénie, néphrite interstitielle aiguë"
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines et sulbactam",
+      "Mononucléose infectieuse (risque accru d'éruptions cutanées)", 
+      "Allergie à la lidocaïne pour la forme IM"
+    ],
+    "Posologie et durée":[
+      "La dose est exprimée en amoxicilline",
+      "Posologie usuelle (p. ex. Érysipèle, Sinusite...) :  |  Enfant : 25 à 30 mg/kg (max. 3 g) 2 fois par jour  |  Adulte : 1 g 2 ou 3 fois par jour",
+      "Posologie élevée (p. ex. Infections nécrosantes, Infection génitale haut...)  |  Enfant : 30 à 50 mg/kg (max. 3 g) 3 ou 4 fois par jour  |  Adulte : 1 g 3 ou 4 fois par jour",
+      "La durée varie selon les indications et l’évolution clinique : Angine (6 jours), Otite moyenne (5 jours), Infections nécrosantes (14 jours), Pneumonie, sinusite (7 à 10 jours),Infection génitale haute (selon la sévérité et l'évolution clinique) etc..."
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate), allopurinol et tisopurine (éruptions cutanées)",
+      "Administrer avec prudence en cas d'allergie aux céphalosporines (allergie croisée possible) et d’insuffisance rénale et hépatique",
+      "Éviter les traitements prolongées de plus de 14 jours (ictère et hépatite cholestatique)"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Non tératogène mais innocuité non établie",
+      "Allaitement : Non tératogène mais innocuité non établie"
+    ]
+  },
+  {
+    "Favoris":false,
+    "Médicament/D.C.I (Alias)": "Ticarciline",
+    "Nom commercial": [
+      "Unacim"
+    ],
+     "Icon": [
+      "assets/images/Antibiotique.png",
+      "assets/images/Bêta-lactamines.png"
+    ],  
+    "Classe Thérapeutique":[
+      "Antibiotique",
+      "Bêta-lactamines"
+    ],
+    "Propriété":[
+      "Antibiotique de la famille des bêta-lactamines du groupe des carboxypénicillines",
+      "Pénicillines se distinguant des aminopénicillines par un spectre d'action plus étendu, notamment sur les Pseudomonas aeruginosa, Bacteroides fragilis et entérobactéries productrices de céphalosporinases de bas niveau (Proteus indologenes, Providencia, Acinetobacter, Citrobacter, Serratia, Enterobacter)"
+    ],
+    "Activité antibactérienne":[
+      "Spectre d'action très large : spectre d'action des aminopénicillines élargi à la grande majorité des souches de Pseudomonas aeruginosa (70-80 % des souches) et Proteus (60-90 % des souches)",
+      "Résistances des Providencia, Acinetobacter, Serratia et Citrobacter, Proteus vulgaris, Enterobacter, Bacteroides, Proteusmirabilis et Escherichia coli, et résistance d'Enterococcus faecium des entérocoques",
+      "Résistance acquise de nombreuses souches des staphylocoques (90 %), Neisseria, Klebsiella, Yersinia, Nocardia, Legionella, Haemophilus influenzae, Mycoplasma, Chlamydiae, Rickettsieae, Mycobacterium",
+      "Association synergique avec les aminosides (mais ne pas mélanger ces produits dans le même flacon de perfusion) et avec l'acide clavulanique"
+    ],  
+    "Indications":[
+      "Infections localisées et généralisées à germes sensibles, notamment les infections à Pseudomonas et à Proteus résistants aux aminopénicil lines",
+      "Infections urinaires d'origine exogène (après sondage, explorations instrumentales) à Pseudomonas et autres germes sensibles aux carboxypénicillines mais résistants aux aminopénicillines"
+    ],
+    "Effets indésirables":[ "Peut provoquer :",
+      "Réactions allergiques (0,01-0,05 %) : urticaires, exanthèmes, œdème de Quincke, éosinophilie, fièvre, arthralgies, choc anaphylactique (0,01 %)",
+      "Troubles ioniques : apport sodique important (possibilité de surcharge sodée et d'œdème aigu du poumon chez l'insuffisant cardiaque), hypokaliémie avec alcalose",
+      "Troubles digestifs : diarrhée, nausées, vomissements, candidoses digestives, colites",
+      "Rares : augmentation transitoire des transaminases, neutropénie, anémie hémolytique, allongement du TS, thrombopénie, néphrite interstitielle aiguë, cystites hémorragiques "
+    ],
+    "Contre-indications":[
+      "Allergie aux bêta-lactamines"
+    ],
+    "Posologie et durée":[
+      "Posologie usuelle (Enfant) : 25 à 50 mg/kg/jour, à répartir en 2 administrations, avec un maximum de 4 g/jour", 
+      "Posologie usuelle (Adulte) :  1 à 2 g de ticarcilline 3 fois par jour par voie IV ou IM"
+    ],
+    "Précautions d'emploi":[
+      "Associations contre-indiquées : méthotrexane (augmentation de la toxicité du méthotrexate), allopurinol et tisopurine (éruptions cutanées)",
+      "Administrer avec prudence en cas d’insuffisance rénale",
+      "Surveiller l'ionogramme en cas de traitement prolongé (kaliémie notamment)",
+      "Incompatibilités physico-chimiques nombreuses : ne pas mélanger avec d'autres produits dans les flacons de perfusion"
+    ],
+    "Grossesse et Allaitement":[
+      "Grossesse : Déconseillée",
+      "Allaitement : Déconseillé"
+    ]
+  }
+ 
+]

@@ -30,16 +30,14 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
 
   @override
   Widget build(BuildContext context) {
+        final double screenHeight = MediaQuery.of(context).size.height;
+    final double cardHeight = screenHeight * 0.26;
     return Scaffold(
+      backgroundColor: Color(0xFFD4EEED),
       appBar: AppBar(
-        title: Text('Liste des Filières'),
+        title: Text('Liste des modules'),
       ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-        ),
+      body: ListView.builder(
         itemCount: _filieres.length,
         itemBuilder: (BuildContext context, int index) {
           return _filieres.isEmpty
@@ -53,32 +51,45 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
                                   filiereId: _filieres[index].id,
                                 )));
                   },
+                  child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Card(
-                    elevation: 5.0,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        // Background Image
-                        Image.network(
-                          _filieres[index].image,
-                          fit: BoxFit.cover,
-                        ),
-                        // Filiere Name Centered
-                        Center(
-                          child: Text(
-                            _filieres[index].nom,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              backgroundColor: Colors.black.withOpacity(0.5),
+                            margin: const EdgeInsets.only(left:  55, right: 55, bottom: 12),
+                            //shape: UnderlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                            child: SizedBox(
+                              height: cardHeight,
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  // image: DecorationImage(
+                                  //   image: NetworkImage(fac.image),
+                                  //   fit: BoxFit.cover,
+                                  // ),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                ),
+                                child: Column(
+                                  //alignment: Alignment.bottomLeft,
+                                  children: [
+                                    Expanded(child: Image.network(_filieres[index].image, fit: BoxFit.contain,)),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        _filieres[index].nom,
+                                        style: const TextStyle(
+                                          fontFamily: 'TimesNewRoman',
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
+                ),
                 );
         },
       ),

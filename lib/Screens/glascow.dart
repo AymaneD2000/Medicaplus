@@ -26,22 +26,26 @@ class _GlasgowHomePageState extends State<GlasgowHomePage> {
             Text(
                 "Le score Glascow est classification pronostique des comas traumastiques la plus utilisee dans le monde",
                 style: TextStyle(
+fontFamily: 'TimesNewRoman',
                     fontSize: 14, color: Colors.black.withOpacity(0.60))),
             const Text(
               'Ouverture des yeux',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 18, fontWeight: FontWeight.bold),
             ),
             ...buildEyeOpeningOptions(),
             const SizedBox(height: 16),
             const Text(
               'Réponse verbale',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 18, fontWeight: FontWeight.bold),
             ),
             ...buildVerbalResponseOptions(),
             const SizedBox(height: 16),
             const Text(
               'Réponse motrice',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 18, fontWeight: FontWeight.bold),
             ),
             ...buildMotorResponseOptions(),
             const SizedBox(height: 16),
@@ -205,16 +209,19 @@ class _GlasgowHomePageState extends State<GlasgowHomePage> {
   //     children: [
   //       Text(
   //         'Score final: $totalScore',
-  //         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  //         style: TextStyle(
+//fontFamily: 'TimesNewRoman',fontSize: 18, fontWeight: FontWeight.bold),
   //       ),
   //       SizedBox(height: 8),
   //       Text(
   //         'Analyse:',
-  //         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  //         style: TextStyle(
+//fontFamily: 'TimesNewRoman',fontSize: 18, fontWeight: FontWeight.bold),
   //       ),
   //       Text(
   //         analysis,
-  //         style: TextStyle(fontSize: 16),
+  //         style: TextStyle(
+//fontFamily: 'TimesNewRoman',fontSize: 16),
   //       ),
   //     ],
   //   );
@@ -242,41 +249,51 @@ class _GlasgowHomePageState extends State<GlasgowHomePage> {
       children: [
         Text(
           'Score final: $totalScore',
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         const Text(
           'Analyse:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 18, fontWeight: FontWeight.bold),
         ),
         Text(
           "Score de 3 ou 4 : environ 7% de bonne récupération.",
-          style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.60)),
+          style: TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 14, color: Colors.black.withOpacity(0.60)),
         ),
         Text("- Environ 87% de mortalité.",
             style:
-                TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.60))),
+                TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 14, color: Colors.black.withOpacity(0.60))),
         Text(
           "Score de 5 à 7 : environ 34% de bonne récupération.",
-          style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.60)),
+          style: TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 14, color: Colors.black.withOpacity(0.60)),
         ),
         Text("- Environ 53% de mortalité..",
             style:
-                TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.60))),
+                TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 14, color: Colors.black.withOpacity(0.60))),
         Text(
           "Score de 8 à 10 : environ 68% de bonne récupération.",
-          style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.60)),
+          style: TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 14, color: Colors.black.withOpacity(0.60)),
         ),
         Text("- Environ 27% de mortalité.",
             style:
-                TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.60))),
+                TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 14, color: Colors.black.withOpacity(0.60))),
         Text(
           "Score supérieur à 10 : environ 82% de bonne récupération.",
-          style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.60)),
+          style: TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 14, color: Colors.black.withOpacity(0.60)),
         ),
         Text("- Environ 12% de mortalité.",
             style:
-                TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.60))),
+                TextStyle(
+fontFamily: 'TimesNewRoman',fontSize: 14, color: Colors.black.withOpacity(0.60))),
       ],
     );
   }

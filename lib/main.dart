@@ -1,11 +1,17 @@
+import 'package:moussa_project/DatabaseManagement/provider.dart';
 import 'package:moussa_project/Screens/AddClasseScreen.dart';
 import 'package:moussa_project/Screens/IMC.dart';
 import 'package:moussa_project/Screens/dashboard.dart';
 import 'package:moussa_project/Screens/glascow.dart';
 import 'package:moussa_project/Screens/manageMateriels.dart';
 import 'package:moussa_project/Screens/venteMaetiels.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'firebase_options.dart';
 
 const supabaseUrl = 'https://egwiobbmoojwbtlxclqf.supabase.co';
 // const supabaseKey = String.fromEnvironment(
@@ -13,15 +19,26 @@ const supabaseUrl = 'https://egwiobbmoojwbtlxclqf.supabase.co';
 // Get a reference your Supabase client
 //final supabase = Supabase.instance.client;
 Future<void> main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   await Supabase.initialize(
       url: supabaseUrl,
       anonKey:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVnd2lvYmJtb29qd2J0bHhjbHFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk0OTc2NzgsImV4cCI6MjAyNTA3MzY3OH0.Qq2IIwF8BYD2yyG1fdq8sSXoIEZM5D1GqhkX7bjoihw");
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => MyProvider())
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   // This widget is the root of your application.
   @override
@@ -29,6 +46,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      navigatorObservers: <NavigatorObserver>[observer],
       theme: ThemeData(
         // This is the theme of your application.
         //

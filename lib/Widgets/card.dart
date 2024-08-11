@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 
 class CardE extends StatefulWidget {
   final String title;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final TextStyle textStyle;
   final String image;
+  Color? textColor;
+  Color? imageColor;
+  Color? borderColor;
 
   CardE({
     Key? key,
     required this.image,
     required this.title,
-    this.backgroundColor = const Color.fromARGB(255, 250, 213, 213),
+    this.imageColor,
+    this.textColor,
+    this.borderColor,
+    this.backgroundColor,
     this.textStyle = const TextStyle(
+fontFamily: 'TimesNewRoman',
       color: Colors.black,
       fontSize: 20,
       fontWeight: FontWeight.bold,
@@ -30,9 +37,11 @@ class _CardEState extends State<CardE> {
       child: Card(
         elevation: 8,
         shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: widget.borderColor??widget.backgroundColor??Color(0xff00000)),
           borderRadius: BorderRadius.circular(16),
         ),
-        color: widget.backgroundColor,
+        color: widget.backgroundColor??const Color.fromARGB(255, 250, 213, 213),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,14 +54,13 @@ class _CardEState extends State<CardE> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.asset(
-                  widget.image,
-                  fit: BoxFit.cover,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset(
+                height: MediaQuery.of(context).size.height * 0.1,
+                widget.image,
+                color: widget.imageColor,
+                fit: BoxFit.cover,
               ),
             ),
           ],

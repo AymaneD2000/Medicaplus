@@ -12,7 +12,7 @@ import 'package:uuid/uuid.dart';
 class PdfScreen extends StatefulWidget {
   final String idFiliere;
 
-  PdfScreen({required this.idFiliere, Key? key}) : super(key: key);
+  const PdfScreen({required this.idFiliere, Key? key}) : super(key: key);
 
   @override
   _PdfScreenState createState() => _PdfScreenState();
@@ -47,13 +47,13 @@ class _PdfScreenState extends State<PdfScreen> {
     try {
       final bytes = await File(imageFile.path).readAsBytes();
       final fileExt = imageFile.path.split('.').last;
-      final fileName = '${imageFile.name}';
+      final fileName = imageFile.name;
       final filePath = fileName;
 
       await SupabaseManagement.supabase.storage.from('avatars').upload(
             filePath,
             File(imageFile.path),
-            fileOptions: FileOptions(contentType: 'image/*'),
+            fileOptions: const FileOptions(contentType: 'image/*'),
           );
 
       _imageUrl = await SupabaseManagement.supabase.storage
@@ -141,7 +141,7 @@ class _PdfScreenState extends State<PdfScreen> {
     }
 
     try {
-      final bytes = await pdfFile.files.first.bytes;
+      final bytes = pdfFile.files.first.bytes;
       final fileExt = pdfFile.files.first.path!.split('.').last;
       final fileName = '${pdfFile.names.first}.$fileExt';
       final f = File(pdfFile.files.first.path!);
@@ -149,7 +149,7 @@ class _PdfScreenState extends State<PdfScreen> {
       await SupabaseManagement.supabase.storage.from('avatars').upload(
             filePath,
             f,
-            fileOptions: FileOptions(contentType: 'application/pdf'),
+            fileOptions: const FileOptions(contentType: 'application/pdf'),
           );
       _pdfUrl = await SupabaseManagement.supabase.storage
           .from('avatars')

@@ -9,7 +9,7 @@ class AmoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -21,17 +21,17 @@ class AmoCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
 fontFamily: 'TimesNewRoman',
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 color: Colors.teal,
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               subtitle,
-              style: TextStyle(
+              style: const TextStyle(
 fontFamily: 'TimesNewRoman',
                 fontSize: 16,
                 color: Colors.black87,

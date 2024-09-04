@@ -58,76 +58,76 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
               }
             });
           },
-          child: widget.medicament.isFavoris? Image.asset("assets/images/star.png", height: 30,):Image.asset("assets/images/etoile.png",height: 30,)), Gap(15)],
+          child: widget.medicament.isFavoris? Image.asset("assets/images/star.png", height: 30,):Image.asset("assets/images/etoile.png",height: 30,)), const Gap(15)],
       ),
       body: Container(
-        margin: EdgeInsets.only(right: 10, left: 10, top: 10),
+        margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
         child: ListView(
           children: [
             AttributesCard(
                 alias: "",
-                couleurs: Color.fromARGB(206, 50, 204, 204),
+                couleurs: const Color.fromARGB(206, 50, 204, 204),
                 image: "assets/images/dci.png",
                 description: widget.medicament.name,
                 title: "Médicament/D.C.I (Alias)"),
                 AttributesCard(
                 alias: "",
-                couleurs: Color.fromARGB(179, 48, 184, 229),
+                couleurs: const Color.fromARGB(179, 48, 184, 229),
                 image: "assets/images/nom commercial.png",
                 description: widget.medicament.nomCommercial.join('\n'),
                 title: "Nom Commercial"),
                 AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color.fromARGB(207, 236, 232, 105),
+                couleurs: const Color.fromARGB(207, 236, 232, 105),
                 image: "assets/images/classe.png",
                 description: widget.medicament.classtherapique.join('\n'),
                 title: "Classe Thérapeutique"),
                 AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xffC7CFDC),
+                couleurs: const Color(0xffC7CFDC),
                 image: "assets/images/propriété.png",
                 description: widget.medicament.propriete.join('\n -'),
                 title: "Propriété"),
                     widget.medicament.activiteantibacterienne != null? AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color.fromARGB(207, 236, 232, 105),
+                couleurs: const Color.fromARGB(207, 236, 232, 105),
                 image: "assets/images/les-bacteries.png",
                 description: widget.medicament.activiteantibacterienne!.join('\n'),
-                title: "Activité antibactérienne"):Center(),
+                title: "Activité antibactérienne"):const Center(),
                 AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color.fromARGB(171, 82, 216, 153),
+                couleurs: const Color.fromARGB(171, 82, 216, 153),
                 image: "assets/images/indication.png",
                 description: widget.medicament.indication.join('\n -'),
                 title: "Indications"),
                 AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color(0xFFFFDD1B6),
+                couleurs: const Color(0xffffdd1b6),
                 image: "assets/images/effet secondaire.png",
                 description: widget.medicament.effetindesirable.join('\n -'),
                 title: "Effets indésirables"),
                 AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color.fromARGB(143, 240, 73, 90),
+                couleurs: const Color.fromARGB(143, 240, 73, 90),
                 image: "assets/images/contre-indication.png",
                 description: widget.medicament.contreindication.join('\n -'),
                 title: "Contre-indications"),
                 AttributesCard(
                 // alias: medicament.alias,`
-                couleurs: Color.fromARGB(106, 29, 77, 198),
+                couleurs: const Color(0xfffc6e6ff),
                 image: "assets/images/posologie.png",
                 description: widget.medicament.posologie.join('\n'),
                 title: "Posologie et durée"),
                 AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color.fromRGBO(198, 132, 228, 0.644),
-                image: "assets/images/Precaution.png",
+                couleurs: const Color.fromRGBO(198, 132, 228, 0.644),
+                image: "assets/images/bouclier (1).png",
 
                 description: widget.medicament.precaution.join('\n -'),
                 title: "Précautions d'emploi"),
                 AttributesCard(
                 //alias: medicament['Alias'],
-                couleurs: Color.fromARGB(148, 255, 139, 228),
+                couleurs: const Color.fromARGB(148, 255, 139, 228),
                 image: "assets/images/grossesse.png",
                 description: widget.medicament.grosseseallaitement.join('\n -'),
                 title: "Grossesse et Allaitement"),
@@ -145,7 +145,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
     bool showIfEmpty = true,
   }) {
     if (!showIfEmpty && value.isEmpty) {
-      return SizedBox
+      return const SizedBox
           .shrink(); // N'affiche rien si vide et que l'option est désactivée
     }
     return ListTile(

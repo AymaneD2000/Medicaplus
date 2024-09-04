@@ -17,7 +17,7 @@ class _CalculeScreenState extends State<CalculeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Calcule"),
+          title: const Text("Calcule"),
         ),
         body: GridView(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -32,7 +32,7 @@ class _CalculeScreenState extends State<CalculeScreen> {
                 child:
                     CardE(
                       image: 'assets/images/Calcule.png',
-                      backgroundColor: Color(0xFF4A90E2),
+                      backgroundColor: const Color(0xFF4A90E2),
                       title: "IMC")),
             GestureDetector(
                 onTap: () {
@@ -44,7 +44,7 @@ class _CalculeScreenState extends State<CalculeScreen> {
                 child: CardE(
                   image: 'assets/images/Calcule.png',
                   backgroundColor: Colors.white,
-                  borderColor: Color(0xFF4A90E2),
+                  borderColor: const Color(0xFF4A90E2),
                   title: "Glascow")),
                 GestureDetector(
                 onTap: () {

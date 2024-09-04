@@ -55,7 +55,7 @@ import 'package:url_launcher/url_launcher.dart';
 class VenteCover extends StatefulWidget {
   final Materiel materiel;
 
-  VenteCover({Key? key, required this.materiel}) : super(key: key);
+  const VenteCover({Key? key, required this.materiel}) : super(key: key);
 
   @override
   _VenteCoverState createState() => _VenteCoverState();
@@ -66,7 +66,7 @@ class _VenteCoverState extends State<VenteCover> {
   Widget build(BuildContext context) {
 
 
-  void _launchWhatsApp(BuildContext context, String phone, String message) async {
+  void launchWhatsApp(BuildContext context, String phone, String message) async {
     //final whatsappUrl = "https://wa.me/$phone";
     final whatsappUrl= "https://wa.me/$phone/?text=${Uri.encodeQueryComponent(message)}";
     print(whatsappUrl);
@@ -76,7 +76,7 @@ class _VenteCoverState extends State<VenteCover> {
       await launchUrl(Uri.parse(whatsappUrl));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("WhatsApp is not installed on this device."),
         ),
       );
@@ -87,7 +87,7 @@ class _VenteCoverState extends State<VenteCover> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: Text(widget.materiel.title, style: TextStyle(color: Colors.white),),
+        title: Text(widget.materiel.title, style: const TextStyle(color: Colors.white),),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
@@ -107,38 +107,38 @@ class _VenteCoverState extends State<VenteCover> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Text(
               widget.materiel.title,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               widget.materiel.description ?? "",
               textAlign: TextAlign.center,
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
               "PRIX :",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            Gap(5),
+            const Gap(5),
             Text(
               "${widget.materiel.price} XOF",
-              style: TextStyle(fontSize: 20, color: Colors.green),
+              style: const TextStyle(fontSize: 20, color: Colors.green),
             ),
               ],
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             TextButton.icon(
               onPressed: () {
-                _launchWhatsApp(context, widget.materiel.telephone, "Comment avoir ce produit Nom: ${widget.materiel.title}, description: ${widget.materiel.description} et prix:${widget.materiel.price}?");
+                launchWhatsApp(context, widget.materiel.telephone, "Comment avoir ce produit Nom: ${widget.materiel.title}, description: ${widget.materiel.description} et prix:${widget.materiel.price}?");
               },
-              label: Text("Acheter maintenant"),
+              label: const Text("Acheter maintenant"),
               icon: Image.asset(
                 "assets/images/achat.png",
                 scale: 20,
@@ -146,11 +146,11 @@ class _VenteCoverState extends State<VenteCover> {
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.orange,
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                textStyle: TextStyle(fontSize: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                textStyle: const TextStyle(fontSize: 18),
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
           ],
         ),
       ),

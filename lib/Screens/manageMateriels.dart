@@ -9,6 +9,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class MaterielHomePage extends StatefulWidget {
+  const MaterielHomePage({super.key});
+
   @override
   _MaterielHomePageState createState() => _MaterielHomePageState();
 }
@@ -67,10 +69,10 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Materiel Management'),
+        title: const Text('Materiel Management'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: _addMateriel,
           ),
         ],
@@ -87,16 +89,16 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
                   return ListTile(
                     leading: Image.network(materiel.image),
                     title: Text(materiel.title),
-                    subtitle: Text('${materiel.price}'),
+                    subtitle: Text(materiel.price),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.edit),
+                          icon: const Icon(Icons.edit),
                           onPressed: () => _editMateriel(materiel),
                         ),
                         IconButton(
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           onPressed: () => _deleteMateriel(materiel),
                         ),
                       ],
@@ -105,12 +107,12 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
                 },
               );
             } else if (snapshot.hasError) {
-              return Center(
+              return const Center(
                 child:
                     Text("Nous avons rencontrer une erreur lors du chargement"),
               );
             } else {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
           }),
     );
@@ -121,7 +123,7 @@ class MaterielFormPage extends StatefulWidget {
   final Materiel? materiel;
   final Function(Materiel) onSave;
 
-  MaterielFormPage({this.materiel, required this.onSave});
+  const MaterielFormPage({super.key, this.materiel, required this.onSave});
 
   @override
   _MaterielFormPageState createState() => _MaterielFormPageState();
@@ -181,7 +183,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
       await Supabase.instance.client.storage.from('avatars').upload(
             imageFiles!.path,
             imageFiles,
-            fileOptions: FileOptions(contentType: 'image/*'),
+            fileOptions: const FileOptions(contentType: 'image/*'),
           );
 
       _imageUrl = await Supabase.instance.client.storage
@@ -234,7 +236,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
             widget.materiel == null ? 'Ajouter Materiel' : 'Modifier Materiel'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: _saveForm,
           ),
         ],
@@ -247,7 +249,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
             children: [
               TextFormField(
                 initialValue: _title,
-                decoration: InputDecoration(labelText: 'Titre'),
+                decoration: const InputDecoration(labelText: 'Titre'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Veuillez entrer un titre';
@@ -261,7 +263,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
               TextFormField(
                 keyboardType: TextInputType.number,
                 initialValue: _price.toString(),
-                decoration: InputDecoration(labelText: 'Prix'),
+                decoration: const InputDecoration(labelText: 'Prix'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Veuillez entrer un prix';
@@ -275,7 +277,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
               TextFormField(
                 keyboardType: TextInputType.text,
                 initialValue: _description,
-                decoration: InputDecoration(labelText: 'description'),
+                decoration: const InputDecoration(labelText: 'description'),
                 onSaved: (value) {
                   _description = value!;
                 },
@@ -283,7 +285,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
               TextFormField(
                 keyboardType: TextInputType.number,
                 initialValue: _telephone,
-                decoration: InputDecoration(labelText: 'Telephone'),
+                decoration: const InputDecoration(labelText: 'Telephone'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Veuillez entrer un numero de telephone';
@@ -294,13 +296,13 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
                   _telephone = value!;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               imageFile != null
                   ? Image.file(imageFile!)
-                  : Text('Aucune image sélectionnée'),
+                  : const Text('Aucune image sélectionnée'),
               ElevatedButton(
                 onPressed: UploadeFile,
-                child: Text('Télécharger une Image'),
+                child: const Text('Télécharger une Image'),
               ),
             ],
           ),

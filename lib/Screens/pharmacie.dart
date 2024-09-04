@@ -12,6 +12,8 @@ import 'package:sticky_az_list/sticky_az_list.dart';
 import 'package:moussa_project/Screens/AmoView.dart';
 
 class PharmacieScreen extends StatefulWidget {
+  const PharmacieScreen({super.key});
+
   @override
   _PharmacieScreenState createState() => _PharmacieScreenState();
 }

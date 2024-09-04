@@ -58,25 +58,25 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
         margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
         child: ListView(
           children: [
-            AttributesCardPharmacie(couleurs: Color.fromARGB(206, 50, 204, 204),description: widget.medicament.name, title: "Nom commercial"),
+            AttributesCardPharmacie(couleurs: const Color.fromARGB(206, 50, 204, 204),description: widget.medicament.name, title: "Nom commercial"),
             AttributesCardPharmacie(
-                couleurs: Color.fromARGB(206, 50, 204, 204),description: widget.medicament.dci.join('\n -'),
+                couleurs: const Color.fromARGB(206, 50, 204, 204),description: widget.medicament.dci.join('\n -'),
                 title: "D.C.I/Composition"),
             AttributesCardPharmacie(
-                couleurs: Color.fromARGB(206, 50, 204, 204),description: widget.medicament.classtherapique.join('\n'),
+                couleurs: const Color.fromARGB(206, 50, 204, 204),description: widget.medicament.classtherapique.join('\n'),
                 title: "Classe Thérapeutique"),
             AttributesCardPharmacie(
-              couleurs: Color.fromARGB(206, 50, 204, 204),
+              couleurs: const Color.fromARGB(206, 50, 204, 204),
                 description: widget.medicament.specialitepharmaco.join('\n -'),
                 title: "Spécialité médical"),
             AttributesCardPharmacie(
-                couleurs: Color.fromARGB(206, 50, 204, 204),description: widget.medicament.formedosage.join('\n -'),
+                couleurs: const Color.fromARGB(206, 50, 204, 204),description: widget.medicament.formedosage.join('\n -'),
                 title: "Forme et dosage"),
             AttributesCardPharmacie(
-                couleurs: Color.fromARGB(206, 50, 204, 204),description: widget.medicament.presantation.join('\n -'),
+                couleurs: const Color.fromARGB(206, 50, 204, 204),description: widget.medicament.presantation.join('\n -'),
                 title: "Présentation"),
             AttributesCardPharmacie(
-                couleurs: Color.fromARGB(206, 50, 204, 204),description: widget.medicament.prix.join('\n -'), title: "Prix public"),
+                couleurs: const Color.fromARGB(206, 50, 204, 204),description: widget.medicament.prix.join('\n -'), title: "Prix public"),
             const Text(
                 "Les prix indiqués dans cette application peuvent varier d'environ 10% selon les pharmacies")
           ],

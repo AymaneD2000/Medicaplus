@@ -1,16 +1,10 @@
 import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Screens/AddClasseScreen.dart';
-import 'package:moussa_project/Screens/IMC.dart';
 import 'package:moussa_project/Screens/dashboard.dart';
-import 'package:moussa_project/Screens/glascow.dart';
-import 'package:moussa_project/Screens/manageMateriels.dart';
-import 'package:moussa_project/Screens/venteMaetiels.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'firebase_options.dart';
 
 const supabaseUrl = 'https://egwiobbmoojwbtlxclqf.supabase.co';
@@ -66,7 +60,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: DashBoard(),
+      home: const DashBoard(),
     );
   }
 }

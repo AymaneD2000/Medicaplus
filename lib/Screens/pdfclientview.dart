@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 class PdfGridScreen extends StatefulWidget {
   String filiereId;
 
-  PdfGridScreen({required this.filiereId});
+  PdfGridScreen({super.key, required this.filiereId});
 
   @override
   State<PdfGridScreen> createState() => _PdfGridScreenState();
@@ -45,9 +45,9 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double cardHeight = screenHeight * 0.14;
     return Scaffold(
-            backgroundColor: Color(0xFFFFF3CA),
+            backgroundColor: const Color(0xFFFFF3CA),
       appBar: AppBar(
-        title: Text('Liste des PDF'),
+        title: const Text('Liste des PDF'),
       ),
       body: ListView.builder(
         // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -77,7 +77,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                               height: cardHeight,
                               child: Container(
                                 //padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   // image: DecorationImage(
                                   //   image: NetworkImage(fac.image),
                                   //   fit: BoxFit.cover,
@@ -90,7 +90,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                                   //alignment: Alignment.bottomLeft,
                                   children: [
                                    SizedBox(width: MediaQuery.of(context).size.width*0.3, child: Image.network(_pdfs[index].image, fit: BoxFit.contain,)),
-                                   Spacer(),
+                                   const Spacer(),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
@@ -114,7 +114,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                                         ),
                                       ],
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     GestureDetector(onTap: (){
                                       _launchPDF(_pdfs[index].url);
                                     }, child: SizedBox(width: MediaQuery.of(context).size.width*0.1,child: Image.asset("assets/images/telecharger.png", scale: 20,)))

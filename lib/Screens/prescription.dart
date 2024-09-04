@@ -23,6 +23,8 @@ fontFamily: 'TimesNewRoman',
 );
 
 class PrescriptionScreen extends StatefulWidget {
+  const PrescriptionScreen({super.key});
+
   @override
   _PrescriptionScreenState createState() => _PrescriptionScreenState();
 }
@@ -133,11 +135,11 @@ Future<List<String>> loadPdfFileNames() async {
                   future: loadPdfFileNames(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(child: Text('No PDF files found.'));
+                      return const Center(child: Text('No PDF files found.'));
                     } else {
                       final data = snapshot.data!.map((filePath) => filePath.split('/').last).toList();
                       final list = List.generate(growable: true, data.length, (index){
@@ -151,7 +153,7 @@ Future<List<String>> loadPdfFileNames() async {
                                 builder: (context, index, items) {
                                   return GestureDetector(
                                       onTap: () {
-                                        print("${items.name}");
+                                        print(items.name);
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -173,7 +175,7 @@ Future<List<String>> loadPdfFileNames() async {
             ],
           ),
           // Placeholder for the second tab content
-          Center(child: Text('Second Tab')),
+          const Center(child: Text('Second Tab')),
         ],
       ),
       bottomNavigationBar: TabBar(
@@ -198,13 +200,13 @@ Future<List<String>> loadPdfFileNames() async {
           onTap: () {
             List<dynamic> meds = [];
             //meds.contains(element)
-            medNameList.forEach((element) {
+            for (var element in medNameList) {
               //for(final cl in classth[index]){
                 if (element.classtherapique.contains(classth[index])) {
                 meds.add(element);
               }
               //}
-            });
+            }
             Navigator.push(
               context,MaterialPageRoute(builder: (context)=>CategorieMedicament(images: "", meds: meds,name: classth[index],))
               );
@@ -219,7 +221,7 @@ Future<List<String>> loadPdfFileNames() async {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.category, color: Colors.blue, size: 40),
+                  const Icon(Icons.category, color: Colors.blue, size: 40),
                   const SizedBox(height: 8),
                   Text(
                     aliasName,

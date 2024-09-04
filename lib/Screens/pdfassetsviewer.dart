@@ -10,8 +10,9 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 class PDFAssetScreen extends StatefulWidget {
   final String? path;
 
-  PDFAssetScreen({Key? key, this.path}) : super(key: key);
+  const PDFAssetScreen({Key? key, this.path}) : super(key: key);
 
+  @override
   _PDFAssetScreenState createState() => _PDFAssetScreenState();
 }
 
@@ -30,7 +31,7 @@ class _PDFAssetScreenState extends State<PDFAssetScreen> with WidgetsBindingObse
         title: const Text("Document"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.share),
+            icon: const Icon(Icons.share),
             onPressed: () {},
           ),
         ],
@@ -40,7 +41,7 @@ class _PDFAssetScreenState extends State<PDFAssetScreen> with WidgetsBindingObse
           SfPdfViewer.asset(widget.path!),
           errorMessage.isEmpty
               ? isReady
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : Container()

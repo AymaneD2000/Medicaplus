@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 
 class BooksHomePage extends StatefulWidget {
+  const BooksHomePage({super.key});
+
   @override
   _BooksHomePageState createState() => _BooksHomePageState();
 }
@@ -25,10 +27,10 @@ class _BooksHomePageState extends State<BooksHomePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: Text('Matériels en vente'),
+        title: const Text('Matériels en vente'),
         leading: GestureDetector(onTap: (){
           Navigator.pop(context);
-        }, child: Icon(Icons.arrow_back)),
+        }, child: const Icon(Icons.arrow_back)),
 
       ),
       body: FutureBuilder<List<Materiel>>(
@@ -39,7 +41,7 @@ class _BooksHomePageState extends State<BooksHomePage> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.75,
                     crossAxisSpacing: 8,
@@ -63,22 +65,22 @@ class _BooksHomePageState extends State<BooksHomePage> {
                       Column(
                         children: [
                         Image.asset('assets/images/wifi.png', color: Colors.red,scale: 2,),
-                        Text("Désolé, mais un problème de connexion s'est produit.",
+                        const Text("Désolé, mais un problème de connexion s'est produit.",
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                         textAlign: TextAlign.center,
                         ),
-                        Gap(30),
-                        Text("Appuyer sur Actualiser ou Redémarrer l'application",
+                        const Gap(30),
+                        const Text("Appuyer sur Actualiser ou Redémarrer l'application",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 12)),
-                        Gap(50),
+                        const Gap(50),
                         TextButton.icon(
                 onPressed: () {
                   setState(() {
                     //SupabaseManagement().getMateriel();
                   });
                 },
-                label: Text("Actualiser"),
+                label: const Text("Actualiser"),
                 icon: Image.asset(
                   "assets/images/refresh.png",
                   scale: 20,
@@ -86,8 +88,8 @@ class _BooksHomePageState extends State<BooksHomePage> {
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.orange,
-                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  textStyle: TextStyle(fontSize: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  textStyle: const TextStyle(fontSize: 18),
                 ),
                             ),
                         ],
@@ -95,7 +97,7 @@ class _BooksHomePageState extends State<BooksHomePage> {
                 ),
               );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
           }),
     );
@@ -112,7 +114,7 @@ class _BooksHomePageState extends State<BooksHomePage> {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8), bottom: Radius.circular(8)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(8), bottom: Radius.circular(8)),
               child: Image.network(
                 book.image,
                 fit: BoxFit.cover,
@@ -135,7 +137,7 @@ class _BooksHomePageState extends State<BooksHomePage> {
             child: Center(
               child: Text(
                 "${book.price} XOF",
-                style: TextStyle(
+                style: const TextStyle(
                 fontFamily: 'TimesNewRoman',color: Colors.orange),
               ),
             ),

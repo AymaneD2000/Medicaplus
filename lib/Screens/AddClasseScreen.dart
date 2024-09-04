@@ -302,9 +302,9 @@ class ManageClasse extends StatefulWidget {
 }
 
 class _ManageClasseState extends State<ManageClasse> {
-  TextEditingController _classeController = TextEditingController();
+  final TextEditingController _classeController = TextEditingController();
   List<Classe> _classes = [];
-  String _imageUrl = '';
+  final String _imageUrl = '';
 
   @override
   void initState() {
@@ -408,7 +408,7 @@ class _ManageClasseState extends State<ManageClasse> {
           );
         },
         backgroundColor: Colors.blue,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -417,14 +417,14 @@ class _ManageClasseState extends State<ManageClasse> {
 class AddClasseDialog extends StatefulWidget {
   //Function(int) onAddClasse;
 
-  AddClasseDialog({Key? key}) : super(key: key);
+  const AddClasseDialog({Key? key}) : super(key: key);
 
   @override
   _AddClasseDialogState createState() => _AddClasseDialogState();
 }
 
 class _AddClasseDialogState extends State<AddClasseDialog> {
-  TextEditingController _classeController = TextEditingController();
+  final TextEditingController _classeController = TextEditingController();
   String _imageUrl = '';
   String _selectedGroup = "fmos";
 
@@ -445,7 +445,7 @@ class _AddClasseDialogState extends State<AddClasseDialog> {
       await Supabase.instance.client.storage.from('avatars').upload(
             filePath,
             File(imageFile.path),
-            fileOptions: FileOptions(contentType: 'image/*'),
+            fileOptions: const FileOptions(contentType: 'image/*'),
           );
 
       _imageUrl = await Supabase.instance.client.storage
@@ -493,30 +493,30 @@ class _AddClasseDialogState extends State<AddClasseDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Ajouter une Classe'),
+      title: const Text('Ajouter une Classe'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _classeController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Nom de la Classe',
                 border: OutlineInputBorder(), // Ajoute un contour
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _imageUrl.isNotEmpty
                 ? Image.network(_imageUrl)
-                : Text('Aucune image sélectionnée'),
+                : const Text('Aucune image sélectionnée'),
             ElevatedButton(
               onPressed: _uploadImage,
-              child: Text('Télécharger une Image'),
+              child: const Text('Télécharger une Image'),
             ),
             const SizedBox(height: 16.0),
-            Text("Sélectionnez le type de classe:"),
+            const Text("Sélectionnez le type de classe:"),
             ListTile(
-              title: Text("FMOS"),
+              title: const Text("FMOS"),
               leading: Radio<String>(
                 value: "fmos",
                 groupValue: _selectedGroup,
@@ -528,7 +528,7 @@ class _AddClasseDialogState extends State<AddClasseDialog> {
               ),
             ),
             ListTile(
-              title: Text("FAPH"),
+              title: const Text("FAPH"),
               leading: Radio<String>(
                 value: "faph",
                 groupValue: _selectedGroup,
@@ -540,7 +540,7 @@ class _AddClasseDialogState extends State<AddClasseDialog> {
               ),
             ),
             ListTile(
-              title: Text("ODONTO"),
+              title: const Text("ODONTO"),
               leading: Radio<String>(
                 value: "odonto",
                 groupValue: _selectedGroup,
@@ -552,7 +552,7 @@ class _AddClasseDialogState extends State<AddClasseDialog> {
               ),
             ),
             ListTile(
-              title: Text("LIVRE"),
+              title: const Text("LIVRE"),
               leading: Radio<String>(
                 value: "livre",
                 groupValue: _selectedGroup,
@@ -581,7 +581,7 @@ class _AddClasseDialogState extends State<AddClasseDialog> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('Ajouter'),
+              child: const Text('Ajouter'),
             ),
           ],
         ),

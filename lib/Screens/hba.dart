@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class HbA1cScreen extends StatefulWidget {
+  const HbA1cScreen({super.key});
+
   @override
   _HbA1cScreenState createState() => _HbA1cScreenState();
 }
@@ -12,7 +14,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
   String _selectedUnit = '%';
   double? _glycemiaGpl;
   String interpretation = "";
-  Text intreprete = Text("");
+  Text intreprete = const Text("");
   double? _glycemiaMmol;
   
 
@@ -33,7 +35,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             intreprete = Text(
               textAlign: TextAlign.center,
                       interpretation,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontFamily: 'TimesNewRoman',
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
@@ -63,7 +65,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             interpretation = "Optimal";
             intreprete = Text(
                 interpretation,
-                style: TextStyle(
+                style: const TextStyle(
                 fontFamily: 'TimesNewRoman',
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
@@ -77,7 +79,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             interpretation = "Normal";
             intreprete = Text(
                 interpretation,
-                style: TextStyle(
+                style: const TextStyle(
                 fontFamily: 'TimesNewRoman',
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
@@ -91,7 +93,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             interpretation = "Pré-Diabete\n Risque d'hyperglycémie";
             intreprete = Text(
                 interpretation,
-                style: TextStyle(
+                style: const TextStyle(
                 fontFamily: 'TimesNewRoman',
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
@@ -104,7 +106,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             interpretation = "Diabete";
             intreprete = Text(
                 interpretation,
-                style: TextStyle(
+                style: const TextStyle(
                 fontFamily: 'TimesNewRoman',
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
@@ -117,7 +119,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             interpretation = "Diabetes sucré";
             intreprete = Text(
                 interpretation,
-                style: TextStyle(
+                style: const TextStyle(
                 fontFamily: 'TimesNewRoman',
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
@@ -129,7 +131,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             interpretation = "dangereux ou risque lever de complication";
             intreprete = Text(
                 interpretation,
-                style: TextStyle(
+                style: const TextStyle(
                 fontFamily: 'TimesNewRoman',
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
@@ -146,7 +148,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             intreprete = Text(
                 textAlign: TextAlign.center,
                 interpretation,
-                style: TextStyle(
+                style: const TextStyle(
                 fontFamily: 'TimesNewRoman',
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -167,7 +169,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Center(
+        title: const Center(
                 child: Text(
                   'HbA1c vers Glycémie Plasmatique Moyenne',
                   textAlign: TextAlign.center,
@@ -186,7 +188,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Text(
+               const Text(
                 'Definition :',
                 style: TextStyle(
                   fontFamily: 'TimesNewRoman',
@@ -195,8 +197,8 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 "L'hémoglobine glyquée (HbA1c) est le reflet de l'équilibre glycémique des trois derniers mois. "
                 "Cette formule permet de faire le lien entre HbA1c et la glycémie plasmatique moyenne présente chez un patient.",
                 style:
@@ -207,36 +209,36 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Center(
                 child: Image.asset('assets/images/diabete.gif',scale: 6,),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     'HbA1c :',
                     style: TextStyle(
                     fontFamily: 'TimesNewRoman',fontSize: 18),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       textAlign: TextAlign.center,
                       controller: _controller,
                       
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(width: 4)),
-                        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: const BorderSide(width: 4)),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                       ),
                       keyboardType: TextInputType.number,
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Container(
                     // /padding: EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: Color(0xff33CCCC),
+                      color: const Color(0xff33CCCC),
                       borderRadius:  BorderRadius.circular(15),
                       border: Border.all()),
                     child: DropdownButton<String>(
@@ -260,22 +262,22 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
                     child: ElevatedButton(
                       onPressed: _calculateGlycemia,
-                      style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
-                      child: Text('Calculer', style: TextStyle(
+                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
+                      child: const Text('Calculer', style: TextStyle(
                             fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
                     ),
                   ),
-                  SizedBox(width: 20,),
+                  const SizedBox(width: 20,),
                   Center(
                     child: ElevatedButton(
-                      style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
+                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
                       onPressed:(){
                         setState(() {
                           _controller.clear();
@@ -283,14 +285,14 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                         _glycemiaGpl = 0;
                         });
                       },
-                      child: Text('Reprendre', style: TextStyle(
+                      child: const Text('Reprendre', style: TextStyle(
                       fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              Center(
+              const SizedBox(height: 16),
+              const Center(
                 child: Text(
                   'Glycémie plasmatique moyenne',
                   style: TextStyle(
@@ -301,14 +303,14 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               if (_glycemiaGpl != null && _glycemiaMmol != null)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       _glycemiaGpl!.toStringAsFixed(2),
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontFamily: 'TimesNewRoman',
                         fontSize: 28,
                         fontStyle: FontStyle.italic,
@@ -316,8 +318,8 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Text(
+                    const SizedBox(width: 8),
+                    const Text(
                       'mg/dL',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
@@ -326,10 +328,10 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Text(
-                      "${_glycemiaMmol!.toStringAsFixed(2)}",
-                      style: TextStyle(
+                      _glycemiaMmol!.toStringAsFixed(2),
+                      style: const TextStyle(
                         fontFamily: 'TimesNewRoman',
                         fontSize: 28,
                         fontStyle: FontStyle.italic,
@@ -337,8 +339,8 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Text(
+                    const SizedBox(width: 8),
+                    const Text(
                       'mmol/L',
                       style: TextStyle(
                         fontFamily: 'TimesNewRoman',
@@ -348,8 +350,8 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                     ),
                   ],
                 ),
-              SizedBox(height: 16),
-              Center(
+              const SizedBox(height: 16),
+              const Center(
                 child: Text(
                   'Interprétation',
                   style: TextStyle(
@@ -360,10 +362,10 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Center(child: intreprete),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Références:',
                 style: TextStyle(
                 fontFamily: 'TimesNewRoman',
@@ -372,8 +374,8 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 "Formule: Glycémie Moyenne = HbA1c (en %) x 1,59 - 2,59.\n",
                 style: TextStyle(
                   fontFamily: 'TimesNewRoman',
@@ -381,7 +383,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
           ),
         ),

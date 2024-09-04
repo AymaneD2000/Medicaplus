@@ -38,7 +38,7 @@ class _CardEState extends State<CardE> {
         elevation: 8,
         shape: RoundedRectangleBorder(
           side: BorderSide(
-            color: widget.borderColor??widget.backgroundColor??Color(0xff00000)),
+            color: widget.borderColor??widget.backgroundColor??const Color(0x0ff00000)),
           borderRadius: BorderRadius.circular(16),
         ),
         color: widget.backgroundColor??const Color.fromARGB(255, 250, 213, 213),

@@ -9,7 +9,7 @@ import 'package:moussa_project/Screens/venteMaetiels.dart';
 
 
 class DashBoard extends StatefulWidget {
-  const DashBoard();
+  const DashBoard({super.key});
 
   @override
   _DashBoardState createState() => _DashBoardState();
@@ -32,15 +32,15 @@ class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: const Drawer(),
       appBar: AppBar(
         actions: [
           IconButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ManageClasse()));
+                  MaterialPageRoute(builder: (context) => const ManageClasse()));
             },
-            icon: Icon(Icons.manage_accounts),
+            icon: const Icon(Icons.manage_accounts),
             tooltip: 'Manage Classes',
           ),
           IconButton(
@@ -48,7 +48,7 @@ class _DashBoardState extends State<DashBoard> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => MaterielHomePage()));
               },
-              icon: Icon(Icons.abc))
+              icon: const Icon(Icons.abc))
         ],
         title: const Text(
           'Dashboard',
@@ -60,7 +60,7 @@ class _DashBoardState extends State<DashBoard> {
         ),
         centerTitle: true,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.blue, Colors.purple],
               begin: Alignment.topLeft,
@@ -70,13 +70,13 @@ class _DashBoardState extends State<DashBoard> {
         ),
         elevation: 10,
         shadowColor: Colors.black54,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(20),
           ),
         ),
       ),
-      body: Home(),
+      body: const Home(),
       //bottomNavigationBar: BottomNavigationBar(items: items,onTap: onTap,currentIndex: index,),
     );
             }

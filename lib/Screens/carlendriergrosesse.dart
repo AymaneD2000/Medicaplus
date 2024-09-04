@@ -163,6 +163,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class PregnancyCalculatorScreen extends StatefulWidget {
+  const PregnancyCalculatorScreen({super.key});
+
   @override
   _PregnancyCalculatorScreenState createState() =>
       _PregnancyCalculatorScreenState();
@@ -342,11 +344,6 @@ class _PregnancyCalculatorScreenState
       }
     } catch (e) {
       _showErrorDialog('Date invalide');
-      return;
-    }
-
-    if (baseDate == null) {
-      _showErrorDialog('Veuillez entrer une date valide');
       return;
     }
 

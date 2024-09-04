@@ -9,6 +9,7 @@ import 'package:moussa_project/Models/med.dart';
 import 'package:flutter/services.dart';
 import 'package:moussa_project/Models/pdf.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -34,7 +35,23 @@ class MyProvider extends ChangeNotifier{
     filiere =await sup.getClasseFilieres(nomClasse);
     return filiere;
   }
+//   Future<void> copyAndRenameFile() async {
+//   // Get the application's documents directory
+//   final directory = await getApplicationDocumentsDirectory();
+//   final originalFilePath = '${directory.path}/pharma.json';
+//   final newFileName = 'new_pharma.json';
 
+//   // Check if the original file exists
+//   final originalFile = File(originalFilePath);
+//   if (await originalFile.exists()) {
+//     // Create a new file path in the documents directory with the new name
+//     final newFilePath = '${directory.path}/$newFileName';
+//     final newFile = await originalFile.copy(newFilePath);
+//     print('File copied and renamed to: ${newFile.path}');
+//   } else {
+//     print('Original file does not exist.');
+//   }
+// }
   Future<List<Pdf>> getDocument()async{
     pdf = await sup.getDocuments();
     notifyListeners();
@@ -104,12 +121,21 @@ class MyProvider extends ChangeNotifier{
 
   Future<bool> changeFavoris(dcis)async{
     try {
-      // Obtenir le répertoire des documents
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/med3.json';
 
-      // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
-      final file = File(filePath);
+      // Demander la permission de stockage
+      var status = await Permission.storage.status;
+      if (!status.isGranted) {
+        status = await Permission.storage.request();
+      }
+
+      if (status.isGranted) {
+      // Obtenir le chemin du dossier Téléchargements
+      Directory? downloadsDirectory = await getExternalStorageDirectory();
+      if (downloadsDirectory != null) {
+        String downloadsPath = "${downloadsDirectory.path.split('Android')[0]}Download";
+        final filePath = '$downloadsPath/med3.json';
+        final file = File(filePath);
+
       if (!await file.exists()) {
         final data = await rootBundle.load('assets/med3.json');
         final bytes = data.buffer.asUint8List();
@@ -159,6 +185,12 @@ class MyProvider extends ChangeNotifier{
         print("Médicament $dci non trouvé comme 5ème élément dans la liste.");
         return false;
       }
+      }else{
+        return false;
+      }
+      }else{
+        return false;
+      }
     } catch (e) {
       notifyListeners();
       print("Erreur lors de la lecture ou de l'écriture du fichier : $e");
@@ -166,16 +198,89 @@ class MyProvider extends ChangeNotifier{
     }
   }
 
-    Future<bool> changeFavorisPharmacie(dcis)async{
-    try {
-      // Obtenir le répertoire des documents
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/Pharmacies3.json';
+  // Future<bool> changeFavoris(dcis)async{
+  //   try {
+  //     // Obtenir le répertoire des documents
+  //     final directory = await getApplicationDocumentsDirectory();
+  //     final filePath = '${directory.path}/med3.json';
 
-      // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
-      final file = File(filePath);
+  //     // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
+  //     final file = File(filePath);
+  //     if (!await file.exists()) {
+  //       final data = await rootBundle.load('assets/med3.json');
+  //       final bytes = data.buffer.asUint8List();
+  //       await file.writeAsBytes(bytes, flush: true);
+  //     }
+
+  //     // Lire le fichier JSON
+  //     final contents = await file.readAsString();
+  //     final List<dynamic> medicaments = jsonDecode(contents);
+
+  //     // Vérifier si la liste contient au moins 5 éléments
+      
+
+  //     // D.C.I. du médicament à modifier (5ème élément)
+  //     final String dci = dcis;
+
+  //     // Rechercher et modifier le 5ème médicament
+  //     bool found = false;
+  //     for (var i = 0; i < medicaments.length; i++) {
+  //       if (medicaments[i]["Médicament/D.C.I (Alias)"] == dci) { // Modification du 5ème élément (index 4)
+  //         medicaments[i]["Favoris"] = !medicaments[i]["Favoris"];
+  //         found = true;
+  //         break;
+  //       }
+  //     }
+  //     notifyListeners();
+
+  //     if (found) {
+  //       // Écrire les modifications dans le fichier JSON
+  //       final updatedContents = jsonEncode(medicaments);
+  //       await file.writeAsString(updatedContents, flush: true);
+  //       medicament = (json.decode(updatedContents) as List).map((item) => Med.fromSanpshot(item)).toList();
+  //       notifyListeners();
+  //       favorisMedicaments.clear();
+  //       for(final i in medicament){
+  //       if(i.isFavoris){
+  //         favorisMedicaments.add(i);
+  //         notifyListeners();
+  //       }
+  //     }
+
+  //       print("Le favori du médicament $dci a été mis à jour.");
+  //       notifyListeners();
+  //       return true;
+  //     } else {
+  //       notifyListeners();
+  //       print("Médicament $dci non trouvé comme 5ème élément dans la liste.");
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     notifyListeners();
+  //     print("Erreur lors de la lecture ou de l'écriture du fichier : $e");
+  //     return false;
+  //   }
+  // }
+
+  Future<bool> changeFavorisPharmacie(dcis)async{
+    try {
+
+      // Demander la permission de stockage
+      var status = await Permission.storage.status;
+      if (!status.isGranted) {
+        status = await Permission.storage.request();
+      }
+
+      if (status.isGranted) {
+      // Obtenir le chemin du dossier Téléchargements
+      Directory? downloadsDirectory = await getExternalStorageDirectory();
+      if (downloadsDirectory != null) {
+        String downloadsPath = "${downloadsDirectory.path.split('Android')[0]}Download";
+        final filePath = '$downloadsPath/pharma.json';
+        final file = File(filePath);
+
       if (!await file.exists()) {
-        final data = await rootBundle.load('assets/Pharmacies3.json');
+        final data = await rootBundle.load('assets/pharma.json');
         final bytes = data.buffer.asUint8List();
         await file.writeAsBytes(bytes, flush: true);
       }
@@ -223,6 +328,12 @@ class MyProvider extends ChangeNotifier{
         print("Médicament $dci non trouvé comme 5ème élément dans la liste.");
         return false;
       }
+      }else{
+        return false;
+      }
+      }else{
+        return false;
+      }
     } catch (e) {
       notifyListeners();
       print("Erreur lors de la lecture ou de l'écriture du fichier : $e");
@@ -231,50 +342,117 @@ class MyProvider extends ChangeNotifier{
   }
 
   Future<List<Amo>> loadPharmacieData() async {
-    //String data = await DefaultAssetBundle.of(context)
-       // .loadString('assets/med.json');
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/Pharmacies3.json';
+  // Demander la permission de stockage
+  var status = await Permission.storage.status;
+  if (!status.isGranted) {
+    status = await Permission.storage.request();
+  }
 
-      // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
+  if (status.isGranted) {
+    // Obtenir le chemin du dossier Téléchargements
+    Directory? downloadsDirectory = await getExternalStorageDirectory();
+    if (downloadsDirectory != null) {
+      String downloadsPath = "${downloadsDirectory.path.split('Android')[0]}Download";
+      final filePath = '$downloadsPath/pharma.json';
       final file = File(filePath);
+
       if (!await file.exists()) {
-        final data = await rootBundle.load('assets/Pharmacies3.json');
+        final data = await rootBundle.load('assets/pharma.json');
         final bytes = data.buffer.asUint8List();
         await file.writeAsBytes(bytes, flush: true);
       }
 
       // Lire le fichier JSON
       final contents = await file.readAsString();
-      //final List<dynamic> medicaments = jsonDecode(contents);
-      pharmacies =
-          (json.decode(contents) as List).map((item) => Amo.fromSanpshot(item)).toList();
-      //filteredMedNameList = medNameList;
-      for(final i in pharmacies){
-        if(i.favoris){
+      pharmacies = (json.decode(contents) as List).map((item) => Amo.fromSanpshot(item)).toList();
+
+      for (final i in pharmacies) {
+        if (i.favoris) {
           favorisPharmacies.add(i);
         }
       }
-      for(final med in pharmacies){
-        for(final cl in med.classtherapique)
+      for (final med in pharmacies) {
+        for (final cl in med.classtherapique) {
           dciPharmacie.add(cl);
+        }
         dciPharmacie = dciPharmacie.toSet().toList();
       }
+
+      print('Fichier enregistré dans Téléchargements : $filePath');
+    }
+  } else {
+    print('Permission de stockage refusée.');
+  }
+  notifyListeners();
+  return pharmacies;
+}
+  // Future<void> loadMedicamentData() async {
+  //   //String data = await DefaultAssetBundle.of(context)
+  //      // .loadString('assets/med.json');
+  //     final directory = await getApplicationDocumentsDirectory();
+  //     final filePath = '${directory.path}/med3.json';
+
+  //     // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
+  //     final file = File(filePath);
+  //     if (!await file.exists()) {
+  //       final data = await rootBundle.load('assets/med3.json');
+  //       final bytes = data.buffer.asUint8List();
+  //       await file.writeAsBytes(bytes, flush: true);
+  //     }
+
+  //     // Lire le fichier JSON
+  //     final contents = await file.readAsString();
+  //     //final List<dynamic> medicaments = jsonDecode(contents);
+  //     medicament =
+  //         (json.decode(contents) as List).map((item) => Med.fromSanpshot(item)).toList();
+  //     //filteredMedNameList = medNameList;
+  //     for(final i in medicament){
+  //       if(i.isFavoris){
+  //         favorisMedicaments.add(i);
+  //       }
+  //     }
+  //     print(medicament.length);
+  //     for(final med in medicament){
+  //       for(final cl in med.classtherapique) {
+  //         classMedicament.add(cl);
+  //       }
+  //       classMedicament = classMedicament.toSet().toList();
+  //     }
+
+  //     for(final med in medicament){
+  //       for(String cl in med.icons) {
+  //         iconsMed.add(cl);
+  //       }
+  //       iconsMed = iconsMed.toSet().toList();
+  //     }
+
+  //     for(final med in medicament){
+  //       for(String cl in med.images) {
+  //         imagesMed.add(cl);
+  //       }
+  //       imagesMed = imagesMed.toSet().toList();
+  //     }
       
-      
-    print("end");
-    notifyListeners();
-    return pharmacies ;
+  //   print("end");
+  //   notifyListeners();
+  //   //return medicament;
+  // }
+
+  Future<List<Med>> loadMedicamentData() async {
+  // Demander la permission de stockage
+  var status = await Permission.storage.status;
+  if (!status.isGranted) {
+    status = await Permission.storage.request();
   }
 
-  Future<void> loadMedicamentData() async {
-    //String data = await DefaultAssetBundle.of(context)
-       // .loadString('assets/med.json');
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/med3.json';
-
-      // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
+  if (status.isGranted) {
+    // Obtenir le chemin du dossier Téléchargements
+    Directory? downloadsDirectory = await getExternalStorageDirectory();
+    if (downloadsDirectory != null) {
+      String downloadsPath = "${downloadsDirectory.path.split('Android')[0]}Download";
+      final filePath = '$downloadsPath/med3.json';
       final file = File(filePath);
+
       if (!await file.exists()) {
         final data = await rootBundle.load('assets/med3.json');
         final bytes = data.buffer.asUint8List();
@@ -283,36 +461,26 @@ class MyProvider extends ChangeNotifier{
 
       // Lire le fichier JSON
       final contents = await file.readAsString();
-      //final List<dynamic> medicaments = jsonDecode(contents);
-      medicament =
-          (json.decode(contents) as List).map((item) => Med.fromSanpshot(item)).toList();
-      //filteredMedNameList = medNameList;
-      for(final i in medicament){
-        if(i.isFavoris){
+      medicament = (json.decode(contents) as List).map((item) => Med.fromSanpshot(item)).toList();
+
+      for (final i in medicament) {
+        if (i.isFavoris) {
           favorisMedicaments.add(i);
         }
       }
-      print(medicament.length);
-      for(final med in medicament){
-        for(final cl in med.classtherapique)
+      for (final med in medicament) {
+        for (final cl in med.classtherapique) {
           classMedicament.add(cl);
+        }
         classMedicament = classMedicament.toSet().toList();
       }
 
-      for(final med in medicament){
-        for(String cl in med.icons)
-          iconsMed.add(cl);
-        iconsMed = iconsMed.toSet().toList();
-      }
-
-      for(final med in medicament){
-        for(String cl in med.images)
-        imagesMed.add(cl);
-        imagesMed = imagesMed.toSet().toList();
-      }
-      
-    print("end");
-    notifyListeners();
-    //return medicament;
+      print('Fichier enregistré dans Téléchargements : $filePath');
+    }
+  } else {
+    print('Permission de stockage refusée.');
   }
+  notifyListeners();
+  return medicament;
+}
 }

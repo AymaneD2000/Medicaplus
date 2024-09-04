@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class IMCCalculator extends StatefulWidget {
+  const IMCCalculator({super.key});
+
   @override
   _IMCCalculatorState createState() => _IMCCalculatorState();
 }
@@ -30,7 +32,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('IMC'),
+        title: const Text('IMC'),
         backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
@@ -46,59 +48,59 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                   _buildInputField('Taille', 'CM', _heightController),
                 ],
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 children: [
                   Checkbox(
                     value: false,
                     onChanged: (bool? value) {},
                   ),
-                  Text('Surprise'),
+                  const Text('Surprise'),
                 ],
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
                     onPressed: _calculateIMC,
-                    child: Text('CALCULER L\'IMC'),
                     style:
                         ElevatedButton.styleFrom(foregroundColor: Colors.grey),
+                    child: Text('CALCULER L\'IMC'),
                   ),
                   ElevatedButton(
                     onPressed: _resetFields,
-                    child: Text('RAZ'),
                     style:
                         ElevatedButton.styleFrom(foregroundColor: Colors.grey),
+                    child: Text('RAZ'),
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Résultat:',
                 style: TextStyle(
 fontFamily: 'TimesNewRoman',fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text('Votre IMC est $_imc'),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Pour rappel (selon l\'OMS), un résultat:',
                 style: TextStyle(
 fontFamily: 'TimesNewRoman',fontWeight: FontWeight.bold),
               ),
-              Text('- Inférieur à 16 correspond à "Anorexie/dénutrition".'),
-              Text('- Entre 16,5 et 18 correspond à "Maigreur".'),
-              Text('- Entre 18,5 et 25 correspond à "Normal".'),
-              Text('- Entre 25 et 30 correspond à "Surpoid".'),
-              Text('- Entre 30 et 35 correspond à "Obésité modérée".'),
-              Text('- Entre 35 et 40 correspond à "Obésité sévère".'),
-              Text('- Supérieur à 40 correspond à "Obésité morbide".'),
-              SizedBox(height: 16.0),
+              const Text('- Inférieur à 16 correspond à "Anorexie/dénutrition".'),
+              const Text('- Entre 16,5 et 18 correspond à "Maigreur".'),
+              const Text('- Entre 18,5 et 25 correspond à "Normal".'),
+              const Text('- Entre 25 et 30 correspond à "Surpoid".'),
+              const Text('- Entre 30 et 35 correspond à "Obésité modérée".'),
+              const Text('- Entre 35 et 40 correspond à "Obésité sévère".'),
+              const Text('- Supérieur à 40 correspond à "Obésité morbide".'),
+              const SizedBox(height: 16.0),
               GestureDetector(
                 onTap: () {},
-                child: Text(
+                child: const Text(
                   'Plus d\'infos sur : www.calculersonimc.fr',
                   style: TextStyle(
 fontFamily: 'TimesNewRoman',
@@ -119,14 +121,14 @@ fontFamily: 'TimesNewRoman',
     return Column(
       children: [
         Text(label),
-        Container(
+        SizedBox(
           width: 100,
           child: TextField(
             controller: controller,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               suffixText: unit,
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
             ),
           ),
         ),

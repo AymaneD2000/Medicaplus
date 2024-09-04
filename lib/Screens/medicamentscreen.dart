@@ -266,6 +266,8 @@ fontFamily: 'TimesNewRoman',
 );
 
 class MedicamentsScreen extends StatefulWidget {
+  const MedicamentsScreen({super.key});
+
   @override
   _MedicamentsScreenState createState() => _MedicamentsScreenState();
 }
@@ -364,7 +366,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                       child: TextField(
                         controller: searchController,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.search),
+                          prefixIcon: const Icon(Icons.search),
                           hintText: 'Rechercher des médicaments...',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -386,7 +388,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.79,
                       child:filtered.isEmpty
-                              ? Center(child: Text("No data available"))
+                              ? const Center(child: Text("No data available"))
                               : StickyAzList(
                                   options: const StickyAzOptions(
                                       listOptions: ListOptions(showSectionHeader: false, stickySectionHeader: false)),
@@ -407,7 +409,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                                               border: BorderDirectional(
                                                   bottom: BorderSide(width: 0.5))),
                                           child: ListTile(
-                                              title: Text(items.name, style: TextStyle(fontWeight: FontWeight.w700),),
+                                              title: Text(items.name, style: const TextStyle(fontWeight: FontWeight.w700),),
                                               subtitle: Text(items.nomCommercial.join('\n')),),
                                         ));
                                   }),
@@ -442,7 +444,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                         child: TextField(
                           controller: searchController,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.search),
+                            prefixIcon: const Icon(Icons.search),
                             hintText: 'Rechercher des médicaments...',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -557,7 +559,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                       child: TextField(
                         controller: searchController,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.search),
+                          prefixIcon: const Icon(Icons.search),
                           hintText: 'Rechercher des médicaments...',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -579,7 +581,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.79,
                       child: filtered2.isEmpty
-                              ? Center(child: Text("No data available"))
+                              ? const Center(child: Text("No data available"))
                               : StickyAzList(
                                   options: const StickyAzOptions(
                                       listOptions: ListOptions(showSectionHeader: false)),
@@ -600,7 +602,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                                               border: BorderDirectional(
                                                   bottom: BorderSide(width: 0.5))),
                                           child: ListTile(
-                                              title: Text(items.name, style: TextStyle(fontWeight: FontWeight.w700),),
+                                              title: Text(items.name, style: const TextStyle(fontWeight: FontWeight.w700),),
                                               subtitle: Text(items.nomCommercial.join('\n')),),
                                         ));
                                   }),
@@ -609,7 +611,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                 ),
               ),
               Container(
-                child: Text("Info"),
+                child: const Text("Info"),
               )
             ],
           ),

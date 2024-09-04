@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class GlasgowHomePage extends StatefulWidget {
+  const GlasgowHomePage({super.key});
+
   @override
   _GlasgowHomePageState createState() => _GlasgowHomePageState();
 }

@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
                               builder: (context) => MedicamentsScreen()));
                     },
                     child: CardE(
-                      backgroundColor: Color(0xff33CCCC),
+                      backgroundColor: const Color(0xff33CCCC),
                       imageColor: Colors.white,
                       image: "assets/images/medicine 1.png",
                       title: "Medicament",
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CalculeScreen()));
+                              builder: (context) => const CalculeScreen()));
                     },
                     child: CardE(
                       image: "assets/images/Calcule.png",
@@ -121,7 +121,7 @@ class _HomeState extends State<Home> {
               height: MediaQuery.of(context).size.height * 0.8,
               child: GridView.builder(
                 itemCount: grid.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), itemBuilder: (context, index){
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), itemBuilder: (context, index){
                 return grid[index];
               })
             ),
@@ -141,7 +141,7 @@ class _HomeState extends State<Home> {
             Image.asset("assets/images/cours.png")
           ],
           options: CarouselOptions(
-              autoPlay: true, autoPlayInterval: Duration(seconds: 1))),
+              autoPlay: true, autoPlayInterval: const Duration(seconds: 1))),
     );
   }
 

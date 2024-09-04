@@ -80,7 +80,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
       ),
       body: Expanded(
                 child: filtered.isEmpty
-                    ? Center(child: Text("Aucun résultat trouvé", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)))
+                    ? const Center(child: Text("Aucun résultat trouvé", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)))
                     : StickyAzList(
                         options: const StickyAzOptions(
                           safeArea: EnableSafeArea(top: false, bottom: false
@@ -112,7 +112,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
                                   ),
-                                  subtitle: Text(items.dci.join(','),style: TextStyle(color: Colors.green),),
+                                  subtitle: Text(items.dci.join(','),style: const TextStyle(color: Colors.green),),
                                 ),
                               ));
                         }),

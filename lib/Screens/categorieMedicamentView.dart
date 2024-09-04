@@ -17,34 +17,42 @@ class _CategorieMedicamentState extends State<CategorieMedicament> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.name),),
-      body: Column(
-        children: [
-          SizedBox(
-            height:  MediaQuery.of(context).size.height* 0.15, 
-            child: Image.asset(widget.images)),
-          SizedBox(
-            height: MediaQuery.of(context).size.height* 0.75,
-            child: ListView.builder(itemCount: widget.meds.length, itemBuilder: (context,index){
-              return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MedicamentDetailsScreen(
-                              medicament: widget.meds[index]),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          border: BorderDirectional(
-                              bottom: BorderSide(width: 0.5))),
-                      child: ListTile(
-                          title: Text(widget.meds[index].name)),
-                    ));
-            }),
-          ),
-        ],
+      body: SingleChildScrollView(
+        physics: const ScrollPhysics(),
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height* 0.2,
+              width: MediaQuery.of(context).size.height,
+              child: ClipRRect(
+                child: Image.asset(widget.images, fit: BoxFit.fill,),
+              ),
+            )
+            ,
+            SizedBox(
+              height: MediaQuery.of(context).size.height* 0.71,
+              child: ListView.builder(itemCount: widget.meds.length, itemBuilder: (context,index){
+                return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MedicamentDetailsScreen(
+                                medicament: widget.meds[index]),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            border: BorderDirectional(
+                                bottom: BorderSide(width: 0.5))),
+                        child: ListTile(
+                            title: Text(widget.meds[index].name)),
+                      ));
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

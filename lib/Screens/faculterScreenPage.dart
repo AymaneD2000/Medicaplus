@@ -32,35 +32,35 @@ class _FaculterState extends State<Faculter> {
     final double cardHeight = screenHeight * 0.4;
 
     return Scaffold(
-      backgroundColor: Color(0xFFD4EEED),
+      backgroundColor: const Color(0xFFD4EEED),
         appBar: AppBar(
           title: const Text("Liste des cours"),
         ),
         body: 
         FutureBuilder(future: supabaseManagement.faculter(), builder: (context,snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               else if(snapshot.hasError){
                 return Column(
                         children: [
                           Image.asset('assets/images/wifi.png', color: Colors.red,scale: 2,),
-                          Text("Désolé, mais un problème de connexion s'est produit.",
+                          const Text("Désolé, mais un problème de connexion s'est produit.",
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                           textAlign: TextAlign.center,
                           ),
-                          Gap(30),
-                          Text("Appuyer sur Actualiser ou Redémarrer l'application",
+                          const Gap(30),
+                          const Text("Appuyer sur Actualiser ou Redémarrer l'application",
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 12)),
-                          Gap(50),
+                          const Gap(50),
                           TextButton.icon(
                 onPressed: () {
                   setState(() {
                     //SupabaseManagement().getMateriel();
                   });
                 },
-                label: Text("Actualiser"),
+                label: const Text("Actualiser"),
                 icon: Image.asset(
                   "assets/images/refresh.png",
                   scale: 20,
@@ -68,8 +68,8 @@ class _FaculterState extends State<Faculter> {
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  textStyle: TextStyle(fontSize: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  textStyle: const TextStyle(fontSize: 18),
                 ),
                             ),
                         ],
@@ -96,8 +96,8 @@ class _FaculterState extends State<Faculter> {
                             child: SizedBox(
                               height: cardHeight,
                               child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
                                   // image: DecorationImage(
                                   //   image: NetworkImage(fac.image),
                                   //   fit: BoxFit.cover,
@@ -134,22 +134,22 @@ class _FaculterState extends State<Faculter> {
                   return Column(
                         children: [
                           Image.asset('assets/images/wifi.png', color: Colors.red,scale: 2,),
-                          Text("Désolé, mais un problème de connexion s'est produit.",
+                          const Text("Désolé, mais un problème de connexion s'est produit.",
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                           textAlign: TextAlign.center,
                           ),
-                          Gap(30),
-                          Text("Appuyer sur Actualiser ou Redémarrer l'application",
+                          const Gap(30),
+                          const Text("Appuyer sur Actualiser ou Redémarrer l'application",
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 12)),
-                          Gap(50),
+                          const Gap(50),
                           TextButton.icon(
                 onPressed: () {
                   setState(() {
                     //SupabaseManagement().getMateriel();
                   });
                 },
-                label: Text("Actualiser"),
+                label: const Text("Actualiser"),
                 icon: Image.asset(
                   "assets/images/refresh.png",
                   scale: 20,
@@ -157,8 +157,8 @@ class _FaculterState extends State<Faculter> {
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  textStyle: TextStyle(fontSize: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  textStyle: const TextStyle(fontSize: 18),
                 ),
                             ),
                         ],

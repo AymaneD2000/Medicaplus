@@ -6,7 +6,7 @@ import 'package:moussa_project/Screens/filieresviewer.dart';
 class ClassGridScreen extends StatefulWidget {
   final int id;
 
-  ClassGridScreen({required this.id});
+  const ClassGridScreen({super.key, required this.id});
 
   @override
   State<ClassGridScreen> createState() => _ClassGridScreenState();
@@ -37,7 +37,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double cardHeight = screenHeight * 0.26;
     return Scaffold(
-      backgroundColor: Color(0xFFD4EEED),
+      backgroundColor: const Color(0xFFD4EEED),
       appBar: AppBar(
         title: const Text('Liste des Classes'),
       ),
@@ -62,8 +62,8 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                             child: SizedBox(
                               height: cardHeight,
                               child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
                                   // image: DecorationImage(
                                   //   image: NetworkImage(fac.image),
                                   //   fit: BoxFit.cover,

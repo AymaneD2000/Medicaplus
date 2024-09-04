@@ -5,7 +5,7 @@ import 'package:moussa_project/Screens/pdfclientview.dart';
 
 class FiliereGridScreen extends StatefulWidget {
   final String className;
-  FiliereGridScreen({required this.className});
+  const FiliereGridScreen({super.key, required this.className});
 
   @override
   State<FiliereGridScreen> createState() => _FiliereGridScreenState();
@@ -33,15 +33,15 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
         final double screenHeight = MediaQuery.of(context).size.height;
     final double cardHeight = screenHeight * 0.26;
     return Scaffold(
-      backgroundColor: Color(0xFFD4EEED),
+      backgroundColor: const Color(0xFFD4EEED),
       appBar: AppBar(
-        title: Text('Liste des modules'),
+        title: const Text('Liste des modules'),
       ),
       body: ListView.builder(
         itemCount: _filieres.length,
         itemBuilder: (BuildContext context, int index) {
           return _filieres.isEmpty
-              ? Center()
+              ? const Center()
               : GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -59,8 +59,8 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
                             child: SizedBox(
                               height: cardHeight,
                               child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
                                   // image: DecorationImage(
                                   //   image: NetworkImage(fac.image),
                                   //   fit: BoxFit.cover,

@@ -9,7 +9,7 @@ class AttributesCard extends StatelessWidget {
   String image;
   Color couleurs;
   AttributesCard(
-      {required this.couleurs,
+      {super.key, required this.couleurs,
       required this.image,
       this.alias,
       required this.description,

@@ -80,7 +80,7 @@ class _SearchAmoScreenAmoState extends State<SearchAmoScreenAmo> {
       ),
       body: Expanded(
                 child: filtered.isEmpty
-                    ? Center(child: Text("Aucun résultat trouvé", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)))
+                    ? const Center(child: Text("Aucun résultat trouvé", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)))
                     : StickyAzList(
                         options: const StickyAzOptions(
                           safeArea: EnableSafeArea(top: false, bottom: false

@@ -1,4 +1,3 @@
-import 'package:uuid/v4.dart';
 
 class Filiere {
   String id;

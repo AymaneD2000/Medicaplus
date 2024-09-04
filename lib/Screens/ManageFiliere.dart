@@ -10,7 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class FiliereScreen extends StatefulWidget {
-  FiliereScreen({required this.nomClasse, Key? key}) : super(key: key);
+  const FiliereScreen({required this.nomClasse, Key? key}) : super(key: key);
   final String nomClasse;
 
   @override
@@ -89,7 +89,7 @@ class _FiliereScreenState extends State<FiliereScreen> {
       await SupabaseManagement.supabase.storage.from('avatars').upload(
             filePath,
             File(imageFile.path),
-            fileOptions: FileOptions(contentType: 'image/*'),
+            fileOptions: const FileOptions(contentType: 'image/*'),
           );
       _avatarUrl = await Supabase.instance.client.storage
           .from('avatars')
@@ -149,7 +149,7 @@ class _FiliereScreenState extends State<FiliereScreen> {
                 onPressed: _chargerImage,
                 child: const Text('Choisir Image'),
               ),
-            _avatarUrl.isNotEmpty? Image.network(_avatarUrl):Center(child: Text("Choisisez une image"),)
+            _avatarUrl.isNotEmpty? Image.network(_avatarUrl):const Center(child: Text("Choisisez une image"),)
             ],
           ),
           actions: [

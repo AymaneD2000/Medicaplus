@@ -7,7 +7,7 @@ class AttributesCardPharmacie extends StatelessWidget {
   String title;
   Color couleurs;
   AttributesCardPharmacie(
-      {required this.couleurs,
+      {super.key, required this.couleurs,
       required this.description,
       required this.title});
 

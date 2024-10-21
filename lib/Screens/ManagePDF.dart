@@ -141,9 +141,8 @@ class _PdfScreenState extends State<PdfScreen> {
     }
 
     try {
-      final bytes = pdfFile.files.first.bytes;
-      final fileExt = pdfFile.files.first.path!.split('.').last;
-      final fileName = '${pdfFile.names.first}.$fileExt';
+      //final fileExt = pdfFile.files.first.path!.split('.').last;
+      final fileName = '${pdfFile.names.first}';
       final f = File(pdfFile.files.first.path!);
       final filePath = fileName;
       await SupabaseManagement.supabase.storage.from('avatars').upload(
@@ -156,6 +155,7 @@ class _PdfScreenState extends State<PdfScreen> {
           .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
     } on StorageException catch (error) {
       if (mounted) {
+        print(error.message);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(error.message),

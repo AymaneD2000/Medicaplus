@@ -210,9 +210,9 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              Center(
-                child: Image.asset('assets/images/diabete.gif',scale: 6,),
-              ),
+              // Center(
+              //   child: Image.asset('assets/images/diabete.gif',scale: 6,),
+              // ),
               const SizedBox(height: 16),
               Row(
                 children: [

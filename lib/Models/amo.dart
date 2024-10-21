@@ -1,4 +1,15 @@
 import 'package:sticky_az_list/sticky_az_list.dart';
+import 'dart:math';
+
+String generateRandomString(int length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  Random random = Random();
+
+  return String.fromCharCodes(Iterable.generate(
+    length,
+    (_) => characters.codeUnitAt(random.nextInt(characters.length)),
+  ));
+}
 
 class Amo extends TaggedItem {
   final String name;
@@ -35,10 +46,11 @@ class Amo extends TaggedItem {
         presantation: json["Présentation"],
         specialitepharmaco: json['Spécialité médicale']);
   }
+  String rad = generateRandomString(6);
   @override
   String sortName() {
     try {
-      return name;
+      return "$name-$rad";
     } catch (exp) {
       return "this is the execption $name";
     }

@@ -1,13 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moussa_project/Models/med.dart';
 import 'package:moussa_project/Models/prescription.dart';
 import 'package:moussa_project/Screens/categorieMedicamentView.dart';
 import 'package:moussa_project/Screens/pdfassetsviewer.dart';
+import 'package:moussa_project/Screens/searchScreen%20prescription.dart';
 import 'package:sticky_az_list/sticky_az_list.dart';
-import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
 
 // Styles personnalisés
 const TextStyle headerStyle = TextStyle(
@@ -33,13 +32,13 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
     //List<dynamic> medicamentsData = [];
  List<dynamic> classth = [];
   final tabs = <Tab>[
-    const Tab(
-      icon: Icon(Icons.list, size: 30),
-      text: "Par Nom",
+    Tab(
+      icon: Image.asset("assets/images/az.png", height: 21,),
+      text: "Nom",
     ),
-    const Tab(
-      icon: Icon(Icons.category, size: 30),
-      text: "Par Classe",
+    Tab(
+      icon: Image.asset("assets/images/info.png", height: 21,),
+      text: "Info",
     ),
   ];
   List<Med> medNameList = [];
@@ -107,6 +106,7 @@ Future<List<String>> loadPdfFileNames() async {
     length: 2,
     initialIndex: 0,
     child: Scaffold(
+      backgroundColor: Colors.white,
       body: TabBarView(
         children: [
           Column(
@@ -130,6 +130,33 @@ Future<List<String>> loadPdfFileNames() async {
                       ],
                     ),
                   ),
+                  GestureDetector(
+                  onTap: ()async{
+                    final list = await loadPdfFileNames();
+                    final data = list.map((filePath) => filePath.split('/').last).toList();
+                      final listes = List.generate(growable: true, data.length, (index){
+                        return Prescription(name: data[index]);
+                      });
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPrescriptionScreen(listes: listes, hintText: 'Rechercher des Noms...')));
+                    },
+                child: Padding(  
+                  padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
+                  child: TextField(
+                    enabled: false,
+                    autofocus: false,
+                    //controller: searchController,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(30.0),borderSide: const BorderSide(color: Colors.green)),
+                      suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
+                      hintText: 'Rechercher des Noms...',
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: FutureBuilder<List<String>>(
                   future: loadPdfFileNames(),
@@ -148,7 +175,8 @@ Future<List<String>> loadPdfFileNames() async {
                       return StickyAzList(
                                 options: const StickyAzOptions(
                                   startWithSpecialSymbol: true,
-                                    listOptions: ListOptions(showSectionHeader: false)),
+                                    listOptions: ListOptions(headerColor: const Color(0xfffc6e6ff),
+                                     showSectionHeader:true)),
                                 items: list,
                                 builder: (context, index, items) {
                                   return GestureDetector(
@@ -157,7 +185,7 @@ Future<List<String>> loadPdfFileNames() async {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => PDFAssetScreen(path: "assets/prescription/${items.name}",),
+                                            builder: (context) => PDFAssetScreen(path: "assets/prescription/${items.name}",name: items.name.split(".")[0]),
                                         ));
                                       },
                                       child: Container(
@@ -165,7 +193,7 @@ Future<List<String>> loadPdfFileNames() async {
                                             border: BorderDirectional(
                                                 bottom: BorderSide(width: 0.5))),
                                         child: ListTile(
-                                            title: Text(items.name),),
+                                            title: Text(items.name.split(".")[0], style: TextStyle(fontWeight: FontWeight.bold),),),
                                       ));
                                 });
                     }
@@ -179,8 +207,16 @@ Future<List<String>> loadPdfFileNames() async {
         ],
       ),
       bottomNavigationBar: TabBar(
-        tabs: tabs,
-      ),
+        //indicator: UnderlineTabIndicator(borderSide: BorderSide(color: Colors.blue)),
+        tabs: tabs, 
+        splashBorderRadius: BorderRadius.circular(20), 
+        onTap: (i){
+          setState(() {
+          
+          });
+        },
+        indicatorColor: Colors.blue,
+        labelColor: Colors.blue,),
     ),
   );
 }

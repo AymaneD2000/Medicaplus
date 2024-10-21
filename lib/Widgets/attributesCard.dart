@@ -64,7 +64,7 @@ class AttributesCard extends StatelessWidget {
                   Image.asset(
                     fit: BoxFit.cover,
                     image,
-                    height: 15 * MediaQuery.devicePixelRatioOf(context),
+                    height: MediaQuery.of(context).size.height*0.055,
                   ),
                   SizedBox(
                     width: 4 * MediaQuery.devicePixelRatioOf(context),
@@ -72,9 +72,9 @@ class AttributesCard extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-fontFamily: 'TimesNewRoman',
+                      fontFamily: 'TimesNewRoman',
                       fontWeight: FontWeight.bold,
-                      fontSize: 6 * MediaQuery.devicePixelRatioOf(context),
+                      fontSize: MediaQuery.of(context).size.width*0.055,
                     ),
                   ),
                 ],
@@ -84,8 +84,8 @@ fontFamily: 'TimesNewRoman',
               margin:
                   EdgeInsets.all(4 * MediaQuery.devicePixelRatioOf(context)),
               child: alias == null || alias == ""
-                  ? Text("$description ")
-                  : Text("$description ($alias)"),
+                  ? Text("$description ", style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.045,),)
+                  : Text("$description ($alias)", style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.045,)),
             ),
           ],
         ),

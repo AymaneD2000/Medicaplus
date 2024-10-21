@@ -1,9 +1,7 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
-import 'package:moussa_project/DatabaseManagement/provider.dart';
 import 'package:moussa_project/Models/amo.dart';
 import 'package:moussa_project/Screens/AmoView.dart';
-import 'package:provider/provider.dart';
 import 'package:sticky_az_list/sticky_az_list.dart';
 
 class SearchAmoScreenAmo extends StatefulWidget {
@@ -78,45 +76,43 @@ class _SearchAmoScreenAmoState extends State<SearchAmoScreenAmo> {
           ],
         ),
       ),
-      body: Expanded(
-                child: filtered.isEmpty
-                    ? const Center(child: Text("Aucun résultat trouvé", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)))
-                    : StickyAzList(
-                        options: const StickyAzOptions(
-                          safeArea: EnableSafeArea(top: false, bottom: false
-                          ),
-                          startWithSpecialSymbol: true,
-                            listOptions: ListOptions(showSectionHeader: false)),
-                        items:  filtered,
-                        builder: (context, index, items) {
-                          return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AmoDetailsScreen(
-                                        medicament: items),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    border: BorderDirectional(
-                                        bottom: BorderSide(width: 0.5))),
-                                child: ListTile(
-                                  leading: Image.asset(items.icon, scale: 12,),
-                                  title: Text(
-                                    items.name,
-                                    style: const TextStyle(
-                                        fontFamily: 'TimesNewRoman',
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green),
-                                  ),
-                                  subtitle: Text(items.prix.join(','),),
-                                ),
-                              ));
-                        }),
-              ),
+      body: filtered.isEmpty
+          ? const Center(child: Text("Aucun résultat trouvé", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)))
+          : StickyAzList(
+              options: const StickyAzOptions(
+                safeArea: EnableSafeArea(top: false, bottom: false
+                ),
+                startWithSpecialSymbol: true,
+                  listOptions: ListOptions(showSectionHeader: false)),
+              items:  filtered,
+              builder: (context, index, items) {
+                return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AmoDetailsScreen(
+                              medicament: items),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          border: BorderDirectional(
+                              bottom: BorderSide(width: 0.5))),
+                      child: ListTile(
+                        leading: Image.asset(items.icon, scale: 12,),
+                        title: Text(
+                          items.name,
+                          style: const TextStyle(
+                              fontFamily: 'TimesNewRoman',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green),
+                        ),
+                        subtitle: Text(items.prix.join(','),),
+                      ),
+                    ));
+              }),
     );
 
   }

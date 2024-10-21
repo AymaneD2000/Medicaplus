@@ -42,38 +42,43 @@ class _FaculterState extends State<Faculter> {
                 return const Center(child: CircularProgressIndicator());
               }
               else if(snapshot.hasError){
-                return Column(
-                        children: [
-                          Image.asset('assets/images/wifi.png', color: Colors.red,scale: 2,),
-                          const Text("Désolé, mais un problème de connexion s'est produit.",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                          textAlign: TextAlign.center,
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Column(
+                            children: [
+                              Image.asset('assets/images/wifi.png', color: Colors.red,scale: 2,),
+                              const Text("Désolé, mais un problème de connexion s'est produit.",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                              textAlign: TextAlign.center,
+                              ),
+                              const Gap(30),
+                              const Text("Appuyer sur Actualiser ou Redémarrer l'application",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 12)),
+                              const Gap(50),
+                              TextButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        //SupabaseManagement().getMateriel();
+                      });
+                    },
+                    label: const Text("Actualiser"),
+                    icon: Image.asset(
+                      "assets/images/refresh.png",
+                      scale: 20,
+                    ),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      textStyle: const TextStyle(fontSize: 18),
+                    ),
+                                ),
+                            ],
                           ),
-                          const Gap(30),
-                          const Text("Appuyer sur Actualiser ou Redémarrer l'application",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12)),
-                          const Gap(50),
-                          TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    //SupabaseManagement().getMateriel();
-                  });
-                },
-                label: const Text("Actualiser"),
-                icon: Image.asset(
-                  "assets/images/refresh.png",
-                  scale: 20,
-                ),
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  textStyle: const TextStyle(fontSize: 18),
-                ),
-                            ),
-                        ],
-                      );
+                  ),
+                );
               }else if(snapshot.hasData){
                 final faculties = snapshot.data;
                 return ListView.builder(

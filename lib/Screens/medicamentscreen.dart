@@ -241,10 +241,12 @@
 import 'dart:convert';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:moussa_project/DatabaseManagement/provider.dart';
 import 'package:moussa_project/Models/amo.dart';
 import 'package:moussa_project/Models/med.dart';
 import 'package:moussa_project/Screens/categorieMedicamentView.dart';
+import 'package:moussa_project/Screens/searchScreenMedicaments.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_az_list/sticky_az_list.dart';
 import 'package:flutter/services.dart';
@@ -301,14 +303,14 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
   TextEditingController searchController1 = TextEditingController();
   TextEditingController searchController2 = TextEditingController();
   List<Med> filtered = [];
-  List<Med> filtered1 = [];
+  List<String> filtered1 = [];
   List<Med> filtered2 = [];
   MyProvider provider = MyProvider();
   @override
   void initState() {
     super.initState();
     filtered = context.read<MyProvider>().medicament;
-     filtered1 = context.read<MyProvider>().medicament;
+     filtered1 = context.read<MyProvider>().classMedicament;
      filtered2 = context.read<MyProvider>().favorisMedicaments;
     //_loadMedicamentsData();
   }
@@ -361,30 +363,28 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.search),
-                          hintText: 'Rechercher des médicaments...',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        onChanged: (query){
-                          filtered = context.read<MyProvider>().medicament.where((med) {
-                            final medNameLower = removeDiacritics(med.name.toLowerCase());
-                            final queryLower = removeDiacritics(query.toLowerCase());
-                            return medNameLower.contains(queryLower);
-                          }).toList();
-
-                          setState(() {
-                            filtered;
-                          });
-                  },
+                    GestureDetector(
+                  onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchMedicamentScreen(listes: context.read<MyProvider>().medicament, hintText: 'Rechercher des Noms...')));
+                    },
+                child: Padding(  
+                  padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
+                  child: TextField(
+                    enabled: false,
+                    autofocus: false,
+                    //controller: searchController,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(30.0),borderSide: const BorderSide(color: Colors.green)),
+                      suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
+                      hintText: 'Rechercher des Noms...',
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
+                  ),
+                ),
+              ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.79,
                       child:filtered.isEmpty
@@ -440,19 +440,23 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
                         child: TextField(
                           controller: searchController,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            hintText: 'Rechercher des médicaments...',
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(),
+                             borderRadius: BorderRadius.circular(30.0)),
+                            focusColor: Colors.black,
+                            fillColor: Colors.black,
+                            suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
+                            hintText: 'Rechercher des classes...',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(30.0),
                             ),
                           ),
                           onChanged: (query){
-                          filtered1 = context.read<MyProvider>().medicament.where((med) {
-                            final medNameLower = removeDiacritics(med.name.toLowerCase());
+                          filtered1 = context.read<MyProvider>().classMedicament.where((med) {
+                            final medNameLower = removeDiacritics(med.toLowerCase());
                             final queryLower = removeDiacritics(query.toLowerCase());
                             return medNameLower.contains(queryLower);
                           }).toList();
@@ -466,20 +470,22 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.69,
                       child: GridView.builder(
+                        padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 0),
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10,
                             ),
-                            itemCount: context.watch<MyProvider>().classMedicament.length,
+                            itemCount: filtered1.length,
                             itemBuilder: (context, index) {
-                              final aliasName = context.watch<MyProvider>().classMedicament[index];
+                              final aliasName = filtered1[index];
                               final images = context.watch<MyProvider>().iconsMed;
                               final icons =  context.watch<MyProvider>().imagesMed;
                               print(images);
                               String image = "";
                               String icon = "";
                               for(final i in images){
+                                print(i);
                                 if(i.split('icon/')[1].split('.')[0] == aliasName){
                                   image = i;
                                 }
@@ -491,41 +497,48 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                               }
 
                               return GestureDetector(
-                                onTap: () {
-                                  List<dynamic> meds = [];
-                                  //meds.contains(element)
-                                  context.read<MyProvider>().medicament.forEach((element) {
-                                    //for(final cl in classth[index]){
-                                  if (element.classtherapique.contains(context.read<MyProvider>().classMedicament[index])) {
-                                  meds.add(element);
-                                    }
-                                    //}
-                                  });
-                                  Navigator.push(
-                                    context,MaterialPageRoute(builder: (context)=>CategorieMedicament(images: icon, meds: meds,name: context.watch<MyProvider>().classMedicament[index],))
-                                    );
-                                  print(meds.length);
-                                },
-                                child: Card(
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(image, height: 50,),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          aliasName,
-                                          style: headerStyle,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
+  onTap: () {
+    List<dynamic> meds = [];
+    context.read<MyProvider>().medicament.forEach((element) {
+      if (element.classtherapique.contains(filtered1[index])) {
+        meds.add(element);
+      }
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CategorieMedicament(
+          images: icon,
+          meds: meds,
+          name: filtered1[index],
+        ),
+      ),
+    );
+    print(meds.length);
+  },
+  child: Card(
+    elevation: 5,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15.0),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(image, height: 50),
+        const SizedBox(height: 8),
+        Text(
+          aliasName,
+          style: headerStyle,
+          textAlign: TextAlign.center,
+          maxLines: 1, // Restrict to a single line
+          overflow: TextOverflow.ellipsis, // Truncate with ellipsis
+        ),
+      ],
+    ),
+  ),
+);
+
                             },
                           ),
                     )
@@ -554,34 +567,41 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.search),
-                          hintText: 'Rechercher des médicaments...',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        onChanged: (query){
-                            filtered2 = context.read<MyProvider>().favorisMedicaments.where((med) {
-                              final medNameLower = removeDiacritics(med.name.toLowerCase());
-                              final queryLower = removeDiacritics(query.toLowerCase());
-                              return medNameLower.contains(queryLower);
-                            }).toList();
-
-                            setState(() {
-                              filtered2;
-                            });
-                          },
+                    GestureDetector(
+                  onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchMedicamentScreen(listes: context.read<MyProvider>().favorisMedicaments, hintText: 'Rechercher des Noms...')));
+                    },
+                child: Padding(  
+                  padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
+                  child: TextField(
+                    enabled: false,
+                    autofocus: false,
+                    //controller: searchController,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(30.0),borderSide: const BorderSide(color: Colors.green)),
+                      suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
+                      hintText: 'Rechercher des Favoris...',
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
+                  ),
+                ),
+              ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.79,
                       child: filtered2.isEmpty
-                              ? const Center(child: Text("No data available"))
+                              ? const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(child: Text("Votre Favoris est vide", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
+                        Gap(10),
+                        Center(child: Text("Favoris vous permet",style: TextStyle( fontSize: 16))),
+                        Center(child: Text("de mettre de côté vos",style: TextStyle( fontSize: 16))),
+                        Center(child: Text("médicaments préférés",style: TextStyle(fontSize: 16))),
+                      ],
+                    )
                               : StickyAzList(
                                   options: const StickyAzOptions(
                                       listOptions: ListOptions(showSectionHeader: false)),

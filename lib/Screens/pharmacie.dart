@@ -142,20 +142,6 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
-                    // onChanged: (query){
-                    //   // filtered = context.read<MyProvider>().pharmacies.where((med) {
-                    //   //   final medNameLower = removeDiacritics(med.name.toLowerCase());
-                    //   //   final queryLower = removeDiacritics(query.toLowerCase());
-                    //   //   return medNameLower.contains(queryLower);
-                    //   // }).toList();
-                
-                    //   // setState(() {
-                    //   //   filtered;
-                    //   // });
-                
-                    //   Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchAmoScreen(listes: context.read<MyProvider>().pharmacies, hintText: 'Rechercher des Noms...')));
-                
-                    // },
                   ),
                 ),
               ),

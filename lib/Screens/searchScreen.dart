@@ -78,45 +78,43 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
           ],
         ),
       ),
-      body: Expanded(
-                child: filtered.isEmpty
-                    ? const Center(child: Text("Aucun résultat trouvé", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)))
-                    : StickyAzList(
-                        options: const StickyAzOptions(
-                          safeArea: EnableSafeArea(top: false, bottom: false
-                          ),
-                          startWithSpecialSymbol: true,
-                            listOptions: ListOptions(showSectionHeader: false)),
-                        items:  filtered,
-                        builder: (context, index, items) {
-                          return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AmoDetailsScreen(
-                                        medicament: items),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    border: BorderDirectional(
-                                        bottom: BorderSide(width: 0.5))),
-                                child: ListTile(
-                                  leading: Image.asset(items.icon, scale: 12,),
-                                  title: Text(
-                                    items.name,
-                                    style: const TextStyle(
-                                        fontFamily: 'TimesNewRoman',
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green),
-                                  ),
-                                  subtitle: Text(items.presantation.join(','),),
-                                ),
-                              ));
-                        }),
-              ),
+      body: filtered.isEmpty
+          ? const Center(child: Text("Aucun résultat trouvé", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)))
+          : StickyAzList(
+              options: const StickyAzOptions(
+                safeArea: EnableSafeArea(top: false, bottom: false
+                ),
+                startWithSpecialSymbol: true,
+                  listOptions: ListOptions(showSectionHeader: false)),
+              items:  filtered,
+              builder: (context, index, items) {
+                return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AmoDetailsScreen(
+                              medicament: items),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          border: BorderDirectional(
+                              bottom: BorderSide(width: 0.5))),
+                      child: ListTile(
+                        leading: Image.asset(items.icon, scale: 12,),
+                        title: Text(
+                          items.name,
+                          style: const TextStyle(
+                              fontFamily: 'TimesNewRoman',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green),
+                        ),
+                        subtitle: Text(items.presantation.join(','),),
+                      ),
+                    ));
+              }),
     );
 
   }

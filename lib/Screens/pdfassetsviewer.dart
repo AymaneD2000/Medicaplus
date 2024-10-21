@@ -9,8 +9,8 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class PDFAssetScreen extends StatefulWidget {
   final String? path;
-
-  const PDFAssetScreen({Key? key, this.path}) : super(key: key);
+  String? name;
+  PDFAssetScreen({Key? key, this.path, this.name}) : super(key: key);
 
   @override
   _PDFAssetScreenState createState() => _PDFAssetScreenState();
@@ -28,13 +28,8 @@ class _PDFAssetScreenState extends State<PDFAssetScreen> with WidgetsBindingObse
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Document"),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: () {},
-          ),
-        ],
+        backgroundColor: const Color(0xfffc6e6ff),
+        title: Text("Prescription"),
       ),
       body: Stack(
         children: <Widget>[
@@ -42,7 +37,7 @@ class _PDFAssetScreenState extends State<PDFAssetScreen> with WidgetsBindingObse
           errorMessage.isEmpty
               ? isReady
                   ? const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(color: const Color(0xfffc6e6ff),),
                     )
                   : Container()
               : Center(

@@ -158,7 +158,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -175,6 +174,7 @@ class _PregnancyCalculatorScreenState
   final _dateController = TextEditingController();
   final _weeksController = TextEditingController();
   final _daysController = TextEditingController();
+
   String _selectedOption = 'Date du premier jour des dernières règles';
   String _resultLMP = '';
   String _resultConception = '';
@@ -185,94 +185,51 @@ class _PregnancyCalculatorScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF7E1),
+      appBar: AppBar(
+        title: const Text('Pregnancy Calculator'),
+        backgroundColor: Colors.teal,
+      ),
+      backgroundColor: Colors.teal[50],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(
-                child: Text(
-                  'Calendrier de grossesse',
-                  style: TextStyle(
-                    fontFamily: 'TimesNewRoman',
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4A90E2),
-                  ),
+              const Text(
+                'Pregnancy Calendar',
+                style: TextStyle(
+                  fontFamily: 'TimesNewRoman',
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
                 ),
               ),
-              const SizedBox(height: 20.0),
-              TextField(
-                controller: _dateController,
-                decoration: const InputDecoration(
-                  labelText: 'Date',
-                  hintText: 'Format: jj/mm/aaaa ou aaaa-mm-jj',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_today, color: Color(0xFF4A90E2)),
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              _buildRadioOption(
-                'Date du premier jour des dernières règles',
-              ),
-              _buildRadioOption('Date de conception'),
-              _buildRadioOption('Date du terme théorique'),
-              _buildRadioOption('Date échographie, datation'),
-              if (_selectedOption == 'Date échographie, datation')
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _weeksController,
-                          decoration: const InputDecoration(
-                            labelText: 'S.A.',
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      Expanded(
-                        child: TextField(
-                          controller: _daysController,
-                          decoration: const InputDecoration(
-                            labelText: 'J.',
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              const SizedBox(height: 20.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _calculateDates,
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: const Color(0xFF4A90E2),
-                  ),
-                  child: const Text('Calculer'),
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              _buildResultField('Premier jour dernières règles :', result: _resultLMP),
-              _buildResultField('Date conception :', result: _resultConception),
-              _buildResultField('Terme théorique :', result: _resultEDD, isAdjustable: true),
-              _buildResultField('Terme actuel :', result: _resultCurrent, isAdjustable: true),
-              _buildResultField('Post terme :', result: _resultPostTerm),
               const SizedBox(height: 20.0),
               const Text(
-                '- Échographies -',
+                'Select Date:',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.teal,
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              _buildDateInput(),
+              const SizedBox(height: 20.0),
+              _buildOptions(),
+              const SizedBox(height: 20.0),
+              _buildCalculateButton(),
+              const SizedBox(height: 20.0),
+              _buildResults(),
+              const SizedBox(height: 20.0),
+              const Text(
+                '- Echographies -',
                 style: TextStyle(
                   fontFamily: 'TimesNewRoman',
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF4A90E2),
+                  color: Colors.teal,
                 ),
               ),
               const SizedBox(height: 10.0),
@@ -281,6 +238,51 @@ class _PregnancyCalculatorScreenState
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDateInput() {
+    return TextField(
+      controller: _dateController,
+      readOnly: true,
+      onTap: _pickDate,
+      decoration: InputDecoration(
+        hintText: 'Tap to select date',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        suffixIcon: const Icon(
+          Icons.calendar_today,
+          color: Colors.teal,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        _dateController.text = DateFormat('dd/MM/yyyy').format(picked);
+      });
+    }
+  }
+
+  Widget _buildOptions() {
+    final options = [
+      'Date du premier jour des dernières règles',
+      'Date de conception',
+      'Date du terme théorique',
+      'Date échographie, datation'
+    ];
+
+    return Column(
+      children: options.map((option) => _buildRadioOption(option)).toList(),
     );
   }
 
@@ -295,8 +297,30 @@ class _PregnancyCalculatorScreenState
             _selectedOption = value!;
           });
         },
-        activeColor: const Color(0xFF4A90E2),
+        activeColor: Colors.teal,
       ),
+    );
+  }
+
+  Widget _buildCalculateButton() {
+    return Center(
+      child: ElevatedButton(
+        onPressed: _calculateDates,
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+        child: const Text('Calculate'),
+      ),
+    );
+  }
+
+  Widget _buildResults() {
+    return Column(
+      children: [
+        _buildResultField('First day of last period:', result: _resultLMP),
+        _buildResultField('Date of conception:', result: _resultConception),
+        _buildResultField('Estimated due date:', result: _resultEDD, isAdjustable: true),
+        _buildResultField('Current term:', result: _resultCurrent, isAdjustable: true),
+        _buildResultField('Post term:', result: _resultPostTerm),
+      ],
     );
   }
 
@@ -315,18 +339,20 @@ class _PregnancyCalculatorScreenState
               readOnly: !isAdjustable,
             ),
           ),
-          if (isAdjustable) ...[
-            const SizedBox(width: 10.0),
-            const Text('+/-'),
-            const SizedBox(width: 10.0),
-            const Expanded(
+          if (isAdjustable)
+            const Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Text('±'),
+            ),
+          if (isAdjustable)
+            Expanded(
               child: TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
+                  hintText: 'Adjust',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-          ],
         ],
       ),
     );
@@ -343,7 +369,7 @@ class _PregnancyCalculatorScreenState
         baseDate = DateFormat('yyyy-MM-dd').parseStrict(dateInput);
       }
     } catch (e) {
-      _showErrorDialog('Date invalide');
+      _showErrorDialog('Invalid date format');
       return;
     }
 
@@ -390,7 +416,7 @@ class _PregnancyCalculatorScreenState
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Erreur'),
+        title: const Text('Error'),
         content: Text(message),
         actions: [
           TextButton(
@@ -402,4 +428,3 @@ class _PregnancyCalculatorScreenState
     );
   }
 }
-

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class IMCCalculator extends StatefulWidget {
@@ -27,13 +29,11 @@ class _IMCCalculatorState extends State<IMCCalculator> {
     if(_weightController.text.isNotEmpty && _heightController.text.isNotEmpty){
     double weight = double.parse(_weightController.text.replaceAll(RegExp(','),'.'));
     double height = double.parse(_heightController.text.replaceAll(RegExp(','),'.'));
-    if(_selectedUnit == 'm'){
-      height = height * 100;
+    if(_selectedUnit == 'cm'){
+      height = height / 100;
     }
     setState(() {
-      _imc = weight / (height * height);
-      print("this is imc");
-      print(_imc);
+      _imc = weight / pow(height, 2);
       if(_imc.isInfinite || _imc.isNaN || weight == 0 || height ==0 || (weight == 1 && height == 1)){
         imcValue = "";
         interpretation = "Merci de renseignez des valeurs correctes";
@@ -151,20 +151,13 @@ class _IMCCalculatorState extends State<IMCCalculator> {
     }
   }
 
-  void _resetFields() {
-    _weightController.clear();
-    _heightController.clear();
-    setState(() {
-      _imc = 0.0;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('IMC'),
+        title: const Text('IMC',),
         backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
@@ -186,7 +179,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        "L\'indice de masse corporelle (IMC), est une mesure utilisée pour estimer la corpulance d'une personne en fonction de son poids et de sa taille.",
+                        "L'indice de masse corporelle (IMC), est une mesure utilisée pour estimer la corpulance d'une personne en fonction de son poids et de sa taille.",
                         style:
                         TextStyle(
                           //fontFamily: 'TimesNewRoman',
@@ -202,8 +195,8 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                           //_buildInputField('Poids', 'KG', _weightController),
                           //_buildInputField('Taille', 'CM', _heightController),
                           Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(color: Colors.white),
+                            padding: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(color: Colors.white),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -216,7 +209,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                                 const SizedBox(width: 8),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(125, 50, 204, 204),
+                                    color: const Color.fromARGB(125, 50, 204, 204),
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all()),
                                   width: MediaQuery.of(context).size.width*0.2,
@@ -230,7 +223,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                                     decoration: const InputDecoration(
                                       hintText: "en Kg",
                                       border: InputBorder.none,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+                                      contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                                     ),
                                     keyboardType: TextInputType.number,
                                   ),
@@ -239,8 +232,8 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(color: Colors.white),
+                            padding: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(color: Colors.white),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -253,7 +246,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                                 const SizedBox(width: 8),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(125, 50, 204, 204),
+                                    color: const Color.fromARGB(125, 50, 204, 204),
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all()),
                                   width: MediaQuery.of(context).size.width*0.2,
@@ -343,7 +336,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       color: const Color(0xff33CCCC),
                       borderRadius:  BorderRadius.circular(15)),
@@ -382,7 +375,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                         _heightController.clear();
                         _weightController.clear();
                         _imc = 0;
-                        intreprete = Text("");
+                        intreprete = const Text("");
                         });
                       },
                       child: const Text('Reprendre', style: TextStyle(

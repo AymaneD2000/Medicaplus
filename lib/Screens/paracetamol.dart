@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class HbA1cScreen extends StatefulWidget {
-  const HbA1cScreen({super.key});
+class ParacetamolScreen extends StatefulWidget {
+  const ParacetamolScreen({super.key});
 
   @override
-  _HbA1cScreenState createState() => _HbA1cScreenState();
+  _ParacetamolScreenState createState() => _ParacetamolScreenState();
 }
 
-class _HbA1cScreenState extends State<HbA1cScreen> {
+class _ParacetamolScreenState extends State<ParacetamolScreen> {
   final TextEditingController _controller = TextEditingController();
   String _selectedUnit = '%';
   double? _glycemiaGpl;
@@ -22,14 +22,14 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
     final t = _controller.text.replaceAll(RegExp(','),'.');
     print(t);
     setState(() {
-      double hbA1c = double.tryParse(t) ?? 0.0;
+      double paracetamol = double.tryParse(t) ?? 0.0;
       if (_selectedUnit == '%') {
-        if(hbA1c >=2 && hbA1c<=20){
-          _glycemiaMmol = hbA1c * 1.59 - 2.59;
+        if(paracetamol >=2 && paracetamol<=20){
+          _glycemiaMmol = paracetamol * 1.59 - 2.59;
         print("-----------------------------");
         print(_glycemiaMmol);
         _glycemiaGpl = _glycemiaMmol! / 0.055;
-        if(hbA1c >= 2 && hbA1c < 4){
+        if(paracetamol >= 2 && paracetamol < 4){
           setState(() {
             interpretation = "Hypo-Glycémie chronique\n Risque de pathologies hépatiques";
             intreprete = Text(
@@ -45,7 +45,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                     );
           });
         }
-        // else if(hbA1c >= 4 && hbA1c <= 4.6){
+        // else if(paracetamol >= 4 && paracetamol <= 4.6){
         //   setState(() {
         //     interpretation = "Super Optimal";
         //     intreprete = Text(
@@ -59,7 +59,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
         //       );
         //   });
         // }
-        else if(hbA1c >= 4 && hbA1c <= 5.1)
+        else if(paracetamol >= 4 && paracetamol <= 5.1)
         {
           setState(() {
             interpretation = "Optimal";
@@ -73,7 +73,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                 ));
           });
         }
-        else if(hbA1c >= 5.2 && hbA1c <= 5.7)
+        else if(paracetamol >= 5.2 && paracetamol <= 5.7)
         {
           setState(() {
             interpretation = "Normal";
@@ -87,7 +87,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                 ));
           });
         }
-        else if(hbA1c >= 5.8 && hbA1c <= 6.4)
+        else if(paracetamol >= 5.8 && paracetamol <= 6.4)
         {
           setState(() {
             interpretation = "Pré-Diabete\n Risque d'hyperglycémie";
@@ -101,7 +101,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                 ));
           });
         }
-        else if(hbA1c >= 6.5 && hbA1c <= 7.1){
+        else if(paracetamol >= 6.5 && paracetamol <= 7.1){
           setState(() {
             interpretation = "Diabete";
             intreprete = Text(
@@ -114,7 +114,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                 ));
           });
         }
-        else if(hbA1c >= 7.2 && hbA1c <= 9){
+        else if(paracetamol >= 7.2 && paracetamol <= 9){
           setState(() {
             interpretation = "Diabetes sucré";
             intreprete = Text(
@@ -126,7 +126,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                   color: Color(0xffFE0000),
                 ));
           });
-        }else if(hbA1c >= 9.1 && hbA1c <= 20){
+        }else if(paracetamol >= 9.1 && paracetamol <= 20){
           setState(() {
             interpretation = "dangereux ou risque lever de complication";
             intreprete = Text(
@@ -158,8 +158,8 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
         }
         
       } else {
-        _glycemiaGpl = hbA1c / 10.929;
-        _glycemiaMmol = hbA1c / 1.098;
+        _glycemiaGpl = paracetamol / 10.929;
+        _glycemiaMmol = paracetamol / 1.098;
       }
     });
   }
@@ -172,7 +172,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
         backgroundColor: Colors.blue,
         title: const Center(
                 child: Text(
-                  'HbA1c vers Glycémie Plasmatique Moyenne',
+                  'Paracetamol vers Glycémie Plasmatique Moyenne',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.black,
@@ -197,8 +197,8 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                "L'hémoglobine glyquée (HbA1c) est le reflet de l'équilibre glycémique des trois derniers mois. "
-                "Cette formule permet de faire le lien entre HbA1c et la glycémie plasmatique moyenne présente chez un patient.",
+                "L'hémoglobine glyquée (Paracetamol) est le reflet de l'équilibre glycémique des trois derniers mois. "
+                "Cette formule permet de faire le lien entre Paracetamol et la glycémie plasmatique moyenne présente chez un patient.",
                 style:
                 TextStyle(
                   //fontFamily: 'TimesNewRoman',
@@ -216,7 +216,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'HbA1c :',
+                    'Paracetamol :',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     fontFamily: 'TimesNewRoman',fontSize: 18),
@@ -385,7 +385,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                "Formule: Glycémie Moyenne = HbA1c (en %) x 1,59 - 2,59.\n",
+                "Formule: Glycémie Moyenne = Paracetamol (en %) x 1,59 - 2,59.\n",
                 style: TextStyle(
                   fontFamily: 'TimesNewRoman',
                   fontSize: 14,

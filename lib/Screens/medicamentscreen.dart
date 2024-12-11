@@ -338,6 +338,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
       length: 4,
       initialIndex: 0,
       child: Scaffold(
+        backgroundColor: Color(0xFFFFFFFF),
         body: 
             TabBarView(
             children: [
@@ -467,81 +468,103 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                   },
                         ),
                       ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.69,
-                      child: GridView.builder(
-                        padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 0),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
-                            itemCount: filtered1.length,
-                            itemBuilder: (context, index) {
-                              final aliasName = filtered1[index];
-                              final images = context.watch<MyProvider>().iconsMed;
-                              final icons =  context.watch<MyProvider>().imagesMed;
-                              print(images);
-                              String image = "";
-                              String icon = "";
-                              for(final i in images){
-                                print(i);
-                                if(i.split('icon/')[1].split('.')[0] == aliasName){
-                                  image = i;
-                                }
-                              }
-                              for(final i in icons){
-                                if(i.split('images/')[1].split('.')[0] == aliasName){
-                                  icon = i;
-                                }
-                              }
 
-                              return GestureDetector(
-  onTap: () {
-    List<dynamic> meds = [];
-    context.read<MyProvider>().medicament.forEach((element) {
-      if (element.classtherapique.contains(filtered1[index])) {
-        meds.add(element);
-      }
-    });
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CategorieMedicament(
-          images: icon,
-          meds: meds,
-          name: filtered1[index],
-        ),
-      ),
-    );
-    print(meds.length);
-  },
-  child: Card(
-    elevation: 5,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15.0),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(image, height: 50),
-        const SizedBox(height: 8),
-        Text(
-          aliasName,
-          style: headerStyle,
-          textAlign: TextAlign.center,
-          maxLines: 1, // Restrict to a single line
-          overflow: TextOverflow.ellipsis, // Truncate with ellipsis
-        ),
-      ],
-    ),
-  ),
-);
-
-                            },
-                          ),
+                      SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.79,
+                      child:filtered1.isEmpty
+                              ? const Center(child: Text("No data available"))
+                              : StickyAzList(
+                                  options: const StickyAzOptions(
+                                      listOptions: ListOptions(showSectionHeader: false, stickySectionHeader: false)),
+                                  items: filtered1,
+                                  builder: (context, index, items) {
+                                    return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => MedicamentDetailsScreen(
+                                                  medicament: items),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                              border: BorderDirectional(
+                                                  bottom: BorderSide(width: 0.5))),
+                                          child: ListTile(
+                                              title: Text(items.name, style: const TextStyle(fontWeight: FontWeight.w700),),
+                                              subtitle: Text(items.nomCommercial.join('\n')),),
+                                        ));
+                                  }),
                     )
+                      
+//                     SizedBox(
+//                       height: MediaQuery.of(context).size.height * 0.69,
+//                       child: GridView.builder(
+//                         padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 0),
+//                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//                               crossAxisCount: 2,
+//                               crossAxisSpacing: 10,
+//                               mainAxisSpacing: 10,
+//                             ),
+//                             itemCount: filtered1.length,
+//                             itemBuilder: (context, index) {
+//                               final aliasName = filtered1[index];
+//                               final icons =  context.watch<MyProvider>().imagesMed;
+//                               String icon = "";
+//                               for(final i in icons){
+//                                 if(i.split('images/')[1].split('.')[0] == aliasName){
+//                                   icon = i;
+//                                 }
+//                               }
+
+//                               return GestureDetector(
+//   onTap: () {
+//     List<dynamic> meds = [];
+//     context.read<MyProvider>().medicament.forEach((element) {
+//       if (element.classtherapique.contains(filtered1[index])) {
+//         meds.add(element);
+//       }
+//     });
+//     Navigator.push(
+//       context,
+//       MaterialPageRoute(
+//         builder: (context) => CategorieMedicament(
+//           images: icon,
+//           meds: meds,
+//           name: filtered1[index],
+//         ),
+//       ),
+//     );
+//     print(meds.length);
+//   },
+//   child: Card(
+//     elevation: 5,
+//     shape: RoundedRectangleBorder(
+//       borderRadius: BorderRadius.circular(15.0),
+//     ),
+//     child: Column(
+//       crossAxisAlignment: CrossAxisAlignment.center,
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         Image.asset(image, height: 50),
+//         const SizedBox(height: 8),
+//         Text(
+//           aliasName,
+//           style: headerStyle,
+//           textAlign: TextAlign.center,
+//           maxLines: 1, // Restrict to a single line
+//           overflow: TextOverflow.ellipsis, // Truncate with ellipsis
+//         ),
+//       ],
+//     ),
+//   ),
+// );
+
+//                             },
+//                           ),
+//                     )
                   ],
                 ),
               ),

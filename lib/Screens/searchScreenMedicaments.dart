@@ -1,11 +1,7 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
-import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Models/amo.dart';
 import 'package:moussa_project/Models/med.dart';
-import 'package:moussa_project/Screens/AmoView.dart';
 import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
-import 'package:provider/provider.dart';
 import 'package:sticky_az_list/sticky_az_list.dart';
 
 class SearchMedicamentScreen extends StatefulWidget {

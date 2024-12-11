@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:moussa_project/Screens/Appgar.dart';
 import 'package:moussa_project/Screens/Bishop.dart';
+import 'package:moussa_project/Screens/ChildUp.dart';
 import 'package:moussa_project/Screens/IMC.dart';
 import 'package:moussa_project/Screens/Malmart.dart';
-import 'package:moussa_project/Screens/carlendriergrosesse.dart';
 import 'package:moussa_project/Screens/glascow.dart';
 import 'package:moussa_project/Screens/hba.dart';
+import 'package:moussa_project/Screens/secondCalcul.dart';
 import 'package:moussa_project/Widgets/card.dart';
 
 class CalculeScreen extends StatefulWidget {
@@ -36,7 +38,7 @@ class _CalculeScreenState extends State<CalculeScreen> {
                         MaterialPageRoute(builder: (context) => IMCCalculator()));
                   },
                   child:
-                      CardE(
+                      CardE(      
                         topStartTadius: 10,
                         topEndTadius: 10,
                         bottomStartRadius: 10,
@@ -73,7 +75,7 @@ class _CalculeScreenState extends State<CalculeScreen> {
                         topEndTadius: 10,
                         bottomStartRadius: 10,
                         bottomEndRadius: 10,
-                    image: 'assets/images/Calcule.png', title: "Carlendrier")),
+                    image: 'assets/images/Calcule.png', title: "HBA1c")),
                   GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -99,7 +101,47 @@ class _CalculeScreenState extends State<CalculeScreen> {
                         topEndTadius: 10,
                         bottomStartRadius: 10,
                         bottomEndRadius: 10,
-                    image: 'assets/images/Calcule.png', title: "Bishop"))
+                    image: 'assets/images/Calcule.png', title: "Bishop")),
+                    GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AppgarHomePage()));
+                  },
+                  child: CardE(
+                        topStartTadius: 10,
+                        topEndTadius: 10,
+                        bottomStartRadius: 10,
+                        bottomEndRadius: 10,
+                    image: 'assets/images/Calcule.png', title: "Apgar")),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChildupPage()));
+                  },
+                  child: CardE(
+                        topStartTadius: 10,
+                        topEndTadius: 10,
+                        bottomStartRadius: 10,
+                        bottomEndRadius: 10,
+                    image: 'assets/images/Calcule.png', title: "Child Pugh")),
+
+                    GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SecondCalcule()));
+                  },
+                  child: CardE(
+                        topStartTadius: 10,
+                        topEndTadius: 10,
+                        bottomStartRadius: 10,
+                        bottomEndRadius: 10,
+                    image: 'assets/images/Calcule.png', title: "Second calcul"))
             ],
           ),
         ));

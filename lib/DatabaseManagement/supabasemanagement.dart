@@ -3,6 +3,7 @@ import 'package:moussa_project/Models/faculter.dart';
 import 'package:moussa_project/Models/filiere.dart';
 import 'package:moussa_project/Models/materiels.dart';
 import 'package:moussa_project/Models/pdf.dart';
+import 'package:moussa_project/Models/publication.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseManagement {
@@ -75,6 +76,13 @@ class SupabaseManagement {
     ///getMateriel();
   }
 
+  addPublication(Publication p) async {
+    await supabase.from('publication').insert(p.toMap()).then((value) {
+      print(value);
+    });
+    ///getMateriel();
+  }
+
   removeClasse(Classe c) async {
     await supabase.from('classe').delete().eq('nom', c.nom).then((value) {
       print("Is deleted");
@@ -102,6 +110,12 @@ class SupabaseManagement {
     });
   }
 
+  deletePublication(Publication p) async {
+    await supabase.from('publication').delete().eq('id', p.idpublication!).then((value) {
+      print(value);
+    });
+  }
+
   Future<List<Pdf>> getDocuments() async {
     final response = await supabase.from('pdf').select("*");
     List<Pdf> documents = response.map((e) => Pdf.fromSnapshot(e)).toList();
@@ -112,6 +126,13 @@ class SupabaseManagement {
     final response = await supabase.from('materiel').select("*");
     List<Materiel> documents =
         response.map((e) => Materiel.fromSnapshot(e)).toList();
+    return documents;
+  }
+
+  Future<List<Publication>> getPublication() async {
+    final response = await supabase.from('publication').select("*");
+    List<Publication> documents =
+        response.map((e) => Publication.fromSnapshot(e)).toList();
     return documents;
   }
 

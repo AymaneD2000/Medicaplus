@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moussa_project/DatabaseManagement/provider.dart';
+import 'package:moussa_project/Models/publication.dart';
 import 'package:moussa_project/Screens/calculeScreen.dart';
 import 'package:moussa_project/Screens/carlendriergrosesse.dart';
 import 'package:moussa_project/Screens/faculterScreenPage.dart';
 import 'package:moussa_project/Screens/medicamentscreen.dart';
 import 'package:moussa_project/Screens/pharmacie.dart';
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
-import 'package:moussa_project/Screens/prescription.dart';
 import 'package:moussa_project/Screens/venteMaetiels.dart';
 import 'package:moussa_project/Widgets/card.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late MyProvider provider;
-
   List<Widget> grid = [];
   @override
   void initState() {
@@ -145,9 +144,10 @@ class _HomeState extends State<Home> {
       child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 10,),
               _buildPublicationCard(),
               Container(
-                padding: EdgeInsets.only(left: 20, right: 20, top: 25),
+                padding: EdgeInsets.only(left: 20, right: 20, top: 15),
                 height: MediaQuery.of(context).size.height * 0.7,
                 child: GridView.builder(
                   itemCount: grid.length,
@@ -167,17 +167,26 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildPublicationCard() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height*0.2,
-      child: CarouselSlider(
-          items: [
-            Image.asset("assets/images/Calcule.png"),
-            Image.asset("assets/images/pharmacy.png"),
-            Image.asset("assets/images/Calcule.png"),
-            Image.asset("assets/images/cours.png")
-          ],
-          options: CarouselOptions(
-              autoPlay: true, autoPlayInterval: const Duration(seconds: 1))),
+    return FutureBuilder(
+      future: context.read<MyProvider>().getPublication(),
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+          return SizedBox(
+        height: MediaQuery.of(context).size.height*0.2,
+        child: CarouselSlider(
+            items: List.generate(snapshot.data!.length, (generator){
+              return Image.network(snapshot.data![generator].image);
+            }),
+            options: CarouselOptions(
+                autoPlay: true, autoPlayInterval: const Duration(seconds: 1))),
+      );
+        }else if(snapshot.hasError){
+          return Container();
+        }
+        else{
+          return Container();
+        }
+      }
     );
   }
 }

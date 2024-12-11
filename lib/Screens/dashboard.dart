@@ -5,6 +5,7 @@ import 'package:moussa_project/Models/classemodel.dart';
 import 'package:moussa_project/Screens/AddClasseScreen.dart';
 import 'package:moussa_project/Screens/home.dart';
 import 'package:moussa_project/Screens/manageMateriels.dart';
+import 'package:moussa_project/Screens/managePublication.dart';
 import 'package:moussa_project/Screens/venteMaetiels.dart';
 
 
@@ -49,7 +50,13 @@ class _DashBoardState extends State<DashBoard> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => MaterielHomePage()));
               },
-              icon: const Icon(Icons.abc))
+              icon: const Icon(Icons.abc)),
+            IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PublicationHomePage()));
+              },
+              icon: const Icon(Icons.publish))
         ],
         title: const Text(
           'Dashboard',

@@ -5,9 +5,12 @@ class MallampatiScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: const Text('Medicalcul'),
+        backgroundColor: Colors.blue,
+        title: const Text(
+                'Mallampati',
+              ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -15,36 +18,54 @@ class MallampatiScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
               const Text(
-                'Score de Mallampati',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
+              'Definition :',
+              style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
+            ), 
+            const Text(
+                "Le score de Bishop est une méthode globale d'évaluation du pronostic d'accouchement.",
+                style:
+                        TextStyle(
+                          //fontFamily: 'TimesNewRoman',
+                          fontSize: 17,
+                          // fontFamily: 'TimesNewRoman',
+                          color: Colors.black,
+                        ),),
               const SizedBox(height: 10),
-              const Center(
-                child: Icon(
-                  Icons.medical_services, // Replace this with your custom image
-                  size: 100,
-                  color: Colors.red,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Classe Définition',
+              Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+                'Classe : Structure visible',
                 style: TextStyle(
                   fontSize: 18,
+                  fontFamily: 'TimesNewRoman',
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 10),
-              _buildClassRow(1, 'Toute la luette et les loges amygdaliennes sont visibles.'),
-              _buildClassRow(2, 'La luette est partiellement visible.'),
-              _buildClassRow(3, 'Le palais membraneux est visible.'),
-              _buildClassRow(4, 'Seul le palais osseux est visible.'),
+              _buildClassRow("I", 'Toute la luette et les loges amygdaliennes sont visibles.'),
+              _buildClassRow("II", 'La luette est partiellement visible.'),
+              _buildClassRow("III", 'Le palais membraneux est visible.'),
+              _buildClassRow("IV", 'Seul le palais osseux est visible.'), 
+          ],
+        ),
+      ),
+    ),
               const SizedBox(height: 20),
               Center(
                 child: SvgPicture.asset(
@@ -54,32 +75,32 @@ class MallampatiScreen extends StatelessWidget {
                       ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Interprétation:',
+              Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+                'Interprétation : ',
                 style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'TimesNewRoman',
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.green,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'L\'examen doit être réalisé en position assise. Les classes 1 et 2 présagent d\'une intubation à priori facile, les classes 3 et 4 d\'une intubation difficile.',
-                style: TextStyle(fontSize: 14),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Références:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.green,
-                ),
-              ),
-              const Text(
-                'Mallampati S, Gatt S, Gugino L, Desai S, Waraksa B, Freiberg, Liu P. A clinical sign to predict difficult tracheal intubation: a prospective study.',
-                style: TextStyle(fontSize: 14),
-              ),
+              _buildClassRowMalllampati("Grade I et Grade II", "Présomption d'intubation facile"),
+              _buildClassRowMalllampati("Grade III et Grade IV", "Présomption d'intubation difficile"),
+          ],
+        ),
+      ),
+    ),
             ],
           ),
         ),
@@ -87,24 +108,50 @@ class MallampatiScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildClassRow(int number, String description) {
+  Widget _buildClassRow(String number, String description) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '$number. ',
+            '$number : ',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Colors.red,
+              fontSize: 16,
+              color: Color(0xff33CCCC),
             ),
           ),
           Expanded(
             child: Text(
               description,
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildClassRowMalllampati(String number, String description) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$number : ',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Color(0xff33CCCC),
+            ),
+          ),
+          Text(
+            description,
+            style: TextStyle(
+              fontSize: 16,
             ),
           ),
         ],

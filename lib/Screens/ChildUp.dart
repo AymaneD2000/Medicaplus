@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class BishopPage extends StatefulWidget {
-  const BishopPage ({super.key});
+class ChildupPage extends StatefulWidget {
+  const ChildupPage({super.key});
 
   @override
-  _BishopPageState createState() => _BishopPageState();
+  _ChildupPageState createState() => _ChildupPageState();
 }
 
-class _BishopPageState extends State<BishopPage > {
-  int colUterinScore = 0;
-  int effacementUterinScore = 0;
-  int hauteurTeteScore = 0;
-  int consistenceUterinScore = 0;
-  int positionUterinScore = 0;
+class _ChildupPageState extends State<ChildupPage> {
+  int asciteScore = 0;
+  int encephalotapieScore = 0;
+  int tauxdeprothrombineScore = 0;
+  int albumineScore = 0;
+  int bilirubineScore = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class _BishopPageState extends State<BishopPage > {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: const Text(
-          'Score de Bishop',
+        'Score de Child Pugh',
         ),
       ),
       body: SingleChildScrollView(
@@ -37,377 +37,406 @@ class _BishopPageState extends State<BishopPage > {
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
-            ), 
+            ),            
             const Text(
-                "Le score de Bishop est une méthode globale d'évaluation du pronostic d'accouchement.",
-                style:
+                        "Score d'évaluation de la sévérité de la cirrhose. En cas de cirrhose compensée, la plupart des malades sont en classe A. La cirrhose décompensée correspond à une classe B ou C. Ce score ne prend pas en compte certaines complications comme l'hémorragie digestive ou carcinome hépatocellulaire (CHC)  ",
+                        style:
                         TextStyle(
                           //fontFamily: 'TimesNewRoman',
                           fontSize: 17,
                           // fontFamily: 'TimesNewRoman',
                           color: Colors.black,
-                        ),),
-            Card(
-      color: Colors.white, // White background
-      margin: const EdgeInsets.all(8),
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Dilatation du col utérin',
-              style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-             ...buildColUterinOptions(),
-            Container(
-              alignment: Alignment.center,
-              child: Text("$colUterinScore /4",
-              style: const TextStyle(
-                  fontFamily: 'TimesNewRoman',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,)),
-            )
-          ],
-        ),
-      ),
-    ),
+                        ),
+                      ),
             const SizedBox(height: 16),
-            Card(
-      color: Colors.white, // White background
-      margin: const EdgeInsets.all(8),
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Effacement du col utérin',
-              style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            ...buildEffacementUterinOptions(),
-            Container(
-              alignment: Alignment.center,
-              child: Text("$effacementUterinScore /4",
-              style: const TextStyle(
-                  fontFamily: 'TimesNewRoman',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,)),
-            )
-          ],
-        ),
-      ),
-    ),
+            buildasciteCard(),
             const SizedBox(height: 16),
-            Card(
-      color: Colors.white, // White background
-      margin: const EdgeInsets.all(8),
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Consistance du col utérin',
-              style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            ...buildConsistanceUterinOptions(),
-            Container(
-              alignment: Alignment.center,
-              child: Text("$consistenceUterinScore /3",
-              style: const TextStyle(
-                  fontFamily: 'TimesNewRoman',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,)),
-            )
-          ],
-        ),
-      ),
-    ),
+            buildencephalotapieCard(),
             const SizedBox(height: 16),
-            Card(
-      color: Colors.white, // White background
-      margin: const EdgeInsets.all(8),
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Posistion du col utérin',
-              style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            ...buildPositionUterinOptions(),
-            Container(
-              alignment: Alignment.center,
-              child: Text("$positionUterinScore /3",
-              style: const TextStyle(
-                  fontFamily: 'TimesNewRoman',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,)),
-            )
-          ],
-        ),
-      ),
-    ),
+            buildtauxdeprothrombineCard(),
             const SizedBox(height: 16),
-            Card(
-      color: Colors.white, // White background
-      margin: const EdgeInsets.all(8),
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Hauteur de la tete',
-              style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            ...buildHauteurTeteOptions(),
-            Container(
-              alignment: Alignment.center,
-              child: Text("$hauteurTeteScore /4",
-              style: const TextStyle(
-                  fontFamily: 'TimesNewRoman',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,)),
-            )
-          ],
-        ),
-      ),
-    ),
+            buildalbumineCard(),
+            const SizedBox(height: 16),
+            buildbilirubineCard(),
             const SizedBox(height: 16),
             buildScoreAnalysis(),
+            const SizedBox(height: 16),
+             Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+                "Grade de encéphalopathie",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'TimesNewRoman',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 10),
+              _buildClassRow("I", "Trouble de l'attention et du caratere (euphorie, anxiété)."),
+              _buildClassRow("II", "Léthargie et apathie, désorientation dans le temps ou dans l'espace, comportement inapproprié."),
+              _buildClassRow("III", "Somnolence marquée, confusion, désorientation temporo-spatiale"),
+              _buildClassRow("IV", 'Coma.'), 
+          ],
+        ),
+      ),
+    ),
           ],
         ),
       ),
     );
   }
 
-  List<Widget> buildColUterinOptions() {
+  Widget buildasciteCard() {
+    return Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Ascite',
+              style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...buildasciteOptions(),
+            Container(
+              alignment: Alignment.center,
+              child: Text("$asciteScore /3",
+              style: const TextStyle(
+                  fontFamily: 'TimesNewRoman',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildencephalotapieCard() {
+    return Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Encéphalopathie (grade)',
+              style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...buildencephalotapieOptions(),
+            Container(
+              alignment: Alignment.center,
+              child: Text("$encephalotapieScore /3",
+              style: const TextStyle(
+                  fontFamily: 'TimesNewRoman',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,)
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildtauxdeprothrombineCard() {
+    return Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Taux de prothrombine (%)',
+              style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...buildtauxdeprothrombineOptions(),
+            Container(
+              alignment: Alignment.center,
+              child: Text("$tauxdeprothrombineScore /3",
+              style: const TextStyle(
+                  fontFamily: 'TimesNewRoman',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildalbumineCard() {
+    return Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Albumine (g/L)',
+              style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...buildalbumineOptions(),
+            Container(
+              alignment: Alignment.center,
+              child: Text("$tauxdeprothrombineScore /3",
+              style: const TextStyle(
+                  fontFamily: 'TimesNewRoman',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildbilirubineCard() {
+    return Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Bilirubine (mmol/L)',
+              style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...buildbilirubineOptions(),
+            Container(
+              alignment: Alignment.center,
+              child: Text("$tauxdeprothrombineScore /3",
+              style: const TextStyle(
+                  fontFamily: 'TimesNewRoman',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> buildasciteOptions() {
     return [
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('Fermé'),
-        value: 0,
-        groupValue: colUterinScore,
-        onChanged: (value) => setState(() => updateScore(value!, 'ColUterin')),
-      ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('1-2 cm'),
+        title: const Text('Absente'),
         value: 1,
-        groupValue: colUterinScore,
-        onChanged: (value) => setState(() => updateScore(value!, 'ColUterin')),
+        groupValue: asciteScore,
+        onChanged: (value) => setState(() => updateScore(value!, 'ascite')),
       ),
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('3-4 cm'),
+        title: const Text('Modérée'),
         value: 2,
-        groupValue: colUterinScore,
-        onChanged: (value) => setState(() => updateScore(value!, 'ColUterin')),
+        groupValue: asciteScore,
+        onChanged: (value) => setState(() => updateScore(value!, 'ascite')),
       ),
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('5 cm ou plus'),
+        title: const Text('Volumineuse'),
         value: 3,
-        groupValue: colUterinScore,
-        onChanged: (value) => setState(() => updateScore(value!, 'ColUterin')),
-      ),
+        groupValue: asciteScore,
+        onChanged: (value) => setState(() => updateScore(value!, 'ascite')),
+      )
     ];
   }
 
-  List<Widget> buildEffacementUterinOptions() {
+  List<Widget> buildencephalotapieOptions() {
     return [
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('Long (0-30%)'),
-        value: 0,
-        groupValue: effacementUterinScore,
-        onChanged: (value) =>
-            setState(() => updateScore(value!, 'effacementCol')),
-      ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('1/2 long(40-50%)'),
+        title: const Text('Absente'),
         value: 1,
-        groupValue: effacementUterinScore,
+        groupValue: encephalotapieScore,
         onChanged: (value) =>
-            setState(() => updateScore(value!, 'effacementCol')),
+            setState(() => updateScore(value!, 'encephalotapie')),
       ),
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('Court (60-70%)'),
+        title: const Text('Grade I ou II'),
         value: 2,
-        groupValue: effacementUterinScore,
+        groupValue: encephalotapieScore,
         onChanged: (value) =>
-            setState(() => updateScore(value!, 'effacementCol')),
+            setState(() => updateScore(value!, 'encephalotapie')),
       ),
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('Effacé (>80%)'),
+        title: const Text('Grade III ou IV'),
         value: 3,
-        groupValue: effacementUterinScore,
+        groupValue: encephalotapieScore,
         onChanged: (value) =>
-            setState(() => updateScore(value!, 'effacementCol')),
+            setState(() => updateScore(value!, 'encephalotapie')),
       )
     ];
   }
 
-  List<Widget> buildConsistanceUterinOptions() {
+  List<Widget> buildtauxdeprothrombineOptions() {
     return [
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('Ferme'),
-        value: 0,
-        groupValue: consistenceUterinScore,
-        onChanged: (value) =>
-            setState(() => updateScore(value!, 'consistanceCol')),
-      ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Moyenne'),
+        title: const Text('> 50'),
         value: 1,
-        groupValue: consistenceUterinScore,
+        groupValue: tauxdeprothrombineScore,
         onChanged: (value) =>
-            setState(() => updateScore(value!, 'consistanceCol')),
+            setState(() => updateScore(value!, 'tauxdeprothrombine')),
       ),
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('Molle'),
+        title: const Text('40 à 50'),
         value: 2,
-        groupValue: consistenceUterinScore,
+        groupValue: tauxdeprothrombineScore,
         onChanged: (value) =>
-            setState(() => updateScore(value!, 'consistanceCol')),
-      )
-    ];
-  }
-
-List<Widget> buildPositionUterinOptions() {
-    return [
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Postérieure'),
-        value: 0,
-        groupValue: positionUterinScore,
-        onChanged: (value) =>
-            setState(() => updateScore(value!, 'positionCol')),
+            setState(() => updateScore(value!, 'tauxdeprothrombine')),
       ),
       RadioListTile<int>(
         activeColor: const Color(0xff33CCCC),
-        title: const Text('Centrer'),
-        value: 1,
-        groupValue: positionUterinScore,
-        onChanged: (value) =>
-            setState(() => updateScore(value!, 'positionCol')),
-      ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Antérieure'),
-        value: 2,
-        groupValue: positionUterinScore,
-        onChanged: (value) =>
-            setState(() => updateScore(value!, 'positionCol')),
-      )
-    ];
-  }
-
-
-  List<Widget> buildHauteurTeteOptions() {
-    return [
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Haute et mobile (3 cm au-dessus)'),
-        value: 0,
-        groupValue: hauteurTeteScore,
-        onChanged: (value) =>
-            setState(() => updateScore(value!, 'hauteurTete')),
-      ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Amorcée (2 cm au-dessus)'),
-        value: 1,
-        groupValue: hauteurTeteScore,
-        onChanged: (value) =>
-            setState(() => updateScore(value!, 'hauteurTete')),
-      ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Fixé (< 1 cm au-dessus)'),
-        value: 2,
-        groupValue: hauteurTeteScore,
-        onChanged: (value) =>
-            setState(() => updateScore(value!, 'hauteurTete')),
-      ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Engagé (1-2 cm au-dessous)'),
+        title: const Text('< 40'),
         value: 3,
-        groupValue: hauteurTeteScore,
+        groupValue: tauxdeprothrombineScore,
         onChanged: (value) =>
-            setState(() => updateScore(value!, 'hauteurTete')),
-      )
+            setState(() => updateScore(value!, 'tauxdeprothrombine')),
+      ),
+    ];
+  }
+
+  List<Widget> buildalbumineOptions() {
+    return [
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('> 35'),
+        value: 1,
+        groupValue: albumineScore,
+        onChanged: (value) =>
+            setState(() => updateScore(value!, 'albumine')),
+      ),
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('28 à 35'),
+        value: 2,
+        groupValue: albumineScore,
+        onChanged: (value) =>
+            setState(() => updateScore(value!, 'albumine')),
+      ),
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('< 28'),
+        value: 3,
+        groupValue: albumineScore,
+        onChanged: (value) =>
+            setState(() => updateScore(value!, 'albumine')),
+      ),
+    ];
+  }
+
+  List<Widget> buildbilirubineOptions() {
+    return [
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('< 35'),
+        value: 1,
+        groupValue: bilirubineScore,
+        onChanged: (value) =>
+            setState(() => updateScore(value!, 'bilirubine')),
+      ),
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('35 à 50'),
+        value: 2,
+        groupValue: bilirubineScore,
+        onChanged: (value) =>
+            setState(() => updateScore(value!, 'bilirubine')),
+      ),
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('> 50'),
+        value: 3,
+        groupValue: bilirubineScore,
+        onChanged: (value) =>
+            setState(() => updateScore(value!, 'bilirubine')),
+      ),
     ];
   }
 
   void updateScore(int value, String category) {
-    switch (category) {
-      case 'ColUterin':
-        colUterinScore = value;
-        break;
-      case 'consistanceCol':
-        consistenceUterinScore = value;
-        break;
-      case 'positionCol':
-        positionUterinScore = value;
-        break;
-      case 'hauteurTete':
-        hauteurTeteScore = value;
-        break;
-      case 'effacementCol':
-        effacementUterinScore = value;
-        break;
-    }
+    setState(() {
+      switch (category) {
+        case 'ascite':
+          asciteScore = value;
+          break;
+        case 'encephalotapie':
+          encephalotapieScore = value;
+          break;
+        case 'tauxdeprothrombine':
+          tauxdeprothrombineScore = value;
+          break;
+        case 'albumine':
+          albumineScore = value;
+          break;
+        case 'bilirubine':
+         bilirubineScore = value;
+         break;
+      }
+    });
   }
 
-
   Widget buildScoreAnalysis() {
-    int totalScore = colUterinScore + effacementUterinScore + hauteurTeteScore + consistenceUterinScore + positionUterinScore;
+    int totalScore = asciteScore + encephalotapieScore + tauxdeprothrombineScore + albumineScore + bilirubineScore;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,9 +468,10 @@ List<Widget> buildPositionUterinOptions() {
   Widget buildAnalysisText(int totalScore) {
     String analysis;
     Text text = const Text("");
-      if (totalScore < 3) {
+    if(asciteScore != 0 && tauxdeprothrombineScore !=0 && encephalotapieScore != 0){
+      if (totalScore >=5 && totalScore <=6) {
       analysis =
-          'Pronostic très défavorable';
+          'Child Pugh A';
         text = Text(
               textAlign: TextAlign.center,
                       analysis,
@@ -450,12 +480,12 @@ List<Widget> buildPositionUterinOptions() {
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFFE70516),
+                        color: Colors.green,
                       ),);
-    } else if (totalScore >= 4 && totalScore <=5) {
+    } else if (totalScore >= 7 && totalScore <=9) {
       
       analysis =
-          'Pronostic intermédiaire';
+          'Child Pugh B';
           text = Text(
               textAlign: TextAlign.center,
                       analysis,
@@ -466,9 +496,9 @@ List<Widget> buildPositionUterinOptions() {
                         fontWeight: FontWeight.bold,
                         color: Color(0xFFF39201),
                       ),);
-    } else if (totalScore >= 6 && totalScore <=8) {
+    } else if (totalScore >= 10 && totalScore <=15) {
       analysis =
-          'Pronostic Favorable';
+          'Child Pugh C';
           text = Text(
               textAlign: TextAlign.center,
                       analysis,
@@ -477,26 +507,43 @@ List<Widget> buildPositionUterinOptions() {
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green
-                      ),);
-    } else if (totalScore >=9) {
-      analysis =
-          'Pronostic très favorable (travail de moins de 4 heures chez les multipares)';
-          text = Text(
-              textAlign: TextAlign.center,
-                      analysis,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Color(0xFFE70516),
                       ),);
     } else {
       analysis = 'Score non valide.';
-      text = Text(analysis);
+      text = const Text("");
+    }
     }
 
     return text;
   }
+
+  Widget _buildClassRow(String number, String description) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$number : ',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Color(0xff33CCCC),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              description,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
 }
+

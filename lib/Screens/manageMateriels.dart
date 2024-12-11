@@ -166,9 +166,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
       }
 
     //final bytes = await File(imageFile.path).readAsBytes();
-      final fileExt = imageFiles.path.split('.').last;
-      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
-      final filePath = fileName;
+      final filePath = imageFiles.path;
       imageFile = File(filePath);
       setState(() {
         
@@ -224,7 +222,6 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
         id: widget.materiel?.id,
       );
       widget.onSave(newMateriel);
-      Navigator.of(context).pop();
     }
   }
 

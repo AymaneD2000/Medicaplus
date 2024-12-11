@@ -19,9 +19,6 @@ class PdfScreen extends StatefulWidget {
 }
 
 class _PdfScreenState extends State<PdfScreen> {
-  final TextEditingController _nomController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  File? _selectedPdf;
   List<Pdf> _pdfs = [];
   String _pdfUrl = '';
 
@@ -31,7 +28,6 @@ class _PdfScreenState extends State<PdfScreen> {
     _fetchPdfs();
   }
 
-  File? _selectedImage;
   String _imageUrl = ''; // Ajout de la variable pour stocker l'URL de l'image
 
   // ... (le reste du code reste inchangé)
@@ -45,8 +41,6 @@ class _PdfScreenState extends State<PdfScreen> {
     }
 
     try {
-      final bytes = await File(imageFile.path).readAsBytes();
-      final fileExt = imageFile.path.split('.').last;
       final fileName = imageFile.name;
       final filePath = fileName;
 

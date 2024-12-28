@@ -16,7 +16,8 @@ class _CategorieMedicamentState extends State<CategorieMedicament> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.name),),
+      backgroundColor: Colors.white,
+      appBar: AppBar(backgroundColor: Colors.blue, title: Text(widget.name),),
       body: SingleChildScrollView(
         physics: const ScrollPhysics(),
         child: Column(

@@ -439,7 +439,7 @@ List<Widget> buildPositionUterinOptions() {
   Widget buildAnalysisText(int totalScore) {
     String analysis;
     Text text = const Text("");
-      if (totalScore < 3) {
+      if (totalScore <= 3) {
       analysis =
           'Pronostic très défavorable';
         text = Text(

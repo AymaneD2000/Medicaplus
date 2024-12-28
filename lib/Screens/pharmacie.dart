@@ -92,6 +92,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
       length: 4,
       initialIndex: 0,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: TabBarView(
           children: [Column(
             children: [
@@ -282,6 +283,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                                   title: Text(
                                     items.name,
                                     style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
                                         fontFamily: 'TimesNewRoman',
                                         color: Colors.black),
                                   ),

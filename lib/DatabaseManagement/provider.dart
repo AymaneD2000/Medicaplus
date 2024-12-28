@@ -22,7 +22,7 @@ class MyProvider extends ChangeNotifier{
   List<Amo> favorisPharmacies = [];
   List<Med> favorisMedicaments = [];
   List<String> dciPharmacie = [];
-  List<String> classMedicament = [];
+  List<ClassMed> classMedicament = [];
   List<Pdf> pdf = [];
   List<Publication> pub = [];
   List<String> iconsMed = [];
@@ -308,7 +308,7 @@ class MyProvider extends ChangeNotifier{
       }
       for(final med in medicament){
         for(final cl in med.classtherapique) {
-          classMedicament.add(cl);
+          classMedicament.add(ClassMed(clname: cl));
         }
         classMedicament = classMedicament.toSet().toList();
       }

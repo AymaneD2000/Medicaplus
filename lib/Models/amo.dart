@@ -11,6 +11,21 @@ String generateRandomString(int length) {
   ));
 }
 
+class ClassMed extends TaggedItem{
+  String clname;
+  ClassMed({required this.clname});
+  String rad = generateRandomString(6);
+  @override
+  String sortName() {
+    try {
+      return clname;
+    } catch (exp) {
+      return "this is the execption $clname";
+    }
+  }
+
+}
+
 class Amo extends TaggedItem {
   final String name;
   final bool amo;

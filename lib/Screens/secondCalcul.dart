@@ -16,7 +16,12 @@ class _SecondCalculeState extends State<SecondCalcule> {
       appBar: AppBar(
         title: const Text('Calculer la dose'),
       ),
-      body: Column(
+      body: GridView(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 5,
+              crossAxisCount: 2,
+            ),
       children: [
         GestureDetector(
                   onTap: () {

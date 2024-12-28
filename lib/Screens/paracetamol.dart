@@ -11,140 +11,105 @@ class ParacetamolScreen extends StatefulWidget {
 
 class _ParacetamolScreenState extends State<ParacetamolScreen> {
   final TextEditingController _controller = TextEditingController();
-  String _selectedUnit = '%';
+  int personne = 0;
+  double dose = 0;
   double? _glycemiaGpl;
   String interpretation = "";
   Text intreprete = const Text("");
   double? _glycemiaMmol;
   
+  List<Widget> buildEyeOpeningOptions() {
+    return [
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('Nouveau-né'),
+        value: 1,
+        groupValue: personne,
+        onChanged: (value){
+          setState(() {
+            personne = value!;
+          });
+        },
+      ),
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('Enfant de moins de 1 mois'),
+        value: 2,
+        groupValue: personne,
+        onChanged: (value){
+          setState(() {
+            personne = value!;
+          });
+        },
+      ),
+      RadioListTile<int>(
+        activeColor: const Color(0xff33CCCC),
+        title: const Text('Enfant de 1 mois ou plus'),
+        value: 3,
+        groupValue: personne,
+        onChanged: (value){
+          setState(() {
+            personne = value!;
+          });
+        },
+      )
+    ];
+  }
 
-  void _calculateGlycemia() {
+  Widget buildEyeOpeningCard() {
+    return Card(
+      color: Colors.white, // White background
+      margin: const EdgeInsets.all(8),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Age',
+              style: TextStyle(
+                fontFamily: 'TimesNewRoman',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...buildEyeOpeningOptions(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _calculatePoids() {
     final t = _controller.text.replaceAll(RegExp(','),'.');
     print(t);
     setState(() {
       double paracetamol = double.tryParse(t) ?? 0.0;
-      if (_selectedUnit == '%') {
-        if(paracetamol >=2 && paracetamol<=20){
-          _glycemiaMmol = paracetamol * 1.59 - 2.59;
-        print("-----------------------------");
-        print(_glycemiaMmol);
-        _glycemiaGpl = _glycemiaMmol! / 0.055;
-        if(paracetamol >= 2 && paracetamol < 4){
-          setState(() {
-            interpretation = "Hypo-Glycémie chronique\n Risque de pathologies hépatiques";
-            intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
-                    );
-          });
+      if (personne != 0) {
+        if(personne == 1){
+          dose = paracetamol * 0.75;
+          intreprete = Text("");
         }
-        // else if(paracetamol >= 4 && paracetamol <= 4.6){
-        //   setState(() {
-        //     interpretation = "Super Optimal";
-        //     intreprete = Text(
-        //         interpretation,
-        //         style: TextStyle(
-        //         fontFamily: 'TimesNewRoman',
-        //           fontSize: 20,
-        //           fontStyle: FontStyle.italic,
-        //           color: Color(0xff056906),
-        //         ),
-        //       );
-        //   });
-        // }
-        else if(paracetamol >= 4 && paracetamol <= 5.1)
+        else if(personne == 2)
         {
-          setState(() {
-            interpretation = "Optimal";
-            intreprete = Text(
-                interpretation,
-                style: const TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Color(0xff369736),
-                ));
-          });
+         dose = paracetamol; 
+         intreprete = Text("");
         }
-        else if(paracetamol >= 5.2 && paracetamol <= 5.7)
+        else if(personne == 3)
         {
-          setState(() {
-            interpretation = "Normal";
-            intreprete = Text(
-                interpretation,
-                style: const TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Color(0xff19FD05),
-                ));
-          });
-        }
-        else if(paracetamol >= 5.8 && paracetamol <= 6.4)
-        {
-          setState(() {
-            interpretation = "Pré-Diabete\n Risque d'hyperglycémie";
-            intreprete = Text(
-                interpretation,
-                style: const TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Color(0xffFFFE06),
-                ));
-          });
-        }
-        else if(paracetamol >= 6.5 && paracetamol <= 7.1){
-          setState(() {
-            interpretation = "Diabete";
-            intreprete = Text(
-                interpretation,
-                style: const TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Color(0xffFF6501),
-                ));
-          });
-        }
-        else if(paracetamol >= 7.2 && paracetamol <= 9){
-          setState(() {
-            interpretation = "Diabetes sucré";
-            intreprete = Text(
-                interpretation,
-                style: const TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Color(0xffFE0000),
-                ));
-          });
-        }else if(paracetamol >= 9.1 && paracetamol <= 20){
-          setState(() {
-            interpretation = "dangereux ou risque lever de complication";
-            intreprete = Text(
-                interpretation,
-                style: const TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Color(0xffC20000),
-                ));
-          });
+          dose = paracetamol * 1.5;
+          intreprete = Text("");
         }
         else{
-
+          dose = 0;
+          intreprete = Text("");
         }
 
         }else{
-          interpretation = "Merci de renseignez un nombre entre 2% et 20%";
+          interpretation = "Merci de selectionnez un age";
             intreprete = Text(
                 textAlign: TextAlign.center,
                 interpretation,
@@ -156,11 +121,6 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
                   color: Colors.red,
                 ));
         }
-        
-      } else {
-        _glycemiaGpl = paracetamol / 10.929;
-        _glycemiaMmol = paracetamol / 1.098;
-      }
     });
   }
 
@@ -183,30 +143,12 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          child: Column(
+          child: Stack(
+            children: [
+              Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               const Text(
-                'Definition :',
-                style: TextStyle(
-                  fontFamily: 'TimesNewRoman',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                "L'hémoglobine glyquée (Paracetamol) est le reflet de l'équilibre glycémique des trois derniers mois. "
-                "Cette formule permet de faire le lien entre Paracetamol et la glycémie plasmatique moyenne présente chez un patient.",
-                style:
-                TextStyle(
-                  //fontFamily: 'TimesNewRoman',
-                  fontSize: 17,
-                  // fontFamily: 'TimesNewRoman',
-                  color: Colors.black,
-                ),
-              ),
+               buildEyeOpeningCard(),
               const SizedBox(height: 16),
               // Center(
               //   child: Image.asset('assets/images/diabete.gif',scale: 6,),
@@ -216,7 +158,7 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Paracetamol :',
+                    'Poids :',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     fontFamily: 'TimesNewRoman',fontSize: 18),
@@ -232,12 +174,12 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
                                   child: TextField(
                                     onSubmitted: (s)async{
                                       //await tester.testTextInput.receiveAction(TextInputAction.done);
-                                      _calculateGlycemia();
+                  
                                     },
                                     textAlign: TextAlign.start,
                                     controller: _controller,
                                     decoration: const InputDecoration(
-                                      hintText: 'en %',
+                                      hintText: 'en Kg',
                                       border: InputBorder.none,
                                       contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                                     ),
@@ -277,7 +219,7 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
                 children: [
                   Center(
                     child: ElevatedButton(
-                      onPressed: _calculateGlycemia,
+                      onPressed: _calculatePoids,
                       style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
                       child: const Text('Calculer', style: TextStyle(
                             fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
@@ -290,8 +232,8 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
                       onPressed:(){
                         setState(() {
                           _controller.clear();
-                        _glycemiaMmol = 0;
-                        _glycemiaGpl = 0;
+                          personne = 0;
+                        dose = 0;
                         });
                       },
                       child: const Text('Reprendre', style: TextStyle(
@@ -303,7 +245,7 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
               const SizedBox(height: 16),
               const Center(
                 child: Text(
-                  'Glycémie plasmatique moyenne',
+                  'La dose',
                   style: TextStyle(
                     fontFamily: 'TimesNewRoman',
                     fontSize: 22,
@@ -313,12 +255,12 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              if (_glycemiaGpl != null && _glycemiaMmol != null)
+              if (dose !=0 && _controller.text != "")
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _glycemiaGpl!.toStringAsFixed(2),
+                      dose.toStringAsFixed(2),
                       style: const TextStyle(
                           fontFamily: 'TimesNewRoman',
                         fontSize: 28,
@@ -329,7 +271,7 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
                     ),
                     const SizedBox(width: 8),
                     const Text(
-                      'mg/dL',
+                      'ml',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
                       fontFamily: 'TimesNewRoman',
@@ -337,57 +279,28 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    Text(
-                      _glycemiaMmol!.toStringAsFixed(2),
-                      style: const TextStyle(
-                        fontFamily: 'TimesNewRoman',
-                        fontSize: 28,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      'mmol/L',
-                      style: TextStyle(
-                        fontFamily: 'TimesNewRoman',
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                    ),
                   ],
                 ),
-              const SizedBox(height: 16),
-              const Center(
-                child: Text(
-                  'Interprétation',
-                  style: TextStyle(
-                    fontFamily: 'TimesNewRoman',
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff33CCCC),
-                  ),
-                ),
-              ),
               const SizedBox(height: 16),
               Center(child: intreprete),
               const SizedBox(height: 16),
               const Text(
-                'Références:',
+                'Références :',
                 style: TextStyle(
                 fontFamily: 'TimesNewRoman',
-                  fontSize: 14,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
               const SizedBox(height: 8),
               const Text(
-                "Formule: Glycémie Moyenne = Paracetamol (en %) x 1,59 - 2,59.\n",
+                """Nouveau-né : 7,5 mg/kg (0,75 ml/kg) 3 ou 4 fois par jour (max. 30 mg/kg par jour),
+Enfant de moins de 1 mois : 10 mg/kg 3 ou 4 fois par jour (max. 40 mg/kg par jour),
+Enfant de 1 mois et plus : 15 mg/kg 3 ou 4 fois par jour (max. 60 mg/kg par jour),
+Adulte : 1 g 3 ou 4 fois par jour (max. 4 g par jour)
+                """,
                 style: TextStyle(
-                  fontFamily: 'TimesNewRoman',
                   fontSize: 14,
                   color: Colors.black,
                 ),
@@ -395,6 +308,12 @@ class _ParacetamolScreenState extends State<ParacetamolScreen> {
               const SizedBox(height: 16),
             ],
           ),
+          Positioned(
+            bottom: dose == 0? MediaQuery.of(context).size.height*0.55:MediaQuery.of(context).size.height*0.60,
+            left: MediaQuery.of(context).size.width*0.16,
+            child: Image.asset("assets/Interface/weight-scale.png", height: 60,width: 50,)),
+            ],
+          )
         ),
       ),
     );

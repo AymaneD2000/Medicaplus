@@ -245,6 +245,7 @@ import 'package:gap/gap.dart';
 import 'package:moussa_project/DatabaseManagement/provider.dart';
 import 'package:moussa_project/Models/amo.dart';
 import 'package:moussa_project/Models/med.dart';
+import 'package:moussa_project/Screens/SearchScreenTheurapetique.dart';
 import 'package:moussa_project/Screens/categorieMedicamentView.dart';
 import 'package:moussa_project/Screens/searchScreenMedicaments.dart';
 import 'package:provider/provider.dart';
@@ -277,6 +278,7 @@ class MedicamentsScreen extends StatefulWidget {
 class _MedicamentsScreenState extends State<MedicamentsScreen> {
     //List<dynamic> medicamentsData = [];
  List<dynamic> classth = [];
+ List<String> iconMeds = [];
   final tabs = <Tab>[
     Tab(
       icon: Image.asset("assets/images/az.png", height: 21,),
@@ -289,11 +291,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
     Tab(
       icon: Image.asset("assets/images/star.png", height: 21,),
       text: "Favoris",
-    ),
-    Tab(
-      icon: Image.asset("assets/images/info.png", height: 21,),
-      text: "Info",
-    ),
+    )
   ];
   List<Med> medNameList = [];
   List<Med> favoris = [];
@@ -303,15 +301,17 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
   TextEditingController searchController1 = TextEditingController();
   TextEditingController searchController2 = TextEditingController();
   List<Med> filtered = [];
-  List<String> filtered1 = [];
+  List<ClassMed> filtered1 = [];
   List<Med> filtered2 = [];
   MyProvider provider = MyProvider();
+  
   @override
   void initState() {
     super.initState();
     filtered = context.read<MyProvider>().medicament;
      filtered1 = context.read<MyProvider>().classMedicament;
      filtered2 = context.read<MyProvider>().favorisMedicaments;
+     iconMeds = context.read<MyProvider>().imagesMed;
     //_loadMedicamentsData();
   }
 
@@ -335,7 +335,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       initialIndex: 0,
       child: Scaffold(
         backgroundColor: Color(0xFFFFFFFF),
@@ -440,34 +440,28 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
-                        child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(),
-                             borderRadius: BorderRadius.circular(30.0)),
-                            focusColor: Colors.black,
-                            fillColor: Colors.black,
-                            suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
-                            hintText: 'Rechercher des classes...',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                          onChanged: (query){
-                          filtered1 = context.read<MyProvider>().classMedicament.where((med) {
-                            final medNameLower = removeDiacritics(med.toLowerCase());
-                            final queryLower = removeDiacritics(query.toLowerCase());
-                            return medNameLower.contains(queryLower);
-                          }).toList();
-
-                          setState(() {
-                            filtered1;
-                          });
-                  },
-                        ),
+                      GestureDetector(
+                  onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchClasseTheuraScreenDCI(listes: context.read<MyProvider>().classMedicament,iconMeds: iconMeds, hintText: 'Rechercher des Classes...')));
+                    },
+                child: Padding(  
+                  padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
+                  child: TextField(
+                    enabled: false,
+                    autofocus: false,
+                    //controller: searchController,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(30.0),borderSide: const BorderSide(color: Colors.green)),
+                      suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
+                      hintText: 'Rechercher des Classes...',
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
+                    ),
+                  ),
+                ),
+              ),
 
                       SizedBox(
                       height: MediaQuery.of(context).size.height * 0.79,
@@ -478,23 +472,42 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                                       listOptions: ListOptions(showSectionHeader: false, stickySectionHeader: false)),
                                   items: filtered1,
                                   builder: (context, index, items) {
+                                    final aliasName = filtered1[index].clname;
+                                    final icons =  iconMeds;
+                                    String icon = "";
+                              for(final i in icons){
+                                print(i.split('images/')[0]);
+                                print(i.split('images/')[1].split('.')[0]);
+                                if(i.split('images/')[1].split('.')[0] == aliasName){
+                                  icon = i;
+                                }
+                              }
                                     return GestureDetector(
                                         onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => MedicamentDetailsScreen(
-                                                  medicament: items),
-                                            ),
-                                          );
+    List<dynamic> meds = [];
+    context.read<MyProvider>().medicament.forEach((element) {
+      if (element.classtherapique.contains(filtered1[index].clname)) {
+        meds.add(element);
+      }
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CategorieMedicament(
+          images: icon,
+          meds: meds,
+          name: filtered1[index].clname,
+        ),
+      ),
+    );
+    print(meds.length);
                                         },
                                         child: Container(
                                           decoration: const BoxDecoration(
                                               border: BorderDirectional(
                                                   bottom: BorderSide(width: 0.5))),
                                           child: ListTile(
-                                              title: Text(items.name, style: const TextStyle(fontWeight: FontWeight.w700),),
-                                              subtitle: Text(items.nomCommercial.join('\n')),),
+                                              title: Text(items.clname, style: const TextStyle(fontWeight: FontWeight.w700),),),
                                         ));
                                   }),
                     )
@@ -653,9 +666,6 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                   ],
                 ),
               ),
-              Container(
-                child: const Text("Info"),
-              )
             ],
           ),
         bottomNavigationBar: TabBar(

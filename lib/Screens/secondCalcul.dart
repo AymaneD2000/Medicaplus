@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:moussa_project/Screens/Quinine.dart';
+import 'package:moussa_project/Screens/artemether.dart';
+import 'package:moussa_project/Screens/artesunate.dart';
 import 'package:moussa_project/Screens/paracetamol.dart';
 import 'package:moussa_project/Widgets/card.dart';
 
@@ -10,35 +14,176 @@ class SecondCalcule extends StatefulWidget {
 }
 
 class _SecondCalculeState extends State<SecondCalcule> {
+  // Custom colors
+  final Color _primaryColor = const Color(0xFF02B1EC);
+  final Color _backgroundColor = const Color(0xFFF5F5F5);
+  final Color _cardColor = Colors.white;
+  final Color _textColor = const Color(0xFF1D1B20);
+
+  Widget _buildOptionCard({
+    required String title,
+    required VoidCallback onTap,
+    required String image,
+  }) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: _primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Image.asset(
+                    image,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const Gap(16),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: _textColor,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: _textColor.withOpacity(0.5),
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _backgroundColor,
       appBar: AppBar(
-        title: const Text('Calculer la dose'),
+        backgroundColor: _primaryColor,
+        title: const Text(
+          'Calculer la dose',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
       ),
-      body: GridView(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 5,
-              crossAxisCount: 2,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Gap(16),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Sélectionnez le médicament',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: _textColor,
+                    ),
+                  ),
+                  const Gap(8),
+                  Text(
+                    'Choisissez le médicament pour calculer la dose appropriée',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: _textColor.withOpacity(0.8),
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
             ),
-      children: [
-        GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ParacetamolScreen()));
-                  },
-                  child:
-                      CardE(
-                        topStartTadius: 10,
-                        topEndTadius: 10,
-                        bottomStartRadius: 10,
-                        bottomEndRadius: 10,
-                        image: 'assets/images/Calcule.png',
-                        backgroundColor: const Color(0xFF4A90E2),
-                        title: "IMC")),
-      ],
-    ),
+            const Gap(16),
+            _buildOptionCard(
+              title: 'Paracetamol',
+              image: 'assets/images/Calcule.png',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ParacetamolScreen()),
+              ),
+            ),
+            _buildOptionCard(
+              title: 'Artesunate',
+              image: 'assets/images/Calcule.png',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ArtesunateScreen()),
+              ),
+            ),
+            _buildOptionCard(
+              title: 'Artémether',
+              image: 'assets/images/Calcule.png',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ArtemetherScreen()),
+              ),
+            ),
+            _buildOptionCard(
+              title: 'Quinine',
+              image: 'assets/images/Calcule.png',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const QuinineScreen()),
+              ),
+            ),
+            const Gap(16),
+          ],
+        ),
+      ),
     );
   }
 }

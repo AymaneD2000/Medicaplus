@@ -29,17 +29,13 @@ class SupabaseManagement {
   // }
 
   Future<List<Fac>> faculter() async {
-      final response = await supabase.from('faculter').select("*");
-      List<Fac> classes = response.map((e) => Fac.fromSnapshot(e)).toList();
-      return classes;
+    final response = await supabase.from('faculter').select("*");
+    List<Fac> classes = response.map((e) => Fac.fromSnapshot(e)).toList();
+    return classes;
   }
 
   addClasse(Classe c) async {
-    print("this is id faculter");
-    print(c.idfaculter);
-    print("ss");
     await supabase.from('classe').insert(c.toMap()).then((value) {
-      print(value);
       getAllClasse();
     });
   }
@@ -57,63 +53,64 @@ class SupabaseManagement {
         .from('filiere')
         .insert(f.toMap())
         .eq("nomClasse", f.nomClasse)
-        .then((value) {
-      print(value);
-    });
+        .then((value) {});
   }
 
   addPdf(Pdf p) async {
-    await supabase.from('pdf').insert(p.toMap()).then((value) {
-      print(value);
-    });
+    await supabase.from('pdf').insert(p.toMap()).then((value) {});
     getDocuments();
   }
 
   addMateriel(Materiel p) async {
-    await supabase.from('materiel').insert(p.toMap()).then((value) {
-      print(value);
-    });
+    await supabase.from('materiel').insert(p.toMap()).then((value) {});
+
     ///getMateriel();
   }
 
   addPublication(Publication p) async {
-    await supabase.from('publication').insert(p.toMap()).then((value) {
-      print(value);
-    });
+    await supabase.from('publication').insert(p.toMap()).then((value) {});
+
     ///getMateriel();
   }
 
   removeClasse(Classe c) async {
-    await supabase.from('classe').delete().eq('nom', c.nom).then((value) {
-      print("Is deleted");
-      print(value);
-    });
+    await supabase.from('classe').delete().eq('nom', c.nom).then((value) {});
   }
 
   removeMateriel(Materiel c) async {
-    print(c);
-    print(c.id!);
-    await supabase.from('materiel').delete().eq('id', c.id!).then((value) {
-      print(value);
-    });
+    await supabase.from('materiel').delete().eq('id', c.id!).then((value) {});
+  }
+
+  updateMateriel(Materiel c) async {
+    await supabase
+        .from('materiel')
+        .update(c.toMap())
+        .eq('id', c.id!)
+        .then((value) {});
   }
 
   removeFiliere(Filiere f) async {
-    await supabase.from('filiere').delete().eq('nom', f.nom).then((value) {
-      print(value);
-    });
+    await supabase.from('filiere').delete().eq('nom', f.nom).then((value) {});
   }
 
   removePdf(Pdf p) async {
-    await supabase.from('pdf').delete().eq('nom', p.nom).then((value) {
-      print(value);
-    });
+    await supabase.from('pdf').delete().eq('nom', p.nom).then((value) {});
+  }
+
+  updatePublication(Publication p) async {
+    await supabase
+        .from('publication')
+        .update(p.toMap())
+        .eq('id', p.idpublication!)
+        .then((value) {});
   }
 
   deletePublication(Publication p) async {
-    await supabase.from('publication').delete().eq('id', p.idpublication!).then((value) {
-      print(value);
-    });
+    await supabase
+        .from('publication')
+        .delete()
+        .eq('id', p.idpublication!)
+        .then((value) {});
   }
 
   Future<List<Pdf>> getDocuments() async {

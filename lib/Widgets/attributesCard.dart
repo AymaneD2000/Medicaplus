@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AttributesCard extends StatelessWidget {
   String description;
@@ -9,7 +9,8 @@ class AttributesCard extends StatelessWidget {
   String image;
   Color couleurs;
   AttributesCard(
-      {super.key, required this.couleurs,
+      {super.key,
+      required this.couleurs,
       required this.image,
       this.alias,
       required this.description,
@@ -64,7 +65,7 @@ class AttributesCard extends StatelessWidget {
                   Image.asset(
                     fit: BoxFit.cover,
                     image,
-                    height: MediaQuery.of(context).size.height*0.055,
+                    height: MediaQuery.of(context).size.height * 0.055,
                   ),
                   SizedBox(
                     width: 4 * MediaQuery.devicePixelRatioOf(context),
@@ -74,7 +75,7 @@ class AttributesCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'TimesNewRoman',
                       fontWeight: FontWeight.bold,
-                      fontSize: MediaQuery.of(context).size.width*0.055,
+                      fontSize: MediaQuery.of(context).size.width * 0.055,
                     ),
                   ),
                 ],
@@ -84,8 +85,16 @@ class AttributesCard extends StatelessWidget {
               margin:
                   EdgeInsets.all(4 * MediaQuery.devicePixelRatioOf(context)),
               child: alias == null || alias == ""
-                  ? Text("$description ", style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.045,),)
-                  : Text("$description ($alias)", style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.045,)),
+                  ? Text(
+                      "$description ",
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.045,
+                      ),
+                    )
+                  : Text("$description ($alias)",
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.045,
+                      )),
             ),
           ],
         ),

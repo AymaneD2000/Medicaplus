@@ -13,7 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'dart:io';
 
-class MyProvider extends ChangeNotifier{
+class MyProvider extends ChangeNotifier {
   List<Classe> classes = [];
   List<Fac> faculter = [];
   List<Filiere> filiere = [];
@@ -29,109 +29,109 @@ class MyProvider extends ChangeNotifier{
   List<String> imagesMed = [];
   List<Materiel> materiels = [];
   //List<>
-  
+
   SupabaseManagement sup = SupabaseManagement();
 
-  Future<List<Filiere>> getClasseFilieres(nomClasse)async{
-    filiere =await sup.getClasseFilieres(nomClasse);
+  Future<List<Filiere>> getClasseFilieres(nomClasse) async {
+    filiere = await sup.getClasseFilieres(nomClasse);
     notifyListeners();
     return filiere;
   }
-  Future<List<Pdf>> getDocument()async{
+
+  Future<List<Pdf>> getDocument() async {
     pdf = await sup.getDocuments();
     notifyListeners();
     return pdf;
   }
 
-  Future<List<Publication>> getPublication()async{
-    pub= await sup.getPublication();
+  Future<List<Publication>> getPublication() async {
+    pub = await sup.getPublication();
     notifyListeners();
     return pub;
   }
 
-  addPDF(Pdf p)async{
+  addPDF(Pdf p) async {
     await sup.addPdf(p);
     pdf = await getDocument();
     notifyListeners();
   }
 
-  addPublication(Publication p)async{
+  addPublication(Publication p) async {
     await sup.addPublication(p);
     pub = await getPublication();
     notifyListeners();
   }
 
-  addMateriel(Materiel p)async{
+  addMateriel(Materiel p) async {
     sup.addMateriel(p);
     getMateriel();
     notifyListeners();
   }
 
-  removeMateriel(Materiel c)async{
+  removeMateriel(Materiel c) async {
     await sup.removeMateriel(c);
     getMateriel();
     notifyListeners();
   }
 
-  deletePublication(Publication c)async{
+  deletePublication(Publication c) async {
     await sup.deletePublication(c);
     getPublication();
     notifyListeners();
   }
 
-  removeFiliere(Filiere f)async{
+  removeFiliere(Filiere f) async {
     await sup.removeFiliere(f);
     getClasseFilieres(f.nomClasse);
     notifyListeners();
   }
 
-  removePdf(Pdf pdf)async{
+  removePdf(Pdf pdf) async {
     sup.removePdf(pdf);
-    
   }
 
-  Future<List<Materiel>> getMateriel()async{
+  Future<List<Materiel>> getMateriel() async {
     materiels = await sup.getMateriel();
     notifyListeners();
     return materiels;
   }
 
-  addFiliere(Filiere f)async{
+  addFiliere(Filiere f) async {
     await sup.addFiliere(f);
     filiere = await getClasseFilieres(f.nomClasse);
   }
 
-  getAllClasses()async{
+  getAllClasses() async {
     classes = await sup.getAllClasse();
     notifyListeners();
   }
 
-  getAllFaculty()async{
+  getAllFaculty() async {
     faculter = await sup.faculter();
     notifyListeners();
   }
 
-  addClasses(Classe c)async{
+  addClasses(Classe c) async {
     sup.addClasse(c);
     getAllClasses();
     notifyListeners();
   }
 
-  getPDF(id)async{
+  getPDF(id) async {
     pdf = await sup.getPDF(id);
     notifyListeners();
   }
 
-  Future<bool> changeFavoris(dcis)async{
+  Future<bool> changeFavoris(dcis) async {
     try {
       // Obtenir le répertoire des documents
       final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/med3.json';
+      final filePath = '${directory.path}/Medicament.json';
 
       // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
       final file = File(filePath);
       if (!await file.exists()) {
-        final data = await rootBundle.load('assets/med3.json');
+        final data = await rootBundle.load('assets/Medicament.json');
         final bytes = data.buffer.asUint8List();
         await file.writeAsBytes(bytes, flush: true);
       }
@@ -141,7 +141,6 @@ class MyProvider extends ChangeNotifier{
       final List<dynamic> medicaments = jsonDecode(contents);
 
       // Vérifier si la liste contient au moins 5 éléments
-      
 
       // D.C.I. du médicament à modifier (5ème élément)
       final String dci = dcis;
@@ -149,7 +148,8 @@ class MyProvider extends ChangeNotifier{
       // Rechercher et modifier le 5ème médicament
       bool found = false;
       for (var i = 0; i < medicaments.length; i++) {
-        if (medicaments[i]["Médicament/D.C.I (Alias)"] == dci) { // Modification du 5ème élément (index 4)
+        if (medicaments[i]["Médicament/D.C.I (Alias)"] == dci) {
+          // Modification du 5ème élément (index 4)
           medicaments[i]["Favoris"] = !medicaments[i]["Favoris"];
           found = true;
           break;
@@ -161,15 +161,17 @@ class MyProvider extends ChangeNotifier{
         // Écrire les modifications dans le fichier JSON
         final updatedContents = jsonEncode(medicaments);
         await file.writeAsString(updatedContents, flush: true);
-        medicament = (json.decode(updatedContents) as List).map((item) => Med.fromSanpshot(item)).toList();
+        medicament = (json.decode(updatedContents) as List)
+            .map((item) => Med.fromSanpshot(item))
+            .toList();
         notifyListeners();
         favorisMedicaments.clear();
-        for(final i in medicament){
-        if(i.isFavoris){
-          favorisMedicaments.add(i);
-          notifyListeners();
+        for (final i in medicament) {
+          if (i.isFavoris) {
+            favorisMedicaments.add(i);
+            notifyListeners();
+          }
         }
-      }
 
         notifyListeners();
         return true;
@@ -183,16 +185,16 @@ class MyProvider extends ChangeNotifier{
     }
   }
 
-  Future<bool> changeFavorisPharmacie(dcis)async{
+  Future<bool> changeFavorisPharmacie(dcis) async {
     try {
       // Obtenir le répertoire des documents
       final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/pharma.json';
+      final filePath = '${directory.path}/Pharmacie.json';
 
       // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
       final file = File(filePath);
       if (!await file.exists()) {
-        final data = await rootBundle.load('assets/pharma.json');
+        final data = await rootBundle.load('assets/Pharmacie.json');
         final bytes = data.buffer.asUint8List();
         await file.writeAsBytes(bytes, flush: true);
       }
@@ -202,7 +204,6 @@ class MyProvider extends ChangeNotifier{
       final List<dynamic> medicaments = jsonDecode(contents);
 
       // Vérifier si la liste contient au moins 5 éléments
-      
 
       // D.C.I. du médicament à modifier (5ème élément)
       final String dci = dcis;
@@ -210,7 +211,8 @@ class MyProvider extends ChangeNotifier{
       // Rechercher et modifier le 5ème médicament
       bool found = false;
       for (var i = 0; i < medicaments.length; i++) {
-        if (medicaments[i]["Nom commercial"] == dci) { // Modification du 5ème élément (index 4)
+        if (medicaments[i]["Nom commercial"] == dci) {
+          // Modification du 5ème élément (index 4)
           medicaments[i]["Favoris"] = !medicaments[i]["Favoris"];
           found = true;
           break;
@@ -222,15 +224,17 @@ class MyProvider extends ChangeNotifier{
         // Écrire les modifications dans le fichier JSON
         final updatedContents = jsonEncode(medicaments);
         await file.writeAsString(updatedContents, flush: true);
-        pharmacies = (json.decode(updatedContents) as List).map((item) => Amo.fromSanpshot(item)).toList();
+        pharmacies = (json.decode(updatedContents) as List)
+            .map((item) => Amo.fromSanpshot(item))
+            .toList();
         notifyListeners();
         favorisPharmacies.clear();
-        for(final i in pharmacies){
-        if(i.favoris){
-          favorisPharmacies.add(i);
-          notifyListeners();
+        for (final i in pharmacies) {
+          if (i.favoris) {
+            favorisPharmacies.add(i);
+            notifyListeners();
+          }
         }
-      }
 
         notifyListeners();
         return true;
@@ -246,89 +250,96 @@ class MyProvider extends ChangeNotifier{
 
   Future<List<Amo>> loadPharmacieData() async {
     //String data = await DefaultAssetBundle.of(context)
-       // .loadString('assets/med.json');
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/pharma.json';
+    // .loadString('assets/med.json');
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/Pharmacie.json';
 
-      // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
-      final file = File(filePath);
-      if (!await file.exists()) {
-        final data = await rootBundle.load('assets/pharma.json');
-        final bytes = data.buffer.asUint8List();
-        await file.writeAsBytes(bytes, flush: true);
-      }
+    // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
+    final file = File(filePath);
+    if (!await file.exists()) {
+      final data = await rootBundle.load('assets/Pharmacie.json');
+      final bytes = data.buffer.asUint8List();
+      await file.writeAsBytes(bytes, flush: true);
+    }
 
-      // Lire le fichier JSON
-      final contents = await file.readAsString();
-      //final List<dynamic> medicaments = jsonDecode(contents);
-      pharmacies =
-          (json.decode(contents) as List).map((item) => Amo.fromSanpshot(item)).toList();
-      //filteredMedNameList = medNameList;
-      for(final i in pharmacies){
-        if(i.favoris){
-          favorisPharmacies.add(i);
-        }
+    // Lire le fichier JSON
+    final contents = await file.readAsString();
+    //final List<dynamic> medicaments = jsonDecode(contents);
+    pharmacies = (json.decode(contents) as List)
+        .map((item) => Amo.fromSanpshot(item))
+        .toList();
+    //filteredMedNameList = medNameList;
+    for (final i in pharmacies) {
+      if (i.favoris) {
+        favorisPharmacies.add(i);
       }
+    }
 
-      for (final med in pharmacies) {
-        for (final cl in med.classtherapique) {
-          dciPharmacie.add(cl);
-        }
-        dciPharmacie = dciPharmacie.toSet().toList();
+    for (final med in pharmacies) {
+      for (final cl in med.classtherapique) {
+        dciPharmacie.add(cl);
       }
-      
+      dciPharmacie = dciPharmacie.toSet().toList();
+    }
+
     notifyListeners();
     return pharmacies;
   }
 
   Future<List<Med>> loadMedicamentData() async {
-    //String data = await DefaultAssetBundle.of(context)
-       // .loadString('assets/med.json');
+    try {
+      // Clear existing data first
+      medicament.clear();
+      favorisMedicaments.clear();
+      classMedicament.clear();
+      iconsMed.clear();
+      imagesMed.clear();
+
       final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/med3.json';
+      final filePath = '${directory.path}/Medicament.json';
 
       // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
       final file = File(filePath);
       if (!await file.exists()) {
-        final data = await rootBundle.load('assets/med3.json');
+        final data = await rootBundle.load('assets/Medicament.json');
         final bytes = data.buffer.asUint8List();
         await file.writeAsBytes(bytes, flush: true);
       }
 
       // Lire le fichier JSON
       final contents = await file.readAsString();
-      //final List<dynamic> medicaments = jsonDecode(contents);
-      medicament =
-          (json.decode(contents) as List).map((item) => Med.fromSanpshot(item)).toList();
-      //filteredMedNameList = medNameList;
-      for(final i in medicament){
-        if(i.isFavoris){
-          favorisMedicaments.add(i);
+      final List<dynamic> jsonData = json.decode(contents);
+
+      // Parse medications
+      medicament = jsonData.map((item) => Med.fromSanpshot(item)).toList();
+
+      print('Loaded ${medicament.length} medications'); // Debug log
+
+      // Build favorites list
+      for (final med in medicament) {
+        if (med.isFavoris) {
+          favorisMedicaments.add(med);
         }
-      }
-      for(final med in medicament){
-        for(final cl in med.classtherapique) {
-          classMedicament.add(ClassMed(clname: cl));
-        }
-        classMedicament = classMedicament.toSet().toList();
       }
 
-      for(final med in medicament){
-        for(String cl in med.icons) {
-          iconsMed.add(cl);
+      // Build class list with proper deduplication
+      final Set<String> uniqueClasses = {};
+      for (final med in medicament) {
+        for (final cl in med.classtherapique) {
+          if (cl != null && cl.toString().trim().isNotEmpty) {
+            uniqueClasses.add(cl.toString().trim());
+          }
         }
-        iconsMed = iconsMed.toSet().toList();
       }
+      classMedicament =
+          uniqueClasses.map((name) => ClassMed(clname: name)).toList();
 
-      for(final med in medicament){
-        for(String cl in med.images) {
-          imagesMed.add(cl);
-        }
-        imagesMed = imagesMed.toSet().toList();
-      }
-      
-    notifyListeners();
-    return medicament;
+      notifyListeners();
+      return medicament;
+    } catch (e) {
+      print('Error loading medicament data: $e'); // Debug log
+      notifyListeners();
+      return [];
+    }
   }
-
 }

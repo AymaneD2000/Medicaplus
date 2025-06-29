@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
 import 'package:moussa_project/Models/materiels.dart';
-import 'package:supabase/supabase.dart';
 import 'dart:io';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 
 class MaterielHomePage extends StatefulWidget {
   const MaterielHomePage({super.key});
@@ -17,111 +15,423 @@ class MaterielHomePage extends StatefulWidget {
 
 class _MaterielHomePageState extends State<MaterielHomePage> {
   List<Materiel> materiels = [];
-  getMateriel() async {
-    materiels = await SupabaseManagement().getMateriel();
-  }
+  bool isLoading = true;
+  bool isOperationInProgress = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getMateriel();
+    _loadMateriels();
   }
 
-  void _addMateriel() {
-    Navigator.of(context).push(
+  Future<void> _loadMateriels() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final loadedMateriels = await SupabaseManagement().getMateriel();
+      setState(() {
+        materiels = loadedMateriels;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      _showErrorSnackBar('Erreur lors du chargement des matériels');
+    }
+  }
+
+  Future<void> _addMateriel() async {
+    await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (context) => MaterielFormPage(
-          onSave: (materiel) {
+          onSave: (materiel) async {
             setState(() {
-              SupabaseManagement().addMateriel(materiel);
-              //materiels.add(materiel);
+              isOperationInProgress = true;
             });
+
+            try {
+              await SupabaseManagement().addMateriel(materiel);
+              await _loadMateriels();
+              _showSuccessSnackBar('Matériel ajouté avec succès');
+              return true;
+            } catch (e) {
+              _showErrorSnackBar('Erreur lors de l\'ajout du matériel');
+              return false;
+            } finally {
+              setState(() {
+                isOperationInProgress = false;
+              });
+            }
           },
         ),
       ),
     );
   }
 
-  void _editMateriel(Materiel materiel) {
-    Navigator.of(context).push(
+  Future<void> _editMateriel(Materiel materiel) async {
+    await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (context) => MaterielFormPage(
           materiel: materiel,
-          onSave: (updatedMateriel) {
+          onSave: (updatedMateriel) async {
             setState(() {
-              final index = materiels.indexOf(materiel);
-              materiels[index] = updatedMateriel;
+              isOperationInProgress = true;
             });
+
+            try {
+              await SupabaseManagement().updateMateriel(updatedMateriel);
+              await _loadMateriels();
+              _showSuccessSnackBar('Matériel modifié avec succès');
+              return true;
+            } catch (e) {
+              _showErrorSnackBar('Erreur lors de la modification du matériel');
+              return false;
+            } finally {
+              setState(() {
+                isOperationInProgress = false;
+              });
+            }
           },
         ),
       ),
     );
   }
 
-  void _deleteMateriel(Materiel materiel) {
+  Future<void> _deleteMateriel(Materiel materiel) async {
+    final confirmed = await _showDeleteConfirmationDialog(materiel.title);
+    if (!confirmed) return;
+
     setState(() {
-      SupabaseManagement().removeMateriel(materiel);
+      isOperationInProgress = true;
     });
+
+    try {
+      await SupabaseManagement().removeMateriel(materiel);
+      await _loadMateriels();
+      _showSuccessSnackBar('Matériel supprimé avec succès');
+    } catch (e) {
+      _showErrorSnackBar('Erreur lors de la suppression du matériel');
+    } finally {
+      setState(() {
+        isOperationInProgress = false;
+      });
+    }
+  }
+
+  Future<bool> _showDeleteConfirmationDialog(String title) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              title: const Text(
+                'Confirmer la suppression',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+              content: Text('Êtes-vous sûr de vouloir supprimer "$title" ?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('Annuler'),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                  child: const Text('Supprimer'),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
+  }
+
+  void _showSuccessSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.blue,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    );
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Materiel Management'),
+        title: const Text(
+          'Gestion des Matériels',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _addMateriel,
+            icon: const Icon(Icons.refresh, color: Colors.white),
+            onPressed: isOperationInProgress ? null : _loadMateriels,
+          ),
+          IconButton(
+            icon: const Icon(Icons.add, color: Colors.white),
+            onPressed: isOperationInProgress ? null : _addMateriel,
           ),
         ],
       ),
-      body: FutureBuilder(
-          future: SupabaseManagement().getMateriel(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final data = snapshot.data;
-              return ListView.builder(
-                itemCount: data!.length,
+      body: Stack(
+        children: [
+          if (isLoading)
+            const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(color: Colors.blue),
+                  SizedBox(height: 16),
+                  Text(
+                    'Chargement des matériels...',
+                    style: TextStyle(color: Colors.blue, fontSize: 16),
+                  ),
+                ],
+              ),
+            )
+          else if (materiels.isEmpty)
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.inventory_2_outlined,
+                    size: 80,
+                    color: Colors.blue[300],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Aucun matériel trouvé',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.blue[700],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Appuyez sur + pour ajouter un matériel',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.blue[500],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            RefreshIndicator(
+              onRefresh: _loadMateriels,
+              color: Colors.blue,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: materiels.length,
                 itemBuilder: (context, index) {
-                  final materiel = data[index];
-                  return ListTile(
-                    leading: Image.network(materiel.image),
-                    title: Text(materiel.title),
-                    subtitle: Text(materiel.price),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () => _editMateriel(materiel),
+                  final materiel = materiels[index];
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: Card(
+                      elevation: 6,
+                      color: Colors.white,
+                      shadowColor: Colors.grey.withOpacity(0.5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: () => _editMateriel(materiel),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.blue[100]!),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    materiel.image,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        color: Colors.blue[50],
+                                        child: Icon(
+                                          Icons.image_not_supported,
+                                          color: Colors.blue[300],
+                                        ),
+                                      );
+                                    },
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Container(
+                                        color: Colors.blue[50],
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      materiel.title,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      materiel.price,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    if (materiel.description != null &&
+                                        materiel.description!.isNotEmpty)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4),
+                                        child: Text(
+                                          materiel.description!,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black54,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.phone,
+                                          size: 14,
+                                          color: Colors.black54,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          materiel.telephone,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: isOperationInProgress
+                                        ? null
+                                        : () => _editMateriel(materiel),
+                                    color: Colors.blue,
+                                    splashRadius: 20,
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: isOperationInProgress
+                                        ? null
+                                        : () => _deleteMateriel(materiel),
+                                    color: Colors.red[400],
+                                    splashRadius: 20,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => _deleteMateriel(materiel),
-                        ),
-                      ],
+                      ),
                     ),
                   );
                 },
-              );
-            } else if (snapshot.hasError) {
-              return const Center(
-                child:
-                    Text("Nous avons rencontrer une erreur lors du chargement"),
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          }),
+              ),
+            ),
+          if (isOperationInProgress)
+            Container(
+              color: Colors.black38,
+              child: Center(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(color: Colors.blue),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Opération en cours...',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
 
 class MaterielFormPage extends StatefulWidget {
   final Materiel? materiel;
-  final Function(Materiel) onSave;
+  final Future<bool> Function(Materiel) onSave;
 
   const MaterielFormPage({super.key, this.materiel, required this.onSave});
 
@@ -131,178 +441,450 @@ class MaterielFormPage extends StatefulWidget {
 
 class _MaterielFormPageState extends State<MaterielFormPage> {
   final _formKey = GlobalKey<FormState>();
-  late String _title;
-  late String _price;
-  late String _description;
-  late String _telephone;
+  late TextEditingController _titleController;
+  late TextEditingController _priceController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _telephoneController;
+
   String _imageUrl = '';
   File? imageFile;
+  bool isLoading = false;
+  bool isUploading = false;
 
   @override
   void initState() {
     super.initState();
-    if (widget.materiel != null) {
-      _title = widget.materiel!.title;
-      _price = widget.materiel!.price;
-      _imageUrl = widget.materiel!.image;
-      _description = widget.materiel!.description??"";
-      _telephone = widget.materiel!.telephone;
-    } else {
-      _title = '';
-      _description = "";
-      _telephone = "";
-      _price = "";
-      _imageUrl = '';
+    _titleController =
+        TextEditingController(text: widget.materiel?.title ?? '');
+    _priceController =
+        TextEditingController(text: widget.materiel?.price ?? '');
+    _descriptionController =
+        TextEditingController(text: widget.materiel?.description ?? '');
+    _telephoneController =
+        TextEditingController(text: widget.materiel?.telephone ?? '');
+    _imageUrl = widget.materiel?.image ?? '';
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _priceController.dispose();
+    _descriptionController.dispose();
+    _telephoneController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1024,
+      maxHeight: 1024,
+      imageQuality: 85,
+    );
+
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+      await _uploadImageToSupabase();
     }
   }
 
-  Future<File?> UploadeFile()async{
-    final picker = ImagePicker();
-    final imageFiles = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> _uploadImageToSupabase() async {
+    if (imageFile == null) return;
 
-    if (imageFiles == null)
-      {
-        return null;
-      }
-
-    //final bytes = await File(imageFile.path).readAsBytes();
-      final filePath = imageFiles.path;
-      imageFile = File(filePath);
-      setState(() {
-        
-      });
-    return File(filePath);
-  }
-
-  Future<void> _uploadImageToSuppabse() async {
-    final imageFiles = await UploadeFile();
+    setState(() {
+      isUploading = true;
+    });
 
     try {
-      await Supabase.instance.client.storage.from('avatars').upload(
-            imageFiles!.path,
-            imageFiles,
-            fileOptions: const FileOptions(contentType: 'image/*'),
-          );
+      final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      final filePath = 'materiels/$fileName';
 
-      _imageUrl = await Supabase.instance.client.storage
+      await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(imageFiles.path, 60 * 60 * 24 * 365 * 10);
-          setState(() {});
-    } on StorageException catch (error) {
+          .upload(filePath, imageFile!);
+
+      final imageUrl = await Supabase.instance.client.storage
+          .from('avatars')
+          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+
+      setState(() {
+        _imageUrl = imageUrl;
+        isUploading = false;
+      });
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(error.message),
-            backgroundColor: Theme.of(context).colorScheme.error,
+            content: const Text('Image téléchargée avec succès'),
+            backgroundColor: Colors.blue,
+            behavior: SnackBarBehavior.floating,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+        );
+      }
+    } on StorageException catch (error) {
+      setState(() {
+        isUploading = false;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erreur de téléchargement: ${error.message}'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
         );
       }
     } catch (error) {
+      setState(() {
+        isUploading = false;
+      });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Une erreur inattendue est survenue'),
-            backgroundColor: Theme.of(context).colorScheme.error,
+          const SnackBar(
+            content: Text('Une erreur inattendue est survenue'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
           ),
         );
       }
     }
   }
 
-  void _saveForm() {
-    _uploadImageToSuppabse();
-    if (_formKey.currentState!.validate() && _imageUrl !="") {
-      _formKey.currentState!.save();
-      final newMateriel = Materiel(
-        description:  _description,
-        title: _title,
-        telephone: _telephone,
-        price: _price,
-        image: _imageUrl,
-        id: widget.materiel?.id,
-      );
-      widget.onSave(newMateriel);
+  Future<void> _saveForm() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    if (_imageUrl.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Veuillez sélectionner une image'),
+            backgroundColor: Colors.orange,
+            behavior: SnackBarBehavior.floating,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+        );
+      }
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final newMateriel = Materiel(
+      id: widget.materiel?.id,
+      title: _titleController.text.trim(),
+      price: _priceController.text.trim(),
+      description: _descriptionController.text.trim(),
+      telephone: _telephoneController.text.trim(),
+      image: _imageUrl,
+    );
+
+    try {
+      final success = await widget.onSave(newMateriel);
+      if (success && mounted) {
+        Navigator.of(context).pop(true);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-            widget.materiel == null ? 'Ajouter Materiel' : 'Modifier Materiel'),
+          widget.materiel == null
+              ? 'Ajouter un Matériel'
+              : 'Modifier le Matériel',
+          style:
+              const TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: _saveForm,
+            icon: isLoading
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2, color: Colors.white),
+                  )
+                : const Icon(Icons.save, color: Colors.white),
+            onPressed: isLoading || isUploading ? null : _saveForm,
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                initialValue: _title,
-                decoration: const InputDecoration(labelText: 'Titre'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer un titre';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _title = value!;
-                },
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            Card(
+              elevation: 10,
+              color: Colors.white,
+              shadowColor: Colors.grey.withOpacity(0.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                initialValue: _price.toString(),
-                decoration: const InputDecoration(labelText: 'Prix'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer un prix';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _price = value!;
-                },
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.info_outline, color: Colors.blue, size: 20),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Informations du matériel',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _titleController,
+                      decoration: InputDecoration(
+                        labelText: 'Titre *',
+                        labelStyle: const TextStyle(color: Colors.black54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blue[200]!),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                        ),
+                        prefixIcon: Icon(Icons.title, color: Colors.blue[400]),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Veuillez entrer un titre';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _priceController,
+                      decoration: InputDecoration(
+                        labelText: 'Prix *',
+                        labelStyle: const TextStyle(color: Colors.black54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blue[200]!),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                        ),
+                        prefixIcon:
+                            Icon(Icons.attach_money, color: Colors.blue[400]),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Veuillez entrer un prix';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'Description',
+                        labelStyle: const TextStyle(color: Colors.black54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blue[200]!),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                        ),
+                        prefixIcon:
+                            Icon(Icons.description, color: Colors.blue[400]),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _telephoneController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        labelText: 'Téléphone *',
+                        labelStyle: const TextStyle(color: Colors.black54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blue[200]!),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                        ),
+                        prefixIcon: Icon(Icons.phone, color: Colors.blue[400]),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Veuillez entrer un numéro de téléphone';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                initialValue: _description,
-                decoration: const InputDecoration(labelText: 'description'),
-                onSaved: (value) {
-                  _description = value!;
-                },
+            ),
+            const SizedBox(height: 16),
+            Card(
+              elevation: 10,
+              color: Colors.white,
+              shadowColor: Colors.grey.withOpacity(0.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                initialValue: _telephone,
-                decoration: const InputDecoration(labelText: 'Telephone'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer un numero de telephone';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _telephone = value!;
-                },
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.image, color: Colors.blue, size: 20),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Image du matériel',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    if (imageFile != null || _imageUrl.isNotEmpty)
+                      Container(
+                        width: double.infinity,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.blue[200]!),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: imageFile != null
+                              ? Image.file(
+                                  imageFile!,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  _imageUrl,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      color: Colors.blue[50],
+                                      child: Icon(
+                                        Icons.image_not_supported,
+                                        size: 50,
+                                        color: Colors.blue[300],
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                      )
+                    else
+                      Container(
+                        width: double.infinity,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.blue[50],
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                              color: Colors.blue[200]!,
+                              style: BorderStyle.solid),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.image_outlined,
+                              size: 50,
+                              color: Colors.blue[300],
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Aucune image sélectionnée',
+                              style: const TextStyle(color: Colors.black54),
+                            ),
+                          ],
+                        ),
+                      ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: isUploading ? null : _pickImage,
+                        icon: isUploading
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                    strokeWidth: 2, color: Colors.white),
+                              )
+                            : const Icon(Icons.upload, color: Colors.white),
+                        label: Text(
+                          isUploading
+                              ? 'Téléchargement...'
+                              : 'Sélectionner une Image',
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 2,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 16),
-              imageFile != null
-                  ? Image.file(imageFile!)
-                  : const Text('Aucune image sélectionnée'),
-              ElevatedButton(
-                onPressed: UploadeFile,
-                child: const Text('Télécharger une Image'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class CardE extends StatefulWidget {
@@ -8,7 +10,7 @@ class CardE extends StatefulWidget {
   double? topEndTadius;
   double? topStartTadius;
   double? bottomStartRadius;
-  double? bottomEndRadius; 
+  double? bottomEndRadius;
   Color? textColor;
   Color? imageColor;
   Color? borderColor;
@@ -26,7 +28,7 @@ class CardE extends StatefulWidget {
     this.borderColor,
     this.backgroundColor,
     this.textStyle = const TextStyle(
-fontFamily: 'TimesNewRoman',
+      fontFamily: 'TimesNewRoman',
       color: Colors.black,
       fontSize: 20,
       fontWeight: FontWeight.bold,
@@ -44,10 +46,16 @@ class _CardEState extends State<CardE> {
       elevation: 8,
       shape: RoundedRectangleBorder(
         side: BorderSide(
-          color: widget.borderColor??widget.backgroundColor??const Color(0x0ff00000)),
-        borderRadius: BorderRadiusDirectional.only(topStart: Radius.circular(widget.topStartTadius??0), topEnd: Radius.circular(widget.topEndTadius??0), bottomEnd: Radius.circular(widget.bottomEndRadius??0), bottomStart: Radius.circular(widget.bottomStartRadius??0)),
+            color: widget.borderColor ??
+                widget.backgroundColor ??
+                const Color(0x0ff00000)),
+        borderRadius: BorderRadiusDirectional.only(
+            topStart: Radius.circular(widget.topStartTadius ?? 0),
+            topEnd: Radius.circular(widget.topEndTadius ?? 0),
+            bottomEnd: Radius.circular(widget.bottomEndRadius ?? 0),
+            bottomStart: Radius.circular(widget.bottomStartRadius ?? 0)),
       ),
-      color: widget.backgroundColor??const Color.fromARGB(255, 250, 213, 213),
+      color: widget.backgroundColor ?? const Color.fromARGB(255, 250, 213, 213),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -3,20 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moussa_project/Models/med.dart';
 import 'package:moussa_project/Models/prescription.dart';
-import 'package:moussa_project/Screens/categorieMedicamentView.dart';
-import 'package:moussa_project/Screens/pdfassetsviewer.dart';
 import 'package:moussa_project/Screens/searchScreen%20prescription.dart';
-import 'package:sticky_az_list/sticky_az_list.dart';
 
 // Styles personnalisés
 const TextStyle headerStyle = TextStyle(
-fontFamily: 'TimesNewRoman',
+  fontFamily: 'TimesNewRoman',
   fontSize: 20.0,
   fontWeight: FontWeight.bold,
 );
 
 const TextStyle subHeaderStyle = TextStyle(
-fontFamily: 'TimesNewRoman',
+  fontFamily: 'TimesNewRoman',
   fontSize: 16.0,
   color: Colors.grey,
 );
@@ -29,15 +26,21 @@ class PrescriptionScreen extends StatefulWidget {
 }
 
 class _PrescriptionScreenState extends State<PrescriptionScreen> {
-    //List<dynamic> medicamentsData = [];
- List<dynamic> classth = [];
+  //List<dynamic> medicamentsData = [];
+  List<dynamic> classth = [];
   final tabs = <Tab>[
     Tab(
-      icon: Image.asset("assets/images/az.png", height: 21,),
+      icon: Image.asset(
+        "assets/images/az.png",
+        height: 21,
+      ),
       text: "Nom",
     ),
     Tab(
-      icon: Image.asset("assets/images/info.png", height: 21,),
+      icon: Image.asset(
+        "assets/images/info.png",
+        height: 21,
+      ),
       text: "Info",
     ),
   ];
@@ -52,22 +55,21 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
     //_loadMedicamentsData();
   }
 
-  
-Future<List<String>> loadPdfFileNames() async {
-  // Load the asset manifest
-  final manifestContent = await rootBundle.loadString('AssetManifest.json');
-  final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+  Future<List<String>> loadPdfFileNames() async {
+    // Load the asset manifest
+    final manifestContent = await rootBundle.loadString('AssetManifest.json');
+    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
 
-  // Filter the asset files to get only the PDF files
-  final pdfFiles = manifestMap.keys
-      .where((String key) => key.startsWith('assets/prescription/') && key.endsWith('.pdf'))
-      .toList();
+    // Filter the asset files to get only the PDF files
+    final pdfFiles = manifestMap.keys
+        .where((String key) =>
+            key.startsWith('assets/prescription/') && key.endsWith('.pdf'))
+        .toList();
 
-  // Extract the file names from the paths
-  final pdfFileNames = pdfFiles.map((filePath) => filePath.split('/').last).toList();
-  print("$pdfFileNames");
-  return pdfFiles;
-}
+    // Extract the file names from the paths
+    pdfFiles.map((filePath) => filePath.split('/').last).toList();
+    return pdfFiles;
+  }
 
 //   Future<void> _loadMedicamentsData() async {
 //     List<String> data = await loadPdfFileNames();
@@ -88,189 +90,149 @@ Future<List<String>> loadPdfFileNames() async {
 //     print("end");
 //   }
 
-  void _filterMedicaments(String query) {
-    final filtered = medNameList.where((med) {
-      final medNameLower = med.name.toLowerCase();
-      final queryLower = query.toLowerCase();
-      return medNameLower.contains(queryLower);
-    }).toList();
-
-    setState(() {
-      filteredMedNameList = filtered;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-  return DefaultTabController(
-    length: 2,
-    initialIndex: 0,
-    child: Scaffold(
-      backgroundColor: Colors.white,
-      body: TabBarView(
-        children: [
-          Column(
-            children: [
-              Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    color: Colors.blue,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.medical_information,
-                          size: 40,
-                        ),
-                        Text(
-                          "MedicaPlus",
-                          style: TextStyle(
-                          fontFamily: 'TimesNewRoman',fontSize: 23),
-                        )
-                      ],
-                    ),
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: TabBarView(
+          children: [
+            Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  color: Colors.blue,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.medical_information,
+                        size: 40,
+                      ),
+                      Text(
+                        "MedicaPlus",
+                        style: TextStyle(
+                            fontFamily: 'TimesNewRoman', fontSize: 23),
+                      )
+                    ],
                   ),
-                  GestureDetector(
-                  onTap: ()async{
+                ),
+                GestureDetector(
+                  onTap: () async {
                     final list = await loadPdfFileNames();
-                    final data = list.map((filePath) => filePath.split('/').last).toList();
-                      final listes = List.generate(growable: true, data.length, (index){
-                        return Prescription(name: data[index]);
-                      });
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPrescriptionScreen(listes: listes, hintText: 'Rechercher des Noms...')));
-                    },
-                child: Padding(  
-                  padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
-                  child: TextField(
-                    enabled: false,
-                    autofocus: false,
-                    //controller: searchController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(30.0),borderSide: const BorderSide(color: Colors.green)),
-                      suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
-                      hintText: 'Rechercher des Noms...',
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30.0),
+                    final data = list
+                        .map((filePath) => filePath.split('/').last)
+                        .toList();
+                    final listes =
+                        List.generate(growable: true, data.length, (index) {
+                      return Prescription(name: data[index]);
+                    });
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SearchPrescriptionScreen(
+                                listes: listes,
+                                hintText: 'Rechercher des Noms...')));
+                  },
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16.0, right: 16.0, top: 8),
+                    child: TextField(
+                      enabled: false,
+                      autofocus: false,
+                      //controller: searchController,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: const BorderSide(color: Colors.green)),
+                        suffixIcon: Image.asset(
+                          'assets/images/recherche.png',
+                          scale: 20,
+                        ),
+                        hintText: 'Rechercher des Noms...',
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: FutureBuilder<List<String>>(
-                  future: loadPdfFileNames(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No PDF files found.'));
-                    } else {
-                      final data = snapshot.data!.map((filePath) => filePath.split('/').last).toList();
-                      final list = List.generate(growable: true, data.length, (index){
-                        return Prescription(name: data[index]);
-                      });
-                      return StickyAzList(
-                                options: const StickyAzOptions(
-                                  startWithSpecialSymbol: true,
-                                    listOptions: ListOptions(headerColor: const Color(0xfffc6e6ff),
-                                     showSectionHeader:true)),
-                                items: list,
-                                builder: (context, index, items) {
-                                  return GestureDetector(
-                                      onTap: () {
-                                        print(items.name);
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => PDFAssetScreen(path: "assets/prescription/${items.name}",name: items.name.split(".")[0]),
-                                        ));
-                                      },
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                            border: BorderDirectional(
-                                                bottom: BorderSide(width: 0.5))),
-                                        child: ListTile(
-                                            title: Text(items.name.split(".")[0], style: TextStyle(fontWeight: FontWeight.bold),),),
-                                      ));
-                                });
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-          // Placeholder for the second tab content
-          const Center(child: Text('Second Tab')),
-        ],
-      ),
-      bottomNavigationBar: TabBar(
-        //indicator: UnderlineTabIndicator(borderSide: BorderSide(color: Colors.blue)),
-        tabs: tabs, 
-        splashBorderRadius: BorderRadius.circular(20), 
-        onTap: (i){
-          setState(() {
-          
-          });
-        },
-        indicatorColor: Colors.blue,
-        labelColor: Colors.blue,),
-    ),
-  );
-}
-
-  Widget _buildAliasGrid() {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemCount: classth.length,
-      itemBuilder: (context, index) {
-        final aliasName = classth[index];
-
-        return GestureDetector(
-          onTap: () {
-            List<dynamic> meds = [];
-            //meds.contains(element)
-            for (var element in medNameList) {
-              //for(final cl in classth[index]){
-                if (element.classtherapique.contains(classth[index])) {
-                meds.add(element);
-              }
-              //}
-            }
-            Navigator.push(
-              context,MaterialPageRoute(builder: (context)=>CategorieMedicament(images: "", meds: meds,name: classth[index],))
-              );
-            print(meds.length);
-          },
-          child: Card(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.category, color: Colors.blue, size: 40),
-                  const SizedBox(height: 8),
-                  Text(
-                    aliasName,
-                    style: headerStyle,
+                Expanded(
+                  child: FutureBuilder<List<String>>(
+                    future: loadPdfFileNames(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: Text('No PDF files found.'));
+                      } else {
+                        final data = snapshot.data!
+                            .map((filePath) => filePath.split('/').last)
+                            .toList();
+                        final list =
+                            List.generate(growable: true, data.length, (index) {
+                          return Prescription(name: data[index]);
+                        });
+                        return Center();
+                        // return StickyAzList(
+                        //     options: const StickyAzOptions(
+                        //         startWithSpecialSymbol: true,
+                        //         listOptions: ListOptions(
+                        //             headerColor: const Color(0xfffc6e6ff),
+                        //             showSectionHeader: true)),
+                        //     items: list,
+                        //     builder: (context, index, items) {
+                        //       return GestureDetector(
+                        //           onTap: () {
+                        //             Navigator.push(
+                        //                 context,
+                        //                 MaterialPageRoute(
+                        //                   builder: (context) => PDFAssetScreen(
+                        //                       path:
+                        //                           "assets/prescription/${items.name}",
+                        //                       name: items.name.split(".")[0]),
+                        //                 ));
+                        //           },
+                        //           child: Container(
+                        //             decoration: const BoxDecoration(
+                        //                 border: BorderDirectional(
+                        //                     bottom: BorderSide(width: 0.5))),
+                        //             child: ListTile(
+                        //               title: Text(
+                        //                 items.name.split(".")[0],
+                        //                 style: const TextStyle(
+                        //                     fontWeight: FontWeight.bold),
+                        //               ),
+                        //             ),
+                        //           ));
+                        //     });
+                      }
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        );
-      },
+            // Placeholder for the second tab content
+            const Center(child: Text('Second Tab')),
+          ],
+        ),
+        bottomNavigationBar: TabBar(
+          //indicator: UnderlineTabIndicator(borderSide: BorderSide(color: Colors.blue)),
+          tabs: tabs,
+          splashBorderRadius: BorderRadius.circular(20),
+          onTap: (i) {
+            setState(() {});
+          },
+          indicatorColor: Colors.blue,
+          labelColor: Colors.blue,
+        ),
+      ),
     );
   }
 }
-
-

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
+import 'package:gap/gap.dart';
 
 class ParacetamolScreen extends StatefulWidget {
   const ParacetamolScreen({super.key});
@@ -11,311 +10,610 @@ class ParacetamolScreen extends StatefulWidget {
 
 class _ParacetamolScreenState extends State<ParacetamolScreen> {
   final TextEditingController _controller = TextEditingController();
-  int personne = 0;
-  double dose = 0;
-  double? _glycemiaGpl;
-  String interpretation = "";
-  Text intreprete = const Text("");
-  double? _glycemiaMmol;
-  
-  List<Widget> buildEyeOpeningOptions() {
+  int _selectedAge = 0;
+  double _dose = 0;
+  bool _hasCalculated = false;
+  String _errorMessage = '';
+  bool _isLoading = false;
+
+  // Custom colors
+  final Color _primaryColor = const Color(0xFF02B1EC);
+  final Color _backgroundColor = const Color(0xFFF5F5F5);
+  final Color _cardColor = Colors.white;
+  final Color _textColor = const Color(0xFF1D1B20);
+  final Color _successColor = const Color(0xFF4CAF50);
+  final Color _errorColor = const Color(0xFFE53935);
+
+  void _calculateDose() async {
+    if (_selectedAge == 0) {
+      setState(() {
+        _errorMessage = "Veuillez sélectionner un âge";
+        _hasCalculated = false;
+      });
+      return;
+    }
+
+    if (_controller.text.isEmpty) {
+      setState(() {
+        _errorMessage = "Veuillez entrer un poids";
+        _hasCalculated = false;
+      });
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = '';
+    });
+
+    // Simulate calculation delay
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final t = _controller.text.replaceAll(RegExp(','), '.');
+    setState(() {
+      double weight = double.tryParse(t) ?? 0.0;
+      if (weight <= 0) {
+        _errorMessage = "Veuillez entrer un poids valide";
+        _hasCalculated = false;
+        _dose = 0;
+      } else {
+        _errorMessage = '';
+        _hasCalculated = true;
+        switch (_selectedAge) {
+          case 1: // Nouveau-né
+            _dose = weight * 0.75;
+            break;
+          case 2: // Enfant de moins de 1 mois
+            _dose = weight;
+            break;
+          case 3: // Enfant de 1 mois ou plus
+            _dose = weight * 1.5;
+            break;
+        }
+      }
+      _isLoading = false;
+    });
+  }
+
+  void _reset() {
+    setState(() {
+      _controller.clear();
+      _selectedAge = 0;
+      _dose = 0;
+      _hasCalculated = false;
+      _errorMessage = '';
+    });
+  }
+
+  Widget _buildAgeCard() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.child_care,
+                color: _primaryColor,
+                size: 24,
+              ),
+              const Gap(8),
+              Text(
+                'Âge du patient',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textColor,
+                ),
+              ),
+            ],
+          ),
+          const Gap(16),
+          ..._buildAgeOptions(),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildAgeOptions() {
     return [
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Nouveau-né'),
+      _buildAgeOption(
+        title: 'Nouveau-né',
         value: 1,
-        groupValue: personne,
-        onChanged: (value){
-          setState(() {
-            personne = value!;
-          });
-        },
+        icon: Icons.baby_changing_station,
       ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Enfant de moins de 1 mois'),
+      const Gap(8),
+      _buildAgeOption(
+        title: 'Enfant de moins de 1 mois',
         value: 2,
-        groupValue: personne,
-        onChanged: (value){
-          setState(() {
-            personne = value!;
-          });
-        },
+        icon: Icons.child_friendly,
       ),
-      RadioListTile<int>(
-        activeColor: const Color(0xff33CCCC),
-        title: const Text('Enfant de 1 mois ou plus'),
+      const Gap(8),
+      _buildAgeOption(
+        title: 'Enfant de 1 mois ou plus',
         value: 3,
-        groupValue: personne,
-        onChanged: (value){
-          setState(() {
-            personne = value!;
-          });
-        },
-      )
+        icon: Icons.child_care,
+      ),
     ];
   }
 
-  Widget buildEyeOpeningCard() {
-    return Card(
-      color: Colors.white, // White background
-      margin: const EdgeInsets.all(8),
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildAgeOption({
+    required String title,
+    required int value,
+    required IconData icon,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: _backgroundColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: _selectedAge == value ? _primaryColor : Colors.transparent,
+        ),
+      ),
+      child: RadioListTile<int>(
+        activeColor: _primaryColor,
+        title: Row(
           children: [
-            const Text(
-              'Age',
-              style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            Icon(
+              icon,
+              color: _primaryColor,
+              size: 20,
+            ),
+            const Gap(8),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: _textColor,
+                  fontWeight: _selectedAge == value
+                      ? FontWeight.bold
+                      : FontWeight.normal,
+                ),
               ),
             ),
-            const SizedBox(height: 8),
-            ...buildEyeOpeningOptions(),
+          ],
+        ),
+        value: value,
+        groupValue: _selectedAge,
+        onChanged: (value) {
+          setState(() {
+            _selectedAge = value!;
+            _errorMessage = '';
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildInputCard() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.scale,
+                color: _primaryColor,
+                size: 24,
+              ),
+              const Gap(8),
+              Text(
+                'Poids du patient',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textColor,
+                ),
+              ),
+            ],
+          ),
+          const Gap(16),
+          Container(
+            decoration: BoxDecoration(
+              color: _backgroundColor,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: _primaryColor.withOpacity(0.2)),
+            ),
+            child: TextField(
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => _calculateDose(),
+              style: TextStyle(
+                fontSize: 16,
+                color: _textColor,
+                fontWeight: FontWeight.w500,
+              ),
+              decoration: InputDecoration(
+                hintText: 'Entrez le poids en kg',
+                hintStyle: TextStyle(
+                  color: _textColor.withOpacity(0.5),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                border: InputBorder.none,
+                suffixText: 'kg',
+                suffixStyle: TextStyle(
+                  color: _textColor.withOpacity(0.7),
+                  fontWeight: FontWeight.w500,
+                ),
+                prefixIcon: Icon(
+                  Icons.monitor_weight,
+                  color: _primaryColor.withOpacity(0.7),
+                ),
+              ),
+            ),
+          ),
+          if (_errorMessage.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    color: _errorColor,
+                    size: 16,
+                  ),
+                  const Gap(4),
+                  Text(
+                    _errorMessage,
+                    style: TextStyle(
+                      color: _errorColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          const Gap(20),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _calculateDose,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _primaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        )
+                      : const Text(
+                          'Calculer',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                ),
+              ),
+              const Gap(12),
+              ElevatedButton(
+                onPressed: _reset,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[200],
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  'Réinitialiser',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _textColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResultCard() {
+    if (!_hasCalculated) return const SizedBox.shrink();
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.medication,
+                color: _successColor,
+                size: 24,
+              ),
+              const Gap(8),
+              Text(
+                'Dose calculée',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textColor,
+                ),
+              ),
+            ],
+          ),
+          const Gap(16),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: _successColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: _successColor.withOpacity(0.3)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _dose.toStringAsFixed(2),
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: _successColor,
+                  ),
+                ),
+                const Gap(8),
+                Text(
+                  'ml',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: _textColor.withOpacity(0.7),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Container(
+          //   padding: const EdgeInsets.all(16),
+          //   decoration: BoxDecoration(
+          //     color: _successColor.withOpacity(0.1),
+          //     borderRadius: BorderRadius.circular(12),
+          //     border: Border.all(color: _successColor.withOpacity(0.3)),
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Row(
+          //         children: [
+          //           Text(
+          //             _dose.toStringAsFixed(2),
+          //             style: TextStyle(
+          //               fontSize: 18,
+          //               fontWeight: FontWeight.bold,
+          //               color: _successColor,
+          //             ),
+          //           ),
+          //           const Gap(4),
+          //           Text(
+          //             'ml',
+          //             style: TextStyle(
+          //               fontSize: 14,
+          //               color: _textColor.withOpacity(0.7),
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReferenceCard() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                color: _primaryColor,
+                size: 24,
+              ),
+              const Gap(8),
+              Text(
+                'Références',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textColor,
+                ),
+              ),
+            ],
+          ),
+          const Gap(16),
+          _buildReferenceItem(
+            title: 'Nouveau-né',
+            value: '7,5 mg/kg ou 0,75 ml/kg (max. 30 mg/kg par jour)',
+            icon: Icons.baby_changing_station,
+          ),
+          const Gap(12),
+          _buildReferenceItem(
+            title: 'Enfant de moins de 1 mois',
+            value: '10 mg/kg 3 ou 4 fois par jour (max. 40 mg/kg par jour)',
+            icon: Icons.child_friendly,
+          ),
+          const Gap(12),
+          _buildReferenceItem(
+            title: 'Enfant de 1 mois ou plus',
+            value: '15 mg/kg ou 1,5 ml/kg (max. 60 mg/kg par jour)',
+            icon: Icons.child_care,
+          ),
+          const Gap(12),
+          _buildReferenceItem(
+            title: 'Adulte',
+            value: '1 g (max. 4 g par jour)',
+            icon: Icons.person,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReferenceItem({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: _backgroundColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            color: _primaryColor,
+            size: 20,
+          ),
+          const Gap(12),
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: '$title : ',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: _textColor,
+                    ),
+                  ),
+                  TextSpan(
+                    text: value,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: _textColor.withOpacity(0.8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: _backgroundColor,
+      appBar: AppBar(
+        backgroundColor: _primaryColor,
+        title: const Text(
+          'Paracétamol',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Gap(16),
+            _buildAgeCard(),
+            const Gap(16),
+            _buildInputCard(),
+            const Gap(16),
+            _buildResultCard(),
+            const Gap(16),
+            _buildReferenceCard(),
+            const Gap(16),
           ],
         ),
       ),
     );
   }
 
-  void _calculatePoids() {
-    final t = _controller.text.replaceAll(RegExp(','),'.');
-    print(t);
-    setState(() {
-      double paracetamol = double.tryParse(t) ?? 0.0;
-      if (personne != 0) {
-        if(personne == 1){
-          dose = paracetamol * 0.75;
-          intreprete = Text("");
-        }
-        else if(personne == 2)
-        {
-         dose = paracetamol; 
-         intreprete = Text("");
-        }
-        else if(personne == 3)
-        {
-          dose = paracetamol * 1.5;
-          intreprete = Text("");
-        }
-        else{
-          dose = 0;
-          intreprete = Text("");
-        }
-
-        }else{
-          interpretation = "Merci de selectionnez un age";
-            intreprete = Text(
-                textAlign: TextAlign.center,
-                interpretation,
-                style: const TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.red,
-                ));
-        }
-    });
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Center(
-                child: Text(
-                  'Paracetamol vers Glycémie Plasmatique Moyenne',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-               buildEyeOpeningCard(),
-              const SizedBox(height: 16),
-              // Center(
-              //   child: Image.asset('assets/images/diabete.gif',scale: 6,),
-              // ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Poids :',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    fontFamily: 'TimesNewRoman',fontSize: 18),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(125, 50, 204, 204),
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all()),
-                                  width: MediaQuery.of(context).size.width*0.4,
-                                  height: 45,
-                                  child: TextField(
-                                    onSubmitted: (s)async{
-                                      //await tester.testTextInput.receiveAction(TextInputAction.done);
-                  
-                                    },
-                                    textAlign: TextAlign.start,
-                                    controller: _controller,
-                                    decoration: const InputDecoration(
-                                      hintText: 'en Kg',
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                  ),
-                                ),
-                  // Expanded(
-                  //   child: TextField(
-                  //     textAlign: TextAlign.center,
-                  //     controller: _controller,
-                  //     decoration: InputDecoration(
-                  //       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(width: 4)),
-                  //       contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-                  //     ),
-                  //     keyboardType: TextInputType.number,
-                  //   ),
-                  // ),
-                  // const SizedBox(width: 8),
-                  // Container(
-                  //   // /padding: EdgeInsets.all(4),
-                  //   width: MediaQuery.of(context).size.width*0.15,
-                  //   decoration: BoxDecoration(
-                  //     color: const Color(0xff33CCCC),
-                  //     borderRadius:  BorderRadius.circular(15),
-                  //     border: Border.all()),
-                  //   child: MaterialButton(
-                  //     child: const Text("%", style: TextStyle(fontWeight: FontWeight.bold),),
-                  //     onPressed: () {
-                  //     },
-                  //   ),
-                  // ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: _calculatePoids,
-                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
-                      child: const Text('Calculer', style: TextStyle(
-                            fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
-                    ),
-                  ),
-                  const SizedBox(width: 20,),
-                  Center(
-                    child: ElevatedButton(
-                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
-                      onPressed:(){
-                        setState(() {
-                          _controller.clear();
-                          personne = 0;
-                        dose = 0;
-                        });
-                      },
-                      child: const Text('Reprendre', style: TextStyle(
-                      fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              const Center(
-                child: Text(
-                  'La dose',
-                  style: TextStyle(
-                    fontFamily: 'TimesNewRoman',
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              if (dose !=0 && _controller.text != "")
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      dose.toStringAsFixed(2),
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 28,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      'ml',
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      fontFamily: 'TimesNewRoman',
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              const SizedBox(height: 16),
-              Center(child: intreprete),
-              const SizedBox(height: 16),
-              const Text(
-                'Références :',
-                style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                """Nouveau-né : 7,5 mg/kg (0,75 ml/kg) 3 ou 4 fois par jour (max. 30 mg/kg par jour),
-Enfant de moins de 1 mois : 10 mg/kg 3 ou 4 fois par jour (max. 40 mg/kg par jour),
-Enfant de 1 mois et plus : 15 mg/kg 3 ou 4 fois par jour (max. 60 mg/kg par jour),
-Adulte : 1 g 3 ou 4 fois par jour (max. 4 g par jour)
-                """,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
-          Positioned(
-            bottom: dose == 0? MediaQuery.of(context).size.height*0.55:MediaQuery.of(context).size.height*0.60,
-            left: MediaQuery.of(context).size.width*0.16,
-            child: Image.asset("assets/Interface/weight-scale.png", height: 60,width: 50,)),
-            ],
-          )
-        ),
-      ),
-    );
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

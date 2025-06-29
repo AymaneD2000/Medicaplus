@@ -35,54 +35,54 @@ class WelcomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Welcome text
-                    Text(
+                    const Text(
                       "Bonjour et bienvenue sur mon application MemoIDE.",
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8.0),
-                    
+                    const SizedBox(height: 8.0),
+
                     // Info text
-                    Text(
+                    const Text(
                       "Infirmier depuis 2013, j’ai pour but de vous apporter à travers ce support un outil pratique et accessible à tous et à tout moment.",
                       style: TextStyle(fontSize: 16.0),
                     ),
-                    SizedBox(height: 12.0),
+                    const SizedBox(height: 12.0),
 
                     // General conditions text
-                    Text(
+                    const Text(
                       "Conditions générales d'utilisation:",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
 
                     // Detailed conditions
-                    Text(
+                    const Text(
                       "Les informations fournies dans cette application sont destinées à un public averti ainsi qu’aux professionnels de santé. En aucun cas les informations éditées dans MemoIDE sont susceptibles de se substituer à une consultation, une visite ou un diagnostic formulé par un médecin.",
                       style: TextStyle(fontSize: 14.0, color: Colors.red),
                     ),
-                    SizedBox(height: 8.0),
-                    
-                    Text(
+                    const SizedBox(height: 8.0),
+
+                    const Text(
                       "L’utilisateur reconnaît que les informations qui sont mises à sa disposition ne sont ni complètes, ni exhaustives. Les professionnels de santé doivent respecter les protocoles et bonnes pratiques liées à leur profession.",
                       style: TextStyle(fontSize: 14.0, color: Colors.red),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
 
                     // Encouragement text
-                    Text(
+                    const Text(
                       "Cette application étant en amélioration permanente, je vous encourage à me faire part de vos remarques afin de vous satisfaire au plus vite. Merci.",
                       style: TextStyle(fontSize: 14.0),
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
 
                     // Error report icon
-                    Row(
+                    const Row(
                       children: [
                         Icon(Icons.error, color: Colors.red, size: 40.0),
                         SizedBox(width: 8.0),
@@ -94,49 +94,50 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
 
                     // Website and contact
-                    Text(
+                    const Text(
                       "Site internet: www.rise-tech.fr/memoide",
                       style: TextStyle(fontSize: 14.0, color: Colors.blue),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
 
-                    Text(
+                    const Text(
                       "Notre page Facebook: facebook.com/webmemoide",
                       style: TextStyle(fontSize: 14.0, color: Colors.blue),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
 
-                    Text(
+                    const Text(
                       "Contact: webmemoide@gmail.com",
                       style: TextStyle(fontSize: 14.0),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
 
-                    Text(
+                    const Text(
                       "Version: MemoIDE© 1.8.1 - 2024 tous droits réservés.",
                       style: TextStyle(fontSize: 14.0),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
 
-                    Text(
+                    const Text(
                       "Sources: Voir la liste des sources",
                       style: TextStyle(fontSize: 14.0, color: Colors.blue),
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
 
                     // Terms acceptance checkbox
                     Row(
                       children: [
                         Checkbox(
-                          value: false, // Change this dynamically based on state
+                          value:
+                              false, // Change this dynamically based on state
                           onChanged: (bool? value) {
                             // Handle the checkbox state
                           },
                         ),
-                        Expanded(
+                        const Expanded(
                           child: Text(
                             "J’ai bien lu et accepte les conditions d'utilisation énoncées ci-dessus.",
                             style: TextStyle(fontSize: 14.0),
@@ -144,7 +145,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
 
                     // Validate button
                     SizedBox(
@@ -153,20 +154,20 @@ class WelcomeScreen extends StatelessWidget {
                         onPressed: () {
                           // Handle the button press
                         },
-                        child: Text("Valider"),
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
+                        child: const Text("Valider"),
                       ),
                     ),
 
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
 
                     // Thank you note
-                    Text(
+                    const Text(
                       "J’aimerais remercier spécialement Matori ainsi que tous ceux qui m’ont aidé à réaliser ce projet.",
                       style: TextStyle(fontSize: 14.0),
                     ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
 import 'package:moussa_project/Models/classemodel.dart';
 import 'package:moussa_project/Screens/filieresviewer.dart';
@@ -14,87 +16,553 @@ class ClassGridScreen extends StatefulWidget {
 
 class _ClassGridScreenState extends State<ClassGridScreen> {
   List<Classe> _classes = [];
+  bool _isLoading = true;
+  bool _hasError = false;
+  String _errorMessage = '';
+
+  // Modern color scheme - consistent blue theme
+  final Color _primaryColor = const Color(0xFF1E88E5);
+  final Color _secondaryColor = const Color(0xFF42A5F5);
+  final Color _backgroundColor = const Color(0xFFF5F5F5);
+  final Color _cardColor = Colors.white;
+  final Color _textColor = const Color(0xFF1D1B20);
+  final Color _accentColor = const Color(0xFF1976D2);
 
   @override
   void initState() {
     super.initState();
-    getClasseList();
+    _loadClasses();
   }
 
-  Future<void> getClasseList() async {
+  Future<void> _loadClasses() async {
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
+
     try {
       List<Classe> classeList = await SupabaseManagement().getClasse(widget.id);
       setState(() {
         _classes = classeList;
+        _isLoading = false;
       });
     } catch (error) {
-      print('Erreur lors de la récupération des classes : $error');
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+        _errorMessage = 'Erreur lors du chargement des classes';
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double cardHeight = screenHeight * 0.26;
     return Scaffold(
-      backgroundColor: const Color(0xFFD4EEED),
-      appBar: AppBar(
-        title: const Text('Liste des Classes'),
+      backgroundColor: _backgroundColor,
+      body: CustomScrollView(
+        slivers: [
+          _buildModernAppBar(),
+          SliverToBoxAdapter(
+            child: _buildContent(),
+          ),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: _classes.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          FiliereGridScreen(className: _classes[index].nom)));
+    );
+  }
+
+  Widget _buildModernAppBar() {
+    return SliverAppBar(
+      expandedHeight: 120,
+      pinned: true,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [_primaryColor, _secondaryColor],
+            ),
+          ),
+        ),
+        title: const Text(
+          'Classes Disponibles',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        onPressed: () => Navigator.pop(context),
+      ),
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 16),
+          child: IconButton(
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.class_outlined,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
+            onPressed: _loadClasses,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContent() {
+    if (_isLoading) {
+      return _buildLoadingView();
+    }
+
+    if (_hasError) {
+      return _buildErrorView();
+    }
+
+    if (_classes.isEmpty) {
+      return _buildEmptyView();
+    }
+
+    return _buildClassesGrid();
+  }
+
+  Widget _buildLoadingView() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(_secondaryColor),
+                strokeWidth: 3,
+              ),
+            ),
+            const Gap(24),
+            Text(
+              'Chargement des classes...',
+              style: TextStyle(
+                color: _textColor.withOpacity(0.7),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildClassesGrid() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionHeader(),
+          const Gap(20),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _classes.length,
+            itemBuilder: (context, index) {
+              final classe = _classes[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: _buildClassCard(classe, index),
+              );
             },
-            child: _classes.isEmpty
-                ? const Center()
-                : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                            margin: const EdgeInsets.only(left:  55, right: 55, bottom: 12),
-                            //shape: UnderlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                            child: SizedBox(
-                              height: cardHeight,
-                              child: Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: const BoxDecoration(
-                                  // image: DecorationImage(
-                                  //   image: NetworkImage(fac.image),
-                                  //   fit: BoxFit.cover,
-                                  // ),
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                                ),
-                                child: Column(
-                                  //alignment: Alignment.bottomLeft,
-                                  children: [
-                                    Expanded(child: Image.network(_classes[index].image, fit: BoxFit.contain,)),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        _classes[index].nom,
-                                        style: const TextStyle(
-                                          fontFamily: 'TimesNewRoman',
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+          ),
+          const Gap(20),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: _primaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              Icons.class_outlined,
+              color: _primaryColor,
+              size: 24,
+            ),
+          ),
+          const Gap(16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Classes Académiques',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: _textColor,
+                  ),
+                ),
+                const Gap(4),
+                Text(
+                  '${_classes.length} classe${_classes.length > 1 ? 's' : ''} disponible${_classes.length > 1 ? 's' : ''}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: _textColor.withOpacity(0.7),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildClassCard(Classe classe, int index) {
+    final colors = [
+      _primaryColor,
+      _secondaryColor,
+      _accentColor,
+      const Color(0xFF2196F3),
+      const Color(0xFF1565C0),
+      const Color(0xFF0D47A1),
+    ];
+    final cardColor = colors[index % colors.length];
+
+    return Container(
+      height: 300,
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: cardColor.withOpacity(0.2),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(20),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FiliereGridScreen(
+                  className: classe.nom,
+                ),
+              ),
+            );
+          },
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: CachedNetworkImage(
+                        imageUrl: classe.image,
+                        fit: BoxFit.contain,
+                        width: double.infinity,
+                        placeholder: (context, url) => Container(
+                          color: cardColor.withOpacity(0.1),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(cardColor),
+                              strokeWidth: 2,
                             ),
                           ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          color: cardColor.withOpacity(0.1),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.class_outlined,
+                                color: cardColor,
+                                size: 40,
+                              ),
+                              const Gap(8),
+                              Text(
+                                'Image\nindisponible',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: cardColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-          );
-        },
+                const Gap(16),
+                Text(
+                  classe.nom,
+                  style: TextStyle(
+                    color: _textColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (classe.description.isNotEmpty) ...[
+                  const Gap(4),
+                  Text(
+                    classe.description,
+                    style: TextStyle(
+                      color: _textColor.withOpacity(0.6),
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+                const Gap(8),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: cardColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: cardColor,
+                        size: 12,
+                      ),
+                      const Gap(4),
+                      Text(
+                        'Voir modules',
+                        style: TextStyle(
+                          color: cardColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorView() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      padding: const EdgeInsets.all(40),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Icon(
+                Icons.error_outline,
+                size: 64,
+                color: _accentColor,
+              ),
+            ),
+            const Gap(32),
+            Text(
+              _errorMessage,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: _textColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const Gap(16),
+            Text(
+              "Veuillez vérifier votre connexion\net réessayer",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: _textColor.withOpacity(0.7),
+                height: 1.5,
+              ),
+            ),
+            const Gap(32),
+            ElevatedButton.icon(
+              onPressed: _loadClasses,
+              icon: const Icon(Icons.refresh, color: Colors.white),
+              label: const Text(
+                "Réessayer",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _accentColor,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 0,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyView() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      padding: const EdgeInsets.all(40),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Icon(
+                Icons.class_outlined,
+                size: 64,
+                color: _primaryColor,
+              ),
+            ),
+            const Gap(32),
+            Text(
+              'Aucune classe trouvée',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: _textColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const Gap(16),
+            Text(
+              "Aucune classe n'est disponible\npour cette filière",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: _textColor.withOpacity(0.7),
+                height: 1.5,
+              ),
+            ),
+            const Gap(32),
+            ElevatedButton.icon(
+              onPressed: _loadClasses,
+              icon: const Icon(Icons.refresh, color: Colors.white),
+              label: const Text(
+                "Actualiser",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _primaryColor,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

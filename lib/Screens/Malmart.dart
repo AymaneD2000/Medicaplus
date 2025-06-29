@@ -1,132 +1,219 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 
 class MallampatiScreen extends StatelessWidget {
+  const MallampatiScreen({super.key});
+
+  // Custom colors
+  final Color _primaryColor = const Color(0xFF02B1EC);
+  final Color _secondaryColor = const Color(0xFF33CCCC);
+  final Color _backgroundColor = const Color(0xFFF5F5F5);
+  final Color _cardColor = Colors.white;
+  final Color _textColor = const Color(0xFF1D1B20);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: _backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: _primaryColor,
         title: const Text(
-                'Mallampati',
-              ),
+          'Classification de Mallampati',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              
-              const Text(
-              'Definition :',
-              style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ), 
-            const Text(
-                "Le score de Bishop est une méthode globale d'évaluation du pronostic d'accouchement.",
-                style:
-                        TextStyle(
-                          //fontFamily: 'TimesNewRoman',
-                          fontSize: 17,
-                          // fontFamily: 'TimesNewRoman',
-                          color: Colors.black,
-                        ),),
-              const SizedBox(height: 10),
-              Card(
-      color: Colors.white, // White background
-      margin: const EdgeInsets.all(8),
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-                'Classe : Structure visible',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'TimesNewRoman',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10),
-              _buildClassRow("I", 'Toute la luette et les loges amygdaliennes sont visibles.'),
-              _buildClassRow("II", 'La luette est partiellement visible.'),
-              _buildClassRow("III", 'Le palais membraneux est visible.'),
-              _buildClassRow("IV", 'Seul le palais osseux est visible.'), 
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Définition de la classification de Mallampati',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: _textColor,
+                    ),
+                  ),
+                  const Gap(8),
+                  Text(
+                    "La classification de Mallampati est une méthode d'évaluation de la difficulté potentielle d'une intubation trachéale.",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: _textColor.withOpacity(0.8),
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Gap(24),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Classes et Structures Visibles',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: _textColor,
+                    ),
+                  ),
+                  const Gap(16),
+                  _buildClassRow("I",
+                      'Toute la luette et les loges amygdaliennes sont visibles.'),
+                  const Gap(12),
+                  _buildClassRow("II", 'La luette est partiellement visible.'),
+                  const Gap(12),
+                  _buildClassRow("III", 'Le palais membraneux est visible.'),
+                  const Gap(12),
+                  _buildClassRow("IV", 'Seul le palais osseux est visible.'),
+                ],
+              ),
+            ),
+            const Gap(24),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/Mallampati.svg',
+                    height: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                  ),
+                ],
+              ),
+            ),
+            const Gap(24),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Interprétation',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: _textColor,
+                    ),
+                  ),
+                  const Gap(16),
+                  _buildClassRowMalllampati(
+                    "Grade I et Grade II",
+                    "Présomption d'intubation facile",
+                    Colors.green,
+                  ),
+                  const Gap(12),
+                  _buildClassRowMalllampati(
+                    "Grade III et Grade IV",
+                    "Présomption d'intubation difficile",
+                    Colors.orange,
+                  ),
+                ],
+              ),
+            ),
           ],
-        ),
-      ),
-    ),
-              const SizedBox(height: 20),
-              Center(
-                child: SvgPicture.asset(
-                        'assets/images/Mallampati.svg',
-                        height: MediaQuery.of(context).size.width*0.8,  // Spécifiez la taille que vous souhaitez
-                        width: MediaQuery.of(context).size.width*0.8,
-                      ),
-              ),
-              const SizedBox(height: 20),
-              Card(
-      color: Colors.white, // White background
-      margin: const EdgeInsets.all(8),
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-                'Interprétation : ',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'TimesNewRoman',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 10),
-              _buildClassRowMalllampati("Grade I et Grade II", "Présomption d'intubation facile"),
-              _buildClassRowMalllampati("Grade III et Grade IV", "Présomption d'intubation difficile"),
-          ],
-        ),
-      ),
-    ),
-            ],
-          ),
         ),
       ),
     );
   }
 
   Widget _buildClassRow(String number, String description) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: _backgroundColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '$number : ',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: Color(0xff33CCCC),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: _primaryColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              number,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.white,
+              ),
             ),
           ),
+          const Gap(12),
           Expanded(
             child: Text(
               description,
               style: TextStyle(
                 fontSize: 16,
+                color: _textColor.withOpacity(0.8),
+                height: 1.5,
               ),
             ),
           ),
@@ -134,24 +221,34 @@ class MallampatiScreen extends StatelessWidget {
       ),
     );
   }
-  Widget _buildClassRowMalllampati(String number, String description) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+
+  Widget _buildClassRowMalllampati(
+      String grade, String description, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.3)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '$number : ',
-            style: const TextStyle(
+            grade,
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Color(0xff33CCCC),
+              color: color,
             ),
           ),
+          const Gap(4),
           Text(
             description,
             style: TextStyle(
               fontSize: 16,
+              color: _textColor.withOpacity(0.8),
+              height: 1.5,
             ),
           ),
         ],

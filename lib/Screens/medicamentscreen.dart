@@ -1,269 +1,24 @@
-// import 'dart:convert';
-// import 'package:moussa_project/Models/med.dart';
-// import 'package:sticky_az_list/sticky_az_list.dart';
-// import 'package:flutter/material.dart';
-// import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
-
-// // Styles personnalisés
-// const TextStyle headerStyle = TextStyle(
-//fontFamily: 'TimesNewRoman',
-//   fontSize: 20.0,
-//   fontWeight: FontWeight.bold,
-// );
-
-// const TextStyle subHeaderStyle = TextStyle(
-//fontFamily: 'TimesNewRoman',
-//   fontSize: 16.0,
-//   color: Colors.grey,
-// );
-
-// class MedicamentsScreen extends StatefulWidget {
-//   @override
-//   _MedicamentsScreenState createState() => _MedicamentsScreenState();
-// }
-
-// class _MedicamentsScreenState extends State<MedicamentsScreen> {
-//   List<dynamic> medicamentsData = [];
-//  // List<dynamic> alias = [];
-//   // final tabs = <Tab>[
-//   //   const Tab(
-//   //     icon: Icon(Icons.list, size: 30),
-//   //     text: "Par Nom",
-//   //   ),
-//   //   const Tab(
-//   //     icon: Icon(Icons.category, size: 30),
-//   //     text: "Par Classe",
-//   //   ),
-//   // ];
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _loadMedicamentsData();
-//   }
-
-//   List<Med> medNameList = [];
-
-//   Future<void> _loadMedicamentsData() async {
-//     String data = await DefaultAssetBundle.of(context)
-//         .loadString('assets/Medicament.json');
-//     setState(() {
-//       medicamentsData = json.decode(data);
-//     });
-
-//     //Rassembler tous les alias et les mettre en unique
-//     //alias = medicamentsData.map((toElement)=>toElement['Classe Thérapeutique']).toList();
-//     medNameList =
-//         medicamentsData.map((item) => Med.fromSanpshot(item)).toList();
-//     print(medNameList);
-//     //print(alias);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body:
-//             Column(
-//               children: [
-//                 Container(
-//                   height: MediaQuery.of(context).size.height * 0.1,
-//                   color: Colors.blue,
-//                   child: const Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-//                       Icon(
-//                         Icons.medical_information,
-//                         size: 40,
-//                       ),
-//                       Text(
-//                         "MedicaPlus",
-//                         style: TextStyle(
-//fontFamily: 'TimesNewRoman',fontSize: 23),
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   height: MediaQuery.of(context).size.height * 0.89,
-//                   child: StickyAzList(
-//                       options: const StickyAzOptions(
-//                           listOptions: ListOptions(showSectionHeader: false)),
-//                       items: medNameList,
-//                       builder: (context, index, items) {
-//                         return GestureDetector(
-//                             onTap: () {
-//                               Navigator.push(
-//                                 context,
-//                                 MaterialPageRoute(
-//                                   builder: (context) => MedicamentDetailsScreen(
-//                                       medicament: medNameList[index]),
-//                                 ),
-//                               );
-//                             },
-//                             child: Container(
-//                               decoration: const BoxDecoration(
-//                                   border: BorderDirectional(
-//                                       bottom: BorderSide(width: 0.5))),
-//                               child: ListTile(
-//                                   //shape: ShapeBorder.lerp(a, b, t),
-//                                   //style: ListTileStyle.drawer,
-//                                   title: Text(items.name)),
-//                             ));
-//                       }),
-//                 )
-//               ],
-//             ));
-//             // _bui;
-//   }
-
-//   // Widget _buildMedicamentsList() {
-//   //   return ListView.builder(
-//   //     itemCount: medicamentsData.length,
-//   //     itemBuilder: (BuildContext context, int index) {
-//   //       final medicament = medicamentsData[index];
-//   //       return Hero(
-//   //         tag: medicament['Médicament'],
-//   //         child: MedicamentCard(medicament: medicament),
-//   //       );
-//   //     },
-//   //   );
-//   // }
-
-//   Widget _buildAliasGrid() {
-//     return GridView.builder(
-//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//         crossAxisCount: 2,
-//         crossAxisSpacing: 10,
-//         mainAxisSpacing: 10,
-//       ),
-//       itemCount: alias.length,
-//       itemBuilder: (context, index) {
-//         final aliasName = alias[index];
-
-//         return GestureDetector(
-//           onTap: () {
-//             List<dynamic> meds = [];
-//             //meds.contains(element)
-//             medicamentsData.forEach((element) {
-//               if (element['Classe Thérapeutique'].contains(alias[index])) {
-//                 meds.add(element);
-//               }
-//             });
-//             print(meds.length);
-//           },
-//           child: Card(
-//             elevation: 5,
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(15.0),
-//             ),
-//             child: Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Icon(Icons.category, color: Colors.blue, size: 40),
-//                   const SizedBox(height: 8),
-//                   Text(
-//                     aliasName,
-//                     style: headerStyle,
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-// // class MedicamentCard extends StatelessWidget {
-// //   final dynamic medicament;
-
-// //   const MedicamentCard({
-// //     Key? key,
-// //     required this.medicament,
-// //   }) : super(key: key);
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return GestureDetector(
-// //       onTap: () {
-// //         Navigator.push(
-// //           context,
-// //           MaterialPageRoute(
-// //             builder: (context) =>
-// //                 MedicamentDetailsScreen(medicament: medicament),
-// //           ),
-// //         );
-// //       },
-// //       child: Card(
-// //         margin: const EdgeInsets.all(2.0),
-// //         shape: RoundedRectangleBorder(
-// //           borderRadius: BorderRadius.circular(15.0),
-// //         ),
-// //         elevation: 5,
-// //         child: Container(
-// //           decoration: BoxDecoration(
-// //             gradient: LinearGradient(
-// //               colors: [Colors.white, Colors.blue.withOpacity(0.2)],
-// //             ),
-// //             borderRadius: BorderRadius.circular(15.0),
-// //           ),
-// //           padding: const EdgeInsets.all(16.0),
-// //           child: Column(
-// //             crossAxisAlignment: CrossAxisAlignment.start,
-// //             children: [
-// //               Row(
-// //                 children: [
-// //                   Icon(Icons.medical_services, color: Colors.blue),
-// //                   const SizedBox(width: 8),
-// //                   Text(
-// //                     medicament['Médicament'],
-// //                     style: headerStyle,
-// //                   ),
-// //                 ],
-// //               ),
-// //               const SizedBox(height: 8),
-// //               Text(
-// //                 '${medicament['Classe Thérapeutique'].join(', ')}',
-// //                 style: subHeaderStyle,
-// //               ),
-// //             ],
-// //           ),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
-// }
-
-import 'dart:convert';
-import 'package:diacritic/diacritic.dart';
+import 'package:alphabet_navigation/alphabet_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:moussa_project/DatabaseManagement/provider.dart';
 import 'package:moussa_project/Models/amo.dart';
 import 'package:moussa_project/Models/med.dart';
 import 'package:moussa_project/Screens/SearchScreenTheurapetique.dart';
-import 'package:moussa_project/Screens/categorieMedicamentView.dart';
 import 'package:moussa_project/Screens/searchScreenMedicaments.dart';
 import 'package:provider/provider.dart';
-import 'package:sticky_az_list/sticky_az_list.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
-import 'dart:io';
+import 'package:moussa_project/Widgets/card.dart';
 
 // Styles personnalisés
 const TextStyle headerStyle = TextStyle(
-fontFamily: 'TimesNewRoman',
+  fontFamily: 'TimesNewRoman',
   fontSize: 20.0,
   fontWeight: FontWeight.bold,
 );
 
 const TextStyle subHeaderStyle = TextStyle(
-fontFamily: 'TimesNewRoman',
+  fontFamily: 'TimesNewRoman',
   fontSize: 16.0,
   color: Colors.grey,
 );
@@ -276,414 +31,571 @@ class MedicamentsScreen extends StatefulWidget {
 }
 
 class _MedicamentsScreenState extends State<MedicamentsScreen> {
-    //List<dynamic> medicamentsData = [];
- List<dynamic> classth = [];
- List<String> iconMeds = [];
-  final tabs = <Tab>[
-    Tab(
-      icon: Image.asset("assets/images/az.png", height: 21,),
-      text: "Nom",
-    ),
-    Tab(
-      icon: Image.asset("assets/images/classe.png", height: 21,),
-      text: "Classe",
-    ),
-    Tab(
-      icon: Image.asset("assets/images/star.png", height: 21,),
-      text: "Favoris",
-    )
-  ];
-  List<Med> medNameList = [];
-  List<Med> favoris = [];
-  List<Med> filteredMedNameList = [];
-  bool isLoading = true;
-    TextEditingController searchController = TextEditingController();
-  TextEditingController searchController1 = TextEditingController();
-  TextEditingController searchController2 = TextEditingController();
-  List<Med> filtered = [];
-  List<ClassMed> filtered1 = [];
-  List<Med> filtered2 = [];
-  MyProvider provider = MyProvider();
-  
+  final Color _primaryColor = const Color(0xFF02B1EC);
+  final Color _backgroundColor = const Color(0xFFF5F5F5);
+  final Color _cardColor = Colors.white;
+  final Color _textColor = const Color(0xFF1D1B20);
+
   @override
   void initState() {
     super.initState();
-    filtered = context.read<MyProvider>().medicament;
-     filtered1 = context.read<MyProvider>().classMedicament;
-     filtered2 = context.read<MyProvider>().favorisMedicaments;
-     iconMeds = context.read<MyProvider>().imagesMed;
-    //_loadMedicamentsData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData();
+    });
   }
 
-  // Future<void> _loadMedicamentsData() async {
-  //   provider.loadMedicamentData();
-  // }
+  Future<void> _loadData() async {
+    final provider = context.read<MyProvider>();
+    print('Starting to load medicament data...');
+    await provider.loadMedicamentData();
+    print(
+        'Finished loading medicament data. Count: ${provider.medicament.length}');
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
-  // void _filterMedicaments(String query) {
-  //   final filtered = medNameList.where((med) {
-      
-  //     final medNameLower = med.name.toLowerCase();
-  //     final queryLower = query.toLowerCase();
-  //     return medNameLower.contains(queryLower);
-  //   }).toList();
+  Widget _buildHeader(String title, {String? subtitle}) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [_primaryColor, const Color(0xFF33CCCC)],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: _primaryColor.withOpacity(0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.medical_information,
+                  color: Colors.white, size: 28),
+            ),
+            const Gap(16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  if (subtitle != null)
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white.withOpacity(0.9),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-  //   setState(() {
-  //     filteredMedNameList = filtered;
-  //   });
-  // }
+  Widget _buildSearchBar({required String hint, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        decoration: BoxDecoration(
+          color: _cardColor,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.search, color: _primaryColor, size: 24),
+            const Gap(12),
+            Expanded(
+              child: Text(
+                hint,
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, color: Colors.grey[400], size: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMedCard(Med med,
+      {VoidCallback? onTap, VoidCallback? onFavorite}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: _primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.medication_liquid_outlined,
+                    color: _primaryColor,
+                    size: 28,
+                  ),
+                ),
+                const Gap(16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        med.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: _textColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                      if (med.nomCommercial.isNotEmpty) ...[
+                        const Gap(4),
+                        Text(
+                          med.nomCommercial.take(2).join(', '),
+                          style: TextStyle(
+                            color: _textColor.withOpacity(0.7),
+                            fontSize: 14,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                      if (med.classtherapique.isNotEmpty) ...[
+                        const Gap(4),
+                        Text(
+                          med.classtherapique.first.toString(),
+                          style: TextStyle(
+                            color: _primaryColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                const Gap(8),
+                IconButton(
+                  icon: Icon(
+                    med.isFavoris ? Icons.star : Icons.star_border,
+                    color: med.isFavoris ? Colors.amber : Colors.grey[400],
+                    size: 24,
+                  ),
+                  onPressed: onFavorite,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildClassCard(ClassMed classItem, {VoidCallback? onTap}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF4CAF50).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.category_outlined,
+                    color: Color(0xFF4CAF50),
+                    size: 28,
+                  ),
+                ),
+                const Gap(16),
+                Expanded(
+                  child: Text(
+                    classItem.clname,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: _textColor,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.grey[400],
+                  size: 16,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(String message,
+      {IconData icon = Icons.info_outline}) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(icon, size: 64, color: Colors.grey[400]),
+            ),
+            const Gap(24),
+            Text(
+              message,
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(_primaryColor),
+            strokeWidth: 3,
+          ),
+          const Gap(16),
+          Text(
+            'Chargement des médicaments...',
+            style: TextStyle(
+              color: _textColor.withOpacity(0.7),
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      initialIndex: 0,
       child: Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        body: 
-            TabBarView(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      color: Colors.blue,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.medical_information,
-                            size: 40,
-                          ),
-                          Text(
-                            "MedicaPlus",
-                            style: TextStyle(
-                              fontFamily: 'TimesNewRoman',fontSize: 23),
-                          )
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                  onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchMedicamentScreen(listes: context.read<MyProvider>().medicament, hintText: 'Rechercher des Noms...')));
-                    },
-                child: Padding(  
-                  padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
-                  child: TextField(
-                    enabled: false,
-                    autofocus: false,
-                    //controller: searchController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(30.0),borderSide: const BorderSide(color: Colors.green)),
-                      suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
-                      hintText: 'Rechercher des Noms...',
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
+        backgroundColor: _backgroundColor,
+        body: Column(
+          children: [
+            _buildHeader('MedicaPlus', subtitle: 'Base de données médicale'),
+            Container(
+              color: _cardColor,
+              child: TabBar(
+                labelColor: _primaryColor,
+                unselectedLabelColor: Colors.grey[600],
+                indicatorColor: _primaryColor,
+                indicatorWeight: 3,
+                labelStyle:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                unselectedLabelStyle:
+                    const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                tabs: [
+                  Tab(
+                    icon: Icon(Icons.medication_outlined, size: 20),
+                    text: "Médicaments",
                   ),
-                ),
+                  Tab(
+                    icon: Icon(Icons.category_outlined, size: 20),
+                    text: "Classes",
+                  ),
+                  Tab(
+                    icon: Icon(Icons.star_outline, size: 20),
+                    text: "Favoris",
+                  ),
+                ],
               ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.79,
-                      child:filtered.isEmpty
-                              ? const Center(child: Text("No data available"))
-                              : StickyAzList(
-                                  options: const StickyAzOptions(
-                                      listOptions: ListOptions(showSectionHeader: false, stickySectionHeader: false)),
-                                  items: filtered,
-                                  builder: (context, index, items) {
-                                    return GestureDetector(
+            ),
+            Expanded(
+              child: Consumer<MyProvider>(
+                builder: (context, provider, child) {
+                  print(
+                      'Consumer builder called. Medicament count: ${provider.medicament.length}');
+
+                  return TabBarView(
+                    children: [
+                      // Medications Tab
+                      Column(
+                        children: [
+                          _buildSearchBar(
+                            hint: 'Rechercher des médicaments...',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SearchMedicamentScreen(
+                                    listes: provider.medicament,
+                                    hintText: 'Rechercher des médicaments...',
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          Expanded(
+                            child: provider.medicament.isEmpty
+                                ? _buildEmptyState(
+                                    'Aucun médicament trouvé\nVerifiez votre connexion ou réessayez',
+                                    icon: Icons.medication_outlined,
+                                  )
+                                : ListView.builder(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    itemCount: provider.medicament.length,
+                                    itemBuilder: (context, index) {
+                                      final med = provider.medicament[index];
+                                      return _buildMedCard(
+                                        med,
                                         onTap: () {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => MedicamentDetailsScreen(
-                                                  medicament: items),
+                                              builder: (context) =>
+                                                  MedicamentDetailsScreen(
+                                                      medicament: med),
                                             ),
                                           );
                                         },
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                              border: BorderDirectional(
-                                                  bottom: BorderSide(width: 0.5))),
-                                          child: ListTile(
-                                              title: Text(items.name, style: const TextStyle(fontWeight: FontWeight.w700),),
-                                              subtitle: Text(items.nomCommercial.join('\n')),),
-                                        ));
-                                  }),
-                    )
-                  ],
-                ),
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        color: Colors.blue,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.medical_information,
-                              size: 40,
-                            ),
-                            Text(
-                              "MedicaPlus",
-                              style: TextStyle(
-                fontFamily: 'TimesNewRoman',fontSize: 23),
-                            )
-                          ],
-                        ),
+                                        onFavorite: () async {
+                                          final success = await provider
+                                              .changeFavoris(med.name);
+                                          if (success && mounted) {
+                                            setState(() {
+                                              med.isFavoris = !med.isFavoris;
+                                            });
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  med.isFavoris
+                                                      ? 'Ajouté aux favoris'
+                                                      : 'Retiré des favoris',
+                                                ),
+                                                backgroundColor: _primaryColor,
+                                                duration:
+                                                    const Duration(seconds: 2),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      );
+                                    },
+                                  ),
+                          ),
+                        ],
                       ),
-                      GestureDetector(
-                  onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchClasseTheuraScreenDCI(listes: context.read<MyProvider>().classMedicament,iconMeds: iconMeds, hintText: 'Rechercher des Classes...')));
-                    },
-                child: Padding(  
-                  padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
-                  child: TextField(
-                    enabled: false,
-                    autofocus: false,
-                    //controller: searchController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(30.0),borderSide: const BorderSide(color: Colors.green)),
-                      suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
-                      hintText: 'Rechercher des Classes...',
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-                      SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.79,
-                      child:filtered1.isEmpty
-                              ? const Center(child: Text("No data available"))
-                              : StickyAzList(
-                                  options: const StickyAzOptions(
-                                      listOptions: ListOptions(showSectionHeader: false, stickySectionHeader: false)),
-                                  items: filtered1,
-                                  builder: (context, index, items) {
-                                    final aliasName = filtered1[index].clname;
-                                    final icons =  iconMeds;
-                                    String icon = "";
-                              for(final i in icons){
-                                print(i.split('images/')[0]);
-                                print(i.split('images/')[1].split('.')[0]);
-                                if(i.split('images/')[1].split('.')[0] == aliasName){
-                                  icon = i;
-                                }
-                              }
-                                    return GestureDetector(
+                      // Classes Tab
+                      Column(
+                        children: [
+                          _buildSearchBar(
+                            hint: 'Rechercher des classes...',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SearchClasseTheuraScreenDCI(
+                                    listes: provider.classMedicament,
+                                    iconMeds: provider.imagesMed,
+                                    hintText: 'Rechercher des classes...',
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          Expanded(
+                            child: provider.classMedicament.isEmpty
+                                ? _buildEmptyState(
+                                    'Aucune classe trouvée',
+                                    icon: Icons.category_outlined,
+                                  )
+                                : ListView.builder(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    itemCount: provider.classMedicament.length,
+                                    itemBuilder: (context, index) {
+                                      final classItem =
+                                          provider.classMedicament[index];
+                                      return _buildClassCard(
+                                        classItem,
                                         onTap: () {
-    List<dynamic> meds = [];
-    context.read<MyProvider>().medicament.forEach((element) {
-      if (element.classtherapique.contains(filtered1[index].clname)) {
-        meds.add(element);
-      }
-    });
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CategorieMedicament(
-          images: icon,
-          meds: meds,
-          name: filtered1[index].clname,
+                                          // Navigate to class details or filter by class
+                                        },
+                                      );
+                                    },
+                                  ),
+                          ),
+                        ],
+                      ),
+                      // Favorites Tab
+                      Column(
+                        children: [
+                          _buildSearchBar(
+                            hint: 'Rechercher dans les favoris...',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SearchMedicamentScreen(
+                                    listes: provider.favorisMedicaments,
+                                    hintText: 'Rechercher dans les favoris...',
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          Expanded(
+                            child: provider.favorisMedicaments.isEmpty
+                                ? _buildEmptyState(
+                                    'Aucun favori ajouté\nAjoutez des médicaments à vos favoris en appuyant sur l\'étoile',
+                                    icon: Icons.star_outline,
+                                  )
+                                : ListView.builder(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    itemCount:
+                                        provider.favorisMedicaments.length,
+                                    itemBuilder: (context, index) {
+                                      final med =
+                                          provider.favorisMedicaments[index];
+                                      return _buildMedCard(
+                                        med,
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MedicamentDetailsScreen(
+                                                      medicament: med),
+                                            ),
+                                          );
+                                        },
+                                        onFavorite: () async {
+                                          final success = await provider
+                                              .changeFavoris(med.name);
+                                          if (success && mounted) {
+                                            setState(() {
+                                              med.isFavoris = !med.isFavoris;
+                                            });
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  med.isFavoris
+                                                      ? 'Ajouté aux favoris'
+                                                      : 'Retiré des favoris',
+                                                ),
+                                                backgroundColor: _primaryColor,
+                                                duration:
+                                                    const Duration(seconds: 2),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      );
+                                    },
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
-    print(meds.length);
-                                        },
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                              border: BorderDirectional(
-                                                  bottom: BorderSide(width: 0.5))),
-                                          child: ListTile(
-                                              title: Text(items.clname, style: const TextStyle(fontWeight: FontWeight.w700),),),
-                                        ));
-                                  }),
-                    )
-                      
-//                     SizedBox(
-//                       height: MediaQuery.of(context).size.height * 0.69,
-//                       child: GridView.builder(
-//                         padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 0),
-//                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//                               crossAxisCount: 2,
-//                               crossAxisSpacing: 10,
-//                               mainAxisSpacing: 10,
-//                             ),
-//                             itemCount: filtered1.length,
-//                             itemBuilder: (context, index) {
-//                               final aliasName = filtered1[index];
-//                               final icons =  context.watch<MyProvider>().imagesMed;
-//                               String icon = "";
-//                               for(final i in icons){
-//                                 if(i.split('images/')[1].split('.')[0] == aliasName){
-//                                   icon = i;
-//                                 }
-//                               }
-
-//                               return GestureDetector(
-//   onTap: () {
-//     List<dynamic> meds = [];
-//     context.read<MyProvider>().medicament.forEach((element) {
-//       if (element.classtherapique.contains(filtered1[index])) {
-//         meds.add(element);
-//       }
-//     });
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//         builder: (context) => CategorieMedicament(
-//           images: icon,
-//           meds: meds,
-//           name: filtered1[index],
-//         ),
-//       ),
-//     );
-//     print(meds.length);
-//   },
-//   child: Card(
-//     elevation: 5,
-//     shape: RoundedRectangleBorder(
-//       borderRadius: BorderRadius.circular(15.0),
-//     ),
-//     child: Column(
-//       crossAxisAlignment: CrossAxisAlignment.center,
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         Image.asset(image, height: 50),
-//         const SizedBox(height: 8),
-//         Text(
-//           aliasName,
-//           style: headerStyle,
-//           textAlign: TextAlign.center,
-//           maxLines: 1, // Restrict to a single line
-//           overflow: TextOverflow.ellipsis, // Truncate with ellipsis
-//         ),
-//       ],
-//     ),
-//   ),
-// );
-
-//                             },
-//                           ),
-//                     )
-                  ],
-                ),
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      color: Colors.blue,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.medical_information,
-                            size: 40,
-                          ),
-                          Text(
-                            "MedicaPlus",
-                            style: TextStyle(
-          fontFamily: 'TimesNewRoman',fontSize: 23),
-                          )
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                  onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchMedicamentScreen(listes: context.read<MyProvider>().favorisMedicaments, hintText: 'Rechercher des Noms...')));
-                    },
-                child: Padding(  
-                  padding: const EdgeInsets.only(left:  16.0, right: 16.0, top: 8),
-                  child: TextField(
-                    enabled: false,
-                    autofocus: false,
-                    //controller: searchController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(30.0),borderSide: const BorderSide(color: Colors.green)),
-                      suffixIcon: Image.asset('assets/images/recherche.png', scale: 20,),
-                      hintText: 'Rechercher des Favoris...',
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.79,
-                      child: filtered2.isEmpty
-                              ? const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(child: Text("Votre Favoris est vide", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
-                        Gap(10),
-                        Center(child: Text("Favoris vous permet",style: TextStyle( fontSize: 16))),
-                        Center(child: Text("de mettre de côté vos",style: TextStyle( fontSize: 16))),
-                        Center(child: Text("médicaments préférés",style: TextStyle(fontSize: 16))),
-                      ],
-                    )
-                              : StickyAzList(
-                                  options: const StickyAzOptions(
-                                      listOptions: ListOptions(showSectionHeader: false)),
-                                  items: filtered2,
-                                  builder: (context, index, items) {
-                                    return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => MedicamentDetailsScreen(
-                                                  medicament: items),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                              border: BorderDirectional(
-                                                  bottom: BorderSide(width: 0.5))),
-                                          child: ListTile(
-                                              title: Text(items.name, style: const TextStyle(fontWeight: FontWeight.w700),),
-                                              subtitle: Text(items.nomCommercial.join('\n')),),
-                                        ));
-                                  }),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        bottomNavigationBar: TabBar(
-        //indicator: UnderlineTabIndicator(borderSide: BorderSide(color: Colors.blue)),
-        tabs: tabs, 
-        splashBorderRadius: BorderRadius.circular(20), 
-        onTap: (i){
-          setState(() {
-          
-          });
-        },
-        indicatorColor: Colors.blue,
-        labelColor: Colors.blue,),
-      ));
-    
   }
-
-//   Widget _buildAliasGrid() {
-//     return 
-// }
 }

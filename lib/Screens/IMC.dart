@@ -13,521 +13,752 @@ class _IMCCalculatorState extends State<IMCCalculator> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   double _imc = 0.0;
-  String interpretation = "";
   String _selectedUnit = 'm';
-  Text intreprete = const Text("");
+  bool _hasCalculated = false;
 
-  String imcvalue(double imc){
-    return "Votre IMC est ${imc.toStringAsFixed(2)}";
+  // Modern color scheme matching Appgar.dart
+  final Color _primaryColor = const Color(0xFF02B1EC);
+  final Color _secondaryColor = const Color(0xFF33CCCC);
+  final Color _backgroundColor = const Color(0xFFF5F5F5);
+  final Color _cardColor = Colors.white;
+  final Color _textColor = const Color(0xFF1D1B20);
+
+  @override
+  void dispose() {
+    _weightController.dispose();
+    _heightController.dispose();
+    super.dispose();
   }
 
-  String imcValue = "";
+  bool _validateInputs() {
+    // Check if fields are empty
+    if (_weightController.text.trim().isEmpty) {
+      _showErrorDialog('Veuillez entrer votre poids.');
+      return false;
+    }
+
+    if (_heightController.text.trim().isEmpty) {
+      _showErrorDialog('Veuillez entrer votre taille.');
+      return false;
+    }
+
+    // Try to parse the values
+    final weightText = _weightController.text.replaceAll(',', '.');
+    final heightText = _heightController.text.replaceAll(',', '.');
+
+    final weight = double.tryParse(weightText);
+    final height = double.tryParse(heightText);
+
+    if (weight == null) {
+      _showErrorDialog('Le poids doit être une valeur numérique valide.');
+      return false;
+    }
+
+    if (height == null) {
+      _showErrorDialog('La taille doit être une valeur numérique valide.');
+      return false;
+    }
+
+    // Validate weight range
+    if (weight <= 0) {
+      _showErrorDialog('Le poids doit être supérieur à 0.');
+      return false;
+    }
+
+    if (weight > 1000) {
+      _showErrorDialog(
+          'Le poids semble trop élevé. Veuillez vérifier la valeur saisie.');
+      return false;
+    }
+
+    if (weight < 0.5) {
+      _showErrorDialog(
+          'Le poids semble trop faible. Veuillez vérifier la valeur saisie.');
+      return false;
+    }
+
+    // Validate height range
+    if (height <= 0) {
+      _showErrorDialog('La taille doit être supérieure à 0.');
+      return false;
+    }
+
+    if (_selectedUnit == 'm') {
+      if (height > 3.0) {
+        _showErrorDialog(
+            'La taille semble trop élevée. Veuillez vérifier la valeur saisie.');
+        return false;
+      }
+      if (height < 0.3) {
+        _showErrorDialog(
+            'La taille semble trop faible. Veuillez vérifier la valeur saisie.');
+        return false;
+      }
+    } else {
+      // cm
+      if (height > 300) {
+        _showErrorDialog(
+            'La taille semble trop élevée. Veuillez vérifier la valeur saisie.');
+        return false;
+      }
+      if (height < 30) {
+        _showErrorDialog(
+            'La taille semble trop faible. Veuillez vérifier la valeur saisie.');
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   void _calculateIMC() {
-    //final t = _controller.text.replaceAll(RegExp(','),'.');
-    
-    if(_weightController.text.isNotEmpty && _heightController.text.isNotEmpty){
-    double weight = double.parse(_weightController.text.replaceAll(RegExp(','),'.'));
-    double height = double.parse(_heightController.text.replaceAll(RegExp(','),'.'));
-    if(_selectedUnit == 'cm'){
-      height = height / 100;
-    }
-    setState(() {
-      _imc = weight / pow(height, 2);
-      if(_imc.isInfinite || _imc.isNaN || weight == 0 || height ==0 || (weight == 1 && height == 1)){
-        imcValue = "";
-        interpretation = "Merci de renseignez des valeurs correctes";
-        intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 15,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      ),
-                    );
-      }else if(_imc < 16){
-        imcValue = "Votre IMC est ${_imc.toStringAsFixed(2)}";
-        interpretation = "Anorexie/dénutrition";
-        intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF02B1EC),
-                      ),
-                    );
-      }else if(_imc >16.5 && _imc <=18.5){
-        imcValue = "Votre IMC est ${_imc.toStringAsFixed(2)}";
-        interpretation = "Maigreur";
-        intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF02B1EC),
-                      ),
-                    );
-      } else if(_imc > 18.5 && _imc <= 25){
-        imcValue = "Votre IMC est ${_imc.toStringAsFixed(2)}";
-        interpretation = "Corpulence normal";
-        intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
-                    );
-      }else if(_imc > 25 && _imc <=30){
-        imcValue = "Votre IMC est ${_imc.toStringAsFixed(2)}";
-        interpretation = "Surpoid";
-        intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFB1CA39),
-                      ),
-                    );
-      }else if(_imc > 30 && _imc <= 35){
-        imcValue = "Votre IMC est ${_imc.toStringAsFixed(2)}";
-        interpretation = "Obésité modérée";
-        intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFF39201),
-                      ),
-                    );
-      }else if(_imc >35 && _imc <= 40){
-        imcValue = "Votre IMC est ${_imc.toStringAsFixed(2)}";
-        interpretation = "Obésité sévère";
-        intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFEB5C41),
-                      ),
-                    );
-      }else if(_imc > 0){
-        imcValue = "Votre IMC est ${_imc.toStringAsFixed(2)}";
-        interpretation = "Obésité morbide ou massive";
-        intreprete = Text(
-              textAlign: TextAlign.center,
-                      interpretation,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFE70516),
-                      ),
-        );
+    if (!_validateInputs()) return;
+
+    try {
+      double weight = double.parse(_weightController.text.replaceAll(',', '.'));
+      double height = double.parse(_heightController.text.replaceAll(',', '.'));
+
+      if (_selectedUnit == 'cm') {
+        height = height / 100;
       }
-    });
+
+      setState(() {
+        _imc = weight / pow(height, 2);
+        _hasCalculated = true;
+      });
+    } catch (e) {
+      _showErrorDialog('Une erreur est survenue lors du calcul de l\'IMC.');
     }
   }
 
+  void _resetCalculator() {
+    setState(() {
+      _weightController.clear();
+      _heightController.clear();
+      _imc = 0.0;
+      _hasCalculated = false;
+    });
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Icon(Icons.error_outline, color: Colors.red, size: 24),
+            const SizedBox(width: 8),
+            const Text(
+              'Erreur',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          message,
+          style: TextStyle(
+            fontSize: 16,
+            color: _textColor,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            style: TextButton.styleFrom(
+              foregroundColor: _primaryColor,
+            ),
+            child: const Text(
+              'OK',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getInterpretation() {
+    if (_imc < 16) {
+      return 'Anorexie/dénutrition';
+    } else if (_imc >= 16 && _imc < 18.5) {
+      return 'Maigreur';
+    } else if (_imc >= 18.5 && _imc < 25) {
+      return 'Corpulence normale';
+    } else if (_imc >= 25 && _imc < 30) {
+      return 'Surpoids';
+    } else if (_imc >= 30 && _imc < 35) {
+      return 'Obésité modérée';
+    } else if (_imc >= 35 && _imc < 40) {
+      return 'Obésité sévère';
+    } else {
+      return 'Obésité morbide ou massive';
+    }
+  }
+
+  Color _getInterpretationColor() {
+    if (_imc < 16) {
+      return Colors.red;
+    } else if (_imc >= 16 && _imc < 18.5) {
+      return Colors.orange;
+    } else if (_imc >= 18.5 && _imc < 25) {
+      return Colors.green;
+    } else if (_imc >= 25 && _imc < 30) {
+      return const Color(0xFFB1CA39);
+    } else if (_imc >= 30 && _imc < 35) {
+      return const Color(0xFFF39201);
+    } else if (_imc >= 35 && _imc < 40) {
+      return const Color(0xFFEB5C41);
+    } else {
+      return const Color(0xFFE70516);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: _backgroundColor,
       appBar: AppBar(
-        title: const Text('IMC',),
-        backgroundColor: Colors.blue,
+        backgroundColor: _primaryColor,
+        title: const Text(
+          'Calculateur IMC',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Definition :',
-                        style: TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        "L'indice de masse corporelle (IMC), est une mesure utilisée pour estimer la corpulance d'une personne en fonction de son poids et de sa taille.",
-                        style:
-                        TextStyle(
-                          //fontFamily: 'TimesNewRoman',
-                          fontSize: 17,
-                          // fontFamily: 'TimesNewRoman',
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 60),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          //_buildInputField('Poids', 'KG', _weightController),
-                          //_buildInputField('Taille', 'CM', _heightController),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(color: Colors.white),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const Text(
-                                  'Poids :',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  fontFamily: 'TimesNewRoman',fontSize: 18),
-                                ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(125, 50, 204, 204),
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all()),
-                                  width: MediaQuery.of(context).size.width*0.2,
-                                  height: 45,
-                                  child: TextField(
-                                    textAlign: TextAlign.start,
-                                    controller: _weightController,
-                                    onSubmitted: (s)async{
-                                      _calculateIMC();
-                                    },
-                                    decoration: const InputDecoration(
-                                      hintText: "en Kg",
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(color: Colors.white),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const Text(
-                                  'Taille :',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  fontFamily: 'TimesNewRoman',fontSize: 18),
-                                ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(125, 50, 204, 204),
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all()),
-                                  width: MediaQuery.of(context).size.width*0.2,
-                                  height: 45,
-                                  child: TextField(
-                                    onSubmitted: (s)async{
-                                      //await tester.testTextInput.receiveAction(TextInputAction.done);
-                                      _calculateIMC();
-                                    },
-                                    textAlign: TextAlign.start,
-                                    controller: _heightController,
-                                    decoration: InputDecoration(
-                                      hintText: _selectedUnit == 'm'? 'm':'cm',
-                                      border: InputBorder.none,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16.0),
-                      // Row(
-                      //   children: [
-                      //     Checkbox(
-                      //       value: false,
-                      //       onChanged: (bool? value) {},
-                      //     ),
-                      //     const Text('Surprise'),
-                      //   ],
-                      // ),
-                      // const SizedBox(height: 16.0),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-                      //     ElevatedButton(
-                      //       onPressed: _calculateIMC,
-                      //       style:
-                      //           ElevatedButton.styleFrom(foregroundColor: Colors.grey),
-                      //       child: Text('CALCULER L\'IMC'),
-                      //     ),
-                      //     ElevatedButton(
-                      //       onPressed: _resetFields,
-                      //       style:
-                      //           ElevatedButton.styleFrom(foregroundColor: Colors.grey),
-                      //       child: Text('RAZ'),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(height: 16.0),
-                      // const Text(
-                      //   'Résultat:',
-                      //   style: TextStyle(
-                      //     fontFamily: 'TimesNewRoman',fontWeight: FontWeight.bold),
-                      // ),
-                      // const SizedBox(height: 8.0),
-                      // Text('Votre IMC est $_imc'),
-                      // const SizedBox(height: 16.0),
-                      // const Text(
-                      //   'Pour rappel (selon l\'OMS), un résultat:',
-                      //   style: TextStyle(
-                      //     fontFamily: 'TimesNewRoman',fontWeight: FontWeight.bold),
-                      // ),
-                      // const Text('- Inférieur à 16 correspond à "Anorexie/dénutrition".'),
-                      // const Text('- Entre 16,5 et 18 correspond à "Maigreur".'),
-                      // const Text('- Entre 18,5 et 25 correspond à "Normal".'),
-                      // const Text('- Entre 25 et 30 correspond à "Surpoid".'),
-                      // const Text('- Entre 30 et 35 correspond à "Obésité modérée".'),
-                      // const Text('- Entre 35 et 40 correspond à "Obésité sévère".'),
-                      // const Text('- Supérieur à 40 correspond à "Obésité morbide".'),
-                      // const SizedBox(height: 16.0),
-                      // GestureDetector(
-                      //   onTap: () {},
-                      //   child: const Text(
-                      //     'Plus d\'infos sur : www.calculersonimc.fr',
-                      //     style: TextStyle(
-                      //     fontFamily: 'TimesNewRoman',
-                      //       color: Colors.blue,
-                      //       decoration: TextDecoration.underline,
-                      //     ),
-                      //   ),
-                      // ),
-                      Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff33CCCC),
-                      borderRadius:  BorderRadius.circular(15)),
-                    child: DropdownButton<String>(
-                      underline: Container(),
-                      alignment: Alignment.center,
-                      borderRadius: BorderRadius.circular(20),
-                      value: _selectedUnit,
-                      items: <String>['m', 'cm'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          alignment: Alignment.centerRight,
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedUnit = newValue!;
-                        });
-                      },
-                    ),
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: _calculateIMC,
-                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
-                      child: const Text('Calculer', style: TextStyle(
-                            fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
-                    ),
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color(0xff33CCCC))),
-                      onPressed:(){
-                        setState(() {
-                        _heightController.clear();
-                        _weightController.clear();
-                        _imc = 0;
-                        intreprete = const Text("");
-                        });
-                      },
-                      child: const Text('Reprendre', style: TextStyle(
-                      fontFamily: 'TimesNewRoman',color: Colors.black, fontWeight: FontWeight.bold),),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              const Center(
-                child: Text(
-                  'Indice de masse corporelle (IMC)',
-                  style: TextStyle(
-                    fontFamily: 'TimesNewRoman',
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              if (_imc != 0)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                    imcValue,
-                      style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                        fontSize: 28,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              const SizedBox(height: 8),
-              // if (_glycemiaGpl != null && _glycemiaMmol != null)
-              //   Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       Text(
-              //         _glycemiaGpl!.toStringAsFixed(2),
-              //         style: const TextStyle(
-              //             fontFamily: 'TimesNewRoman',
-              //           fontSize: 28,
-              //           fontStyle: FontStyle.italic,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.black,
-              //         ),
-              //       ),
-              //       const SizedBox(width: 8),
-              //       const Text(
-              //         'mg/dL',
-              //         style: TextStyle(
-              //           fontStyle: FontStyle.italic,
-              //         fontFamily: 'TimesNewRoman',
-              //           fontSize: 18,
-              //           color: Colors.black,
-              //         ),
-              //       ),
-              //       const SizedBox(width: 16),
-              //       Text(
-              //         _glycemiaMmol!.toStringAsFixed(2),
-              //         style: const TextStyle(
-              //           fontFamily: 'TimesNewRoman',
-              //           fontSize: 28,
-              //           fontStyle: FontStyle.italic,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.black,
-              //         ),
-              //       ),
-              //       const SizedBox(width: 8),
-              //       const Text(
-              //         'mmol/L',
-              //         style: TextStyle(
-              //           fontFamily: 'TimesNewRoman',
-              //           fontSize: 18,
-              //           color: Colors.black,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              const SizedBox(height: 16),
-              const Center(
-                child: Text(
-                  'Interprétation',
-                  style: TextStyle(
-                    fontFamily: 'TimesNewRoman',
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff33CCCC),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Center(child: intreprete),
-              const SizedBox(height: 16),
-              const Text(
-                'Références :',
-                style: TextStyle(
-                fontFamily: 'TimesNewRoman',
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                "Formule : IMC = Poids (en Kg) / Taille (m) au carrée",
-                style: TextStyle(
-                  fontFamily: 'TimesNewRoman',
-                  fontSize: 14,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-                    ],
-                  ),
-                ),
-                Positioned(
-            bottom: _imc == 0? MediaQuery.of(context).size.height*0.45:MediaQuery.of(context).size.height*0.52,
-            left: MediaQuery.of(context).size.width*0.08,
-            child: Image.asset("assets/Interface/weight-scale.png", height: 60,width: 50,)),
-            Positioned(
-            bottom: _imc == 0? MediaQuery.of(context).size.height*0.45:MediaQuery.of(context).size.height*0.52,
-            right: MediaQuery.of(context).size.width*0.315,
-            child: Image.asset("assets/Interface/hauteur.png", height: 60,width: 50,)),
-              ],
-            ),
-          ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildDefinitionCard(),
+            const SizedBox(height: 16),
+            _buildInputCard(),
+            const SizedBox(height: 16),
+            _buildActionButtons(),
+            if (_hasCalculated && _imc > 0) ...[
+              const SizedBox(height: 24),
+              _buildResultCard(),
+            ],
+            const SizedBox(height: 24),
+            _buildFormulaCard(),
+            const SizedBox(height: 16),
+            _buildRangesCard(),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildInputField(
-      String label, String unit, TextEditingController controller) {
+  Widget _buildDefinitionCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: _primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.info_outline,
+                  color: _primaryColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Définition de l\'IMC',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'L\'indice de masse corporelle (IMC) est une mesure utilisée pour estimer la corpulence d\'une personne en fonction de son poids et de sa taille.',
+            style: TextStyle(
+              fontSize: 16,
+              color: _textColor.withOpacity(0.8),
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInputCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: _primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.calculate_outlined,
+                  color: _primaryColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Entrez vos données',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: _buildInputField('Poids (kg)', _weightController),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildInputField(
+                  'Taille (${_selectedUnit})',
+                  _heightController,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Unité de taille',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: _textColor,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            decoration: BoxDecoration(
+              border: Border.all(color: _primaryColor.withOpacity(0.3)),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: DropdownButton<String>(
+              value: _selectedUnit,
+              isExpanded: true,
+              underline: Container(),
+              items: const [
+                DropdownMenuItem(value: 'm', child: Text('Mètres (m)')),
+                DropdownMenuItem(value: 'cm', child: Text('Centimètres (cm)')),
+              ],
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedUnit = newValue!;
+                });
+              },
+              style: TextStyle(
+                color: _textColor,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInputField(String label, TextEditingController controller) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label),
-        SizedBox(
-          width: 100,
-          child: TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              suffixText: unit,
-              border: const OutlineInputBorder(),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: _textColor,
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: _primaryColor.withOpacity(0.3)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: _primaryColor.withOpacity(0.3)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: _primaryColor, width: 2),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            filled: true,
+            fillColor: Colors.grey[50],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Row(
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            onPressed: _calculateIMC,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: _primaryColor,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 2,
+            ),
+            child: const Text(
+              'Calculer',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: _resetCalculator,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[200],
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 1,
+            ),
+            child: const Text(
+              'Réinitialiser',
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildResultCard() {
+    final interpretation = _getInterpretation();
+    final color = _getInterpretationColor();
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.analytics_outlined,
+                  color: color,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Votre IMC',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: _textColor.withOpacity(0.7),
+                    ),
+                  ),
+                  Text(
+                    _imc.toStringAsFixed(2),
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'Interprétation',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: _textColor,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  interpretation,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFormulaCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: _secondaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.functions,
+                  color: _secondaryColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Formule de calcul',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: _secondaryColor.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: _secondaryColor.withOpacity(0.2)),
+            ),
+            child: Text(
+              'IMC = Poids (kg) / Taille² (m)',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _secondaryColor,
+                fontFamily: 'monospace',
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRangesCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: _primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.straighten,
+                  color: _primaryColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Classification de l\'IMC',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          _buildRangeItem('< 16', 'Anorexie/dénutrition', Colors.red),
+          _buildRangeItem('16 - 18.5', 'Maigreur', Colors.orange),
+          _buildRangeItem('18.5 - 25', 'Corpulence normale', Colors.green),
+          _buildRangeItem('25 - 30', 'Surpoids', const Color(0xFFB1CA39)),
+          _buildRangeItem(
+              '30 - 35', 'Obésité modérée', const Color(0xFFF39201)),
+          _buildRangeItem('35 - 40', 'Obésité sévère', const Color(0xFFEB5C41)),
+          _buildRangeItem('> 40', 'Obésité morbide', const Color(0xFFE70516)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRangeItem(String range, String description, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Container(
+            width: 12,
+            height: 12,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            flex: 2,
+            child: Text(
+              range,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: _textColor,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              description,
+              style: TextStyle(
+                fontSize: 14,
+                color: _textColor.withOpacity(0.8),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

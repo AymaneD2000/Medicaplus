@@ -1,14 +1,10 @@
-import 'package:sticky_az_list/sticky_az_list.dart';
-
-class Med extends TaggedItem {
+class Med {
   final String name;
   bool isFavoris;
   final List<dynamic> nomCommercial;
   final List<dynamic> posologie;
   final List<dynamic> classtherapique;
   List<dynamic>? activiteantibacterienne;
-  List<dynamic> icons;
-  List<dynamic> images;
   //final List<dynamic> pharmacie;
   final List<dynamic> propriete;
   final List<dynamic> indication;
@@ -18,8 +14,6 @@ class Med extends TaggedItem {
   final List<dynamic> grosseseallaitement;
   Med(
       {required this.name,
-      required this.images,
-      required this.icons,
       this.activiteantibacterienne,
       required this.isFavoris,
       required this.nomCommercial,
@@ -41,14 +35,10 @@ class Med extends TaggedItem {
   }
 
   factory Med.fromSanpshot(Map<String, dynamic> json) {
-    
-    json['Favoris'] != null?print(json['Favoris']):print(json['Médicament/D.C.I (Alias)']);
     return Med(
-      posologie: json['Posologie et durée'],
-      isFavoris: json['Favoris'],
-      icons: json['Icon'],
-      images: json['Images'],
-      activiteantibacterienne: json['Activité antibactérienne'],
+        posologie: json['Posologie et durée'],
+        isFavoris: json['Favoris'],
+        activiteantibacterienne: json['Activité antibactérienne'],
         name: json['Médicament/D.C.I (Alias)'],
         nomCommercial: json['Nom commercial'],
         classtherapique: json['Classe Thérapeutique'],

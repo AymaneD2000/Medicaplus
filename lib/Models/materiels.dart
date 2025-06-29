@@ -1,4 +1,3 @@
-
 class Materiel {
   int? id;
   final String title;
@@ -14,14 +13,24 @@ class Materiel {
       required this.telephone,
       this.id});
   Map<String, dynamic> toMap() {
-    return {'title': title, 'image': image, 'price': price, 'description':description,'telephone':telephone};
+    Map<String, dynamic> map = {
+      'title': title,
+      'image': image,
+      'price': price,
+      'description': description,
+      'telephone': telephone
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
   }
 
   factory Materiel.fromSnapshot(Map<String, dynamic> value) {
     return Materiel(
         id: value['id'],
         title: value['title'],
-        description: value['description']??"",
+        description: value['description'] ?? "",
         telephone: value['telephone'],
         image: value['image'],
         price: value['price']);

@@ -1,10 +1,10 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
-import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Models/amo.dart';
-import 'package:moussa_project/Models/med.dart';
-import 'package:moussa_project/Screens/AmoView.dart';
-import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
+import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/Models/amo.dart';
+import 'package:medpharm/Models/med.dart';
+import 'package:medpharm/Screens/AmoView.dart';
+import 'package:medpharm/Screens/medicamentdetailscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:gap/gap.dart';
 

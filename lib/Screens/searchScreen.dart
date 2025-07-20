@@ -1,8 +1,9 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/Models/amo.dart';
-import 'package:moussa_project/Screens/AmoView.dart';
+import 'package:medpharm/Models/amo.dart';
+import 'package:medpharm/Screens/AmoView.dart';
+import 'package:medpharm/Widgets/az_navigation.dart';
 
 class SearchAmoScreen extends StatefulWidget {
   List<Amo> listes;
@@ -17,6 +18,8 @@ class SearchAmoScreen extends StatefulWidget {
 class _SearchAmoScreenState extends State<SearchAmoScreen> {
   TextEditingController searchController = TextEditingController();
   List<Amo> filtered = [];
+  bool _isLoading = false;
+  final ScrollController _scrollController = ScrollController();
 
   // Modern color scheme
   final Color _primaryColor = const Color(0xFF02B1EC);
@@ -34,6 +37,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
   @override
   void dispose() {
     searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -58,10 +62,57 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
       body: Column(
         children: [
           _buildSearchHeader(),
-          Expanded(
-            child:
-                filtered.isEmpty ? _buildEmptyState() : _buildSearchResults(),
-          ),
+          if (_isLoading)
+            const Expanded(child: Center(child: CircularProgressIndicator())),
+          if (!_isLoading)
+            Expanded(
+              child: filtered.isEmpty
+                  ? _buildEmptyState()
+                  : Stack(
+                      children: [
+                        ListView.builder(
+                          controller: _scrollController,
+                          itemCount: filtered.length,
+                          itemBuilder: (context, index) {
+                            final pharmacy = filtered[index];
+                            return _buildPharmacyCard(pharmacy);
+                          },
+                        ),
+                        // Positioned(
+                        //   right: 16,
+                        //   top: 0,
+                        //   bottom: 0,
+                        //   child: AZNavigation(
+                        //     availableLetters: filtered
+                        //         .map((pharmacy) =>
+                        //             pharmacy.name[0].toUpperCase())
+                        //         .toSet(),
+                        //     onLetterSelected: (letter) {
+                        //       // Find the first item starting with the selected letter
+                        //       final index = filtered.indexWhere(
+                        //         (pharmacy) => pharmacy.name
+                        //             .toUpperCase()
+                        //             .startsWith(letter),
+                        //       );
+                        //       if (index != -1) {
+                        //         _scrollController.animateTo(
+                        //           index * 80.0, // Approximate item height
+                        //           duration: const Duration(milliseconds: 300),
+                        //           curve: Curves.easeInOut,
+                        //         );
+                        //       }
+                        //     },
+                        //     // backgroundColor: _secondaryColor.withOpacity(0.1),
+                        //     // selectedColor: _secondaryColor,
+                        //     // textColor: _secondaryColor,
+                        //     // selectedTextColor: Colors.white,
+                        //     itemSize: 20,
+                        //     //itemPadding: 2,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+            ),
         ],
       ),
     );
@@ -102,10 +153,10 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                     ),
                   ),
                   const Gap(16),
-                  Expanded(
+                  const Expanded(
                     child: Text(
                       'Recherche',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -239,20 +290,9 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
     );
   }
 
-  Widget _buildSearchResults() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(20),
-      itemCount: filtered.length,
-      itemBuilder: (context, index) {
-        final pharmacy = filtered[index];
-        return _buildPharmacyCard(pharmacy);
-      },
-    );
-  }
-
   Widget _buildPharmacyCard(Amo pharmacy) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(
         color: _cardColor,
         borderRadius: BorderRadius.circular(16),
@@ -282,13 +322,14 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
             child: Row(
               children: [
                 Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: _secondaryColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Image.asset(pharmacy.icon)),
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Image.asset(pharmacy.icon),
+                ),
                 const Gap(16),
                 Expanded(
                   child: Column(
@@ -298,7 +339,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                         pharmacy.name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: _textColor,
+                          color: Colors.green,
                           fontSize: 16,
                         ),
                       ),
@@ -314,19 +355,19 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                      if (pharmacy.classtherapique.isNotEmpty) ...[
-                        const Gap(4),
-                        Text(
-                          pharmacy.classtherapique.first.toString(),
-                          style: TextStyle(
-                            color: _secondaryColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                      // if (pharmacy.classtherapique.isNotEmpty) ...[
+                      //   const Gap(4),
+                      //   Text(
+                      //     pharmacy.classtherapique.first.toString(),
+                      //     style: TextStyle(
+                      //       color: _secondaryColor,
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //     maxLines: 1,
+                      //     overflow: TextOverflow.ellipsis,
+                      //   ),
+                      // ],
                       if (pharmacy.amo) ...[
                         const Gap(4),
                         Container(
@@ -346,10 +387,28 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                           ),
                         ),
                       ],
+                      if (!pharmacy.amo) ...[
+                        const Gap(4),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Text(
+                            'AMO',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
-                const Gap(8),
                 Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.grey[400],

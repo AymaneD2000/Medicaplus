@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Models/med.dart';
+import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/Models/med.dart';
 import 'package:provider/provider.dart';
 
 class MedicamentDetailsScreen extends StatefulWidget {
@@ -37,7 +37,6 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildHeaderCard(),
                   const Gap(20),
                   _buildDetailsSection(),
                 ],
@@ -51,19 +50,14 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
 
   Widget _buildModernAppBar() {
     return SliverAppBar(
+      backgroundColor: _primaryColor,
       expandedHeight: 120,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [_primaryColor, const Color(0xFF33CCCC)],
-            ),
-          ),
+          decoration: BoxDecoration(color: _primaryColor),
         ),
-        title: Text(
+        title: const Text(
           'Détails du médicament',
           style: TextStyle(
             color: Colors.white,
@@ -74,7 +68,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
         centerTitle: true,
       ),
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: () => Navigator.pop(context),
       ),
       actions: [
@@ -121,154 +115,91 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
     );
   }
 
-  Widget _buildHeaderCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: _cardColor,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.medication_liquid,
-                  color: _primaryColor,
-                  size: 28,
-                ),
-              ),
-              const Gap(16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.medicament.name,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: _textColor,
-                      ),
-                    ),
-                    if (widget.medicament.nomCommercial.isNotEmpty) ...[
-                      const Gap(4),
-                      Text(
-                        'Nom commercial',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: _textColor.withOpacity(0.6),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        widget.medicament.nomCommercial.take(3).join(', '),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: _textColor.withOpacity(0.8),
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          ),
-          if (widget.medicament.classtherapique.isNotEmpty) ...[
-            const Gap(16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: _successColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                widget.medicament.classtherapique.first.toString(),
-                style: TextStyle(
-                  color: _successColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
   Widget _buildDetailsSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildDetailCard(
-          title: 'Propriétés',
-          icon: Icons.science_outlined,
+          title: 'Médicament/D.C.I (Alias)',
+          icon: 'assets/icon/dci2.png',
           color: _primaryColor,
+          content: widget.medicament.dci,
+        ),
+        const Gap(16),
+        _buildDetailCard(
+          title: 'Nom commercial',
+          icon: 'assets/icon/nom commercial.png',
+          color: Color(0xFF4CAF50),
+          content: widget.medicament.nomCommercial,
+        ),
+        const Gap(16),
+        _buildDetailCard(
+          title: 'Classe Thérapeutique',
+          icon: 'assets/icon/classe.png',
+          color: const Color(0xFF607D8B),
+          content: widget.medicament.classtherapique,
+        ),
+        const Gap(16),
+        _buildDetailCard(
+          title: 'Propriétés',
+          icon: 'assets/icon/propriete.png',
+          color: const Color.fromARGB(255, 6, 214, 214),
           content: widget.medicament.propriete,
         ),
         const Gap(16),
-        if (widget.medicament.activiteantibacterienne != null)
+        if (widget.medicament.activiteantibacterienne.isNotEmpty)
           _buildDetailCard(
             title: 'Activité antibactérienne',
-            icon: Icons.biotech_outlined,
+            icon: 'assets/icon/bacteries.png',
             color: const Color(0xFF9C27B0),
-            content: widget.medicament.activiteantibacterienne!,
+            content: widget.medicament.activiteantibacterienne,
           ),
         const Gap(16),
         _buildDetailCard(
           title: 'Indications',
-          icon: Icons.healing_outlined,
+          icon: 'assets/medi/indication.png',
           color: _successColor,
           content: widget.medicament.indication,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Posologie et durée',
-          icon: Icons.schedule_outlined,
+          icon: 'assets/medi/posologie.png',
           color: const Color(0xFF607D8B),
           content: widget.medicament.posologie,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Effets indésirables',
-          icon: Icons.warning_outlined,
+          icon: 'assets/medi/effets indesirables.png',
           color: _warningColor,
           content: widget.medicament.effetindesirable,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Contre-indications',
-          icon: Icons.dangerous_outlined,
+          icon: 'assets/medi/contre-indications.png',
           color: _errorColor,
           content: widget.medicament.contreindication,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Précautions d\'emploi',
-          icon: Icons.security_outlined,
+          icon: 'assets/medi/precaution.png',
           color: const Color(0xFF795548),
           content: widget.medicament.precaution,
         ),
         const Gap(16),
         _buildDetailCard(
+          title: 'Interactions médicamenteuses',
+          icon: 'assets/medi/interactions.png',
+          color: _successColor,
+          content: widget.medicament.interactions,
+        ),
+        const Gap(16),
+        _buildDetailCard(
           title: 'Grossesse et Allaitement',
-          icon: Icons.pregnant_woman_outlined,
+          icon: 'assets/medi/grossesse.png',
           color: const Color(0xFFE91E63),
           content: widget.medicament.grosseseallaitement,
         ),
@@ -279,7 +210,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
 
   Widget _buildDetailCard({
     required String title,
-    required IconData icon,
+    required String icon,
     required Color color,
     required List<dynamic> content,
   }) {
@@ -313,10 +244,11 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
             ),
             child: Row(
               children: [
-                Icon(
+                Image.asset(
                   icon,
+                  width: 24,
+                  height: 24,
                   color: color,
-                  size: 24,
                 ),
                 const Gap(12),
                 Expanded(

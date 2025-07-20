@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
-import 'package:moussa_project/Models/classemodel.dart';
-import 'package:moussa_project/Screens/ManageFiliere.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
+import 'package:medpharm/Models/classemodel.dart';
+import 'package:medpharm/Screens/ManageSemestre.dart';
+import 'package:medpharm/Screens/SemestreScreen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CategorySelectionScreen extends StatelessWidget {
@@ -205,6 +206,9 @@ class _ManageClasseState extends State<ManageClasse> {
       _showSuccessSnackBar('Classe supprimée avec succès');
     } catch (error) {
       _showErrorSnackBar('Erreur lors de la suppression de la classe');
+      print('Error deleting class: $error');
+
+      debugPrint('Error deleting class: $error');
     } finally {
       setState(() => _isOperationInProgress = false);
     }
@@ -364,8 +368,8 @@ class _ManageClasseState extends State<ManageClasse> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FiliereScreen(
-                                nomClasse: classe.nom,
+                              builder: (context) => ManageSemestre(
+                                classeName: classe.nom,
                               ),
                             ),
                           );
@@ -444,8 +448,8 @@ class _ManageClasseState extends State<ManageClasse> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => FiliereScreen(
-                                            nomClasse: classe.nom,
+                                          builder: (context) => SemestreScreen(
+                                            classeName: classe.nom,
                                           ),
                                         ),
                                       );
@@ -632,6 +636,7 @@ class _AddClasseDialogState extends State<AddClasseDialog> {
 
     try {
       Classe newClasse = Classe(
+//ra généré par Supabase
         nom: _classeController.text.trim(),
         description: '',
         idfaculter: widget.categoryId,

@@ -40,6 +40,7 @@ class ClassMed {
 class Amo {
   final String name;
   final bool amo;
+  final bool partenaire;
   bool favoris;
   final String icon;
   final List<dynamic> classtherapique;
@@ -56,7 +57,8 @@ class Amo {
       required this.prix,
       required this.formedosage,
       required this.dci,
-      required this.presantation});
+      required this.presantation,
+      required this.partenaire});
   factory Amo.fromSanpshot(Map<String, dynamic> json) {
     return Amo(
         name: json['Nom commercial'],
@@ -67,13 +69,14 @@ class Amo {
         prix: json['Prix public'],
         formedosage: json['Forme et dosage'],
         dci: json['D.C.I/Composition'],
-        presantation: json["Présentation"]);
+        presantation: json["Présentation"],
+        partenaire: json["Partenaire"] ?? false);
   }
   String rad = generateRandomString(6);
   @override
   String sortName() {
     try {
-      return "$name-$rad";
+      return "$name-$rad-${partenaire ? 'Partenaire' : 'Non Partenaire'}";
     } catch (exp) {
       return "this is the execption $name";
     }

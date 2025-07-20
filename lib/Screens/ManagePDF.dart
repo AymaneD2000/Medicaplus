@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
-import 'package:moussa_project/Models/pdf.dart';
-import 'package:moussa_project/Screens/pdfview.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
+import 'package:medpharm/Models/pdf.dart';
+import 'package:medpharm/Screens/pdfview.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 

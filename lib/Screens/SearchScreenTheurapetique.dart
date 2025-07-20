@@ -1,6 +1,6 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
-import 'package:moussa_project/Models/amo.dart';
+import 'package:medpharm/Models/amo.dart';
 import 'package:gap/gap.dart';
 
 class SearchClasseTheuraScreenDCI extends StatefulWidget {

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:moussa_project/Screens/Appgar.dart';
-import 'package:moussa_project/Screens/IMC.dart';
-import 'package:moussa_project/Screens/Malmart.dart';
-import 'package:moussa_project/Screens/glascow.dart';
-import 'package:moussa_project/Screens/hba.dart';
-import 'package:moussa_project/Screens/secondCalcul.dart';
-import 'package:moussa_project/Screens/wells_score.dart';
+import 'package:medpharm/Screens/Appgar.dart';
+import 'package:medpharm/Screens/IMC.dart';
+import 'package:medpharm/Screens/glascow.dart';
+import 'package:medpharm/Screens/hba.dart';
+import 'package:medpharm/Screens/secondCalcul.dart';
+import 'package:medpharm/Screens/wells_score.dart';
 
 class CalculeScreen extends StatefulWidget {
   const CalculeScreen({super.key});
@@ -92,7 +91,11 @@ class _CalculeScreenState extends State<CalculeScreen> {
         {
           'title': 'IMC',
           'subtitle': 'Indice de Masse Corporelle',
-          'icon': Icons.accessibility_new_outlined,
+          'icon': Image.asset(
+            'assets/Interface/imc.png',
+            width: 24,
+            height: 24,
+          ),
           'color': const Color(0xFF4CAF50),
           'onTap': () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const IMCCalculator())),
@@ -100,7 +103,11 @@ class _CalculeScreenState extends State<CalculeScreen> {
         {
           'title': 'Glasgow',
           'subtitle': 'Échelle de Coma de Glasgow',
-          'icon': Icons.psychology_outlined,
+          'icon': Image.asset(
+            'assets/Interface/glasgow.png',
+            width: 24,
+            height: 24,
+          ),
           'color': const Color(0xFF2196F3),
           'onTap': () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const GlasgowHomePage())),
@@ -108,25 +115,23 @@ class _CalculeScreenState extends State<CalculeScreen> {
         {
           'title': 'HbA1c',
           'subtitle': 'Hémoglobine Glyquée',
-          'icon': Icons.bloodtype_outlined,
+          'icon': Image.asset(
+            'assets/Interface/hba1c.png',
+            width: 24,
+            height: 24,
+          ),
           'color': const Color(0xFF9C27B0),
           'onTap': () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const HbA1cScreen())),
         },
         {
-          'title': 'Mallampati',
-          'subtitle': 'Classification Mallampati',
-          'icon': Icons.record_voice_over_outlined,
-          'color': const Color(0xFFFF9800),
-          'onTap': () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const MallampatiScreen())),
-        },
-        {
           'title': 'Wells',
           'subtitle': 'Score de Wells',
-          'icon': Icons.favorite_outline,
+          'icon': Image.asset(
+            'assets/Interface/wells.png',
+            width: 24,
+            height: 24,
+          ),
           'color': const Color(0xFFF44336),
           'onTap': () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const WellsScorePage())),
@@ -134,15 +139,23 @@ class _CalculeScreenState extends State<CalculeScreen> {
         {
           'title': 'Apgar',
           'subtitle': 'Score d\'Apgar',
-          'icon': Icons.child_care_outlined,
+          'icon': Image.asset(
+            'assets/Interface/apgar.png',
+            width: 24,
+            height: 24,
+          ),
           'color': const Color(0xFF795548),
           'onTap': () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const AppgarHomePage())),
         },
         {
-          'title': 'Plus',
+          'title': 'Caldose',
           'subtitle': 'Autres Calculateurs',
-          'icon': Icons.more_horiz_outlined,
+          'icon': Image.asset(
+            'assets/Interface/caldose.png',
+            width: 24,
+            height: 24,
+          ),
           'color': const Color(0xFF607D8B),
           'onTap': () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const SecondCalcule())),
@@ -151,7 +164,7 @@ class _CalculeScreenState extends State<CalculeScreen> {
 
   Widget _buildCalculatorCard({
     required String title,
-    required IconData icon,
+    required Image icon,
     required Color color,
     required VoidCallback onTap,
   }) {
@@ -180,17 +193,13 @@ class _CalculeScreenState extends State<CalculeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 56,
-                    height: 56,
+                    width: 65,
+                    height: 65,
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.1),
+                      // color: color.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Icon(
-                      icon,
-                      size: 28,
-                      color: color,
-                    ),
+                    child: icon,
                   ),
                   const SizedBox(height: 16),
                   Text(

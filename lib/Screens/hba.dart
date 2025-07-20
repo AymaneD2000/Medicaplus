@@ -128,12 +128,13 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.error_outline, color: Colors.red, size: 24),
-            const SizedBox(width: 8),
-            const Text(
+            SizedBox(width: 8),
+            Text(
               'Erreur',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -244,8 +245,8 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             ],
             const SizedBox(height: 24),
             _buildFormulaCard(),
-            const SizedBox(height: 16),
-            _buildRangesCard(),
+            // const SizedBox(height: 16),
+            // _buildRangesCard(),
           ],
         ),
       ),
@@ -410,6 +411,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButton<String>(
+              dropdownColor: Colors.white,
               value: _selectedUnit,
               isExpanded: true,
               underline: Container(),
@@ -711,60 +713,60 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
     );
   }
 
-  Widget _buildRangesCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: _cardColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(
-                  Icons.straighten,
-                  color: _primaryColor,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                'Interprétation HbA1c (%)',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: _textColor,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildRangeItem('4.0 - 5.1%', 'Optimale', Colors.blue),
-          _buildRangeItem('5.2 - 5.6%', 'Normale', Colors.green),
-          _buildRangeItem('5.7 - 6.4%', 'Prédiabète', const Color(0xFFF39201)),
-          _buildRangeItem('6.5 - 9.9%', 'Diabète', const Color(0xFFEB5C41)),
-          _buildRangeItem(
-              '≥ 10%', 'Diabète / Risque élevé', const Color(0xFFE70516)),
-        ],
-      ),
-    );
-  }
+  // Widget _buildRangesCard() {
+  //   return Container(
+  //     width: double.infinity,
+  //     padding: const EdgeInsets.all(20),
+  //     decoration: BoxDecoration(
+  //       color: _cardColor,
+  //       borderRadius: BorderRadius.circular(16),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.black.withOpacity(0.05),
+  //           blurRadius: 10,
+  //           offset: const Offset(0, 4),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Row(
+  //           children: [
+  //             Container(
+  //               padding: const EdgeInsets.all(8),
+  //               decoration: BoxDecoration(
+  //                 color: _primaryColor.withOpacity(0.1),
+  //                 borderRadius: BorderRadius.circular(8),
+  //               ),
+  //               child: Icon(
+  //                 Icons.straighten,
+  //                 color: _primaryColor,
+  //                 size: 20,
+  //               ),
+  //             ),
+  //             const SizedBox(width: 12),
+  //             Text(
+  //               'Interprétation HbA1c (%)',
+  //               style: TextStyle(
+  //                 fontSize: 18,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: _textColor,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 16),
+  //         _buildRangeItem('4.0 - 5.1%', 'Optimale', Colors.blue),
+  //         _buildRangeItem('5.2 - 5.6%', 'Normale', Colors.green),
+  //         _buildRangeItem('5.7 - 6.4%', 'Prédiabète', const Color(0xFFF39201)),
+  //         _buildRangeItem('6.5 - 9.9%', 'Diabète', const Color(0xFFEB5C41)),
+  //         _buildRangeItem(
+  //             '≥ 10%', 'Diabète / Risque élevé', const Color(0xFFE70516)),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildRangeItem(String range, String description, Color color) {
     return Padding(

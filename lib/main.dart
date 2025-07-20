@@ -1,5 +1,5 @@
-import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Screens/dashboard.dart';
+import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/Screens/dashboard.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';

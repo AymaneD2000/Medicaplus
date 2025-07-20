@@ -25,6 +25,20 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
   final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);
   final Color _accentColor = const Color(0xFF1976D2);
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  List<DownloadedPdf> get _filteredPdfs {
+    if (_searchQuery.isEmpty) return _downloadedPdfs;
+
+    return _downloadedPdfs.where((pdf) {
+      final nameMatch =
+          pdf.name.toLowerCase().contains(_searchQuery.toLowerCase());
+      final descMatch =
+          pdf.description.toLowerCase().contains(_searchQuery.toLowerCase());
+      return nameMatch || descMatch;
+    }).toList();
+  }
 
   @override
   void initState() {
@@ -181,6 +195,76 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
     );
   }
 
+  Widget _buildSearchAndFilters() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: _cardColor,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: TextField(
+              controller: _searchController,
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Rechercher des pdf...',
+                hintStyle: TextStyle(
+                  color: _textColor.withOpacity(0.5),
+                  fontSize: 16,
+                ),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: _primaryColor,
+                  size: 24,
+                ),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (_searchQuery.isNotEmpty)
+                      IconButton(
+                        icon: Icon(
+                          Icons.clear,
+                          color: _textColor.withOpacity(0.5),
+                        ),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() {
+                            _searchQuery = '';
+                          });
+                        },
+                      ),
+                  ],
+                ),
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
+              ),
+              style: TextStyle(
+                color: _textColor,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   String _formatFileSize(int bytes) {
     if (bytes < 1024) return '${bytes}B';
     if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)}KB';
@@ -198,6 +282,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
       body: CustomScrollView(
         slivers: [
           _buildModernAppBar(),
+          SliverToBoxAdapter(child: _buildSearchAndFilters()),
           SliverToBoxAdapter(
             child: _buildContent(),
           ),
@@ -278,6 +363,23 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
     );
   }
 
+  // Widget _buildContent() {
+  //   if (_isLoading) {
+  //     return _buildLoadingView();
+  //   }
+
+  //   if (_downloadedPdfs.isEmpty) {
+  //     return _buildEmptyView();
+  //   }
+
+  //   return Column(
+  //     children: [
+  //       _buildStorageInfo(),
+  //       _buildPdfList(),
+  //     ],
+  //   );
+  // }
+
   Widget _buildContent() {
     if (_isLoading) {
       return _buildLoadingView();
@@ -290,8 +392,46 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
     return Column(
       children: [
         _buildStorageInfo(),
-        _buildPdfList(),
+        _filteredPdfs.isEmpty ? _buildEmptySearchResults() : _buildPdfList(),
       ],
+    );
+  }
+
+  // New widget for empty search results
+  Widget _buildEmptySearchResults() {
+    return Container(
+      height: 200,
+      padding: const EdgeInsets.all(20),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 64,
+              color: _textColor.withOpacity(0.3),
+            ),
+            const Gap(16),
+            Text(
+              'Aucun résultat trouvé',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: _textColor,
+              ),
+            ),
+            const Gap(8),
+            Text(
+              'Aucun document ne correspond à "$_searchQuery"',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: _textColor.withOpacity(0.7),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -428,14 +568,27 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
     );
   }
 
+  // Widget _buildPdfList() {
+  //   return ListView.builder(
+  //     shrinkWrap: true,
+  //     physics: const NeverScrollableScrollPhysics(),
+  //     padding: const EdgeInsets.symmetric(horizontal: 16),
+  //     itemCount: _downloadedPdfs.length,
+  //     itemBuilder: (context, index) {
+  //       final pdf = _downloadedPdfs[index];
+  //       return _buildPdfCard(pdf);
+  //     },
+  //   );
+  // }
+
   Widget _buildPdfList() {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: _downloadedPdfs.length,
+      itemCount: _filteredPdfs.length,
       itemBuilder: (context, index) {
-        final pdf = _downloadedPdfs[index];
+        final pdf = _filteredPdfs[index];
         return _buildPdfCard(pdf);
       },
     );

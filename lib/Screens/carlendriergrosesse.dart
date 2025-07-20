@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart'; // For input formatters
+import 'package:timeline_tile/timeline_tile.dart'; // For pregnancy timeline
 
 class PregnancyCalculatorScreen extends StatefulWidget {
   const PregnancyCalculatorScreen({super.key});
@@ -29,6 +30,9 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
   String _resultCurrent = '';
   double _resultsOpacity = 0.0;
   bool _isCalculating = false;
+  int _currentWeek = 0;
+  String _trimesterInfo = '';
+  String? _errorMessage;
 
   // Constants for pregnancy calculations
   static const int GESTATION_PERIOD_DAYS = 280;
@@ -37,11 +41,11 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
   static const int DAYS_IN_WEEK = 7;
 
   // Custom colors
-  final Color _primaryColor = const Color(0xFF4CAF50);
-  final Color _secondaryColor = const Color(0xFF81C784);
+  final Color _primaryColor = const Color(0xFFE91E63);
+  final Color _secondaryColor = const Color(0xFF1976D2);
   final Color _accentColor = const Color(0xFFFF4081);
   final Color _backgroundColor = const Color(0xFFF5F5F5);
-  final Color _textColor = const Color(0xFF333333);
+  final Color _textColor = const Color(0xFF222222);
 
   @override
   void initState() {
@@ -66,35 +70,39 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _backgroundColor,
-      appBar: AppBar(
-        title: const Text(
-          'Calendrier de Grossesse',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-        backgroundColor: _primaryColor,
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeaderSection(),
-              const SizedBox(height: 24.0),
-              _buildDateSelectionSection(),
-              const SizedBox(height: 24.0),
-              _buildOptions(),
-              if (_selectedOption == "Date d'échographie")
-                _buildEchographyInputs(),
-              const SizedBox(height: 24.0),
-              _buildCalculateButton(),
-              const SizedBox(height: 24.0),
-              _buildResultsSection(),
+              _buildHeader(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    _buildIntroCard(),
+                    const SizedBox(height: 16),
+                    _buildDateInputCard(),
+                    const SizedBox(height: 16),
+                    _buildOptionsCard(),
+                    if (_selectedOption == "Date d'échographie") ...[
+                      const SizedBox(height: 16),
+                      _buildEchographyCard(),
+                    ],
+                    const SizedBox(height: 16),
+                    _buildInfoCard(),
+                    const SizedBox(height: 24),
+                    _buildCalculateButton(),
+                    if (_errorMessage != null) ...[
+                      const SizedBox(height: 16),
+                      _buildErrorCard(_errorMessage!),
+                    ],
+                    const SizedBox(height: 24),
+                    _buildResultsSection(),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -102,156 +110,427 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
     );
   }
 
-  Widget _buildHeaderSection() {
+  Widget _buildHeader() {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      width: double.infinity,
+      padding: const EdgeInsets.only(top: 32, left: 24, right: 24, bottom: 24),
       decoration: BoxDecoration(
-        color: _primaryColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
+        color: _primaryColor,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(32),
+          bottomRight: Radius.circular(32),
+        ),
       ),
-      child: const Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.pregnant_woman,
-            size: 40,
-            color: Color(0xFF4CAF50),
-          ),
-          SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              'Calculez les dates importantes de votre grossesse',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.all(12),
+                child: const Icon(Icons.pregnant_woman,
+                    color: Colors.white, size: 32),
               ),
-            ),
+              const SizedBox(width: 16),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Calendrier de Grossesse',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Calculateur professionnel',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDateSelectionSection() {
+  Widget _buildIntroCard() {
     return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(18.0),
+        child: Row(
           children: [
-            Text(
-              'Sélectionnez une date :',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600,
-                color: _textColor,
+            Container(
+              decoration: BoxDecoration(
+                color: _primaryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.all(10),
+              child: Icon(Icons.monitor_heart, color: _primaryColor, size: 28),
+            ),
+            const SizedBox(width: 16),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Suivi de Grossesse',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Calculez les dates importantes de votre grossesse avec précision',
+                    style: TextStyle(fontSize: 14, color: Colors.black54),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16.0),
-            _buildCustomDateInput(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCustomDateInput() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildDateTextField(
-            controller: _dayController,
-            focusNode: _dayFocus,
-            label: 'Jour',
-            hint: 'JJ',
-            onChanged: (value) {
-              int? day = int.tryParse(value);
-              if (day != null && day >= 1 && day <= 31 && value.length == 2) {
-                FocusScope.of(context).requestFocus(_monthFocus);
-              }
-            },
-          ),
+  Widget _buildDateInputCard() {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: _secondaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  child: Icon(Icons.calendar_today,
+                      color: _secondaryColor, size: 24),
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'Sélectionnez une date',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                _buildOutlinedInput(_dayController, 'Jour', width: 70),
+                const SizedBox(width: 8),
+                _buildOutlinedInput(_monthController, 'Mois', width: 70),
+                const SizedBox(width: 8),
+                _buildOutlinedInput(_yearController, 'Année',
+                    width: 90, bold: true),
+              ],
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton.icon(
+                onPressed: _selectDate,
+                icon: Icon(Icons.calendar_month, color: _secondaryColor),
+                label: Text('Sélectionner avec le calendrier',
+                    style: TextStyle(color: _secondaryColor)),
+                style: TextButton.styleFrom(
+                  backgroundColor: _secondaryColor.withOpacity(0.07),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 8.0),
-        Expanded(
-          child: _buildDateTextField(
-            controller: _monthController,
-            focusNode: _monthFocus,
-            label: 'Mois',
-            hint: 'MM',
-            onChanged: (value) {
-              int? month = int.tryParse(value);
-              if (month != null &&
-                  month >= 1 &&
-                  month <= 12 &&
-                  value.length == 2) {
-                FocusScope.of(context).requestFocus(_yearFocus);
-              }
-            },
-          ),
-        ),
-        const SizedBox(width: 8.0),
-        Expanded(
-          child: _buildDateTextField(
-            controller: _yearController,
-            focusNode: _yearFocus,
-            label: 'Année',
-            hint: 'AAAA',
-          ),
-        ),
-        const SizedBox(width: 8.0),
-        IconButton(
-          icon: Icon(
-            Icons.calendar_today,
-            color: _primaryColor,
-            size: 32,
-          ),
-          onPressed: _selectDate,
-        ),
-      ],
+      ),
     );
   }
 
-  Widget _buildDateTextField({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required String label,
-    required String hint,
-    Function(String)? onChanged,
-  }) {
-    return TextField(
-      controller: controller,
-      focusNode: focusNode,
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        labelStyle: TextStyle(color: _textColor),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: _primaryColor),
+  Widget _buildOutlinedInput(TextEditingController controller, String hint,
+      {double width = 80, bool bold = false}) {
+    return SizedBox(
+      width: width,
+      child: TextField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+            fontSize: 16),
+        decoration: InputDecoration(
+          hintText: hint,
+          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: _secondaryColor, width: 2),
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        filled: true,
-        fillColor: Colors.white,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(hint == 'Année' ? 4 : 2),
+        ],
       ),
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-        LengthLimitingTextInputFormatter(hint.length),
+    );
+  }
+
+  Widget _buildOptionsCard() {
+    final options = [
+      {
+        'title': 'Date du premier jour des dernières règles',
+        'desc': 'Date de début des dernières menstruations',
+        'icon': Icons.calendar_today,
+        'color': _secondaryColor,
+      },
+      {
+        'title': 'Date de conception',
+        'desc': 'Date estimée de la fécondation',
+        'icon': Icons.favorite,
+        'color': Colors.pink,
+      },
+      {
+        'title': 'Date du terme théorique',
+        'desc': "Date prévue d'accouchement",
+        'icon': Icons.emoji_emotions,
+        'color': Colors.orange,
+      },
+      {
+        'title': "Date d'échographie",
+        'desc': "Basé sur l'âge gestationnel échographique",
+        'icon': Icons.monitor_heart,
+        'color': Colors.blue,
+      },
+    ];
+    return Column(
+      children: options.map((option) => _buildOptionRadio(option)).toList(),
+    );
+  }
+
+  Widget _buildOptionRadio(Map option) {
+    final isSelected = _selectedOption == option['title'];
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: isSelected ? 4 : 1,
+      color: isSelected ? option['color'].withOpacity(0.08) : Colors.white,
+      child: ListTile(
+        leading: Container(
+          decoration: BoxDecoration(
+            color: option['color'].withOpacity(0.15),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.all(8),
+          child: Icon(option['icon'], color: option['color'], size: 24),
+        ),
+        title: Text(option['title'],
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: isSelected ? option['color'] : _textColor)),
+        subtitle: Text(option['desc'], style: TextStyle(color: Colors.black54)),
+        trailing: Radio<String>(
+          value: option['title'],
+          groupValue: _selectedOption,
+          onChanged: (value) {
+            setState(() {
+              _selectedOption = value!;
+            });
+          },
+          activeColor: option['color'],
+        ),
+        onTap: () {
+          setState(() {
+            _selectedOption = option['title'];
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildEchographyCard() {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  child: const Icon(Icons.monitor_heart,
+                      color: Colors.blue, size: 24),
+                ),
+                const SizedBox(width: 12),
+                const Text('Âge gestationnel',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                _buildOutlinedInput(_weeksController, 'Semaines', width: 90),
+                const SizedBox(width: 12),
+                _buildOutlinedInput(_daysController, 'Jours', width: 90),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard() {
+    return Card(
+      color: Colors.blue[50],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Row(
+          children: const [
+            Icon(Icons.info_outline, color: Colors.blue, size: 22),
+            SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Exemple: 12 semaines et 3 jours = 12 SA + 3 J',
+                style: TextStyle(color: Colors.blue, fontSize: 15),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCalculateButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: _isCalculating ? null : _calculateDates,
+        icon: const Icon(Icons.calculate),
+        label: const Text('Calculer les dates',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: _primaryColor,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          elevation: 2,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorCard(String message) {
+    return Card(
+      color: Colors.red[400],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Row(
+          children: [
+            const Icon(Icons.error_outline, color: Colors.white, size: 22),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                message,
+                style: const TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildResultsSection() {
+    if (_resultsOpacity == 0.0) return const SizedBox.shrink();
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildResultRow(
+                Icons.event, 'Premier jour des dernières règles', _resultLMP),
+            const Divider(height: 24),
+            _buildResultRow(
+                Icons.favorite, 'Date de conception', _resultConception),
+            const Divider(height: 24),
+            _buildResultRow(Icons.today, 'Age gestationnel', _resultCurrent),
+            const Divider(height: 24),
+            _buildResultRow(
+                Icons.child_care, 'Date prévue d\'accouchement', _resultEDD),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildResultRow(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: _primaryColor.withOpacity(0.08),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.all(8),
+          child: Icon(icon, color: _primaryColor, size: 22),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w500)),
+              const SizedBox(height: 4),
+              Text(value,
+                  style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: _textColor)),
+            ],
+          ),
+        ),
       ],
-      onEditingComplete: () {
-        FocusScope.of(context).nextFocus();
-      },
-      onSubmitted: (_) {
-        _calculateDates();
-      },
-      onChanged: onChanged,
     );
   }
 
@@ -265,7 +544,6 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
     } catch (e) {
       initialDate = DateTime.now();
     }
-
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: initialDate,
@@ -273,7 +551,6 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
       lastDate: DateTime(2100),
       locale: const Locale('fr', 'FR'),
     );
-
     if (picked != null) {
       setState(() {
         _dayController.text = picked.day.toString().padLeft(2, '0');
@@ -283,260 +560,119 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
     }
   }
 
-  Widget _buildOptions() {
-    final options = [
-      'Date du premier jour des dernières règles',
-      'Date de conception',
-      'Date du terme théorique',
-      "Date d'échographie"
-    ];
-
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: options.map((option) => _buildRadioOption(option)).toList(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRadioOption(String title) {
-    return ListTile(
-      title: Text(
-        title,
-        style: TextStyle(
-          color: _textColor,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      leading: Radio<String>(
-        value: title,
-        groupValue: _selectedOption,
-        onChanged: (value) {
-          setState(() {
-            _selectedOption = value!;
-          });
-        },
-        activeColor: _primaryColor,
-      ),
-    );
-  }
-
-  Widget _buildEchographyInputs() {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Expanded(
-              child: _buildDateTextField(
-                controller: _weeksController,
-                focusNode: FocusNode(),
-                label: 'Semaines',
-                hint: 'SA',
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildDateTextField(
-                controller: _daysController,
-                focusNode: FocusNode(),
-                label: 'Jours',
-                hint: 'J',
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCalculateButton() {
-    return Center(
-      child: ElevatedButton(
-        onPressed: _isCalculating ? null : _calculateDates,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _primaryColor,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 2,
-        ),
-        child: _isCalculating
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2,
-                ),
-              )
-            : const Text(
-                'Calculer',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-      ),
-    );
-  }
-
   bool _validateDateInput() {
     if (_dayController.text.isEmpty ||
         _monthController.text.isEmpty ||
         _yearController.text.isEmpty) {
-      _showErrorDialog('Veuillez renseigner le jour, le mois et l\'année.');
+      _showError('Veuillez renseigner le jour, le mois et l\'année.');
       return false;
     }
-
     final day = int.tryParse(_dayController.text);
-    final month = int.tryParse(_monthController.text);
-    final year = int.tryParse(_yearController.text);
-
+    final month = int.parse(_monthController.text);
+    final year = int.parse(_yearController.text);
     if (day == null || month == null || year == null) {
-      _showErrorDialog('Les valeurs de date doivent être numériques.');
+      _showError('Les valeurs de date doivent être numériques.');
       return false;
     }
-
     if (day < 1 || day > 31) {
-      _showErrorDialog('Le jour doit être compris entre 1 et 31.');
+      _showError('Le jour doit être compris entre 1 et 31.');
       return false;
     }
-
     if (month < 1 || month > 12) {
-      _showErrorDialog('Le mois doit être compris entre 1 et 12.');
+      _showError('Le mois doit être compris entre 1 et 12.');
       return false;
     }
-
     if (year < 1900 || year > 2100) {
-      _showErrorDialog('L\'année doit être comprise entre 1900 et 2100.');
+      _showError('L\'année doit être comprise entre 1900 et 2100.');
       return false;
     }
-
-    // Validate if the date is valid (e.g., not February 30)
     try {
       DateTime(year, month, day);
     } catch (e) {
-      _showErrorDialog('La date saisie est invalide.');
+      _showError('La date saisie est invalide.');
       return false;
     }
-
     return true;
   }
 
   bool _validateEchographyInput() {
     if (_selectedOption != "Date d'échographie") return true;
-
     final weeks = int.tryParse(_weeksController.text);
-    final days = int.tryParse(_daysController.text);
-
+    final days = int.parse(_daysController.text);
     if (weeks == null || days == null) {
-      _showErrorDialog('Les semaines et jours doivent être numériques.');
+      _showError('Les semaines et jours doivent être numériques.');
       return false;
     }
-
     if (weeks < 0 || weeks > 42) {
-      _showErrorDialog('Les semaines doivent être comprises entre 0 et 42.');
+      _showError('Les semaines doivent être comprises entre 0 et 42.');
       return false;
     }
-
-    if (days < 0 || days >= DAYS_IN_WEEK) {
-      _showErrorDialog('Les jours doivent être compris entre 0 et 6.');
+    if (days < 0 || days >= 7) {
+      _showError('Les jours doivent être compris entre 0 et 6.');
       return false;
     }
-
     return true;
   }
 
   void _calculateDates() async {
+    setState(() {
+      _errorMessage = null;
+      _resultsOpacity = 0.0;
+    });
     if (!_validateDateInput() || !_validateEchographyInput()) return;
-
     setState(() => _isCalculating = true);
-
     try {
       final baseDate = DateTime(
         int.parse(_yearController.text),
         int.parse(_monthController.text),
         int.parse(_dayController.text),
       );
-
       final currentDate = DateTime.now();
       if (baseDate.isAfter(currentDate) &&
           _selectedOption != "Date du terme théorique") {
-        _showErrorDialog('La date ne peut pas être dans le futur.');
+        _showError('La date ne peut pas être dans le futur.');
         return;
       }
-
       DateTime lmpDate, conceptionDate, eddDate;
-
       switch (_selectedOption) {
         case 'Date du premier jour des dernières règles':
           lmpDate = baseDate;
-          conceptionDate =
-              lmpDate.add(const Duration(days: CONCEPTION_DAYS_AFTER_LMP));
-          eddDate = lmpDate.add(const Duration(days: GESTATION_PERIOD_DAYS));
+          conceptionDate = lmpDate.add(const Duration(days: 14));
+          eddDate = lmpDate.add(const Duration(days: 280));
           break;
-
         case 'Date de conception':
           conceptionDate = baseDate;
-          lmpDate = conceptionDate
-              .subtract(const Duration(days: CONCEPTION_DAYS_AFTER_LMP));
-          eddDate =
-              conceptionDate.add(const Duration(days: CONCEPTION_TO_EDD_DAYS));
+          lmpDate = conceptionDate.subtract(const Duration(days: 14));
+          eddDate = conceptionDate.add(const Duration(days: 266));
           break;
-
         case 'Date du terme théorique':
           eddDate = baseDate;
-          lmpDate =
-              eddDate.subtract(const Duration(days: GESTATION_PERIOD_DAYS));
-          conceptionDate =
-              lmpDate.add(const Duration(days: CONCEPTION_DAYS_AFTER_LMP));
+          lmpDate = eddDate.subtract(const Duration(days: 280));
+          conceptionDate = lmpDate.add(const Duration(days: 14));
           break;
-
         case "Date d'échographie":
           final weeks = int.parse(_weeksController.text);
           final days = int.parse(_daysController.text);
-          final totalDays = (weeks * DAYS_IN_WEEK) + days;
-
-          if (totalDays > GESTATION_PERIOD_DAYS) {
-            _showErrorDialog(
-                'L\'âge gestationnel ne peut pas dépasser 40 semaines.');
+          final totalDays = (weeks * 7) + days;
+          if (totalDays > 280) {
+            _showError('L\'âge gestationnel ne peut pas dépasser 40 semaines.');
             return;
           }
-
           lmpDate = baseDate.subtract(Duration(days: totalDays));
-          conceptionDate =
-              lmpDate.add(const Duration(days: CONCEPTION_DAYS_AFTER_LMP));
-          eddDate = lmpDate.add(const Duration(days: GESTATION_PERIOD_DAYS));
+          conceptionDate = lmpDate.add(const Duration(days: 14));
+          eddDate = lmpDate.add(const Duration(days: 280));
           break;
-
         default:
           return;
       }
-
-      // Calculate gestational age
       final gestationalAgeDays = currentDate.difference(lmpDate).inDays;
       if (gestationalAgeDays < 0 &&
           _selectedOption != "Date du terme théorique") {
-        _showErrorDialog('La date sélectionnée est dans le futur.');
+        _showError('La date sélectionnée est dans le futur.');
         return;
       }
-
-      final weeks = gestationalAgeDays ~/ DAYS_IN_WEEK;
-      final days = gestationalAgeDays % DAYS_IN_WEEK;
-
+      final weeks = gestationalAgeDays ~/ 7;
+      final days = gestationalAgeDays % 7;
       setState(() {
         _resultLMP = DateFormat('dd/MM/yyyy').format(lmpDate);
         _resultConception = DateFormat('dd/MM/yyyy').format(conceptionDate);
@@ -545,120 +681,15 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
         _resultsOpacity = 1.0;
       });
     } catch (e) {
-      _showErrorDialog('Une erreur est survenue lors du calcul.');
+      _showError('Une erreur est survenue lors du calcul.');
     } finally {
       setState(() => _isCalculating = false);
     }
   }
 
-  Widget _buildResultsSection() {
-    return AnimatedOpacity(
-      opacity: _resultsOpacity,
-      duration: const Duration(milliseconds: 500),
-      child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              _buildResultTile(
-                Icons.event,
-                'Premier jour des dernières règles :',
-                _resultLMP,
-                color: _primaryColor,
-              ),
-              const Divider(height: 24),
-              _buildResultTile(
-                Icons.favorite,
-                'Date de conception :',
-                _resultConception,
-                color: _accentColor,
-              ),
-              const Divider(height: 24),
-              _buildResultTile(
-                Icons.today,
-                'Age gestationnel :',
-                _resultCurrent,
-                color: _secondaryColor,
-              ),
-              const Divider(height: 24),
-              _buildResultTile(
-                Icons.child_care,
-                'Date prévue d\'accouchement :',
-                _resultEDD,
-                color: _primaryColor,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildResultTile(IconData icon, String label, String value,
-      {required Color color}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: _textColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Erreur'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showAdjustmentDialog(String label, String currentValue) {
-    // Implement adjustment dialog if needed
+  void _showError(String message) {
+    setState(() {
+      _errorMessage = message;
+    });
   }
 }

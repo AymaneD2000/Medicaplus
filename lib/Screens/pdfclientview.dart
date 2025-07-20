@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
-import 'package:moussa_project/DatabaseManagement/pdf_download_service.dart';
-import 'package:moussa_project/Models/pdf.dart';
-import 'package:moussa_project/Screens/pdfview.dart';
-import 'package:moussa_project/Screens/downloaded_pdfs_screen.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
+import 'package:medpharm/DatabaseManagement/pdf_download_service.dart';
+import 'package:medpharm/Models/pdf.dart';
+import 'package:medpharm/Screens/pdfview.dart';
+import 'package:medpharm/Screens/downloaded_pdfs_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gap/gap.dart';
 
@@ -125,6 +125,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
@@ -165,7 +166,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                         Icon(Icons.smartphone, color: _primaryColor, size: 16),
                         const Gap(8),
                         const Text(
-                          'Téléchargement Simple',
+                          "Télécharger dans l'application",
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ],
@@ -194,14 +195,14 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                         Icon(Icons.share, color: Colors.green[600], size: 16),
                         const Gap(8),
                         const Text(
-                          'Avec Logo MedicaPlus',
+                          'Telecharger dans le telephone',
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
                     const Gap(4),
                     const Text(
-                      'Ajoute le logo et sauvegarde dans Téléchargements pour partage',
+                      'Sauvegarde dans Téléchargements pour partage',
                       style: TextStyle(fontSize: 12, color: Colors.black54),
                     ),
                   ],
@@ -221,7 +222,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               },
               icon: const Icon(Icons.download, color: Colors.white, size: 18),
               label: const Text(
-                'Simple',
+                "Télécharger dans l'application",
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
@@ -238,7 +239,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               },
               icon: const Icon(Icons.verified, color: Colors.white, size: 18),
               label: const Text(
-                'Avec Logo',
+                "Téléchargement hors de l'application",
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
@@ -316,6 +317,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
@@ -527,7 +529,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
             ? Container(
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  // color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextField(
@@ -813,7 +815,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                   width: 80,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: cardColor.withOpacity(0.1),
+                    // color: cardColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: ClipRRect(

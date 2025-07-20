@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
-import 'package:moussa_project/Models/faculter.dart';
-import 'package:moussa_project/Screens/classviewr.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
+import 'package:medpharm/Models/faculter.dart';
+import 'package:medpharm/Screens/classviewr.dart';
 
 class Faculter extends StatefulWidget {
   const Faculter({Key? key}) : super(key: key);

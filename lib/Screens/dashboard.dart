@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:moussa_project/Screens/AddClasseScreen.dart';
-import 'package:moussa_project/Screens/home.dart';
-import 'package:moussa_project/Screens/manageMateriels.dart';
-import 'package:moussa_project/Screens/managePublication.dart';
-import 'package:moussa_project/Screens/downloaded_pdfs_screen.dart';
+import 'package:medpharm/Screens/AddClasseScreen.dart';
+import 'package:medpharm/Screens/home.dart';
+import 'package:medpharm/Screens/manageMateriels.dart';
+import 'package:medpharm/Screens/managePublication.dart';
+import 'package:medpharm/Screens/downloaded_pdfs_screen.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
@@ -47,7 +47,7 @@ class _DashBoardState extends State<DashBoard> {
                         color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(32),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.medical_services_outlined,
                         size: 32,
                         color: Colors.white,

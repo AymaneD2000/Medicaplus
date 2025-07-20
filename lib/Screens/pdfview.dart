@@ -32,7 +32,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
     try {
       // Show downloading snackbar with fixed behavior to avoid layout conflicts
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Row(
             children: [
               SizedBox(
@@ -43,8 +43,8 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 12),
-              const Text('Ouverture du téléchargement...'),
+              SizedBox(width: 12),
+              Text('Ouverture du téléchargement...'),
             ],
           ),
           backgroundColor: Colors.blue,
@@ -96,6 +96,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           widget.pdfName ?? "Document",

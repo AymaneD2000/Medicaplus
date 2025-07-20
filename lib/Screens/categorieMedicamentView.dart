@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
-import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
+import 'package:medpharm/Screens/medicamentdetailscreen.dart';
 
 class CategorieMedicament extends StatefulWidget {
   CategorieMedicament(

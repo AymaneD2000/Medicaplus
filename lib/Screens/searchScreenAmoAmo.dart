@@ -1,8 +1,8 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/Models/amo.dart';
-import 'package:moussa_project/Screens/AmoView.dart';
+import 'package:medpharm/Models/amo.dart';
+import 'package:medpharm/Screens/AmoView.dart';
 
 // ignore: must_be_immutable
 class SearchAmoScreenAmo extends StatefulWidget {
@@ -155,7 +155,7 @@ class _SearchAmoScreenAmoState extends State<SearchAmoScreenAmo> {
                       fontSize: 16,
                     ),
                     prefixIcon: Icon(
-                      Icons.verified_outlined,
+                      Icons.search,
                       color: _primaryColor,
                       size: 24,
                     ),
@@ -303,7 +303,6 @@ class _SearchAmoScreenAmoState extends State<SearchAmoScreenAmo> {
                     width: 56,
                     height: 56,
                     decoration: BoxDecoration(
-                      color: _primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Image.asset(pharmacy.icon)),
@@ -318,7 +317,6 @@ class _SearchAmoScreenAmoState extends State<SearchAmoScreenAmo> {
                             child: Text(
                               pharmacy.name,
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
                                 color: _textColor,
                                 fontSize: 16,
                               ),
@@ -349,37 +347,37 @@ class _SearchAmoScreenAmoState extends State<SearchAmoScreenAmo> {
                           style: TextStyle(
                             color: _primaryColor,
                             fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.bold,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                      if (pharmacy.classtherapique.isNotEmpty) ...[
-                        const Gap(4),
-                        Text(
-                          pharmacy.classtherapique.first.toString(),
-                          style: TextStyle(
-                            color: _textColor.withOpacity(0.7),
-                            fontSize: 12,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                      if (pharmacy.presantation.isNotEmpty) ...[
-                        const Gap(4),
-                        Text(
-                          pharmacy.presantation.first.toString(),
-                          style: TextStyle(
-                            color: _secondaryColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                      // if (pharmacy.classtherapique.isNotEmpty) ...[
+                      //   const Gap(4),
+                      //   Text(
+                      //     pharmacy.classtherapique.first.toString(),
+                      //     style: TextStyle(
+                      //       color: _textColor.withOpacity(0.7),
+                      //       fontSize: 12,
+                      //     ),
+                      //     maxLines: 1,
+                      //     overflow: TextOverflow.ellipsis,
+                      //   ),
+                      // ],
+                      // if (pharmacy.presantation.isNotEmpty) ...[
+                      //   const Gap(4),
+                      //   Text(
+                      //     pharmacy.presantation.first.toString(),
+                      //     style: TextStyle(
+                      //       color: _secondaryColor,
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //     maxLines: 1,
+                      //     overflow: TextOverflow.ellipsis,
+                      //   ),
+                      // ],
                     ],
                   ),
                 ),

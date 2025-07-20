@@ -1,14 +1,13 @@
-import 'package:alphabet_navigation/alphabet_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Models/amo.dart';
-import 'package:moussa_project/Models/med.dart';
-import 'package:moussa_project/Screens/SearchScreenTheurapetique.dart';
-import 'package:moussa_project/Screens/searchScreenMedicaments.dart';
+import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/Models/amo.dart';
+import 'package:medpharm/Models/med.dart';
+import 'package:medpharm/Screens/SearchScreenTheurapetique.dart';
+import 'package:medpharm/Screens/searchScreenMedicaments.dart';
 import 'package:provider/provider.dart';
-import 'package:moussa_project/Screens/medicamentdetailscreen.dart';
-import 'package:moussa_project/Widgets/card.dart';
+import 'package:medpharm/Screens/medicamentdetailscreen.dart';
+import 'package:medpharm/Widgets/az_navigation.dart';
 
 // Styles personnalisés
 const TextStyle headerStyle = TextStyle(
@@ -36,12 +35,21 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
   final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);
 
+  int _currentIndex = 0;
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadData() async {
@@ -60,11 +68,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [_primaryColor, const Color(0xFF33CCCC)],
-        ),
+        color: _primaryColor,
         boxShadow: [
           BoxShadow(
             color: _primaryColor.withOpacity(0.3),
@@ -178,20 +182,6 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: _primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Icons.medication_liquid_outlined,
-                    color: _primaryColor,
-                    size: 28,
-                  ),
-                ),
-                const Gap(16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,26 +199,27 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                         Text(
                           med.nomCommercial.take(2).join(', '),
                           style: TextStyle(
-                            color: _textColor.withOpacity(0.7),
+                            color: _primaryColor.withOpacity(0.7),
                             fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                      if (med.classtherapique.isNotEmpty) ...[
-                        const Gap(4),
-                        Text(
-                          med.classtherapique.first.toString(),
-                          style: TextStyle(
-                            color: _primaryColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                      // if (med.classtherapique.isNotEmpty) ...[
+                      //   const Gap(4),
+                      //   Text(
+                      //     med.classtherapique.first.toString(),
+                      //     style: TextStyle(
+                      //       color: _primaryColor,
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //     maxLines: 1,
+                      //     overflow: TextOverflow.ellipsis,
+                      //   ),
+                      // ],
                     ],
                   ),
                 ),
@@ -364,234 +355,338 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
     );
   }
 
+  Widget _buildMedicationsTab(MyProvider provider) {
+    return Column(
+      children: [
+        _buildSearchBar(
+          hint: 'Rechercher des médicaments...',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchMedicamentScreen(
+                  listes: provider.medicament,
+                  hintText: 'Rechercher des médicaments...',
+                ),
+              ),
+            );
+          },
+        ),
+        Expanded(
+          child: provider.medicament.isEmpty
+              ? _buildEmptyState(
+                  'Aucun médicament trouvé\nVerifiez votre connexion ou réessayez',
+                  icon: Icons.medication_outlined,
+                )
+              : Stack(
+                  children: [
+                    ListView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.only(bottom: 20),
+                      itemCount: provider.medicament.length,
+                      itemBuilder: (context, index) {
+                        final med = provider.medicament[index];
+                        return _buildMedCard(
+                          med,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    MedicamentDetailsScreen(medicament: med),
+                              ),
+                            );
+                          },
+                          onFavorite: () async {
+                            final success =
+                                await provider.changeFavoris(med.name);
+                            if (success && mounted) {
+                              setState(() {
+                                med.isFavoris = !med.isFavoris;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    med.isFavoris
+                                        ? 'Ajouté aux favoris'
+                                        : 'Retiré des favoris',
+                                  ),
+                                  backgroundColor: _primaryColor,
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                    Positioned(
+                      right: 16,
+                      top: 0,
+                      bottom: 0,
+                      child: AZNavigation(
+                        availableLetters: provider.medicament
+                            .map((med) => med.name[0].toUpperCase())
+                            .toSet(),
+                        onLetterSelected: (letter) {
+                          // Find the first item starting with the selected letter
+                          final index = provider.medicament.indexWhere(
+                            (med) => med.name.toUpperCase().startsWith(letter),
+                          );
+                          if (index != -1) {
+                            _scrollController.animateTo(
+                              index * 80.0, // Approximate item height
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        },
+                        itemSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildClassesTab(MyProvider provider) {
+    return Column(
+      children: [
+        _buildSearchBar(
+          hint: 'Rechercher des classes...',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchClasseTheuraScreenDCI(
+                  listes: provider.classMedicament,
+                  iconMeds: provider.imagesMed,
+                  hintText: 'Rechercher des classes...',
+                ),
+              ),
+            );
+          },
+        ),
+        Expanded(
+          child: provider.classMedicament.isEmpty
+              ? _buildEmptyState(
+                  'Aucune classe trouvée',
+                  icon: Icons.category_outlined,
+                )
+              : Stack(
+                  children: [
+                    ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      itemCount: provider.classMedicament.length,
+                      itemBuilder: (context, index) {
+                        final classItem = provider.classMedicament[index];
+                        return _buildClassCard(
+                          classItem,
+                          onTap: () {
+                            // Navigate to class details or filter by class
+                          },
+                        );
+                      },
+                    ),
+                    Positioned(
+                      right: 16,
+                      top: 0,
+                      bottom: 0,
+                      child: AZNavigation(
+                        availableLetters: provider.classMedicament
+                            .map((classItem) =>
+                                classItem.clname[0].toUpperCase())
+                            .toSet(),
+                        onLetterSelected: (letter) {
+                          // Find the first class starting with the selected letter
+                          final index = provider.classMedicament.indexWhere(
+                            (classItem) => classItem.clname
+                                .toUpperCase()
+                                .startsWith(letter),
+                          );
+                          if (index != -1) {
+                            _scrollController.animateTo(
+                              index * 80.0, // Approximate item height
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        },
+                        itemSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFavoritesTab(MyProvider provider) {
+    return Column(
+      children: [
+        _buildSearchBar(
+          hint: 'Rechercher dans les favoris...',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchMedicamentScreen(
+                  listes: provider.favorisMedicaments,
+                  hintText: 'Rechercher dans les favoris...',
+                ),
+              ),
+            );
+          },
+        ),
+        Expanded(
+          child: provider.favorisMedicaments.isEmpty
+              ? _buildEmptyState(
+                  'Aucun favori ajouté\nAjoutez des médicaments à vos favoris en appuyant sur l\'étoile',
+                  icon: Icons.star_outline,
+                )
+              : Stack(
+                  children: [
+                    ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      itemCount: provider.favorisMedicaments.length,
+                      itemBuilder: (context, index) {
+                        final med = provider.favorisMedicaments[index];
+                        return _buildMedCard(
+                          med,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    MedicamentDetailsScreen(medicament: med),
+                              ),
+                            );
+                          },
+                          onFavorite: () async {
+                            final success =
+                                await provider.changeFavoris(med.name);
+                            if (success && mounted) {
+                              setState(() {
+                                med.isFavoris = !med.isFavoris;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    med.isFavoris
+                                        ? 'Ajouté aux favoris'
+                                        : 'Retiré des favoris',
+                                  ),
+                                  backgroundColor: _primaryColor,
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                    Positioned(
+                      right: 16,
+                      top: 0,
+                      bottom: 0,
+                      child: AZNavigation(
+                        availableLetters: provider.favorisMedicaments
+                            .map((med) => med.name[0].toUpperCase())
+                            .toSet(),
+                        onLetterSelected: (letter) {
+                          // Find the first favorite starting with the selected letter
+                          final index = provider.favorisMedicaments.indexWhere(
+                            (med) => med.name.toUpperCase().startsWith(letter),
+                          );
+                          if (index != -1) {
+                            _scrollController.animateTo(
+                              index * 80.0, // Approximate item height
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        },
+                        itemSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        backgroundColor: _backgroundColor,
-        body: Column(
-          children: [
-            _buildHeader('MedicaPlus', subtitle: 'Base de données médicale'),
-            Container(
-              color: _cardColor,
-              child: TabBar(
-                labelColor: _primaryColor,
-                unselectedLabelColor: Colors.grey[600],
-                indicatorColor: _primaryColor,
-                indicatorWeight: 3,
-                labelStyle:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                unselectedLabelStyle:
-                    const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-                tabs: [
-                  Tab(
-                    icon: Icon(Icons.medication_outlined, size: 20),
-                    text: "Médicaments",
-                  ),
-                  Tab(
-                    icon: Icon(Icons.category_outlined, size: 20),
-                    text: "Classes",
-                  ),
-                  Tab(
-                    icon: Icon(Icons.star_outline, size: 20),
-                    text: "Favoris",
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Consumer<MyProvider>(
-                builder: (context, provider, child) {
-                  print(
-                      'Consumer builder called. Medicament count: ${provider.medicament.length}');
+    return Scaffold(
+      backgroundColor: _backgroundColor,
+      body: Column(
+        children: [
+          _buildHeader('MedPharm', subtitle: 'Base de données médicale'),
+          Expanded(
+            child: Consumer<MyProvider>(
+              builder: (context, provider, child) {
+                print(
+                    'Consumer builder called. Medicament count: ${provider.medicament.length}');
 
-                  return TabBarView(
-                    children: [
-                      // Medications Tab
-                      Column(
-                        children: [
-                          _buildSearchBar(
-                            hint: 'Rechercher des médicaments...',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SearchMedicamentScreen(
-                                    listes: provider.medicament,
-                                    hintText: 'Rechercher des médicaments...',
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          Expanded(
-                            child: provider.medicament.isEmpty
-                                ? _buildEmptyState(
-                                    'Aucun médicament trouvé\nVerifiez votre connexion ou réessayez',
-                                    icon: Icons.medication_outlined,
-                                  )
-                                : ListView.builder(
-                                    padding: const EdgeInsets.only(bottom: 20),
-                                    itemCount: provider.medicament.length,
-                                    itemBuilder: (context, index) {
-                                      final med = provider.medicament[index];
-                                      return _buildMedCard(
-                                        med,
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MedicamentDetailsScreen(
-                                                      medicament: med),
-                                            ),
-                                          );
-                                        },
-                                        onFavorite: () async {
-                                          final success = await provider
-                                              .changeFavoris(med.name);
-                                          if (success && mounted) {
-                                            setState(() {
-                                              med.isFavoris = !med.isFavoris;
-                                            });
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  med.isFavoris
-                                                      ? 'Ajouté aux favoris'
-                                                      : 'Retiré des favoris',
-                                                ),
-                                                backgroundColor: _primaryColor,
-                                                duration:
-                                                    const Duration(seconds: 2),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                      );
-                                    },
-                                  ),
-                          ),
-                        ],
-                      ),
-                      // Classes Tab
-                      Column(
-                        children: [
-                          _buildSearchBar(
-                            hint: 'Rechercher des classes...',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      SearchClasseTheuraScreenDCI(
-                                    listes: provider.classMedicament,
-                                    iconMeds: provider.imagesMed,
-                                    hintText: 'Rechercher des classes...',
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          Expanded(
-                            child: provider.classMedicament.isEmpty
-                                ? _buildEmptyState(
-                                    'Aucune classe trouvée',
-                                    icon: Icons.category_outlined,
-                                  )
-                                : ListView.builder(
-                                    padding: const EdgeInsets.only(bottom: 20),
-                                    itemCount: provider.classMedicament.length,
-                                    itemBuilder: (context, index) {
-                                      final classItem =
-                                          provider.classMedicament[index];
-                                      return _buildClassCard(
-                                        classItem,
-                                        onTap: () {
-                                          // Navigate to class details or filter by class
-                                        },
-                                      );
-                                    },
-                                  ),
-                          ),
-                        ],
-                      ),
-                      // Favorites Tab
-                      Column(
-                        children: [
-                          _buildSearchBar(
-                            hint: 'Rechercher dans les favoris...',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SearchMedicamentScreen(
-                                    listes: provider.favorisMedicaments,
-                                    hintText: 'Rechercher dans les favoris...',
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          Expanded(
-                            child: provider.favorisMedicaments.isEmpty
-                                ? _buildEmptyState(
-                                    'Aucun favori ajouté\nAjoutez des médicaments à vos favoris en appuyant sur l\'étoile',
-                                    icon: Icons.star_outline,
-                                  )
-                                : ListView.builder(
-                                    padding: const EdgeInsets.only(bottom: 20),
-                                    itemCount:
-                                        provider.favorisMedicaments.length,
-                                    itemBuilder: (context, index) {
-                                      final med =
-                                          provider.favorisMedicaments[index];
-                                      return _buildMedCard(
-                                        med,
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MedicamentDetailsScreen(
-                                                      medicament: med),
-                                            ),
-                                          );
-                                        },
-                                        onFavorite: () async {
-                                          final success = await provider
-                                              .changeFavoris(med.name);
-                                          if (success && mounted) {
-                                            setState(() {
-                                              med.isFavoris = !med.isFavoris;
-                                            });
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  med.isFavoris
-                                                      ? 'Ajouté aux favoris'
-                                                      : 'Retiré des favoris',
-                                                ),
-                                                backgroundColor: _primaryColor,
-                                                duration:
-                                                    const Duration(seconds: 2),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                      );
-                                    },
-                                  ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
+                switch (_currentIndex) {
+                  case 0:
+                    return _buildMedicationsTab(provider);
+                  // case 1:
+                  //   return _buildClassesTab(provider);
+                  case 1:
+                    return _buildFavoritesTab(provider);
+                  default:
+                    return _buildMedicationsTab(provider);
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: _cardColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: _cardColor,
+          selectedItemColor: _primaryColor,
+          unselectedItemColor: Colors.grey[600],
+          selectedLabelStyle:
+              const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+          unselectedLabelStyle:
+              const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+          items: [
+            BottomNavigationBarItem(
+              icon: Image.asset('assets/icon/nom.png', width: 24, height: 24),
+              label: "Médicaments",
+            ),
+            // BottomNavigationBarItem(
+            //   icon:
+            //       Image.asset('assets/icon/classe.png', width: 24, height: 24),
+            //   label: "Classes",
+            // ),
+            BottomNavigationBarItem(
+              icon:
+                  Image.asset('assets/icon/favoris.png', width: 24, height: 24),
+              label: "Favoris",
             ),
           ],
         ),

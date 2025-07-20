@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/Models/materiels.dart';
+import 'package:medpharm/Models/materiels.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -77,7 +77,7 @@ class _VenteCoverState extends State<VenteCover> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 300,
+            expandedHeight: 100,
             floating: false,
             pinned: true,
             elevation: 0,
@@ -93,40 +93,15 @@ class _VenteCoverState extends State<VenteCover> {
                 ),
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.materiel.title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const Gap(8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            'Matériel Médical',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
+                    padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                    child: Text(
+                      widget.materiel.title,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -337,16 +312,13 @@ class _VenteCoverState extends State<VenteCover> {
                   color: _accentColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  Icons.attach_money,
-                  color: _accentColor,
-                  size: 24,
-                ),
+                child:
+                    Image.asset('assets/icon/prix.png', width: 24, height: 24),
               ),
               const Gap(16),
               Expanded(
                 child: Text(
-                  'Prix',
+                  'Prix unitaire',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -371,7 +343,7 @@ class _VenteCoverState extends State<VenteCover> {
             child: Column(
               children: [
                 Text(
-                  "${_formatPrice(widget.materiel.price)} XOF",
+                  "${_formatPrice(widget.materiel.price)} FCFA",
                   style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -379,14 +351,6 @@ class _VenteCoverState extends State<VenteCover> {
                     letterSpacing: 0.5,
                   ),
                   textAlign: TextAlign.center,
-                ),
-                const Gap(8),
-                Text(
-                  'Prix unitaire',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white.withOpacity(0.9),
-                  ),
                 ),
               ],
             ),
@@ -409,14 +373,14 @@ class _VenteCoverState extends State<VenteCover> {
                     widget.materiel.telephone,
                     "Bonjour! Je suis intéressé(e) par ce matériel médical :\n\n"
                     "📋 Nom: ${widget.materiel.title}\n"
-                    "💰 Prix: ${_formatPrice(widget.materiel.price)} XOF\n"
+                    "💰 Prix: ${_formatPrice(widget.materiel.price)} FCFA\n"
                     "${widget.materiel.description != null && widget.materiel.description!.isNotEmpty ? '📝 Description: ${widget.materiel.description}\n' : ''}"
                     "\nPouvez-vous me donner plus d'informations ?",
                   );
                 },
-                icon: Icons.chat_bubble_outline,
+                icon: 'assets/icon/commander.png',
                 label: 'Commander',
-                color: _primaryColor,
+                color: Colors.blue.withOpacity(0.1),
                 isWhatsApp: true,
               ),
             ),
@@ -426,43 +390,12 @@ class _VenteCoverState extends State<VenteCover> {
                 onPressed: () {
                   launchPhoneDialer(context, widget.materiel.telephone);
                 },
-                icon: Icons.phone_outlined,
+                icon: 'assets/icon/appeler.png',
                 label: 'Appeler',
-                color: _accentColor,
+                color: Colors.blue.withOpacity(0.1),
               ),
             ),
           ],
-        ),
-        const Gap(16),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: _backgroundColor,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: _primaryColor.withOpacity(0.2),
-              width: 1,
-            ),
-          ),
-          child: Row(
-            children: [
-              Icon(
-                Icons.phone,
-                color: _primaryColor,
-                size: 20,
-              ),
-              const Gap(12),
-              Text(
-                'Contact: ${widget.materiel.telephone}',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: _textColor,
-                ),
-              ),
-            ],
-          ),
         ),
       ],
     );
@@ -470,7 +403,7 @@ class _VenteCoverState extends State<VenteCover> {
 
   Widget _buildActionButton({
     required VoidCallback onPressed,
-    required IconData icon,
+    required String icon,
     required String label,
     required Color color,
     bool isWhatsApp = false,
@@ -478,13 +411,13 @@ class _VenteCoverState extends State<VenteCover> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: color.withOpacity(0.3),
+        //     blurRadius: 12,
+        //     offset: const Offset(0, 4),
+        //   ),
+        // ],
       ),
       child: ElevatedButton.icon(
         onPressed: onPressed,
@@ -494,18 +427,18 @@ class _VenteCoverState extends State<VenteCover> {
                 height: 24,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/icon/Commande.png"),
+                    image: AssetImage("assets/icon/commander.png"),
                     fit: BoxFit.contain,
                   ),
                 ),
               )
-            : Icon(icon, color: Colors.white, size: 20),
+            : Image.asset(icon, width: 24, height: 24),
         label: Text(
           label,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         style: ElevatedButton.styleFrom(

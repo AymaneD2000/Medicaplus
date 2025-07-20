@@ -194,8 +194,7 @@ class PdfDownloadService {
     // Add logo to PDF
     final finalPdfBytes = await _addLogoToPdf(pdfBytes);
 
-    final fileName =
-        'MedicaPlus_${name.replaceAll(RegExp(r'[^\w\s-]'), '')}_${DateTime.now().millisecondsSinceEpoch}.pdf';
+    final fileName = 'MedPharm_${name.replaceAll(RegExp(r'[^\w\s-]'), '')}.pdf';
 
     // Get external Downloads directory
     Directory? downloadsDir;

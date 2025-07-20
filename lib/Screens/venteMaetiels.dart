@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Models/materiels.dart';
-import 'package:moussa_project/Screens/ventesCover.dart';
+import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/Models/materiels.dart';
+import 'package:medpharm/Screens/ventesCover.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,15 +40,6 @@ class _BooksHomePageState extends State<BooksHomePage>
   final Color _textColor = const Color(0xFF1D1B20);
   final Color _backgroundColor = const Color(0xFFF8F9FA);
   final Color _warningColor = const Color(0xFFFF9800);
-
-  final List<Map<String, dynamic>> _categories = [
-    {'id': 'all', 'name': 'Tous', 'icon': Icons.all_inclusive},
-    {'id': 'diagnostic', 'name': 'Diagnostic', 'icon': Icons.medical_services},
-    {'id': 'surgical', 'name': 'Chirurgical', 'icon': Icons.healing},
-    {'id': 'monitoring', 'name': 'Monitoring', 'icon': Icons.monitor_heart},
-    {'id': 'emergency', 'name': 'Urgence', 'icon': Icons.emergency},
-    {'id': 'laboratory', 'name': 'Laboratoire', 'icon': Icons.science},
-  ];
 
   @override
   void initState() {
@@ -232,7 +223,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               children: [
                 _buildSearchAndFilters(),
                 if (_showFilters) _buildAdvancedFilters(),
-                _buildCategoryTabs(),
+                // _buildCategoryTabs(),
               ],
             ),
           ),
@@ -270,7 +261,7 @@ class _BooksHomePageState extends State<BooksHomePage>
 
   Widget _buildSliverAppBar() {
     return SliverAppBar(
-      expandedHeight: 160,
+      expandedHeight: 120, // Reduced from 160
       floating: false,
       pinned: true,
       elevation: 0,
@@ -286,19 +277,20 @@ class _BooksHomePageState extends State<BooksHomePage>
           ),
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
+              padding: const EdgeInsets.fromLTRB(
+                  20, 40, 20, 20), // Adjusted padding from 80 to 40
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(8), // Reduced from 12
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(8), // Reduced from 12
                     ),
                     child: const Icon(
                       Icons.medical_services,
                       color: Colors.white,
-                      size: 28,
+                      size: 24, // Reduced from 28
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -311,16 +303,16 @@ class _BooksHomePageState extends State<BooksHomePage>
                           'Matériels Médicaux',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: 20, // Reduced from 24
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 2), // Reduced from 4
                         Text(
                           'Équipements professionnels',
                           style: TextStyle(
                             color: Colors.white70,
-                            fontSize: 14,
+                            fontSize: 12, // Reduced from 14
                           ),
                         ),
                       ],
@@ -483,7 +475,6 @@ class _BooksHomePageState extends State<BooksHomePage>
                   const SizedBox(height: 16),
                   _buildSortOptions(),
                   const SizedBox(height: 16),
-                  _buildPriceRangeFilter(),
                 ],
               ),
             ),
@@ -510,8 +501,6 @@ class _BooksHomePageState extends State<BooksHomePage>
           spacing: 8,
           children: [
             _buildSortChip('name', 'Nom', Icons.sort_by_alpha),
-            _buildSortChip('price_low', 'Prix ↑', Icons.arrow_upward),
-            _buildSortChip('price_high', 'Prix ↓', Icons.arrow_downward),
             _buildSortChip('newest', 'Récent', Icons.new_releases),
           ],
         ),
@@ -522,6 +511,7 @@ class _BooksHomePageState extends State<BooksHomePage>
   Widget _buildSortChip(String value, String label, IconData icon) {
     final isSelected = _sortBy == value;
     return FilterChip(
+      backgroundColor: Colors.white,
       selected: isSelected,
       label: Row(
         mainAxisSize: MainAxisSize.min,
@@ -546,126 +536,74 @@ class _BooksHomePageState extends State<BooksHomePage>
     );
   }
 
-  Widget _buildPriceRangeFilter() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Gamme de prix',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: _textColor,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          children: [
-            _buildPriceChip('all', 'Tous', Icons.all_inclusive),
-            _buildPriceChip('low', '< 100K', Icons.money_off),
-            _buildPriceChip('medium', '100K-500K', Icons.attach_money),
-            _buildPriceChip('high', '> 500K', Icons.diamond),
-          ],
-        ),
-      ],
-    );
-  }
+  // Widget _buildCategoryTabs() {
+  //   return Container(
+  //     height: 80,
+  //     margin: const EdgeInsets.symmetric(vertical: 10),
+  //     child: ListView.builder(
+  //       scrollDirection: Axis.horizontal,
+  //       padding: const EdgeInsets.symmetric(horizontal: 20),
+  //       itemCount: _categories.length,
+  //       itemBuilder: (context, index) {
+  //         final category = _categories[index];
+  //         final isSelected = _selectedCategory == category['id'];
 
-  Widget _buildPriceChip(String value, String label, IconData icon) {
-    final isSelected = _priceRange == value;
-    return FilterChip(
-      selected: isSelected,
-      label: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 16, color: isSelected ? Colors.white : _accentColor),
-          const SizedBox(width: 4),
-          Text(label),
-        ],
-      ),
-      onSelected: (selected) {
-        setState(() {
-          _priceRange = value;
-        });
-      },
-      selectedColor: _accentColor,
-      checkmarkColor: Colors.white,
-      labelStyle: TextStyle(
-        color: isSelected ? Colors.white : _accentColor,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-  }
-
-  Widget _buildCategoryTabs() {
-    return Container(
-      height: 80,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        itemCount: _categories.length,
-        itemBuilder: (context, index) {
-          final category = _categories[index];
-          final isSelected = _selectedCategory == category['id'];
-
-          return Container(
-            margin: const EdgeInsets.only(right: 12),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    _selectedCategory = category['id'];
-                  });
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: isSelected ? _primaryColor : _cardColor,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: isSelected ? _primaryColor : Colors.grey.shade300,
-                      width: 1,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        category['icon'],
-                        color: isSelected ? Colors.white : _primaryColor,
-                        size: 24,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        category['name'],
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : _textColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
+  //         return Container(
+  //           margin: const EdgeInsets.only(right: 12),
+  //           child: Material(
+  //             color: Colors.transparent,
+  //             child: InkWell(
+  //               onTap: () {
+  //                 setState(() {
+  //                   _selectedCategory = category['id'];
+  //                 });
+  //               },
+  //               borderRadius: BorderRadius.circular(16),
+  //               child: Container(
+  //                 padding:
+  //                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  //                 decoration: BoxDecoration(
+  //                   color: isSelected ? _primaryColor : _cardColor,
+  //                   borderRadius: BorderRadius.circular(16),
+  //                   border: Border.all(
+  //                     color: isSelected ? _primaryColor : Colors.grey.shade300,
+  //                     width: 1,
+  //                   ),
+  //                   boxShadow: [
+  //                     BoxShadow(
+  //                       color: Colors.black.withOpacity(0.05),
+  //                       blurRadius: 8,
+  //                       offset: const Offset(0, 2),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 child: Column(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: [
+  //                     Icon(
+  //                       category['icon'],
+  //                       color: isSelected ? Colors.white : _primaryColor,
+  //                       size: 24,
+  //                     ),
+  //                     const SizedBox(height: 4),
+  //                     Text(
+  //                       category['name'],
+  //                       style: TextStyle(
+  //                         color: isSelected ? Colors.white : _textColor,
+  //                         fontSize: 12,
+  //                         fontWeight: FontWeight.w600,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget _buildMaterialsList(List<Materiel> materials) {
     return Padding(
@@ -848,7 +786,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: cardColor.withOpacity(0.1),
+                          //color: cardColor.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: ClipRRect(
@@ -945,7 +883,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    "${_formatPrice(material.price)} XOF",
+                    "${_formatPrice(material.price)} FCFA",
                     style: TextStyle(
                       color: cardColor,
                       fontSize: 12,
@@ -1050,7 +988,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          "${_formatPrice(material.price)} XOF",
+                          "${_formatPrice(material.price)} FCFA",
                           style: TextStyle(
                             color: cardColor,
                             fontSize: 14,
@@ -1362,7 +1300,7 @@ class _BooksHomePageState extends State<BooksHomePage>
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: _cardColor,
+                color: Colors.blue,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
@@ -1375,7 +1313,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               child: Icon(
                 Icons.search_off,
                 size: 64,
-                color: _warningColor,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 32),
@@ -1416,7 +1354,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: _warningColor,
+                backgroundColor: Colors.blue,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 12,

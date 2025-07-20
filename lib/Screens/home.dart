@@ -1,12 +1,12 @@
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Screens/calculeScreen.dart';
-import 'package:moussa_project/Screens/carlendriergrosesse.dart';
-import 'package:moussa_project/Screens/faculterScreenPage.dart';
-import 'package:moussa_project/Screens/medicamentscreen.dart';
-import 'package:moussa_project/Screens/pharmacie.dart';
-import 'package:moussa_project/Screens/venteMaetiels.dart';
+import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/Screens/calculeScreen.dart';
+import 'package:medpharm/Screens/carlendriergrosesse.dart';
+import 'package:medpharm/Screens/faculterScreenPage.dart';
+import 'package:medpharm/Screens/medicamentscreen.dart';
+import 'package:medpharm/Screens/pharmacie.dart';
+import 'package:medpharm/Screens/venteMaetiels.dart';
 import 'package:provider/provider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -21,7 +21,8 @@ class _HomeState extends State<Home> {
   late MyProvider provider;
   bool isConnected = true;
   late Stream<List<ConnectivityResult>> connectivityStream;
-  List<Widget> grid = [];
+  late List<Widget> grid;
+  bool _isLoading = true;
 
   // Modern color scheme
   final Color _primaryColor = const Color(0xFF02B1EC);
@@ -33,23 +34,44 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     provider = context.read<MyProvider>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      provider = context.read<MyProvider>();
-      provider.loadMedicamentData();
-      provider.loadPharmacieData();
-      provider.getPublication();
-    });
+    grid = _buildGrid(); // Build grid once
+    _initializeData();
+    _setupConnectivity();
+  }
 
-    grid = _buildGrid();
-    _checkConnectivity();
+  Future<void> _initializeData() async {
+    try {
+      await Future.wait([
+        provider.loadMedicamentData(),
+        provider.loadPharmacieData(),
+      ]);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    } catch (e) {
+      debugPrint('Error loading data: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _setupConnectivity() {
     connectivityStream = Connectivity().onConnectivityChanged;
+    _checkConnectivity();
+  }
+
+  @override
+  void dispose() {
+    // Clean up any subscriptions or controllers here
+    super.dispose();
   }
 
   List<Widget> _buildGrid() {
     final List<Map<String, dynamic>> gridItems = [
       {
-        'title': 'Medicament',
-        'icon': Icons.medication_outlined,
+        'title': 'Médicament',
+        'image': 'assets/Interface/medicament.png',
         'color': const Color(0xFF4CAF50),
         'route': () => Navigator.push(
               context,
@@ -59,7 +81,7 @@ class _HomeState extends State<Home> {
       },
       {
         'title': 'Cours',
-        'icon': Icons.school_outlined,
+        'image': 'assets/Interface/cours.png',
         'color': const Color(0xFF2196F3),
         'route': () => Navigator.push(
               context,
@@ -68,7 +90,7 @@ class _HomeState extends State<Home> {
       },
       {
         'title': 'Pharmacie',
-        'icon': Icons.local_pharmacy_outlined,
+        'image': 'assets/Interface/pharmacie.png',
         'color': const Color(0xFF9C27B0),
         'route': () => Navigator.push(
               context,
@@ -77,7 +99,7 @@ class _HomeState extends State<Home> {
       },
       {
         'title': 'Matériels',
-        'icon': Icons.medical_services_outlined,
+        'image': 'assets/Interface/materiel.png',
         'color': const Color(0xFFFF9800),
         'route': () => Navigator.push(
               context,
@@ -85,8 +107,8 @@ class _HomeState extends State<Home> {
             ),
       },
       {
-        'title': 'Calcule',
-        'icon': Icons.calculate_outlined,
+        'title': 'Outils',
+        'image': 'assets/Interface/outils.png',
         'color': const Color(0xFFF44336),
         'route': () => Navigator.push(
               context,
@@ -95,7 +117,7 @@ class _HomeState extends State<Home> {
       },
       {
         'title': 'Grossesse',
-        'icon': Icons.pregnant_woman_outlined,
+        'image': 'assets/Interface/grossesse.png',
         'color': const Color(0xFF795548),
         'route': () => Navigator.push(
               context,
@@ -108,7 +130,7 @@ class _HomeState extends State<Home> {
     return gridItems
         .map((item) => _buildModernCard(
               title: item['title'],
-              icon: item['icon'],
+              imagePath: item['image'],
               color: item['color'],
               onTap: item['route'],
             ))
@@ -117,7 +139,7 @@ class _HomeState extends State<Home> {
 
   Widget _buildModernCard({
     required String title,
-    required IconData icon,
+    required String imagePath,
     required Color color,
     required VoidCallback onTap,
   }) {
@@ -146,16 +168,18 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 56,
-                    height: 56,
+                    width: 80,
+                    height: 80,
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Icon(
-                      icon,
-                      size: 28,
-                      color: color,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Image.asset(
+                        imagePath,
+                        width: 80,
+                        height: 80,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -205,46 +229,49 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            _buildPublicationCard(),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Services Disponibles',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: _textColor,
+      child: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 16),
+                  _buildPublicationCard(),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Services Disponibles',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: _textColor,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: grid.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.1,
+                      ),
+                      itemBuilder: (context, index) => grid[index],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: grid.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  crossAxisCount: 2,
-                  childAspectRatio: 1.1,
-                ),
-                itemBuilder: (context, index) => grid[index],
-              ),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
     );
   }
 

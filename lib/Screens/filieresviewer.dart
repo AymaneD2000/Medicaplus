@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
-import 'package:moussa_project/Models/filiere.dart';
-import 'package:moussa_project/Screens/pdfclientview.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
+import 'package:medpharm/Models/filiere.dart';
+import 'package:medpharm/Models/semestre.dart';
+import 'package:medpharm/Screens/pdfclientview.dart';
 
 class FiliereGridScreen extends StatefulWidget {
-  final String className;
-  const FiliereGridScreen({super.key, required this.className});
+  final Semestre semestre;
+  const FiliereGridScreen({super.key, required this.semestre});
 
   @override
   State<FiliereGridScreen> createState() => _FiliereGridScreenState();
@@ -42,7 +43,7 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
     try {
       final supabaseManagement = SupabaseManagement();
       final filieres =
-          await supabaseManagement.getClasseFilieres(widget.className);
+          await supabaseManagement.getClasseFilieres(widget.semestre.id);
       setState(() {
         _filieres = filieres;
         _isLoading = false;
@@ -97,7 +98,7 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
               ),
             ),
             Text(
-              widget.className,
+              widget.semestre.nomSemetre,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.9),
                 fontSize: 14,
@@ -345,7 +346,6 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: cardColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: ClipRRect(
@@ -425,7 +425,7 @@ class _FiliereGridScreenState extends State<FiliereGridScreen> {
                       ),
                       const Gap(6),
                       Text(
-                        'Voir PDFs',
+                        'Voir PDF',
                         style: TextStyle(
                           color: cardColor,
                           fontSize: 12,

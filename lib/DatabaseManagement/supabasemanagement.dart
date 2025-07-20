@@ -1,10 +1,12 @@
-import 'package:moussa_project/Models/classemodel.dart';
-import 'package:moussa_project/Models/faculter.dart';
-import 'package:moussa_project/Models/filiere.dart';
-import 'package:moussa_project/Models/materiels.dart';
-import 'package:moussa_project/Models/pdf.dart';
-import 'package:moussa_project/Models/publication.dart';
+import 'package:medpharm/Models/classemodel.dart';
+import 'package:medpharm/Models/faculter.dart';
+import 'package:medpharm/Models/filiere.dart';
+import 'package:medpharm/Models/materiels.dart';
+import 'package:medpharm/Models/pdf.dart';
+import 'package:medpharm/Models/publication.dart';
+import 'package:medpharm/Models/semestre.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter/foundation.dart';
 
 class SupabaseManagement {
   static final supabase = Supabase.instance.client;
@@ -40,20 +42,31 @@ class SupabaseManagement {
     });
   }
 
-  Future<List<Filiere>> getClasseFilieres(String nomClasse) async {
+  Future<List<Filiere>> getClasseFilieres(String id) async {
     final response =
-        await supabase.from('filiere').select("*").eq("nomClasse", nomClasse);
+        await supabase.from('filiere').select("*").eq("semestre_id", id);
     List<Filiere> filieres =
         response.map((e) => Filiere.fromSnapshot(e)).toList();
     return filieres;
   }
 
-  addFiliere(Filiere f) async {
-    await supabase
-        .from('filiere')
-        .insert(f.toMap())
-        .eq("nomClasse", f.nomClasse)
-        .then((value) {});
+  Future<void> addFiliere(Filiere f) async {
+    try {
+      debugPrint('Attempting to insert filiere into Supabase: ${f.toMap()}');
+      final response = await supabase.from('filiere').insert(f.toMap());
+      debugPrint('Filiere inserted successfully: $response');
+      await getClasseFilieres(f.semestreId);
+    } catch (e) {
+      debugPrint('Error in supabase addFiliere: $e');
+      if (e is PostgrestException) {
+        debugPrint('PostgrestException details:');
+        debugPrint('Message: ${e.message}');
+        debugPrint('Code: ${e.code}');
+        debugPrint('Details: ${e.details}');
+        debugPrint('Hint: ${e.hint}');
+      }
+      rethrow;
+    }
   }
 
   addPdf(Pdf p) async {
@@ -140,10 +153,34 @@ class SupabaseManagement {
     return documents;
   }
 
-  Future<List<Filiere>> getFiliere() async {
-    final response = await supabase.from('filiere').select("*");
+  Future<List<Filiere>> getFiliere(String id) async {
+    final response =
+        await supabase.from('filiere').select("*").eq("semestre_id", id);
     List<Filiere> filieres =
         response.map((e) => Filiere.fromSnapshot(e)).toList();
     return filieres;
+  }
+
+  Future<List<Semestre>> getSemestres(String classeName) async {
+    final response =
+        await supabase.from('semestre').select().eq('nomClasse', classeName);
+    List<Semestre> semestres =
+        response.map((e) => Semestre.fromJson(e)).toList();
+    return semestres;
+  }
+
+  Future<void> addSemestre(Semestre semestre) async {
+    await supabase.from('semestre').insert(semestre.toJson());
+  }
+
+  Future<void> updateSemestre(Semestre semestre) async {
+    await supabase
+        .from('semestre')
+        .update(semestre.toJson())
+        .eq('id', semestre.id);
+  }
+
+  Future<void> deleteSemestre(String id) async {
+    await supabase.from('semestre').delete().eq('id', id);
   }
 }

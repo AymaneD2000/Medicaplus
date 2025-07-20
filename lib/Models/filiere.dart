@@ -1,20 +1,19 @@
-
 class Filiere {
   String id;
   String nom;
   String image;
-  String nomClasse;
+  String semestreId;
   Filiere(
       {required this.nom,
       required this.image,
-      required this.nomClasse,
+      required this.semestreId,
       required this.id});
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'nom': nom,
       'image': image,
-      'nomClasse': nomClasse,
+      'semestre_id': semestreId,
     };
   }
 
@@ -22,7 +21,7 @@ class Filiere {
     return Filiere(
         nom: value['nom'],
         image: value['image'],
-        nomClasse: value['nomClasse'],
+        semestreId: value['semestre_id'],
         id: value['id']);
   }
 }

@@ -144,12 +144,13 @@ class _IMCCalculatorState extends State<IMCCalculator> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.error_outline, color: Colors.red, size: 24),
-            const SizedBox(width: 8),
-            const Text(
+            SizedBox(width: 8),
+            Text(
               'Erreur',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -252,7 +253,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
             const SizedBox(height: 24),
             _buildFormulaCard(),
             const SizedBox(height: 16),
-            _buildRangesCard(),
+            // _buildRangesCard(),
           ],
         ),
       ),
@@ -392,6 +393,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButton<String>(
+              dropdownColor: Colors.white,
               value: _selectedUnit,
               isExpanded: true,
               underline: Container(),
@@ -665,100 +667,100 @@ class _IMCCalculatorState extends State<IMCCalculator> {
     );
   }
 
-  Widget _buildRangesCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: _cardColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(
-                  Icons.straighten,
-                  color: _primaryColor,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                'Classification de l\'IMC',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: _textColor,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildRangeItem('< 16', 'Anorexie/dénutrition', Colors.red),
-          _buildRangeItem('16 - 18.5', 'Maigreur', Colors.orange),
-          _buildRangeItem('18.5 - 25', 'Corpulence normale', Colors.green),
-          _buildRangeItem('25 - 30', 'Surpoids', const Color(0xFFB1CA39)),
-          _buildRangeItem(
-              '30 - 35', 'Obésité modérée', const Color(0xFFF39201)),
-          _buildRangeItem('35 - 40', 'Obésité sévère', const Color(0xFFEB5C41)),
-          _buildRangeItem('> 40', 'Obésité morbide', const Color(0xFFE70516)),
-        ],
-      ),
-    );
-  }
+  // Widget _buildRangesCard() {
+  //   return Container(
+  //     width: double.infinity,
+  //     padding: const EdgeInsets.all(20),
+  //     decoration: BoxDecoration(
+  //       color: _cardColor,
+  //       borderRadius: BorderRadius.circular(16),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.black.withOpacity(0.05),
+  //           blurRadius: 10,
+  //           offset: const Offset(0, 4),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Row(
+  //           children: [
+  //             Container(
+  //               padding: const EdgeInsets.all(8),
+  //               decoration: BoxDecoration(
+  //                 color: _primaryColor.withOpacity(0.1),
+  //                 borderRadius: BorderRadius.circular(8),
+  //               ),
+  //               child: Icon(
+  //                 Icons.straighten,
+  //                 color: _primaryColor,
+  //                 size: 20,
+  //               ),
+  //             ),
+  //             const SizedBox(width: 12),
+  //             Text(
+  //               'Classification de l\'IMC',
+  //               style: TextStyle(
+  //                 fontSize: 18,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: _textColor,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 16),
+  //         // _buildRangeItem('< 16', 'Anorexie/dénutrition', Colors.red),
+  //         // _buildRangeItem('16 - 18.5', 'Maigreur', Colors.orange),
+  //         // _buildRangeItem('18.5 - 25', 'Corpulence normale', Colors.green),
+  //         // _buildRangeItem('25 - 30', 'Surpoids', const Color(0xFFB1CA39)),
+  //         // _buildRangeItem(
+  //         //     '30 - 35', 'Obésité modérée', const Color(0xFFF39201)),
+  //         // _buildRangeItem('35 - 40', 'Obésité sévère', const Color(0xFFEB5C41)),
+  //         // _buildRangeItem('> 40', 'Obésité morbide', const Color(0xFFE70516)),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget _buildRangeItem(String range, String description, Color color) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            flex: 2,
-            child: Text(
-              range,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: _textColor,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              description,
-              style: TextStyle(
-                fontSize: 14,
-                color: _textColor.withOpacity(0.8),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildRangeItem(String range, String description, Color color) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 6),
+  //     child: Row(
+  //       children: [
+  //         Container(
+  //           width: 12,
+  //           height: 12,
+  //           decoration: BoxDecoration(
+  //             color: color,
+  //             borderRadius: BorderRadius.circular(6),
+  //           ),
+  //         ),
+  //         const SizedBox(width: 12),
+  //         Expanded(
+  //           flex: 2,
+  //           child: Text(
+  //             range,
+  //             style: TextStyle(
+  //               fontSize: 14,
+  //               fontWeight: FontWeight.w600,
+  //               color: _textColor,
+  //             ),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           flex: 3,
+  //           child: Text(
+  //             description,
+  //             style: TextStyle(
+  //               fontSize: 14,
+  //               color: _textColor.withOpacity(0.8),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

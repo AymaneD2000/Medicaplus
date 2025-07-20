@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
-import 'package:moussa_project/Models/amo.dart';
-import 'package:moussa_project/Models/classemodel.dart';
-import 'package:moussa_project/Models/faculter.dart';
-import 'package:moussa_project/Models/filiere.dart';
-import 'package:moussa_project/Models/materiels.dart';
-import 'package:moussa_project/Models/med.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
+import 'package:medpharm/Models/amo.dart';
+import 'package:medpharm/Models/classemodel.dart';
+import 'package:medpharm/Models/faculter.dart';
+import 'package:medpharm/Models/filiere.dart';
+import 'package:medpharm/Models/materiels.dart';
+import 'package:medpharm/Models/med.dart';
 import 'package:flutter/services.dart';
-import 'package:moussa_project/Models/pdf.dart';
-import 'package:moussa_project/Models/publication.dart';
+import 'package:medpharm/Models/pdf.dart';
+import 'package:medpharm/Models/publication.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:medpharm/Models/semestre.dart';
+import 'package:uuid/uuid.dart';
 
 class MyProvider extends ChangeNotifier {
   List<Classe> classes = [];
@@ -28,7 +30,8 @@ class MyProvider extends ChangeNotifier {
   List<String> iconsMed = [];
   List<String> imagesMed = [];
   List<Materiel> materiels = [];
-  //List<>
+  bool _isMedicamentLoaded = false;
+  bool _isPharmacieLoaded = false;
 
   SupabaseManagement sup = SupabaseManagement();
 
@@ -82,7 +85,7 @@ class MyProvider extends ChangeNotifier {
 
   removeFiliere(Filiere f) async {
     await sup.removeFiliere(f);
-    getClasseFilieres(f.nomClasse);
+    getClasseFilieres(f.semestreId);
     notifyListeners();
   }
 
@@ -96,9 +99,25 @@ class MyProvider extends ChangeNotifier {
     return materiels;
   }
 
-  addFiliere(Filiere f) async {
-    await sup.addFiliere(f);
-    filiere = await getClasseFilieres(f.nomClasse);
+  Future<void> addFiliere(Filiere f) async {
+    try {
+      // Generate a UUID for the new filiere
+      final String id = const Uuid().v4();
+      final filiereWithId = Filiere(
+        id: id,
+        nom: f.nom,
+        image: f.image,
+        semestreId: f.semestreId,
+      );
+
+      debugPrint('Adding filiere with data: ${filiereWithId.toMap()}');
+      await sup.addFiliere(filiereWithId);
+      filiere = await getClasseFilieres(f.semestreId);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error adding filiere: $e');
+      rethrow;
+    }
   }
 
   getAllClasses() async {
@@ -248,98 +267,123 @@ class MyProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<Amo>> loadPharmacieData() async {
-    //String data = await DefaultAssetBundle.of(context)
-    // .loadString('assets/med.json');
-    final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/Pharmacie.json';
+  Future<void> loadMedicamentData() async {
+    if (_isMedicamentLoaded) return;
 
-    // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
-    final file = File(filePath);
-    if (!await file.exists()) {
-      final data = await rootBundle.load('assets/Pharmacie.json');
-      final bytes = data.buffer.asUint8List();
-      await file.writeAsBytes(bytes, flush: true);
-    }
-
-    // Lire le fichier JSON
-    final contents = await file.readAsString();
-    //final List<dynamic> medicaments = jsonDecode(contents);
-    pharmacies = (json.decode(contents) as List)
-        .map((item) => Amo.fromSanpshot(item))
-        .toList();
-    //filteredMedNameList = medNameList;
-    for (final i in pharmacies) {
-      if (i.favoris) {
-        favorisPharmacies.add(i);
-      }
-    }
-
-    for (final med in pharmacies) {
-      for (final cl in med.classtherapique) {
-        dciPharmacie.add(cl);
-      }
-      dciPharmacie = dciPharmacie.toSet().toList();
-    }
-
-    notifyListeners();
-    return pharmacies;
-  }
-
-  Future<List<Med>> loadMedicamentData() async {
     try {
-      // Clear existing data first
-      medicament.clear();
-      favorisMedicaments.clear();
-      classMedicament.clear();
-      iconsMed.clear();
-      imagesMed.clear();
-
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/Medicament.json';
-
-      // Copier le fichier depuis les assets vers le répertoire des documents si nécessaire
       final file = File(filePath);
+
       if (!await file.exists()) {
         final data = await rootBundle.load('assets/Medicament.json');
         final bytes = data.buffer.asUint8List();
         await file.writeAsBytes(bytes, flush: true);
       }
 
-      // Lire le fichier JSON
       final contents = await file.readAsString();
-      final List<dynamic> jsonData = json.decode(contents);
+      medicament = (json.decode(contents) as List)
+          .map((item) => Med.fromSanpshot(item))
+          .toList();
 
-      // Parse medications
-      medicament = jsonData.map((item) => Med.fromSanpshot(item)).toList();
-
-      print('Loaded ${medicament.length} medications'); // Debug log
-
-      // Build favorites list
-      for (final med in medicament) {
-        if (med.isFavoris) {
-          favorisMedicaments.add(med);
-        }
-      }
-
-      // Build class list with proper deduplication
-      final Set<String> uniqueClasses = {};
-      for (final med in medicament) {
-        for (final cl in med.classtherapique) {
-          if (cl != null && cl.toString().trim().isNotEmpty) {
-            uniqueClasses.add(cl.toString().trim());
-          }
-        }
-      }
-      classMedicament =
-          uniqueClasses.map((name) => ClassMed(clname: name)).toList();
-
+      favorisMedicaments = medicament.where((med) => med.isFavoris).toList();
+      _isMedicamentLoaded = true;
       notifyListeners();
-      return medicament;
     } catch (e) {
-      print('Error loading medicament data: $e'); // Debug log
+      debugPrint('Error loading medicament data: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> loadPharmacieData() async {
+    if (_isPharmacieLoaded) return;
+
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/Pharmacie.json';
+      final file = File(filePath);
+
+      if (!await file.exists()) {
+        final data = await rootBundle.load('assets/Pharmacie.json');
+        final bytes = data.buffer.asUint8List();
+        await file.writeAsBytes(bytes, flush: true);
+      }
+
+      final contents = await file.readAsString();
+      pharmacies = (json.decode(contents) as List)
+          .map((item) => Amo.fromSanpshot(item))
+          .toList();
+
+      favorisPharmacies = pharmacies.where((pharm) => pharm.favoris).toList();
+      _isPharmacieLoaded = true;
       notifyListeners();
-      return [];
+    } catch (e) {
+      debugPrint('Error loading pharmacie data: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> reloadData() async {
+    _isMedicamentLoaded = false;
+    _isPharmacieLoaded = false;
+    await Future.wait([
+      loadMedicamentData(),
+      loadPharmacieData(),
+    ]);
+  }
+
+  Future<List<Semestre>> getSemestres(String classeName) async {
+    try {
+      final data = await sup.getSemestres(classeName);
+      notifyListeners();
+      return data;
+    } catch (e) {
+      print('Error getting semestres: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> addSemestre(
+      String nomSemetre, String image, String classeName) async {
+    try {
+      final semestre = Semestre(
+        id: const Uuid().v4(), // Generate a new UUID
+        nomSemetre: nomSemetre,
+        image: image,
+        nomClasse: classeName,
+      );
+      await sup.addSemestre(semestre);
+      notifyListeners();
+    } catch (e) {
+      print('Error adding semestre: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> updateSemestre(
+      String id, String nomSemetre, String image, String classeName) async {
+    try {
+      final semestre = Semestre(
+        id: id,
+        nomSemetre: nomSemetre,
+        image: image,
+        nomClasse: classeName,
+      );
+      await sup.updateSemestre(semestre);
+      notifyListeners();
+    } catch (e) {
+      print('Error updating semestre: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> deleteSemestre(String id) async {
+    try {
+      await sup.deleteSemestre(id);
+      notifyListeners();
+    } catch (e) {
+      print('Error deleting semestre: $e');
+      rethrow;
     }
   }
 }

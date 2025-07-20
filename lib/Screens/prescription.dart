@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:moussa_project/Models/med.dart';
-import 'package:moussa_project/Models/prescription.dart';
-import 'package:moussa_project/Screens/searchScreen%20prescription.dart';
+import 'package:medpharm/Models/med.dart';
+import 'package:medpharm/Models/prescription.dart';
+import 'package:medpharm/Screens/searchScreen%20prescription.dart';
 
 // Styles personnalisés
 const TextStyle headerStyle = TextStyle(

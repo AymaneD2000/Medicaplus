@@ -2,15 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
-import 'package:moussa_project/Models/filiere.dart';
-import 'package:moussa_project/Screens/ManagePDF.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
+import 'package:medpharm/Models/filiere.dart';
+import 'package:medpharm/Screens/ManagePDF.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:medpharm/Models/semestre.dart';
 
 class FiliereScreen extends StatefulWidget {
-  const FiliereScreen({required this.nomClasse, Key? key}) : super(key: key);
-  final String nomClasse;
+  const FiliereScreen({required this.semestre, Key? key}) : super(key: key);
+  final Semestre semestre;
 
   @override
   _FiliereScreenState createState() => _FiliereScreenState();
@@ -31,7 +32,7 @@ class _FiliereScreenState extends State<FiliereScreen> {
     setState(() => _isLoading = true);
     try {
       final filieres =
-          await SupabaseManagement().getClasseFilieres(widget.nomClasse);
+          await SupabaseManagement().getClasseFilieres(widget.semestre.id);
       setState(() {
         _filieres = filieres;
         _isLoading = false;
@@ -53,7 +54,7 @@ class _FiliereScreenState extends State<FiliereScreen> {
       final filiere = Filiere(
         nom: nom.trim(),
         image: image,
-        nomClasse: widget.nomClasse,
+        semestreId: widget.semestre.id,
         id: const Uuid().v4(),
       );
 
@@ -147,7 +148,7 @@ class _FiliereScreenState extends State<FiliereScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Filières - ${widget.nomClasse}',
+          'Filières - ${widget.semestre.nomSemetre}',
           style:
               const TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
         ),
@@ -299,7 +300,7 @@ class _FiliereScreenState extends State<FiliereScreen> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      'Classe: ${widget.nomClasse}',
+                                      'Classe: ${widget.semestre.nomClasse}',
                                       style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.black54,

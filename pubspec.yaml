@@ -1,4 +1,4 @@
-name: moussa_project
+name: medpharm
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -47,12 +47,13 @@ dependencies:
   provider: ^6.1.2
   diacritic: ^0.1.5
   gap: ^3.0.1
+  flutter_launcher_icons: ^0.14.4
   permission_handler: ^11.3.1
   flutter_svg: ^2.0.10+1
   carousel_slider_plus: ^7.0.1
   url_launcher: ^6.3.1
   path_provider: ^2.1.5
-  intl: ^0.19.0
+  intl: ^0.20.2
   alphabet_navigation: ^2.1.0
   connectivity_plus: ^6.1.2
   syncfusion_flutter_pdfviewer: ^29.1.35
@@ -62,6 +63,7 @@ dependencies:
   http: ^1.1.0
   pdf: ^3.10.8
   printing: ^5.12.0
+  timeline_tile: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +75,14 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icon/medpharm.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -91,6 +101,8 @@ flutter:
     - assets/images/
     - assets/icon/
     - assets/Interface/
+    - assets/pharma/
+    - assets/medi/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -50,72 +50,69 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
             const SizedBox(height: 16),
             _buildCriteriaCard(
               'Fréquence cardiaque',
-              frequenceCardiaqueScore,
               [
-                {'text': 'Absente', 'value': 0},
-                {'text': '< 100/min', 'value': 1},
-                {'text': '≥ 100/min', 'value': 2},
+                {'score': 0, 'description': 'Absente'},
+                {'score': 1, 'description': '< 100/min'},
+                {'score': 2, 'description': '> 100/min'},
               ],
+              frequenceCardiaqueScore,
               (value) => setState(() => frequenceCardiaqueScore = value),
+              Icons.favorite_outline,
             ),
             const SizedBox(height: 16),
             _buildCriteriaCard(
               'Mouvements respiratoires',
-              mouvementRespirationScore,
               [
-                {'text': 'Absents', 'value': 0},
-                {'text': 'Lents, irréguliers', 'value': 1},
-                {'text': 'Normaux', 'value': 2},
+                {'score': 0, 'description': 'Absents'},
+                {'score': 1, 'description': 'Lents, irréguliers'},
+                {'score': 2, 'description': 'Vigoureux, cri'},
               ],
+              mouvementRespirationScore,
               (value) => setState(() => mouvementRespirationScore = value),
+              Icons.air,
             ),
             const SizedBox(height: 16),
             _buildCriteriaCard(
               'Tonus musculaire',
-              tonusMusculaireScore,
               [
-                {'text': 'Hypotonie globale', 'value': 0},
-                {'text': 'Léger tonus en flexion', 'value': 1},
-                {'text': 'Mouvements actifs', 'value': 2},
+                {'score': 0, 'description': 'Hypotonie globale'},
+                {'score': 1, 'description': 'Flexion des extrémités'},
+                {'score': 2, 'description': 'Bon tonus, mouvements actifs'},
               ],
+              tonusMusculaireScore,
               (value) => setState(() => tonusMusculaireScore = value),
+              Icons.fitness_center_outlined,
             ),
             const SizedBox(height: 16),
             _buildCriteriaCard(
-              'Réactivité réflexe',
-              reactiviteReflexeScore,
+              'Réactivité aux stimuli',
               [
-                {'text': 'Nulle', 'value': 0},
-                {'text': 'Grimaces', 'value': 1},
-                {'text': 'Vive', 'value': 2},
+                {'score': 0, 'description': 'Aucune réponse'},
+                {'score': 1, 'description': 'Grimace'},
+                {'score': 2, 'description': 'Cri vigoureux'},
               ],
+              reactiviteReflexeScore,
               (value) => setState(() => reactiviteReflexeScore = value),
+              Icons.touch_app_outlined,
             ),
             const SizedBox(height: 16),
             _buildCriteriaCard(
               'Coloration',
-              colorationScore,
               [
-                {'text': 'Cyanose ou pâleur', 'value': 0},
-                {'text': 'Corps rose, extrémités cyanosées', 'value': 1},
-                {'text': 'Totalement rose', 'value': 2},
+                {'score': 0, 'description': 'Cyanose ou pâleur globale'},
+                {'score': 1, 'description': 'Corps rose, extrémités bleues'},
+                {'score': 2, 'description': 'Rose'},
               ],
+              colorationScore,
               (value) => setState(() => colorationScore = value),
+              Icons.palette_outlined,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
             _buildResultCard(totalScore),
           ],
         ),
       ),
     );
-  }
-
-  int _calculateTotalScore() {
-    return frequenceCardiaqueScore +
-        mouvementRespirationScore +
-        tonusMusculaireScore +
-        reactiviteReflexeScore +
-        colorationScore;
   }
 
   Widget _buildDefinitionCard() {
@@ -152,7 +149,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
               ),
               const SizedBox(width: 12),
               Text(
-                'Définition du Score d\'Apgar',
+                'Score d\'Apgar',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -163,8 +160,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Le score d\'Apgar est une méthode d\'évaluation de la vitalité du nouveau-né. '
-            'Il évalue 5 critères cotés de 0 à 2, pour un score total de 0 à 10.',
+            "Le score d'Apgar est une évaluation de l'état de santé d'un nouveau-né. Il est calculé à 1, 5 et 10 minutes après la naissance.",
             style: TextStyle(
               fontSize: 16,
               color: _textColor.withOpacity(0.8),
@@ -178,12 +174,14 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
 
   Widget _buildCriteriaCard(
     String title,
-    int currentValue,
     List<Map<String, dynamic>> options,
-    Function(int) onChanged,
+    int currentScore,
+    Function(int) onScoreChanged,
+    IconData icon,
   ) {
     return Container(
       width: double.infinity,
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: _cardColor,
         borderRadius: BorderRadius.circular(16),
@@ -195,77 +193,99 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: _textColor,
-                    ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: _primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  icon,
+                  color: _primaryColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: _textColor,
                   ),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: _primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    '$currentValue/2',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: _primaryColor,
-                    ),
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: _primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  "$currentScore/2",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _primaryColor,
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            ...options.map((option) => Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: currentValue == option['value']
-                          ? _primaryColor
-                          : Colors.grey.withOpacity(0.3),
-                      width: currentValue == option['value'] ? 2 : 1,
-                    ),
-                    color: currentValue == option['value']
-                        ? _primaryColor.withOpacity(0.05)
-                        : Colors.transparent,
-                  ),
-                  child: RadioListTile<int>(
-                    activeColor: _primaryColor,
-                    title: Text(
-                      option['text'],
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: currentValue == option['value']
-                            ? FontWeight.w600
-                            : FontWeight.normal,
-                        color: _textColor,
-                      ),
-                    ),
-                    value: option['value'],
-                    groupValue: currentValue,
-                    onChanged: (value) => onChanged(value!),
-                    dense: true,
-                  ),
-                )),
-          ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ...options.map((option) => _buildRadioOption(
+                option['description'],
+                option['score'],
+                currentScore,
+                onScoreChanged,
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRadioOption(
+    String text,
+    int value,
+    int groupValue,
+    Function(int) onChanged,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: groupValue == value
+              ? _primaryColor
+              : Colors.grey.withOpacity(0.3),
+          width: groupValue == value ? 2 : 1,
         ),
+        color: groupValue == value
+            ? _primaryColor.withOpacity(0.05)
+            : Colors.transparent,
+      ),
+      child: RadioListTile<int>(
+        activeColor: _primaryColor,
+        title: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight:
+                groupValue == value ? FontWeight.w600 : FontWeight.normal,
+            color: _textColor,
+          ),
+        ),
+        value: value,
+        groupValue: groupValue,
+        onChanged: (value) => onChanged(value!),
+        dense: true,
       ),
     );
   }
@@ -358,88 +378,36 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
-          _buildScoreRanges(),
         ],
       ),
     );
   }
 
-  Widget _buildScoreRanges() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Interprétation des scores :',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: _textColor,
-          ),
-        ),
-        const SizedBox(height: 12),
-        _buildScoreRangeItem('0-3', 'Asphyxie sévère', Colors.red),
-        _buildScoreRangeItem('4-6', 'Asphyxie modérée', Colors.orange),
-        _buildScoreRangeItem('7-10', 'Nouveau-né vigoureux', Colors.green),
-      ],
-    );
-  }
-
-  Widget _buildScoreRangeItem(String range, String description, Color color) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Text(
-            '$range: ',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: _textColor,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              description,
-              style: TextStyle(
-                fontSize: 14,
-                color: _textColor.withOpacity(0.8),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  int _calculateTotalScore() {
+    return frequenceCardiaqueScore +
+        mouvementRespirationScore +
+        tonusMusculaireScore +
+        reactiviteReflexeScore +
+        colorationScore;
   }
 
   String _getInterpretation(int score) {
-    if (score >= 0 && score <= 3) {
-      return 'Asphyxie sévère - Réanimation urgente nécessaire';
-    } else if (score >= 4 && score <= 6) {
-      return 'Asphyxie modérée - Surveillance et soins appropriés';
-    } else if (score >= 7 && score <= 10) {
-      return 'Nouveau-né vigoureux - État satisfaisant';
+    if (score >= 7) {
+      return 'État satisfaisant';
+    } else if (score >= 4) {
+      return 'État moyennement satisfaisant';
+    } else {
+      return 'État préoccupant';
     }
-    return 'Score non valide';
   }
 
   Color _getInterpretationColor(int score) {
-    if (score >= 0 && score <= 3) {
-      return Colors.red;
-    } else if (score >= 4 && score <= 6) {
-      return Colors.orange;
-    } else if (score >= 7 && score <= 10) {
+    if (score >= 7) {
       return Colors.green;
+    } else if (score >= 4) {
+      return const Color(0xFFF39201);
+    } else {
+      return const Color(0xFFE70516);
     }
-    return Colors.grey;
   }
 }

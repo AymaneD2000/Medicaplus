@@ -1,4 +1,4 @@
-package com.example.moussa_project
+package com.example.medpharm
 
 import io.flutter.embedding.android.FlutterActivity
 

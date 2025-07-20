@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/DatabaseManagement/provider.dart';
-import 'package:moussa_project/Models/amo.dart';
+import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/Models/amo.dart';
 import 'package:provider/provider.dart';
 
 // Définition des styles de texte
@@ -49,15 +49,13 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // _buildHeaderCard(),
-                  _buildPriceDisclaimer(
-                      'Medicament assurer a l\'AMO', Colors.blue),
                   const Gap(20),
                   _buildDetailsSection(),
                   const Gap(20),
-                  _buildPriceDisclaimer(
-                      'Les prix indiqués peuvent varier d\'environ 10% selon les pharmacies',
-                      _warningColor),
+                  _buildDefinitionCard2()
+                  // _buildPriceDisclaimer(
+                  //     'Les prix indiqués peuvent varier d\'environ 10% selon les pharmacies',
+                  //     _warningColor),
                 ],
               ),
             ),
@@ -69,6 +67,7 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
 
   Widget _buildModernAppBar() {
     return SliverAppBar(
+      backgroundColor: Colors.green,
       expandedHeight: 120,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
@@ -138,90 +137,107 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
     );
   }
 
-  Widget _buildHeaderCard() {
+  Widget _buildDefinitionCard2() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: _cardColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            spreadRadius: 2,
+            offset: const Offset(0, 4),
           ),
         ],
+        border: Border.all(
+          color: widget.medicament.amo
+              ? _primaryColor.withOpacity(0.2)
+              : Colors.red.withOpacity(0.2),
+          width: 1,
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: _secondaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.local_pharmacy,
-                  color: _secondaryColor,
-                  size: 28,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              width: 4,
+              decoration: BoxDecoration(
+                color: widget.medicament.amo ? _primaryColor : Colors.red,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  bottomLeft: Radius.circular(4),
                 ),
               ),
-              const Gap(16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Nom commercial',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: _textColor.withOpacity(0.6),
-                        fontWeight: FontWeight.w500,
+            ),
+            const SizedBox(width: 16),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline_rounded,
+                        color:
+                            widget.medicament.amo ? _primaryColor : Colors.red,
+                        size: 20,
                       ),
+                      const SizedBox(width: 12),
+                      Flexible(
+                        child: Text(
+                          'Information importante',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: widget.medicament.amo
+                                ? _primaryColor
+                                : Colors.red,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Les prix indiqués peuvent varier d\'environ 10% selon les pharmacies',
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.4,
+                      color: _textColor.withOpacity(0.8),
                     ),
-                    const Gap(4),
+                  ),
+                  const SizedBox(height: 4),
+                  if (!widget.medicament.amo) ...[
+                    const SizedBox(height: 4),
                     Text(
-                      widget.medicament.name,
+                      'Ce médicament n\'est pas couvert par l\'AMO',
                       style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: _textColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red,
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          ),
-          const Gap(16),
-          Row(
-            children: [
-              if (widget.medicament.amo) ...[
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: _primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'AMO',
-                    style: TextStyle(
-                      color: _primaryColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                  if (widget.medicament.amo) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      'Ce médicament est couvert par l\'AMO',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: _primaryColor,
+                      ),
                     ),
-                  ),
-                ),
-                const Gap(8),
-              ],
-            ],
-          ),
-        ],
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -232,7 +248,7 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
       children: [
         _buildDetailCard(
           title: 'Nom commercial',
-          icon: Icons.local_pharmacy,
+          icon: "assets/icon/nom commercial.png",
           color: _secondaryColor,
           // color: _primaryColor,
           content: [widget.medicament.name],
@@ -240,35 +256,35 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
         const Gap(16),
         _buildDetailCard(
           title: 'D.C.I/Composition',
-          icon: Icons.science_outlined,
+          icon: "assets/icon/dci3.png",
           color: _primaryColor,
           content: widget.medicament.dci,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Classe Thérapeutique',
-          icon: Icons.category_outlined,
-          color: const Color(0xFF9C27B0),
+          icon: "assets/icon/classe2.png",
+          color: const Color(0xFF607D8B),
           content: widget.medicament.classtherapique,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Forme et dosage',
-          icon: Icons.medication_liquid_outlined,
+          icon: "assets/icon/forme.png",
           color: const Color(0xFF795548),
           content: widget.medicament.formedosage,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Présentation',
-          icon: Icons.inventory_2_outlined,
+          icon: "assets/icon/presentation.png",
           color: const Color(0xFFE91E63),
           content: widget.medicament.presantation,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Prix public',
-          icon: Icons.attach_money_outlined,
+          icon: "assets/icon/prix2.png",
           color: _warningColor,
           content: widget.medicament.prix,
         ),
@@ -278,7 +294,7 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
 
   Widget _buildDetailCard({
     required String title,
-    required IconData icon,
+    required String icon,
     required Color color,
     required List<dynamic> content,
   }) {
@@ -312,11 +328,7 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
             ),
             child: Row(
               children: [
-                Icon(
-                  icon,
-                  color: color,
-                  size: 24,
-                ),
+                Image.asset(icon, width: 24, height: 24, color: color),
                 const Gap(12),
                 Expanded(
                   child: Text(
@@ -364,41 +376,6 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
                   ),
                 );
               }).toList(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPriceDisclaimer(String message, Color color) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.info_outline,
-            color: color,
-            size: 24,
-          ),
-          const Gap(12),
-          Expanded(
-            child: Text(
-              message,
-              style: TextStyle(
-                fontSize: 14,
-                color: _textColor,
-                height: 1.4,
-              ),
             ),
           ),
         ],

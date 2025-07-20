@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/Screens/Quinine.dart';
-import 'package:moussa_project/Screens/artemether.dart';
-import 'package:moussa_project/Screens/artesunate.dart';
-import 'package:moussa_project/Screens/paracetamol.dart';
-import 'package:moussa_project/Widgets/card.dart';
+import 'package:medpharm/Screens/Quinine.dart';
+import 'package:medpharm/Screens/artemether.dart';
+import 'package:medpharm/Screens/artesunate.dart';
+import 'package:medpharm/Screens/paracetamol.dart';
 
 class SecondCalcule extends StatefulWidget {
   const SecondCalcule({super.key});
@@ -49,15 +48,17 @@ class _SecondCalculeState extends State<SecondCalcule> {
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 80,
+                  height: 80,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: _primaryColor.withOpacity(0.1),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Image.asset(
                     image,
+                    width: 80,
+                    height: 80,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -146,8 +147,8 @@ class _SecondCalculeState extends State<SecondCalcule> {
             ),
             const Gap(16),
             _buildOptionCard(
-              title: 'Paracetamol',
-              image: 'assets/images/Calcule.png',
+              title: 'Paracétamol',
+              image: 'assets/Interface/paracetamol.png',
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -156,7 +157,7 @@ class _SecondCalculeState extends State<SecondCalcule> {
             ),
             _buildOptionCard(
               title: 'Artesunate',
-              image: 'assets/images/Calcule.png',
+              image: 'assets/Interface/artesunate.png',
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -165,7 +166,7 @@ class _SecondCalculeState extends State<SecondCalcule> {
             ),
             _buildOptionCard(
               title: 'Artémether',
-              image: 'assets/images/Calcule.png',
+              image: 'assets/Interface/artemether.png',
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -174,7 +175,7 @@ class _SecondCalculeState extends State<SecondCalcule> {
             ),
             _buildOptionCard(
               title: 'Quinine',
-              image: 'assets/images/Calcule.png',
+              image: 'assets/Interface/quinine.png',
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const QuinineScreen()),

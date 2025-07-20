@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:moussa_project/DatabaseManagement/supabasemanagement.dart';
-import 'package:moussa_project/Models/classemodel.dart';
-import 'package:moussa_project/Screens/filieresviewer.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
+import 'package:medpharm/Models/classemodel.dart';
+import 'package:medpharm/Screens/SemestreScreen.dart';
 
 class ClassGridScreen extends StatefulWidget {
   final int id;
@@ -292,8 +292,8 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FiliereGridScreen(
-                  className: classe.nom,
+                builder: (context) => SemestreScreen(
+                  classeName: classe.nom,
                 ),
               ),
             );

@@ -5,8 +5,8 @@ import 'dart:convert';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:moussa_project/Models/prescription.dart';
-import 'package:moussa_project/Screens/pdfassetsviewer.dart';
+import 'package:medpharm/Models/prescription.dart';
+import 'package:medpharm/Screens/pdfassetsviewer.dart';
 
 class SearchPrescriptionScreen extends StatefulWidget {
   List<Prescription> listes;

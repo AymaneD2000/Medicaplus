@@ -1,8 +1,8 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moussa_project/Models/amo.dart';
-import 'package:moussa_project/Screens/AmoView.dart';
+import 'package:medpharm/Models/amo.dart';
+import 'package:medpharm/Screens/AmoView.dart';
 
 // ignore: must_be_immutable
 class SearchAmoScreenDCI extends StatefulWidget {
@@ -154,7 +154,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                       fontSize: 16,
                     ),
                     prefixIcon: Icon(
-                      Icons.science_outlined,
+                      Icons.search,
                       color: _secondaryColor,
                       size: 24,
                     ),
@@ -298,7 +298,6 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                     width: 56,
                     height: 56,
                     decoration: BoxDecoration(
-                      color: _primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Image.asset(pharmacy.icon)),
@@ -310,7 +309,6 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                       Text(
                         pharmacy.name,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
                           color: _textColor,
                           fontSize: 16,
                         ),
@@ -320,39 +318,39 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                         Text(
                           pharmacy.dci.take(3).join(', '),
                           style: TextStyle(
-                            color: _primaryColor,
+                            color: Colors.green,
                             fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.bold,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                      if (pharmacy.classtherapique.isNotEmpty) ...[
-                        const Gap(4),
-                        Text(
-                          pharmacy.classtherapique.first.toString(),
-                          style: TextStyle(
-                            color: _textColor.withOpacity(0.7),
-                            fontSize: 12,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                      // if (pharmacy.classtherapique.isNotEmpty) ...[
+                      //   const Gap(4),
+                      //   Text(
+                      //     pharmacy.classtherapique.first.toString(),
+                      //     style: TextStyle(
+                      //       color: _textColor.withOpacity(0.7),
+                      //       fontSize: 12,
+                      //     ),
+                      //     maxLines: 1,
+                      //     overflow: TextOverflow.ellipsis,
+                      //   ),
+                      // ],
                       if (pharmacy.amo) ...[
                         const Gap(4),
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: _secondaryColor.withOpacity(0.1),
+                            color: Colors.blue.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             'AMO',
                             style: TextStyle(
-                              color: _secondaryColor,
+                              color: Colors.blue,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),

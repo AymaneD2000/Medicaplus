@@ -767,44 +767,4 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
   //     ),
   //   );
   // }
-
-  Widget _buildRangeItem(String range, String description, Color color) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            flex: 2,
-            child: Text(
-              range,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: _textColor,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              description,
-              style: TextStyle(
-                fontSize: 14,
-                color: _textColor.withOpacity(0.8),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

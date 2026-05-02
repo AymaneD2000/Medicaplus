@@ -74,6 +74,8 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
     return SliverAppBar(
       expandedHeight: 120,
       pinned: true,
+      backgroundColor: _primaryColor, // Force la couleur de fond
+      elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: BoxDecoration(
@@ -93,6 +95,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
           ),
         ),
         centerTitle: true,
+        titlePadding: const EdgeInsets.only(bottom: 16),
       ),
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),

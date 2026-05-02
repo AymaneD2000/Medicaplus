@@ -14,7 +14,7 @@ class _GlasgowHomePageState extends State<GlasgowHomePage> {
 
   // Custom colors
   final Color _primaryColor = const Color(0xFF02B1EC);
-  final Color _secondaryColor = const Color(0xFF33CCCC);
+
   final Color _backgroundColor = const Color(0xFFF5F5F5);
   final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);
@@ -347,13 +347,13 @@ class _GlasgowHomePageState extends State<GlasgowHomePage> {
   List<Widget> buildVerbalResponseOptions() {
     return [
       _buildRadioOption(
-        'Précise, orientée',
+        'Précise, Orientée',
         5,
         verbalResponseScore,
         (value) => setState(() => updateScore(value!, 'verbalResponse')),
       ),
       _buildRadioOption(
-        'Confuse, déorientée',
+        'Confuse, Désorientée',
         4,
         verbalResponseScore,
         (value) => setState(() => updateScore(value!, 'verbalResponse')),

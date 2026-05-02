@@ -6,6 +6,7 @@ import 'package:medpharm/Screens/AmoView.dart';
 import 'package:medpharm/Screens/searchScreen.dart';
 import 'package:medpharm/Screens/searchScreenAmoAmo.dart';
 import 'package:medpharm/Screens/searchScreenAmoDCI.dart';
+import 'package:medpharm/Utils/transitions.dart';
 import 'package:provider/provider.dart';
 import 'package:medpharm/Widgets/az_navigation.dart';
 
@@ -36,9 +37,6 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
   void initState() {
     super.initState();
     _loadingFuture = _loadData();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadingFuture = _loadData();
-    });
   }
 
   @override
@@ -88,7 +86,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                   color: Colors.green.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.info_outline,
                   color: Colors.green,
                   size: 20,
@@ -106,15 +104,17 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
             ],
           ),
           const SizedBox(height: 12),
-          Text(
-            'Collection de médicament spécial s’imposant comme traitement de choix reconnu, recommandé et soutenu',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              color: _textColor.withOpacity(0.8),
-              height: 1.5,
+          Center(
+            child: Text(
+              'Collection des médicaments spéciaux',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: _textColor.withOpacity(0.8),
+                height: 1.5,
+              ),
             ),
-          ),
+          )
         ],
       ),
     );
@@ -201,6 +201,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
 
         return Column(
           children: [
+            const Gap(20),
             showSpecial == false
                 ? _buildSearchBar(hint: searchHint, onTap: onSearchTap)
                 : _buildDefinitionCard(),
@@ -247,9 +248,10 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    AmoDetailsScreen(medicament: pharmacy),
+                              PremiumPageRoute(
+                                page: AmoDetailsScreen(
+                                  medicament: pharmacy,
+                                ),
                               ),
                             );
                           },
@@ -310,61 +312,205 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
   }
 
   Widget _buildHeader(String title, {String? subtitle}) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenHeight < 700;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: isSmallScreen ? 12 : 16,
+        top: statusBarHeight + 8,
+      ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [_secondaryColor, const Color(0xFF66BB6A)],
+          colors: [
+            _secondaryColor,
+            _secondaryColor.withOpacity(0.8),
+            const Color(0xFF66BB6A),
+          ],
+          stops: const [0.0, 0.7, 1.0],
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
         ),
         boxShadow: [
           BoxShadow(
-            color: _secondaryColor.withOpacity(0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            color: _secondaryColor.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: SafeArea(
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
+      child: Stack(
+        children: [
+          // Background decorative elements
+          Positioned(
+            right: -15,
+            top: statusBarHeight - 5,
+            child: Container(
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withOpacity(0.08),
+                shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.local_pharmacy,
-                  color: Colors.white, size: 28),
             ),
-            const Gap(16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  if (subtitle != null)
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white.withOpacity(0.9),
+          ),
+          Positioned(
+            right: 25,
+            top: statusBarHeight + 10,
+            child: Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.04),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          // Back button
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                        width: 1,
                       ),
                     ),
-                ],
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+          // Main content
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              children: [
+                const SizedBox(width: 50), // Space for back button
+                // Compact icon container
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.15),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Image.asset(
+                    "assets/accueil/pharmacie.png",
+                    width: isSmallScreen ? 20 : 22,
+                    height: isSmallScreen ? 20 : 22,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Enhanced text content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: isSmallScreen ? 16 : 18,
+                          letterSpacing: 0.3,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.2),
+                              offset: const Offset(0, 1),
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      if (subtitle != null)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
+                              width: 0.5,
+                            ),
+                          ),
+                          child: Text(
+                            subtitle,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: isSmallScreen ? 10 : 11,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.2,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                // Smaller decorative element
+                Container(
+                  width: 2,
+                  height: isSmallScreen ? 25 : 30,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.08),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -700,7 +846,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
       backgroundColor: _backgroundColor,
       body: Column(
         children: [
-          _buildHeader('MedPharm', subtitle: 'Base de données pharmaceutique'),
+          _buildHeader('Pharmacie', subtitle: 'Base de données pharmaceutique'),
           Expanded(
             child: Consumer<MyProvider>(
               builder: (context, provider, child) {
@@ -789,24 +935,24 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
               const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
           items: [
             BottomNavigationBarItem(
-              icon: Image.asset('assets/pharma/nom.png', width: 24, height: 24),
+              icon: Image.asset('assets/Pharma/nom.png', width: 24, height: 24),
               label: "Nom",
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('assets/pharma/dci.png', width: 24, height: 24),
+              icon: Image.asset('assets/Pharma/dci.png', width: 24, height: 24),
               label: "D.C.I",
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('assets/pharma/partenaire.png',
+              icon: Image.asset('assets/Pharma/special.png',
                   width: 24, height: 24),
               label: "Special",
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('assets/pharma/amo.png', width: 24, height: 24),
+              icon: Image.asset('assets/Pharma/amo.png', width: 24, height: 24),
               label: "AMO",
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('assets/pharma/favoris.png',
+              icon: Image.asset('assets/Pharma/favoris.png',
                   width: 24, height: 24),
               label: "Favoris",
             ),

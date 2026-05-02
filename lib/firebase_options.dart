@@ -2,7 +2,7 @@
 // ignore_for_file: type=lint
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     projectId: 'medicaplus-26848',
     databaseURL: 'https://medicaplus-26848-default-rtdb.firebaseio.com',
     storageBucket: 'medicaplus-26848.appspot.com',
-    iosBundleId: 'com.example.moussaProject',
+    iosBundleId: 'com.medical.medpharm',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -77,7 +77,7 @@ class DefaultFirebaseOptions {
     projectId: 'medicaplus-26848',
     databaseURL: 'https://medicaplus-26848-default-rtdb.firebaseio.com',
     storageBucket: 'medicaplus-26848.appspot.com',
-    iosBundleId: 'com.example.moussaProject',
+    iosBundleId: 'com.medical.medpharm',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

@@ -116,7 +116,7 @@ class WelcomeScreen extends StatelessWidget {
                     const SizedBox(height: 8.0),
 
                     const Text(
-                      "Version: MemoIDE© 1.8.1 - 2024 tous droits réservés.",
+                      "Version: MemoIDE© 1.8.1 - 2025 tous droits réservés.",
                       style: TextStyle(fontSize: 14.0),
                     ),
                     const SizedBox(height: 8.0),

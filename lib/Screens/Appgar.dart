@@ -16,7 +16,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
 
   // Modern color scheme
   final Color _primaryColor = const Color(0xFF02B1EC);
-  final Color _secondaryColor = const Color(0xFF33CCCC);
+
   final Color _backgroundColor = const Color(0xFFF5F5F5);
   final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);

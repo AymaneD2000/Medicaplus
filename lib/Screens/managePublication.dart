@@ -477,7 +477,7 @@ class _PublicationFormPageState extends State<PublicationFormPage> {
 
       final imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+          .createSignedUrl(filePath, SupabaseManagement.signedUrlExpiryInSeconds);
 
       setState(() {
         _imageUrl = imageUrl;

@@ -73,7 +73,6 @@ class Amo {
         partenaire: json["Partenaire"] ?? false);
   }
   String rad = generateRandomString(6);
-  @override
   String sortName() {
     try {
       return "$name-$rad-${partenaire ? 'Partenaire' : 'Non Partenaire'}";

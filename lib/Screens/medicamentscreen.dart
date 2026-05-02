@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medpharm/DatabaseManagement/provider.dart';
-import 'package:medpharm/Models/amo.dart';
+
 import 'package:medpharm/Models/med.dart';
-import 'package:medpharm/Screens/SearchScreenTheurapetique.dart';
+
 import 'package:medpharm/Screens/searchScreenMedicaments.dart';
 import 'package:provider/provider.dart';
 import 'package:medpharm/Screens/medicamentdetailscreen.dart';
+import 'package:medpharm/Utils/transitions.dart';
 import 'package:medpharm/Widgets/az_navigation.dart';
 
 // Styles personnalisés
@@ -64,57 +65,205 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
   }
 
   Widget _buildHeader(String title, {String? subtitle}) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenHeight < 700;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: isSmallScreen ? 12 : 16,
+        top: statusBarHeight + 8,
+      ),
       decoration: BoxDecoration(
-        color: _primaryColor,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            _primaryColor,
+            _primaryColor.withOpacity(0.8),
+            const Color(0xFF4FC3F7),
+          ],
+          stops: const [0.0, 0.7, 1.0],
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
         boxShadow: [
           BoxShadow(
-            color: _primaryColor.withOpacity(0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            color: _primaryColor.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: SafeArea(
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
+      child: Stack(
+        children: [
+          // Background decorative elements
+          Positioned(
+            right: -15,
+            top: statusBarHeight - 5,
+            child: Container(
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withOpacity(0.08),
+                shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.medical_information,
-                  color: Colors.white, size: 28),
             ),
-            const Gap(16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  if (subtitle != null)
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white.withOpacity(0.9),
+          ),
+          Positioned(
+            right: 25,
+            top: statusBarHeight + 10,
+            child: Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.04),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          // Back button
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                        width: 1,
                       ),
                     ),
-                ],
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+          // Main content
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              children: [
+                const SizedBox(width: 50), // Space for back button
+                // Compact icon container
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.15),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Image.asset(
+                    "assets/accueil/medicament.png",
+                    width: isSmallScreen ? 20 : 22,
+                    height: isSmallScreen ? 20 : 22,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Enhanced text content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: isSmallScreen ? 16 : 18,
+                          letterSpacing: 0.3,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.2),
+                              offset: const Offset(0, 1),
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      if (subtitle != null)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
+                              width: 0.5,
+                            ),
+                          ),
+                          child: Text(
+                            subtitle,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: isSmallScreen ? 10 : 11,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.2,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                // Smaller decorative element
+                Container(
+                  width: 2,
+                  height: isSmallScreen ? 25 : 30,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.08),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -176,7 +325,16 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
-          onTap: onTap,
+          onTap: () {
+            Navigator.push(
+              context,
+              PremiumPageRoute(
+                page: MedicamentDetailsScreen(
+                  medicament: med,
+                ),
+              ),
+            );
+          },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -240,67 +398,6 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
     );
   }
 
-  Widget _buildClassCard(ClassMed classItem, {VoidCallback? onTap}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-      decoration: BoxDecoration(
-        color: _cardColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF4CAF50).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.category_outlined,
-                    color: Color(0xFF4CAF50),
-                    size: 28,
-                  ),
-                ),
-                const Gap(16),
-                Expanded(
-                  child: Text(
-                    classItem.clname,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: _textColor,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.grey[400],
-                  size: 16,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildEmptyState(String message,
       {IconData icon = Icons.info_outline}) {
     return Center(
@@ -329,28 +426,6 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildLoadingState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(_primaryColor),
-            strokeWidth: 3,
-          ),
-          const Gap(16),
-          Text(
-            'Chargement des médicaments...',
-            style: TextStyle(
-              color: _textColor.withOpacity(0.7),
-              fontSize: 16,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -432,79 +507,6 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                           // Find the first item starting with the selected letter
                           final index = provider.medicament.indexWhere(
                             (med) => med.name.toUpperCase().startsWith(letter),
-                          );
-                          if (index != -1) {
-                            _scrollController.animateTo(
-                              index * 80.0, // Approximate item height
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
-                          }
-                        },
-                        itemSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildClassesTab(MyProvider provider) {
-    return Column(
-      children: [
-        _buildSearchBar(
-          hint: 'Rechercher des classes...',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SearchClasseTheuraScreenDCI(
-                  listes: provider.classMedicament,
-                  iconMeds: provider.imagesMed,
-                  hintText: 'Rechercher des classes...',
-                ),
-              ),
-            );
-          },
-        ),
-        Expanded(
-          child: provider.classMedicament.isEmpty
-              ? _buildEmptyState(
-                  'Aucune classe trouvée',
-                  icon: Icons.category_outlined,
-                )
-              : Stack(
-                  children: [
-                    ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      itemCount: provider.classMedicament.length,
-                      itemBuilder: (context, index) {
-                        final classItem = provider.classMedicament[index];
-                        return _buildClassCard(
-                          classItem,
-                          onTap: () {
-                            // Navigate to class details or filter by class
-                          },
-                        );
-                      },
-                    ),
-                    Positioned(
-                      right: 16,
-                      top: 0,
-                      bottom: 0,
-                      child: AZNavigation(
-                        availableLetters: provider.classMedicament
-                            .map((classItem) =>
-                                classItem.clname[0].toUpperCase())
-                            .toSet(),
-                        onLetterSelected: (letter) {
-                          // Find the first class starting with the selected letter
-                          final index = provider.classMedicament.indexWhere(
-                            (classItem) => classItem.clname
-                                .toUpperCase()
-                                .startsWith(letter),
                           );
                           if (index != -1) {
                             _scrollController.animateTo(
@@ -625,7 +627,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
       backgroundColor: _backgroundColor,
       body: Column(
         children: [
-          _buildHeader('MedPharm', subtitle: 'Base de données médicale'),
+          _buildHeader('Medicaments', subtitle: 'Base de données médicale'),
           Expanded(
             child: Consumer<MyProvider>(
               builder: (context, provider, child) {
@@ -675,17 +677,18 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
               const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
           items: [
             BottomNavigationBarItem(
-              icon: Image.asset('assets/icon/nom.png', width: 24, height: 24),
+              icon: Image.asset('assets/medicament/nom.png',
+                  width: 24, height: 24),
               label: "Médicaments",
             ),
             // BottomNavigationBarItem(
             //   icon:
-            //       Image.asset('assets/icon/classe.png', width: 24, height: 24),
+            //       Image.asset('assets/medicament/classe.png', width: 24, height: 24),
             //   label: "Classes",
             // ),
             BottomNavigationBarItem(
-              icon:
-                  Image.asset('assets/icon/favoris.png', width: 24, height: 24),
+              icon: Image.asset('assets/medicament/favoris.png',
+                  width: 24, height: 24),
               label: "Favoris",
             ),
           ],

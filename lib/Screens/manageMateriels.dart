@@ -15,13 +15,53 @@ class MaterielHomePage extends StatefulWidget {
 
 class _MaterielHomePageState extends State<MaterielHomePage> {
   List<Materiel> materiels = [];
+  final TextEditingController _searchController = TextEditingController();
   bool isLoading = true;
   bool isOperationInProgress = false;
 
   @override
   void initState() {
     super.initState();
+    _searchController.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
     _loadMateriels();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<Materiel> get _filteredMateriels {
+    final query = _normalize(_searchController.text);
+    final sortedMateriels = _sortMateriels(materiels);
+
+    if (query.isEmpty) {
+      return sortedMateriels;
+    }
+
+    return sortedMateriels.where((materiel) {
+      return _normalize(materiel.title).contains(query) ||
+          _normalize(materiel.price).contains(query) ||
+          _normalize(materiel.telephone).contains(query) ||
+          _normalize(materiel.description ?? '').contains(query);
+    }).toList();
+  }
+
+  List<Materiel> _sortMateriels(List<Materiel> items) {
+    final sortedItems = List<Materiel>.from(items);
+    sortedItems.sort(
+      (a, b) => _normalize(a.title).compareTo(_normalize(b.title)),
+    );
+    return sortedItems;
+  }
+
+  String _normalize(String value) {
+    return value.trim().toLowerCase();
   }
 
   Future<void> _loadMateriels() async {
@@ -32,14 +72,14 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
     try {
       final loadedMateriels = await SupabaseManagement().getMateriel();
       setState(() {
-        materiels = loadedMateriels;
+        materiels = _sortMateriels(loadedMateriels);
         isLoading = false;
       });
     } catch (e) {
       setState(() {
         isLoading = false;
       });
-      _showErrorSnackBar('Erreur lors du chargement des matériels');
+      _showErrorSnackBar('Erreur lors du chargement des Equipements');
     }
   }
 
@@ -178,13 +218,83 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
     );
   }
 
+  Widget _buildSearchBar() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.blue[100]!),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.15),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: _searchController,
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          hintText: 'Rechercher un équipement...',
+          prefixIcon: const Icon(Icons.search, color: Colors.blue),
+          suffixIcon: _searchController.text.isEmpty
+              ? null
+              : IconButton(
+                  icon: const Icon(Icons.clear, color: Colors.blueGrey),
+                  onPressed: _searchController.clear,
+                ),
+          border: InputBorder.none,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptySearchState() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 48),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.search_off,
+            size: 72,
+            color: Colors.blue[300],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Aucun équipement trouvé',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.blue[700],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Essayez avec un autre mot-clé',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.blue[500],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final filteredMateriels = _filteredMateriels;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Gestion des Matériels',
+          'Gestion des Equipements',
           style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
         ),
         backgroundColor: Colors.blue,
@@ -211,7 +321,7 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
                   CircularProgressIndicator(color: Colors.blue),
                   SizedBox(height: 16),
                   Text(
-                    'Chargement des matériels...',
+                    'Chargement des Equipements...',
                     style: TextStyle(color: Colors.blue, fontSize: 16),
                   ),
                 ],
@@ -253,9 +363,19 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
               color: Colors.blue,
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
-                itemCount: materiels.length,
+                itemCount: filteredMateriels.isEmpty
+                    ? 2
+                    : filteredMateriels.length + 1,
                 itemBuilder: (context, index) {
-                  final materiel = materiels[index];
+                  if (index == 0) {
+                    return _buildSearchBar();
+                  }
+
+                  if (filteredMateriels.isEmpty) {
+                    return _buildEmptySearchState();
+                  }
+
+                  final materiel = filteredMateriels[index - 1];
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),
                     child: Card(
@@ -508,7 +628,8 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
 
       final imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+          .createSignedUrl(
+              filePath, SupabaseManagement.signedUrlExpiryInSeconds);
 
       setState(() {
         _imageUrl = imageUrl;

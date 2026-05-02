@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
 import 'package:medpharm/Models/semestre.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -114,7 +115,9 @@ class _ManageSemestreState extends State<ManageSemestre> {
 
     setState(() => isOperationInProgress = true);
     try {
-      await provider.deleteSemestre(id);
+      // Find the semestre to get its image URL
+      final semestre = semestres.firstWhere((s) => s.id == id);
+      await provider.deleteSemestre(id, semestre.image);
       await _loadSemestres();
       _showSuccessSnackBar('Semestre supprimé avec succès');
     } catch (e) {
@@ -447,7 +450,7 @@ class _AddSemestreDialogState extends State<AddSemestreDialog> {
 
       _imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+          .createSignedUrl(filePath, SupabaseManagement.signedUrlExpiryInSeconds);
 
       setState(() => _isUploading = false);
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
 import 'package:medpharm/DatabaseManagement/pdf_download_service.dart';
 import 'package:medpharm/Models/pdf.dart';
+
+import 'package:medpharm/Utils/transitions.dart';
 import 'package:medpharm/Screens/pdfview.dart';
 import 'package:medpharm/Screens/downloaded_pdfs_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -25,7 +26,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
   String _errorMessage = '';
   final TextEditingController _searchController = TextEditingController();
   bool _isSearching = false;
-  bool _isDownloading = false;
+
   Set<String> _downloadingPdfs = {};
 
   // Modern color scheme - consistent blue theme
@@ -57,6 +58,8 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
         return titleLower.contains(searchLower) ||
             descriptionLower.contains(searchLower);
       }).toList();
+      // Maintain sorting order after filtering
+      _filteredPdfs.sort(_comparePdfNames);
     });
   }
 
@@ -69,6 +72,8 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
     try {
       final supabaseManagement = SupabaseManagement();
       final pdfs = await supabaseManagement.getPDF(widget.filiereId);
+      // Sort PDFs: non-numbered names first (A-Z), then numbered names (1 -> N)
+      pdfs.sort(_comparePdfNames);
       setState(() {
         _pdfs = pdfs;
         _filteredPdfs = pdfs;
@@ -84,6 +89,38 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
     }
   }
 
+  /// Extracts leading number from a string, returns null if no leading number
+  int? _extractLeadingNumber(String name) {
+    final match = RegExp(r'^(\d+)').firstMatch(name.trim());
+    if (match != null) {
+      return int.tryParse(match.group(1)!);
+    }
+    return null;
+  }
+
+  /// Compares two PDF names for sorting:
+  /// - Names without leading numbers come first, sorted alphabetically (A-Z)
+  /// - Names starting with numbers come after, sorted numerically (small to large)
+  int _comparePdfNames(Pdf a, Pdf b) {
+    final numA = _extractLeadingNumber(a.nom);
+    final numB = _extractLeadingNumber(b.nom);
+
+    // Neither has a leading number - sort alphabetically
+    if (numA == null && numB == null) {
+      return a.nom.toLowerCase().compareTo(b.nom.toLowerCase());
+    }
+    // Only A has no leading number - A comes first
+    if (numA == null) {
+      return -1;
+    }
+    // Only B has no leading number - B comes first
+    if (numB == null) {
+      return 1;
+    }
+    // Both have leading numbers - sort numerically
+    return numA.compareTo(numB);
+  }
+
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -95,18 +132,6 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _launchPDF(String url) async {
-    try {
-      if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url));
-      } else {
-        _showErrorSnackBar("Impossible d'ouvrir le PDF.");
-      }
-    } catch (e) {
-      _showErrorSnackBar("Erreur lors de l'ouverture du PDF.");
-    }
   }
 
   Future<void> _showDownloadDialog(Pdf pdf) async {
@@ -146,106 +171,49 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Comment souhaitez-vous télécharger "${pdf.nom}" ?',
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                'Selectionnez une option :',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade600,
+                  letterSpacing: 0.5,
+                ),
               ),
               const Gap(16),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.blue[200]!),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.smartphone, color: _primaryColor, size: 16),
-                        const Gap(8),
-                        const Text(
-                          "Télécharger dans l'application",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    const Gap(4),
-                    const Text(
-                      'Sauvegarde dans l\'application pour lecture hors ligne',
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
-                    ),
-                  ],
-                ),
+              // Option: Internal download
+              _buildDownloadOptionCard(
+                title: "Dans l'application",
+                subtitle: "Lecture hors ligne sécurisée",
+                icon: Icons.smartphone_rounded,
+                color: _primaryColor,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _downloadPdf(pdf, false);
+                },
               ),
-              const Gap(8),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.green[50],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.green[200]!),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.share, color: Colors.green[600], size: 16),
-                        const Gap(8),
-                        const Text(
-                          'Telecharger dans le telephone',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    const Gap(4),
-                    const Text(
-                      'Sauvegarde dans Téléchargements pour partage',
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
-                    ),
-                  ],
-                ),
+              const Gap(12),
+              // Option: External download
+              _buildDownloadOptionCard(
+                title: "Dans le téléphone",
+                subtitle: "Partage et gestion externe",
+                icon: Icons.file_download_outlined,
+                color: Colors.green.shade600,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _downloadPdf(pdf, true);
+                },
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Annuler'),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _downloadPdf(pdf, false);
-              },
-              icon: const Icon(Icons.download, color: Colors.white, size: 18),
-              label: const Text(
-                "Télécharger dans l'application",
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _downloadPdf(pdf, true);
-              },
-              icon: const Icon(Icons.verified, color: Colors.white, size: 18),
-              label: const Text(
-                "Téléchargement hors de l'application",
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[600],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+              child: Text(
+                'ANNULER',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -255,56 +223,163 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
     );
   }
 
+  Widget _buildDownloadOptionCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: color.withOpacity(0.1), width: 1.5),
+            color: color.withOpacity(0.03),
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: color, size: 24),
+              ),
+              const Gap(16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const Gap(2),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 14,
+                color: color.withOpacity(0.5),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _showAlreadyDownloadedDialog(dynamic downloadedPdf) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Row(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          title: Column(
             children: [
-              Icon(Icons.check_circle, color: Colors.green[600], size: 24),
-              const Gap(8),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.check_circle_outline_rounded,
+                  color: Colors.green.shade600,
+                  size: 48,
+                ),
+              ),
+              const Gap(16),
               const Text(
-                'Déjà téléchargé',
+                'Déjà présent',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontSize: 22,
                   color: Colors.black,
+                  letterSpacing: -0.5,
                 ),
               ),
             ],
           ),
           content: Text(
-            'Ce PDF est déjà téléchargé dans votre appareil. Vous pouvez le consulter dans la section "Téléchargements".',
-            style: const TextStyle(fontSize: 16),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Fermer'),
+            'Ce document est déjà disponible sur votre appareil. Souhaitez-vous le consulter maintenant ?',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.grey.shade700,
+              height: 1.5,
             ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DownloadedPdfsScreen(),
+          ),
+          actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          actions: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      PremiumPageRoute(page: const DownloadedPdfsScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _primaryColor,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
-                );
-              },
-              icon: const Icon(Icons.folder, color: Colors.white, size: 18),
-              label: const Text(
-                'Voir téléchargements',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  child: const Text(
+                    'Voir mes téléchargements',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-              ),
+                const Gap(8),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  child: Text(
+                    'Plus tard',
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         );
@@ -315,19 +390,38 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
   void _showExternalDownloadInfo(String filePath) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return AlertDialog(
           backgroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Row(
+          surfaceTintColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+          contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+          actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          title: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.folder_open, color: Colors.blue[600], size: 24),
-              const Gap(8),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: _primaryColor.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.folder_open_rounded,
+                  color: _primaryColor,
+                  size: 30,
+                ),
+              ),
+              const Gap(12),
               const Text(
                 'Fichier sauvegardé',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontSize: 20,
                   color: Colors.black,
                 ),
               ),
@@ -337,37 +431,84 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Le PDF avec logo a été sauvegardé dans:',
-                style: TextStyle(fontSize: 16),
+              Text(
+                'Votre document a été exporté avec succès dans le dossier dédié.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: _textColor.withValues(alpha: 0.75),
+                  height: 1.4,
+                ),
               ),
               const Gap(12),
               Container(
+                width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey[300]!),
-                ),
-                child: Text(
-                  filePath,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontFamily: 'monospace',
-                    color: Colors.black87,
+                  color: _primaryColor.withValues(alpha: 0.06),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: _primaryColor.withValues(alpha: 0.2),
                   ),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.insert_drive_file_rounded,
+                      color: _primaryColor,
+                      size: 18,
+                    ),
+                    const Gap(8),
+                    Expanded(
+                      child: Text(
+                        filePath,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'monospace',
+                          color: _textColor.withValues(alpha: 0.85),
+                          height: 1.35,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Gap(12),
-              const Text(
+              Text(
+                'Dossier: Téléchargements/MedPharm',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: _textColor.withValues(alpha: 0.75),
+                ),
+              ),
+              const Gap(8),
+              Text(
                 'Vous pouvez ouvrir ce fichier avec votre gestionnaire de fichiers ou une application PDF.',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: _textColor.withValues(alpha: 0.65),
+                  height: 1.4,
+                ),
               ),
             ],
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              style: TextButton.styleFrom(
+                foregroundColor: _textColor.withValues(alpha: 0.75),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(
+                    color: _textColor.withValues(alpha: 0.2),
+                  ),
+                ),
+              ),
               child: const Text('Fermer'),
             ),
           ],
@@ -382,11 +523,12 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
     });
 
     try {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 20,
                 height: 20,
                 child: CircularProgressIndicator(
@@ -398,7 +540,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               Expanded(
                 child: Text(
                   addLogo
-                      ? 'Téléchargement avec logo en cours...'
+                      ? 'Téléchargement en cours...'
                       : 'Téléchargement en cours...',
                 ),
               ),
@@ -423,16 +565,17 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
 
       if (downloadedPdf != null) {
         if (addLogo) {
-          // Show different message for external download with logo
+          // Show different message for external download
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Row(
+              content: const Row(
                 children: [
                   Icon(Icons.download_done, color: Colors.white, size: 20),
-                  const Gap(12),
+                  Gap(12),
                   Expanded(
                     child: Text(
-                      'PDF avec logo sauvegardé dans Téléchargements!',
+                      'PDF sauvegardé dans Téléchargements/MedPharm !',
                     ),
                   ),
                 ],
@@ -455,12 +598,13 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
           );
         } else {
           // Show message for internal app download
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Row(
+              content: const Row(
                 children: [
                   Icon(Icons.check_circle, color: Colors.white, size: 20),
-                  const Gap(12),
+                  Gap(12),
                   Expanded(
                     child: Text('PDF téléchargé dans l\'application!'),
                   ),
@@ -515,6 +659,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
     return SliverAppBar(
       expandedHeight: 140,
       pinned: true,
+      backgroundColor: _primaryColor,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: BoxDecoration(
@@ -527,23 +672,65 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
         ),
         title: _isSearching
             ? Container(
-                height: 40,
+                height: 46,
+                constraints: const BoxConstraints(maxWidth: 420),
                 decoration: BoxDecoration(
-                  // color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.85),
+                    width: 1.2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.16),
+                      blurRadius: 18,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
                 ),
                 child: TextField(
                   controller: _searchController,
                   autofocus: true,
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
-                  decoration: const InputDecoration(
+                  textInputAction: TextInputAction.search,
+                  style: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 15.5,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  cursorColor: _primaryColor,
+                  decoration: InputDecoration(
                     hintText: 'Rechercher un document...',
-                    hintStyle: TextStyle(color: Colors.white70, fontSize: 14),
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                     border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    prefixIcon:
-                        Icon(Icons.search, color: Colors.white70, size: 20),
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 13,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search_rounded,
+                      color: _primaryColor,
+                      size: 21,
+                    ),
+                    suffixIcon: _searchController.text.isEmpty
+                        ? null
+                        : IconButton(
+                            tooltip: 'Effacer',
+                            icon: Icon(
+                              Icons.close_rounded,
+                              color: Colors.grey.shade600,
+                              size: 19,
+                            ),
+                            onPressed: () {
+                              _searchController.clear();
+                              _filterPdfs('');
+                            },
+                          ),
                   ),
                   onChanged: _filterPdfs,
                 ),
@@ -801,7 +988,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    PDFScreen(path: pdf.url, pdfName: pdf.nom),
+                    PDFScreen(path: pdf.url, pdfName: pdf.nom, pdf: pdf),
               ),
             );
           },

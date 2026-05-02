@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
 class MallampatiScreen extends StatelessWidget {
@@ -7,7 +6,6 @@ class MallampatiScreen extends StatelessWidget {
 
   // Custom colors
   final Color _primaryColor = const Color(0xFF02B1EC);
-  final Color _secondaryColor = const Color(0xFF33CCCC);
   final Color _backgroundColor = const Color(0xFFF5F5F5);
   final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);
@@ -28,6 +26,7 @@ class MallampatiScreen extends StatelessWidget {
         ),
         centerTitle: true,
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -42,7 +41,7 @@ class MallampatiScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha:0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -64,7 +63,7 @@ class MallampatiScreen extends StatelessWidget {
                     "La classification de Mallampati est une méthode d'évaluation de la difficulté potentielle d'une intubation trachéale.",
                     style: TextStyle(
                       fontSize: 16,
-                      color: _textColor.withOpacity(0.8),
+                      color: _textColor.withValues(alpha:0.8),
                       height: 1.5,
                     ),
                   ),
@@ -80,7 +79,7 @@ class MallampatiScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha:0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -118,7 +117,7 @@ class MallampatiScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha:0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -126,10 +125,19 @@ class MallampatiScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  SvgPicture.asset(
-                    'assets/images/Mallampati.svg',
-                    height: MediaQuery.of(context).size.width * 0.8,
-                    width: MediaQuery.of(context).size.width * 0.8,
+                  Icon(
+                    Icons.record_voice_over,
+                    size: MediaQuery.of(context).size.width * 0.35,
+                    color: _primaryColor,
+                  ),
+                  const Gap(8),
+                  Text(
+                    'Référence visuelle indisponible dans cette version',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: _textColor.withValues(alpha:0.8),
+                    ),
                   ),
                 ],
               ),
@@ -143,7 +151,7 @@ class MallampatiScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha:0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -212,7 +220,7 @@ class MallampatiScreen extends StatelessWidget {
               description,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.8),
+                color: _textColor.withValues(alpha:0.8),
                 height: 1.5,
               ),
             ),
@@ -227,9 +235,9 @@ class MallampatiScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha:0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +255,7 @@ class MallampatiScreen extends StatelessWidget {
             description,
             style: TextStyle(
               fontSize: 16,
-              color: _textColor.withOpacity(0.8),
+              color: _textColor.withValues(alpha:0.8),
               height: 1.5,
             ),
           ),

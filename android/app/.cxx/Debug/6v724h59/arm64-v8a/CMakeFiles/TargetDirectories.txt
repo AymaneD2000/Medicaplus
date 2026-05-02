@@ -1,2 +1,0 @@
-/Users/robotsmali/Documents/Projects/Medicaplus/android/app/.cxx/Debug/6v724h59/arm64-v8a/CMakeFiles/edit_cache.dir
-/Users/robotsmali/Documents/Projects/Medicaplus/android/app/.cxx/Debug/6v724h59/arm64-v8a/CMakeFiles/rebuild_cache.dir

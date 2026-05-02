@@ -6,7 +6,6 @@ import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medpharm/Models/prescription.dart';
-import 'package:medpharm/Screens/pdfassetsviewer.dart';
 
 class SearchPrescriptionScreen extends StatefulWidget {
   List<Prescription> listes;
@@ -61,9 +60,9 @@ class _SearchPrescriptionScreenState extends State<SearchPrescriptionScreen> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Image.asset(
-                    'assets/images/back.png',
-                    scale: 13,
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 26,
                   )),
               const Spacer(),
               SizedBox(
@@ -82,9 +81,9 @@ class _SearchPrescriptionScreenState extends State<SearchPrescriptionScreen> {
                           filtered = widget.listes;
                           setState(() {});
                         },
-                        child: Image.asset(
-                          'assets/images/fermer noir.png',
-                          scale: 20,
+                        child: const Icon(
+                          Icons.close,
+                          size: 20,
                         )),
                     labelText: widget.hintText,
                     labelStyle: const TextStyle(

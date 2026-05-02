@@ -5,15 +5,55 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 import '../Models/downloaded_pdf.dart';
 
 class PdfDownloadService {
   static Database? _database;
   static const String _tableName = 'downloaded_pdfs';
+
+  static String _sanitizeFileName(String input) {
+    final withoutControls = input.replaceAll(RegExp(r'[\x00-\x1F]'), ' ');
+    final withoutInvalidPathChars =
+        withoutControls.replaceAll(RegExp(r'[\\/:*?"<>|]'), ' ');
+    final collapsed =
+        withoutInvalidPathChars.replaceAll(RegExp(r'\s+'), ' ').trim();
+
+    return collapsed.isEmpty ? 'document' : collapsed;
+  }
+
+  static String _buildPdfFileName(String name, {String? suffix}) {
+    final sanitizedName = _sanitizeFileName(name);
+    final suffixPart = (suffix == null || suffix.trim().isEmpty)
+        ? ''
+        : '_${_sanitizeFileName(suffix)}';
+
+    return 'MedPharm_$sanitizedName$suffixPart.pdf';
+  }
+
+  static Future<Directory> _getMedPharmDownloadsDirectory() async {
+    Directory baseDownloadsDir;
+
+    if (Platform.isAndroid) {
+      final publicDownloadsDir = Directory('/storage/emulated/0/Download');
+      if (await publicDownloadsDir.exists()) {
+        baseDownloadsDir = publicDownloadsDir;
+      } else {
+        baseDownloadsDir = await getDownloadsDirectory() ??
+            await getApplicationDocumentsDirectory();
+      }
+    } else {
+      baseDownloadsDir = await getDownloadsDirectory() ??
+          await getApplicationDocumentsDirectory();
+    }
+
+    final medpharmDir = Directory('${baseDownloadsDir.path}/MedPharm');
+    if (!await medpharmDir.exists()) {
+      await medpharmDir.create(recursive: true);
+    }
+
+    return medpharmDir;
+  }
 
   // Initialize database
   static Future<Database> get database async {
@@ -103,8 +143,8 @@ class PdfDownloadService {
       final originalPdfBytes = response.bodyBytes;
 
       if (addLogo) {
-        // Download with logo to external storage
-        return await _downloadWithLogoToExternal(
+        // Download to external storage
+        return await _downloadToExternal(
           originalId: originalId,
           name: name,
           description: description,
@@ -143,7 +183,7 @@ class PdfDownloadService {
 
     // Generate unique filename
     final id = const Uuid().v4();
-    final fileName = '${name.replaceAll(RegExp(r'[^\w\s-]'), '')}_$id.pdf';
+    final fileName = _buildPdfFileName(name, suffix: id);
     final filePath = '${pdfDir.path}/$fileName';
 
     // Save PDF file
@@ -170,218 +210,39 @@ class PdfDownloadService {
     return downloadedPdf;
   }
 
-  // Download PDF with logo to external Downloads folder
-  static Future<DownloadedPdf> _downloadWithLogoToExternal({
+  // Export PDF to app-scoped storage (no broad storage permission required)
+  static Future<DownloadedPdf> _downloadToExternal({
     required String originalId,
     required String name,
     required String description,
     required String url,
     required Uint8List pdfBytes,
   }) async {
-    // Request storage permission for Android
-    if (Platform.isAndroid) {
-      final permission = await Permission.storage.request();
-      if (!permission.isGranted) {
-        final managePermission =
-            await Permission.manageExternalStorage.request();
-        if (!managePermission.isGranted) {
-          throw Exception(
-              'Permission de stockage requise pour sauvegarder le PDF avec logo');
-        }
-      }
-    }
+    final fileName = _buildPdfFileName(name);
 
-    // Add logo to PDF
-    final finalPdfBytes = await _addLogoToPdf(pdfBytes);
+    // Save exported PDFs in the user's Downloads/MedPharm folder when available.
+    final medpharmDir = await _getMedPharmDownloadsDirectory();
 
-    final fileName = 'MedPharm_${name.replaceAll(RegExp(r'[^\w\s-]'), '')}.pdf';
+    final filePath = '${medpharmDir.path}/$fileName';
 
-    // Get external Downloads directory
-    Directory? downloadsDir;
-    String filePath;
-
-    if (Platform.isAndroid) {
-      // Try different Android download paths
-      final possiblePaths = [
-        '/storage/emulated/0/Download',
-        '/storage/emulated/0/Downloads',
-        '/sdcard/Download',
-        '/sdcard/Downloads',
-      ];
-
-      for (final path in possiblePaths) {
-        final dir = Directory(path);
-        if (await dir.exists()) {
-          downloadsDir = dir;
-          break;
-        }
-      }
-
-      if (downloadsDir == null) {
-        // Fallback to app external directory
-        final externalDir = await getExternalStorageDirectory();
-        downloadsDir = Directory('${externalDir?.path}/Downloads');
-        if (!await downloadsDir.exists()) {
-          await downloadsDir.create(recursive: true);
-        }
-      }
-
-      filePath = '${downloadsDir.path}/$fileName';
-    } else {
-      // For iOS, save to app documents directory (will be accessible via Files app)
-      final appDir = await getApplicationDocumentsDirectory();
-      filePath = '${appDir.path}/$fileName';
-    }
-
-    // Save the file to external storage
+    // Save the file to app-scoped storage
     final file = File(filePath);
-    await file.writeAsBytes(finalPdfBytes);
+    await file.writeAsBytes(pdfBytes);
 
     // Create a DownloadedPdf object for return (but don't save to internal database)
     final downloadedPdf = DownloadedPdf(
       id: const Uuid().v4(),
       originalId: originalId,
-      name: 'MedicaPlus_$name',
-      description: '$description (avec logo MedicaPlus)',
+      name: name,
+      description: description,
       localPath: filePath,
       originalUrl: url,
       downloadDate: DateTime.now(),
-      fileSize: finalPdfBytes.length,
-      hasLogo: true,
+      fileSize: pdfBytes.length,
+      hasLogo: false,
     );
 
     return downloadedPdf;
-  }
-
-  // Add logo to PDF
-  static Future<Uint8List> _addLogoToPdf(Uint8List originalPdfBytes) async {
-    try {
-      // Load app logo
-      final logoBytes = await rootBundle.load('assets/images/medicaplus.png');
-      final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
-
-      // Create new PDF document
-      final pdf = pw.Document();
-
-      // Add cover page with logo
-      pdf.addPage(
-        pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (pw.Context context) {
-            return pw.Column(
-              mainAxisAlignment: pw.MainAxisAlignment.center,
-              children: [
-                pw.Container(
-                  width: 150,
-                  height: 150,
-                  child: pw.Image(logoImage),
-                ),
-                pw.SizedBox(height: 40),
-                pw.Text(
-                  'MedicaPlus',
-                  style: pw.TextStyle(
-                    fontSize: 36,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.blue800,
-                  ),
-                ),
-                pw.SizedBox(height: 15),
-                pw.Text(
-                  'Application Médicale Professionnelle',
-                  style: pw.TextStyle(
-                    fontSize: 18,
-                    color: PdfColors.blue600,
-                  ),
-                ),
-                pw.SizedBox(height: 60),
-                pw.Container(
-                  padding: const pw.EdgeInsets.all(20),
-                  decoration: pw.BoxDecoration(
-                    border: pw.Border.all(color: PdfColors.blue300, width: 2),
-                    borderRadius:
-                        const pw.BorderRadius.all(pw.Radius.circular(10)),
-                  ),
-                  child: pw.Column(
-                    children: [
-                      pw.Text(
-                        'Ce document a été téléchargé depuis',
-                        style: pw.TextStyle(
-                          fontSize: 14,
-                          color: PdfColors.grey800,
-                        ),
-                      ),
-                      pw.SizedBox(height: 5),
-                      pw.Text(
-                        'l\'application MedicaPlus',
-                        style: pw.TextStyle(
-                          fontSize: 16,
-                          fontWeight: pw.FontWeight.bold,
-                          color: PdfColors.blue700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                pw.SizedBox(height: 40),
-                pw.Text(
-                  'Le contenu original suit à la page suivante',
-                  style: pw.TextStyle(
-                    fontSize: 12,
-                    color: PdfColors.grey600,
-                    fontStyle: pw.FontStyle.italic,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      );
-
-      // Add a page break
-      pdf.addPage(
-        pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (pw.Context context) {
-            return pw.Center(
-              child: pw.Column(
-                mainAxisAlignment: pw.MainAxisAlignment.center,
-                children: [
-                  pw.Text(
-                    'Document Original',
-                    style: pw.TextStyle(
-                      fontSize: 24,
-                      fontWeight: pw.FontWeight.bold,
-                      color: PdfColors.blue800,
-                    ),
-                  ),
-                  pw.SizedBox(height: 20),
-                  pw.Text(
-                    'Le contenu original du PDF commence à la page suivante.',
-                    style: pw.TextStyle(
-                      fontSize: 14,
-                      color: PdfColors.grey700,
-                    ),
-                    textAlign: pw.TextAlign.center,
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      );
-
-      // Get the PDF with logo pages
-      final logoPages = await pdf.save();
-
-      // For a complete solution, we would need to merge the original PDF pages
-      // For now, we return the logo pages followed by instructions
-      // Note: Full PDF merging requires additional PDF parsing libraries
-
-      return logoPages;
-    } catch (e) {
-      // If logo addition fails, return original PDF
-      return originalPdfBytes;
-    }
   }
 
   // Delete downloaded PDF
@@ -447,6 +308,52 @@ class PdfDownloadService {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  // Export internal PDF to app-scoped storage
+  static Future<DownloadedPdf?> exportToExternalStorage(
+    String localPath,
+    String originalId,
+    String name,
+    String description,
+    String originalUrl,
+  ) async {
+    try {
+      // Read the local PDF file
+      final file = File(localPath);
+      if (!await file.exists()) {
+        throw Exception('Le fichier local n\'existe pas');
+      }
+
+      final pdfBytes = await file.readAsBytes();
+      final fileName = _buildPdfFileName(name);
+
+      // Save exported PDFs in the user's Downloads/MedPharm folder when available.
+      final medpharmDir = await _getMedPharmDownloadsDirectory();
+
+      final externalFilePath = '${medpharmDir.path}/$fileName';
+
+      // Save the file to app-scoped storage
+      final externalFile = File(externalFilePath);
+      await externalFile.writeAsBytes(pdfBytes);
+
+      // Create a DownloadedPdf object for return (but don't save to internal database)
+      final downloadedPdf = DownloadedPdf(
+        id: const Uuid().v4(),
+        originalId: originalId,
+        name: name,
+        description: description,
+        localPath: externalFilePath,
+        originalUrl: originalUrl,
+        downloadDate: DateTime.now(),
+        fileSize: pdfBytes.length,
+        hasLogo: false,
+      );
+
+      return downloadedPdf;
+    } catch (e) {
+      throw Exception('Erreur lors de l\'export: $e');
     }
   }
 }

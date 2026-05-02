@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:medpharm/DatabaseManagement/provider.dart';
 import 'package:medpharm/Models/materiels.dart';
 import 'package:medpharm/Screens/ventesCover.dart';
@@ -17,15 +16,14 @@ class BooksHomePage extends StatefulWidget {
 class _BooksHomePageState extends State<BooksHomePage>
     with TickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   String _searchQuery = '';
-  bool _isLoading = false;
-  String _errorMessage = '';
   bool _isGridView = true;
   String _sortBy = 'name'; // name, price_low, price_high, newest
-  String _selectedCategory = 'all';
   Set<String> _favorites = <String>{};
   bool _showFilters = false;
   String _priceRange = 'all'; // all, low, medium, high
+  bool _showFavoritesOnly = false;
 
   late AnimationController _filterAnimationController;
   late Animation<double> _filterAnimation;
@@ -39,12 +37,12 @@ class _BooksHomePageState extends State<BooksHomePage>
   final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);
   final Color _backgroundColor = const Color(0xFFF8F9FA);
-  final Color _warningColor = const Color(0xFFFF9800);
 
   @override
   void initState() {
     super.initState();
     _loadPreferences();
+    _scrollController.addListener(_scrollListener);
 
     _filterAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -77,25 +75,48 @@ class _BooksHomePageState extends State<BooksHomePage>
 
   @override
   void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
     _searchController.dispose();
     _filterAnimationController.dispose();
     _fabAnimationController.dispose();
     super.dispose();
   }
 
-  void _loadPreferences() async {
+  void _scrollListener() {
+    if (_scrollController.offset >= 200) {
+      _fabAnimationController.forward();
+    } else {
+      _fabAnimationController.reverse();
+    }
+  }
+
+  Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
+
+    final favoriteList = prefs.getStringList('favorite_materials') ??
+        prefs.getStringList('materials_favorites') ??
+        <String>[];
+
+    if (!prefs.containsKey('favorite_materials') &&
+        prefs.containsKey('materials_favorites')) {
+      await prefs.setStringList('favorite_materials', favoriteList);
+    }
+
+    if (!mounted) return;
     setState(() {
       _isGridView = prefs.getBool('materials_grid_view') ?? true;
-      _favorites =
-          prefs.getStringList('materials_favorites')?.toSet() ?? <String>{};
+      _favorites = favoriteList.toSet();
     });
   }
 
   void _savePreferences() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('materials_grid_view', _isGridView);
-    await prefs.setStringList('materials_favorites', _favorites.toList());
+    await prefs.setStringList('favorite_materials', _favorites.toList());
+    if (prefs.containsKey('materials_favorites')) {
+      await prefs.remove('materials_favorites');
+    }
   }
 
   void _toggleFavorite(String materialId) {
@@ -131,28 +152,15 @@ class _BooksHomePageState extends State<BooksHomePage>
     }
   }
 
-  String _getCategoryFromTitle(String title) {
-    final titleLower = title.toLowerCase();
-    if (titleLower.contains('stethoscope') ||
-        titleLower.contains('diagnostic')) {
-      return 'diagnostic';
-    } else if (titleLower.contains('surgical') ||
-        titleLower.contains('scalpel')) {
-      return 'surgical';
-    } else if (titleLower.contains('monitor') || titleLower.contains('ecg')) {
-      return 'monitoring';
-    } else if (titleLower.contains('emergency') ||
-        titleLower.contains('defibrillator')) {
-      return 'emergency';
-    } else if (titleLower.contains('lab') ||
-        titleLower.contains('microscope')) {
-      return 'laboratory';
-    }
-    return 'diagnostic'; // default category
-  }
-
   List<Materiel> _filterAndSortMaterials(List<Materiel> materials) {
     List<Materiel> filtered = materials;
+
+    // Apply favorites filter first
+    if (_showFavoritesOnly) {
+      filtered = filtered.where((material) {
+        return _favorites.contains(material.id.toString());
+      }).toList();
+    }
 
     // Apply search filter
     if (_searchQuery.isNotEmpty) {
@@ -162,13 +170,6 @@ class _BooksHomePageState extends State<BooksHomePage>
         final searchLower = _searchQuery.toLowerCase();
         return titleLower.contains(searchLower) ||
             descriptionLower.contains(searchLower);
-      }).toList();
-    }
-
-    // Apply category filter
-    if (_selectedCategory != 'all') {
-      filtered = filtered.where((material) {
-        return _getCategoryFromTitle(material.title) == _selectedCategory;
       }).toList();
     }
 
@@ -203,8 +204,8 @@ class _BooksHomePageState extends State<BooksHomePage>
             _getPriceValue(b.price).compareTo(_getPriceValue(a.price)));
         break;
       case 'newest':
-        // Assuming newer items have higher IDs or you can add a timestamp field
-        filtered = filtered.reversed.toList();
+        // Sort by ID descending (higher IDs = newer items at top)
+        filtered.sort((a, b) => (b.id ?? 0).compareTo(a.id ?? 0));
         break;
     }
 
@@ -215,139 +216,505 @@ class _BooksHomePageState extends State<BooksHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _backgroundColor,
-      body: CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                _buildSearchAndFilters(),
-                if (_showFilters) _buildAdvancedFilters(),
-                // _buildCategoryTabs(),
-              ],
-            ),
-          ),
-          FutureBuilder<List<Materiel>>(
-            future: context.read<MyProvider>().getMateriel(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return SliverToBoxAdapter(child: _buildLoadingView());
-              }
-
-              if (snapshot.hasError) {
-                return SliverToBoxAdapter(child: _buildErrorView());
-              }
-
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return SliverToBoxAdapter(child: _buildEmptyView());
-              }
-
-              final materials = _filterAndSortMaterials(snapshot.data!);
-
-              if (materials.isEmpty) {
-                return SliverToBoxAdapter(child: _buildNoResultsView());
-              }
-
-              return SliverToBoxAdapter(
-                child: _buildMaterialsList(materials),
-              );
-            },
-          ),
-        ],
-      ),
-      floatingActionButton: _buildFloatingActionButtons(),
-    );
-  }
-
-  Widget _buildSliverAppBar() {
-    return SliverAppBar(
-      expandedHeight: 120, // Reduced from 160
-      floating: false,
-      pinned: true,
-      elevation: 0,
-      backgroundColor: _primaryColor,
-      flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [_primaryColor, _secondaryColor],
-            ),
-          ),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  20, 40, 20, 20), // Adjusted padding from 80 to 40
-              child: Row(
+      body: Column(
+        children: [
+          _buildModernHeader(),
+          Expanded(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8), // Reduced from 12
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(8), // Reduced from 12
-                    ),
-                    child: const Icon(
-                      Icons.medical_services,
-                      color: Colors.white,
-                      size: 24, // Reduced from 28
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Matériels Médicaux',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20, // Reduced from 24
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 2), // Reduced from 4
-                        Text(
-                          'Équipements professionnels',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12, // Reduced from 14
-                          ),
-                        ),
-                      ],
-                    ),
+                  _buildCategorySection(),
+                  _buildSearchAndFilters(),
+                  if (_showFilters) _buildAdvancedFilters(),
+                  FutureBuilder<List<Materiel>>(
+                    future: context.read<MyProvider>().getMateriel(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return _buildLoadingView();
+                      }
+
+                      if (snapshot.hasError) {
+                        return _buildErrorView();
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return _buildEmptyView();
+                      }
+
+                      final materials = _filterAndSortMaterials(snapshot.data!);
+
+                      if (materials.isEmpty) {
+                        return _buildNoResultsView();
+                      }
+
+                      return _buildMaterialsList(materials);
+                    },
                   ),
                 ],
               ),
             ),
           ),
+        ],
+      ),
+      floatingActionButton: _buildScrollToTopButton(),
+    );
+  }
+
+  // Liste des catégories d'équipements médicaux
+  final List<Map<String, dynamic>> _equipmentCategories = const [
+    {
+      'id': 'mobilier',
+      'name': 'Mobiliers médicaux',
+      'subtitle': 'Lits, tables et supports',
+      'icon': Icons.bed_outlined,
+      'color': Color(0xFF2E7D32),
+    },
+    {
+      'id': 'materiel',
+      'name': 'Matériels médicaux',
+      'subtitle': 'Équipements de soins',
+      'icon': Icons.medical_services_outlined,
+      'color': Color(0xFF1565C0),
+    },
+    {
+      'id': 'instruments',
+      'name': 'Instruments médicaux',
+      'subtitle': 'Outils professionnels',
+      'icon': Icons.precision_manufacturing_outlined,
+      'color': Color(0xFF6A1B9A),
+    },
+    {
+      'id': 'consommables',
+      'name': 'Dispositifs et consommables',
+      'subtitle': 'Usage clinique courant',
+      'icon': Icons.inventory_2_outlined,
+      'color': Color(0xFFEF6C00),
+    },
+  ];
+
+  Widget _buildCategorySection() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(20, 18, 20, 8),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: _cardColor,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: _primaryColor.withOpacity(0.08),
+          width: 1,
         ),
-      ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () => Navigator.pop(context),
-      ),
-      actions: [
-        IconButton(
-          icon: Icon(
-            _isGridView ? Icons.view_list : Icons.grid_view,
-            color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: _primaryColor.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
-          onPressed: () {
-            setState(() {
-              _isGridView = !_isGridView;
-            });
-            _savePreferences();
-          },
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(11),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      _primaryColor,
+                      _secondaryColor,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: _primaryColor.withOpacity(0.24),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.widgets_outlined,
+                  color: Colors.white,
+                  size: 22,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Types d\'équipements disponibles',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w800,
+                        color: _textColor,
+                        letterSpacing: -0.2,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Explorez les principales catégories de matériels médicaux',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: _textColor.withOpacity(0.58),
+                        height: 1.3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          SizedBox(
+            height: 132,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              itemCount: _equipmentCategories.length,
+              itemBuilder: (context, index) {
+                final category = _equipmentCategories[index];
+                return _buildCategoryCard(category);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryCard(Map<String, dynamic> category) {
+    final Color categoryColor = category['color'] as Color;
+    final String subtitle =
+        (category['subtitle'] as String?) ?? 'Équipement médical';
+
+    return Container(
+      width: 178,
+      margin: const EdgeInsets.only(right: 14),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            categoryColor.withOpacity(0.12),
+            categoryColor.withOpacity(0.035),
+          ],
         ),
-      ],
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: categoryColor.withOpacity(0.18),
+          width: 1,
+        ),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            right: -18,
+            bottom: -22,
+            child: Icon(
+              category['icon'] as IconData,
+              color: categoryColor.withOpacity(0.08),
+              size: 82,
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(11),
+                decoration: BoxDecoration(
+                  color: categoryColor.withOpacity(0.14),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Icon(
+                  category['icon'] as IconData,
+                  color: categoryColor,
+                  size: 25,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                category['name'] as String,
+                style: TextStyle(
+                  color: _textColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  height: 1.15,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  color: _textColor.withOpacity(0.58),
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w500,
+                  height: 1.2,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildModernHeader() {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenHeight < 700;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: isSmallScreen ? 12 : 16,
+        top: statusBarHeight + 8,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            _primaryColor,
+            _primaryColor.withOpacity(0.8),
+            _secondaryColor,
+          ],
+          stops: const [0.0, 0.7, 1.0],
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: _primaryColor.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          // Background decorative elements
+          Positioned(
+            right: -15,
+            top: statusBarHeight - 5,
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.08),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            right: 25,
+            top: statusBarHeight + 10,
+            child: Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.04),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          // Back button
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // View toggle button
+          Positioned(
+            right: 0,
+            top: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () {
+                  setState(() {
+                    _isGridView = !_isGridView;
+                  });
+                  _savePreferences();
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      _isGridView ? Icons.view_list : Icons.grid_view,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // Main content
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              children: [
+                const SizedBox(width: 50), // Space for back button
+                // Compact icon container
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.15),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Image.asset(
+                    'assets/accueil/materiel.png',
+                    width: isSmallScreen ? 20 : 22,
+                    height: isSmallScreen ? 20 : 22,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Enhanced text content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Équipements Médicaux',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: isSmallScreen ? 16 : 18,
+                          letterSpacing: 0.3,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.2),
+                              offset: const Offset(0, 1),
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                            width: 0.5,
+                          ),
+                        ),
+                        child: Text(
+                          'Équipements professionnels',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: isSmallScreen ? 10 : 11,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 50), // Space for view toggle button
+                // Smaller decorative element
+                Container(
+                  width: 2,
+                  height: isSmallScreen ? 25 : 30,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.08),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildSearchAndFilters() {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
       child: Column(
         children: [
           Container(
@@ -370,7 +737,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                 });
               },
               decoration: InputDecoration(
-                hintText: 'Rechercher des matériels...',
+                hintText: 'Rechercher des Equipements...',
                 hintStyle: TextStyle(
                   color: _textColor.withOpacity(0.5),
                   fontSize: 16,
@@ -473,6 +840,8 @@ class _BooksHomePageState extends State<BooksHomePage>
                     ],
                   ),
                   const SizedBox(height: 16),
+                  _buildFavoritesFilter(),
+                  const SizedBox(height: 16),
                   _buildSortOptions(),
                   const SizedBox(height: 16),
                 ],
@@ -481,6 +850,62 @@ class _BooksHomePageState extends State<BooksHomePage>
           ),
         );
       },
+    );
+  }
+
+  Widget _buildFavoritesFilter() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Filtres',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: _textColor,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: FilterChip(
+                backgroundColor: Colors.white,
+                selected: _showFavoritesOnly,
+                label: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.favorite,
+                      size: 16,
+                      color: _showFavoritesOnly ? Colors.white : Colors.red,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Favoris seulement',
+                      style: TextStyle(
+                        color: _showFavoritesOnly ? Colors.white : Colors.red,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                onSelected: (selected) {
+                  setState(() {
+                    _showFavoritesOnly = selected;
+                  });
+                },
+                selectedColor: Colors.red,
+                checkmarkColor: Colors.white,
+                labelStyle: TextStyle(
+                  color: _showFavoritesOnly ? Colors.white : Colors.red,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -607,12 +1032,14 @@ class _BooksHomePageState extends State<BooksHomePage>
 
   Widget _buildMaterialsList(List<Materiel> materials) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader(materials.length),
-          const SizedBox(height: 20),
+          if (_searchQuery.trim().isNotEmpty) ...[
+            _buildSectionHeader(materials.length),
+            const SizedBox(height: 20),
+          ],
           _isGridView ? _buildGridView(materials) : _buildListView(materials),
           const SizedBox(height: 20),
         ],
@@ -654,7 +1081,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Matériels Disponibles',
+                  'Equipements Disponibles',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -768,13 +1195,8 @@ class _BooksHomePageState extends State<BooksHomePage>
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(20),
         child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VenteCover(materiel: material),
-              ),
-            );
+          onTap: () async {
+            await _openMaterialDetail(material);
           },
           borderRadius: BorderRadius.circular(20),
           child: Padding(
@@ -917,13 +1339,8 @@ class _BooksHomePageState extends State<BooksHomePage>
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VenteCover(materiel: material),
-              ),
-            );
+          onTap: () async {
+            await _openMaterialDetail(material);
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
@@ -1034,106 +1451,33 @@ class _BooksHomePageState extends State<BooksHomePage>
     );
   }
 
-  Widget _buildFloatingActionButtons() {
-    return ScaleTransition(
-      scale: _fabAnimation,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (_favorites.isNotEmpty)
-            FloatingActionButton(
-              heroTag: "favorites",
-              onPressed: () {
-                _showFavoritesDialog();
-              },
-              backgroundColor: Colors.red,
-              child: Stack(
-                children: [
-                  const Icon(Icons.favorite, color: Colors.white),
-                  if (_favorites.length > 0)
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          '${_favorites.length}',
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          const SizedBox(height: 16),
-          FloatingActionButton(
-            heroTag: "scroll_top",
-            onPressed: () {
-              // Scroll to top functionality
-              Scrollable.ensureVisible(
-                context,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-              );
-            },
-            backgroundColor: _primaryColor,
-            child: const Icon(Icons.keyboard_arrow_up, color: Colors.white),
-          ),
-        ],
+  Future<void> _openMaterialDetail(Materiel material) async {
+    if (!mounted) return;
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VenteCover(materiel: material),
       ),
     );
+    if (!mounted) return;
+    await _loadPreferences();
   }
 
-  void _showFavoritesDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            const Icon(Icons.favorite, color: Colors.red),
-            const SizedBox(width: 8),
-            const Text('Favoris'),
-          ],
-        ),
-        content: SizedBox(
-          width: double.maxFinite,
-          height: 300,
-          child: _favorites.isEmpty
-              ? const Center(
-                  child: Text('Aucun favori pour le moment'),
-                )
-              : ListView.builder(
-                  itemCount: _favorites.length,
-                  itemBuilder: (context, index) {
-                    final favoriteId = _favorites.elementAt(index);
-                    return ListTile(
-                      leading: const Icon(Icons.favorite, color: Colors.red),
-                      title: Text('Matériel #$favoriteId'),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          _toggleFavorite(favoriteId);
-                          Navigator.pop(context);
-                        },
-                      ),
-                    );
-                  },
-                ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Fermer'),
-          ),
-        ],
+  Widget _buildScrollToTopButton() {
+    return ScaleTransition(
+      scale: _fabAnimation,
+      child: FloatingActionButton(
+        heroTag: "scroll_top",
+        onPressed: () {
+          // Scroll to top functionality
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        },
+        backgroundColor: _primaryColor,
+        child: const Icon(Icons.keyboard_arrow_up, color: Colors.white),
       ),
     );
   }
@@ -1151,7 +1495,7 @@ class _BooksHomePageState extends State<BooksHomePage>
             ),
             const SizedBox(height: 20),
             Text(
-              'Chargement des matériels...',
+              'Chargement des Equipements...',
               style: TextStyle(
                 fontSize: 16,
                 color: _textColor.withOpacity(0.7),
@@ -1202,7 +1546,7 @@ class _BooksHomePageState extends State<BooksHomePage>
             ),
             const SizedBox(height: 16),
             Text(
-              "Impossible de charger les matériels\nVeuillez vérifier votre connexion",
+              "Impossible de charger les Equipements\nVeuillez vérifier votre connexion",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -1278,7 +1622,7 @@ class _BooksHomePageState extends State<BooksHomePage>
             ),
             const SizedBox(height: 16),
             Text(
-              "Les matériels seront bientôt disponibles",
+              "Les Equipements seront bientôt disponibles",
               style: TextStyle(
                 fontSize: 16,
                 color: _textColor.withOpacity(0.7),
@@ -1338,9 +1682,9 @@ class _BooksHomePageState extends State<BooksHomePage>
               onPressed: () {
                 setState(() {
                   _searchQuery = '';
-                  _selectedCategory = 'all';
                   _priceRange = 'all';
                   _sortBy = 'name';
+                  _showFavoritesOnly = false;
                 });
                 _searchController.clear();
               },

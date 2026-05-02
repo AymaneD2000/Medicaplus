@@ -26,25 +26,34 @@ class _PDFAssetScreenState extends State<PDFAssetScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color(0xfffc6e6ff),
         title: const Text("Prescription"),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Stack(
-        children: <Widget>[
-          SfPdfViewer.asset(widget.path!),
-          errorMessage.isEmpty
-              ? isReady
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(0xfffc6e6ff),
-                      ),
-                    )
-                  : Container()
-              : Center(
-                  child: Text(errorMessage),
-                )
-        ],
+      body: Container(
+        color: Colors.white,
+        child: Stack(
+          children: <Widget>[
+            Container(color: Colors.white),
+            SfPdfViewer.asset(
+              widget.path!,
+              pageSpacing: 0,
+            ),
+            errorMessage.isEmpty
+                ? isReady
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xfffc6e6ff),
+                        ),
+                      )
+                    : Container()
+                : Center(
+                    child: Text(errorMessage),
+                  )
+          ],
+        ),
       ),
       floatingActionButton: FutureBuilder<PDFViewController>(
         future: _controller.future,

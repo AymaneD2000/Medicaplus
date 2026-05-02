@@ -82,8 +82,10 @@ class _SemestreScreenState extends State<SemestreScreen> {
 
   Widget _buildModernAppBar() {
     return SliverAppBar(
-      expandedHeight: 120,
+      expandedHeight: 140,
       pinned: true,
+      backgroundColor: _primaryColor, // Force la couleur de fond
+      elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: BoxDecoration(
@@ -94,15 +96,29 @@ class _SemestreScreenState extends State<SemestreScreen> {
             ),
           ),
         ),
-        title: Text(
-          'Semestres de ${widget.classeName}',
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Semestres Disponibles',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            Text(
+              widget.classeName,
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.9),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
         centerTitle: true,
+        titlePadding: const EdgeInsets.only(bottom: 16),
       ),
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),

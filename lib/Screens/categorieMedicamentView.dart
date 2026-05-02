@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:medpharm/Screens/medicamentdetailscreen.dart';
+import 'package:medpharm/Utils/transitions.dart';
 
 class CategorieMedicament extends StatefulWidget {
   CategorieMedicament(
@@ -23,6 +24,7 @@ class _CategorieMedicamentState extends State<CategorieMedicament> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: Text(widget.name),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         physics: const ScrollPhysics(),
@@ -47,8 +49,8 @@ class _CategorieMedicamentState extends State<CategorieMedicament> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => MedicamentDetailsScreen(
+                            PremiumPageRoute(
+                              page: MedicamentDetailsScreen(
                                   medicament: widget.meds[index]),
                             ),
                           );

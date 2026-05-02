@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/services.dart'; // For input formatters
-import 'package:timeline_tile/timeline_tile.dart'; // For pregnancy timeline
+import 'package:flutter/services.dart';
 
 class PregnancyCalculatorScreen extends StatefulWidget {
   const PregnancyCalculatorScreen({super.key});
@@ -30,20 +29,11 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
   String _resultCurrent = '';
   double _resultsOpacity = 0.0;
   bool _isCalculating = false;
-  int _currentWeek = 0;
-  String _trimesterInfo = '';
   String? _errorMessage;
-
-  // Constants for pregnancy calculations
-  static const int GESTATION_PERIOD_DAYS = 280;
-  static const int CONCEPTION_DAYS_AFTER_LMP = 14;
-  static const int CONCEPTION_TO_EDD_DAYS = 266;
-  static const int DAYS_IN_WEEK = 7;
 
   // Custom colors
   final Color _primaryColor = const Color(0xFFE91E63);
   final Color _secondaryColor = const Color(0xFF1976D2);
-  final Color _accentColor = const Color(0xFFFF4081);
   final Color _backgroundColor = const Color(0xFFF5F5F5);
   final Color _textColor = const Color(0xFF222222);
 
@@ -70,132 +60,28 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _backgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 16),
-                    _buildIntroCard(),
-                    const SizedBox(height: 16),
-                    _buildDateInputCard(),
-                    const SizedBox(height: 16),
-                    _buildOptionsCard(),
-                    if (_selectedOption == "Date d'échographie") ...[
-                      const SizedBox(height: 16),
-                      _buildEchographyCard(),
-                    ],
-                    const SizedBox(height: 16),
-                    _buildInfoCard(),
-                    const SizedBox(height: 24),
-                    _buildCalculateButton(),
-                    if (_errorMessage != null) ...[
-                      const SizedBox(height: 16),
-                      _buildErrorCard(_errorMessage!),
-                    ],
-                    const SizedBox(height: 24),
-                    _buildResultsSection(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.only(top: 32, left: 24, right: 24, bottom: 24),
-      decoration: BoxDecoration(
-        color: _primaryColor,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(32),
-          bottomRight: Radius.circular(32),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                padding: const EdgeInsets.all(12),
-                child: const Icon(Icons.pregnant_woman,
-                    color: Colors.white, size: 32),
-              ),
-              const SizedBox(width: 16),
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Calendrier de Grossesse',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Calculateur professionnel',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildIntroCard() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Row(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: _primaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(10),
-              child: Icon(Icons.monitor_heart, color: _primaryColor, size: 28),
-            ),
-            const SizedBox(width: 16),
-            const Expanded(
+            _buildHeader(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Suivi de Grossesse',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Calculez les dates importantes de votre grossesse avec précision',
-                    style: TextStyle(fontSize: 14, color: Colors.black54),
-                  ),
+                  // _buildIntroCard(),
+                  // const SizedBox(height: 20),
+                  _buildDateInputCard(),
+                  const SizedBox(height: 20),
+                  _buildOptionsCard(),
+                  if (_selectedOption == "Date d'échographie") ...[
+                    const SizedBox(height: 20),
+                    _buildEchographyCard(),
+                  ],
+                  const SizedBox(height: 20),
+                  _buildCalculateButton(),
+                  const SizedBox(height: 30),
+                  _buildResultsSection(),
                 ],
               ),
             ),
@@ -205,95 +91,409 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
     );
   }
 
-  Widget _buildDateInputCard() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: _secondaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
+  Widget _buildHeader() {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenHeight < 700;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: isSmallScreen ? 12 : 16,
+        top: statusBarHeight + 8,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            _primaryColor,
+            _primaryColor.withOpacity(0.8),
+            const Color(0xFFF06292),
+          ],
+          stops: const [0.0, 0.7, 1.0],
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: _primaryColor.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          // Background decorative elements
+          Positioned(
+            right: -15,
+            top: statusBarHeight - 5,
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.08),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            right: 25,
+            top: statusBarHeight + 10,
+            child: Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.04),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          // Back button
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
-                  padding: const EdgeInsets.all(10),
-                  child: Icon(Icons.calendar_today,
-                      color: _secondaryColor, size: 24),
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  'Sélectionnez une date',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                _buildOutlinedInput(_dayController, 'Jour', width: 70),
-                const SizedBox(width: 8),
-                _buildOutlinedInput(_monthController, 'Mois', width: 70),
-                const SizedBox(width: 8),
-                _buildOutlinedInput(_yearController, 'Année',
-                    width: 90, bold: true),
-              ],
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: TextButton.icon(
-                onPressed: _selectDate,
-                icon: Icon(Icons.calendar_month, color: _secondaryColor),
-                label: Text('Sélectionner avec le calendrier',
-                    style: TextStyle(color: _secondaryColor)),
-                style: TextButton.styleFrom(
-                  backgroundColor: _secondaryColor.withOpacity(0.07),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          // Main content
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              children: [
+                const SizedBox(width: 50), // Space for back button
+                // Compact icon container
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.15),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Icon(
+                    Icons.pregnant_woman,
+                    color: Colors.white,
+                    size: isSmallScreen ? 20 : 22,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Enhanced text content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Calendrier de Grossesse',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: isSmallScreen ? 16 : 18,
+                          letterSpacing: 0.3,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.2),
+                              offset: const Offset(0, 1),
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                            width: 0.5,
+                          ),
+                        ),
+                        child: Text(
+                          'Calculateur professionnel',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: isSmallScreen ? 10 : 11,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Smaller decorative element
+                Container(
+                  width: 2,
+                  height: isSmallScreen ? 25 : 30,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.08),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDateInputCard() {
+    DateTime? selectedDate;
+    final day = int.tryParse(_dayController.text);
+    final month = int.tryParse(_monthController.text);
+    final year = int.tryParse(_yearController.text);
+
+    if (day != null && month != null && year != null) {
+      final parsedDate = DateTime(year, month, day);
+      if (parsedDate.year == year &&
+          parsedDate.month == month &&
+          parsedDate.day == day) {
+        selectedDate = parsedDate;
+      }
+    }
+
+    final dateTitle = selectedDate != null
+        ? DateFormat('dd/MM/yyyy').format(selectedDate)
+        : 'Aucune date sélectionnée';
+
+    final rawDateSubtitle = selectedDate != null
+        ? DateFormat('EEEE d MMMM yyyy', 'fr_FR').format(selectedDate)
+        : 'Choisissez la date avec le calendrier';
+    final dateSubtitle = rawDateSubtitle.isNotEmpty
+        ? '${rawDateSubtitle[0].toUpperCase()}${rawDateSubtitle.substring(1)}'
+        : rawDateSubtitle;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: _secondaryColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Icon(
+                  Icons.calendar_today,
+                  color: _secondaryColor,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                'Sélectionnez une date',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  _secondaryColor.withValues(alpha: 0.09),
+                  _primaryColor.withValues(alpha: 0.06),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: _secondaryColor.withValues(alpha: 0.22),
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    Icons.event_available_rounded,
+                    color: _secondaryColor,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        dateTitle,
+                        style: TextStyle(
+                          fontSize: 16.5,
+                          fontWeight: FontWeight.w700,
+                          color: _textColor,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        dateSubtitle,
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          color: _textColor.withValues(alpha: 0.72),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 18),
+          Row(
+            children: [
+              Expanded(child: _buildOutlinedInput(_dayController, 'Jour')),
+              const SizedBox(width: 12),
+              Expanded(child: _buildOutlinedInput(_monthController, 'Mois')),
+              const SizedBox(width: 12),
+              Expanded(
+                child:
+                    _buildOutlinedInput(_yearController, 'Année', bold: true),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: _selectDate,
+              icon: const Icon(Icons.calendar_month_rounded, size: 20),
+              label: const Text(
+                'Ouvrir le calendrier',
+                style: TextStyle(fontWeight: FontWeight.w700),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _secondaryColor,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(13),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildOutlinedInput(TextEditingController controller, String hint,
-      {double width = 80, bool bold = false}) {
-    return SizedBox(
-      width: width,
-      child: TextField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-            fontSize: 16),
-        decoration: InputDecoration(
-          hintText: hint,
-          contentPadding: const EdgeInsets.symmetric(vertical: 12),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: _secondaryColor, width: 2),
-          ),
-          filled: true,
-          fillColor: Colors.grey[100],
-        ),
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(hint == 'Année' ? 4 : 2),
-        ],
+      {bool bold = false}) {
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+        fontSize: 16,
+        color: Colors.black87,
       ),
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: _secondaryColor, width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        filled: true,
+        fillColor: Colors.grey[50],
+      ),
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(hint == 'Année' ? 4 : 2),
+      ],
     );
   }
 
@@ -331,33 +531,72 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
 
   Widget _buildOptionRadio(Map option) {
     final isSelected = _selectedOption == option['title'];
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: isSelected ? 4 : 1,
-      color: isSelected ? option['color'].withOpacity(0.08) : Colors.white,
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isSelected ? option['color'] : Colors.grey.shade200,
+          width: isSelected ? 2 : 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: Container(
           decoration: BoxDecoration(
-            color: option['color'].withOpacity(0.15),
-            borderRadius: BorderRadius.circular(10),
+            color: option['color'].withOpacity(isSelected ? 0.2 : 0.1),
+            borderRadius: BorderRadius.circular(12),
           ),
-          padding: const EdgeInsets.all(8),
-          child: Icon(option['icon'], color: option['color'], size: 24),
+          padding: const EdgeInsets.all(10),
+          child: Icon(
+            option['icon'],
+            color: option['color'],
+            size: 24,
+          ),
         ),
-        title: Text(option['title'],
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: isSelected ? option['color'] : _textColor)),
-        subtitle: Text(option['desc'], style: TextStyle(color: Colors.black54)),
-        trailing: Radio<String>(
-          value: option['title'],
-          groupValue: _selectedOption,
-          onChanged: (value) {
-            setState(() {
-              _selectedOption = value!;
-            });
-          },
-          activeColor: option['color'],
+        title: Text(
+          option['title'],
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: isSelected ? option['color'] : Colors.black87,
+          ),
+        ),
+        subtitle: Text(
+          option['desc'],
+          style: const TextStyle(
+            color: Colors.black54,
+            fontSize: 13,
+            height: 1.2,
+          ),
+        ),
+        trailing: Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isSelected ? option['color'] : Colors.grey.shade400,
+              width: 2,
+            ),
+          ),
+          child: isSelected
+              ? Container(
+                  margin: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: option['color'],
+                  ),
+                )
+              : null,
         ),
         onTap: () {
           setState(() {
@@ -369,168 +608,286 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
   }
 
   Widget _buildEchographyCard() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: const Icon(Icons.monitor_heart,
-                      color: Colors.blue, size: 24),
-                ),
-                const SizedBox(width: 12),
-                const Text('Âge gestationnel',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                _buildOutlinedInput(_weeksController, 'Semaines', width: 90),
-                const SizedBox(width: 12),
-                _buildOutlinedInput(_daysController, 'Jours', width: 90),
-              ],
-            ),
-          ],
-        ),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.blue, width: 2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildInfoCard() {
-    return Card(
-      color: Colors.blue[50],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Row(
-          children: const [
-            Icon(Icons.info_outline, color: Colors.blue, size: 22),
-            SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                'Exemple: 12 semaines et 3 jours = 12 SA + 3 J',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: const Icon(Icons.monitor_heart,
+                    color: Colors.blue, size: 24),
               ),
+              const SizedBox(width: 12),
+              const Text(
+                'Âge gestationnel',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                  child: _buildOutlinedInput(_weeksController, 'Semaines')),
+              const SizedBox(width: 12),
+              Expanded(child: _buildOutlinedInput(_daysController, 'Jours')),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.blue.withOpacity(0.2)),
             ),
-          ],
-        ),
+            child: Row(
+              children: const [
+                Icon(Icons.info_outline, color: Colors.blue, size: 18),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Exemple: 12 semaines et 3 jours = 12 SA + 3 J',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildCalculateButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton.icon(
-        onPressed: _isCalculating ? null : _calculateDates,
-        icon: const Icon(Icons.calculate),
-        label: const Text('Calculer les dates',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _primaryColor,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          elevation: 2,
+    return Column(
+      children: [
+        if (_errorMessage != null) ...[
+          _buildErrorCard(_errorMessage!),
+          const SizedBox(height: 16),
+        ],
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: _isCalculating ? null : _calculateDates,
+            icon: _isCalculating
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Icon(Icons.calculate, size: 24),
+            label: Text(
+              _isCalculating ? 'Calcul en cours...' : 'Calculer les dates',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: _primaryColor,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 3,
+              shadowColor: _primaryColor.withOpacity(0.3),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
   Widget _buildErrorCard(String message) {
-    return Card(
-      color: Colors.red[400],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Row(
-          children: [
-            const Icon(Icons.error_outline, color: Colors.white, size: 22),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                message,
-                style: const TextStyle(color: Colors.white, fontSize: 15),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.red[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.red.shade300),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.error_outline, color: Colors.red[600], size: 20),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(
+                color: Colors.red[700],
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildResultsSection() {
     if (_resultsOpacity == 0.0) return const SizedBox.shrink();
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildResultRow(
-                Icons.event, 'Premier jour des dernières règles', _resultLMP),
-            const Divider(height: 24),
-            _buildResultRow(
-                Icons.favorite, 'Date de conception', _resultConception),
-            const Divider(height: 24),
-            _buildResultRow(Icons.today, 'Age gestationnel', _resultCurrent),
-            const Divider(height: 24),
-            _buildResultRow(
-                Icons.child_care, 'Date prévue d\'accouchement', _resultEDD),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget _buildResultRow(IconData icon, String label, String value) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: _primaryColor.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-          padding: const EdgeInsets.all(8),
-          child: Icon(icon, color: _primaryColor, size: 22),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              Text(label,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w500)),
-              const SizedBox(height: 4),
-              Text(value,
-                  style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: _textColor)),
+              Container(
+                decoration: BoxDecoration(
+                  color: _primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Icon(Icons.check_circle, color: _primaryColor, size: 28),
+              ),
+              const SizedBox(width: 16),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Résultats du calcul',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
+        const SizedBox(height: 16),
+        _buildResultCard(
+          'Premier jour des dernières règles',
+          _resultLMP,
+          Icons.calendar_today,
+          const Color(0xFF2196F3),
+        ),
+        const SizedBox(height: 12),
+        _buildResultCard(
+          'Date de conception',
+          _resultConception,
+          Icons.favorite,
+          _primaryColor,
+        ),
+        const SizedBox(height: 12),
+        _buildResultCard(
+          'Âge gestationnel actuel',
+          _resultCurrent,
+          Icons.trending_up,
+          const Color(0xFF2196F3),
+        ),
+        const SizedBox(height: 12),
+        _buildResultCard(
+          'Date prévue d\'accouchement',
+          _resultEDD,
+          Icons.emoji_emotions,
+          Colors.orange,
+        ),
       ],
+    );
+  }
+
+  Widget _buildResultCard(
+      String title, String value, IconData icon, Color color) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color.withOpacity(0.2)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: Icon(icon, color: color, size: 24),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -550,6 +907,50 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
       locale: const Locale('fr', 'FR'),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: _primaryColor,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: _textColor,
+            ),
+            datePickerTheme: DatePickerThemeData(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              headerBackgroundColor: _primaryColor,
+              headerForegroundColor: Colors.white,
+              weekdayStyle: TextStyle(
+                color: _secondaryColor.withValues(alpha: 0.9),
+                fontWeight: FontWeight.w700,
+              ),
+              dayStyle: TextStyle(
+                color: _textColor,
+                fontWeight: FontWeight.w600,
+              ),
+              yearStyle: TextStyle(
+                color: _textColor,
+                fontWeight: FontWeight.w600,
+              ),
+              todayForegroundColor: WidgetStatePropertyAll(_primaryColor),
+              todayBackgroundColor: WidgetStatePropertyAll(
+                _primaryColor.withValues(alpha: 0.15),
+              ),
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: _secondaryColor,
+                textStyle: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
+          ),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
     if (picked != null) {
       setState(() {
@@ -568,8 +969,8 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
       return false;
     }
     final day = int.tryParse(_dayController.text);
-    final month = int.parse(_monthController.text);
-    final year = int.parse(_yearController.text);
+    final month = int.tryParse(_monthController.text);
+    final year = int.tryParse(_yearController.text);
     if (day == null || month == null || year == null) {
       _showError('Les valeurs de date doivent être numériques.');
       return false;
@@ -598,7 +999,7 @@ class _PregnancyCalculatorScreenState extends State<PregnancyCalculatorScreen> {
   bool _validateEchographyInput() {
     if (_selectedOption != "Date d'échographie") return true;
     final weeks = int.tryParse(_weeksController.text);
-    final days = int.parse(_daysController.text);
+    final days = int.tryParse(_daysController.text);
     if (weeks == null || days == null) {
       _showError('Les semaines et jours doivent être numériques.');
       return false;

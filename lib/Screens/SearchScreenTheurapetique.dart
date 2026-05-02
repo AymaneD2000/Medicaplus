@@ -4,9 +4,9 @@ import 'package:medpharm/Models/amo.dart';
 import 'package:gap/gap.dart';
 
 class SearchClasseTheuraScreenDCI extends StatefulWidget {
-  List<ClassMed> listes;
-  List<String> iconMeds;
-  String hintText;
+  final List<ClassMed> listes;
+  final List<String> iconMeds;
+  final String hintText;
 
   SearchClasseTheuraScreenDCI(
       {super.key,
@@ -27,10 +27,7 @@ class _SearchClasseTheuraScreenDCIState
 
   final Color _primaryColor = const Color(0xFF02B1EC);
   final Color _backgroundColor = const Color(0xFFF5F5F5);
-  final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);
-  final Color _successColor = const Color(0xFF4CAF50);
-  final Color _errorColor = const Color(0xFFE53935);
 
   @override
   void initState() {

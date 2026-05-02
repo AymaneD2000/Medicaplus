@@ -80,7 +80,7 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
             ),
           ),
         ),
-        title: Text(
+        title: const Text(
           'Détails du médicament',
           style: TextStyle(
             color: Colors.white,
@@ -203,7 +203,7 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Les prix indiqués peuvent varier d\'environ 10% selon les pharmacies',
+                    'Le prix est indicatif et variable selon la politique tarifaire de chaque Pharmacie',
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.4,
@@ -213,7 +213,7 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
                   const SizedBox(height: 4),
                   if (!widget.medicament.amo) ...[
                     const SizedBox(height: 4),
-                    Text(
+                    const Text(
                       'Ce médicament n\'est pas couvert par l\'AMO',
                       style: TextStyle(
                         fontSize: 14,
@@ -248,7 +248,7 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
       children: [
         _buildDetailCard(
           title: 'Nom commercial',
-          icon: "assets/icon/nom commercial.png",
+          icon: "assets/Pharma/nomcommercial.png",
           color: _secondaryColor,
           // color: _primaryColor,
           content: [widget.medicament.name],
@@ -256,35 +256,35 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
         const Gap(16),
         _buildDetailCard(
           title: 'D.C.I/Composition',
-          icon: "assets/icon/dci3.png",
+          icon: "assets/Pharma/dci.png",
           color: _primaryColor,
           content: widget.medicament.dci,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Classe Thérapeutique',
-          icon: "assets/icon/classe2.png",
+          icon: "assets/Pharma/classe.png",
           color: const Color(0xFF607D8B),
           content: widget.medicament.classtherapique,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Forme et dosage',
-          icon: "assets/icon/forme.png",
+          icon: "assets/Pharma/forme.png",
           color: const Color(0xFF795548),
           content: widget.medicament.formedosage,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Présentation',
-          icon: "assets/icon/presentation.png",
+          icon: "assets/Pharma/presentation.png",
           color: const Color(0xFFE91E63),
           content: widget.medicament.presantation,
         ),
         const Gap(16),
         _buildDetailCard(
           title: 'Prix public',
-          icon: "assets/icon/prix2.png",
+          icon: "assets/Pharma/prix.png",
           color: _warningColor,
           content: widget.medicament.prix,
         ),
@@ -347,9 +347,11 @@ class _AmoDetailsScreenState extends State<AmoDetailsScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: content.map((item) {
+              children: content.asMap().entries.map((entry) {
+                final isLast = entry.key == content.length - 1;
+                final item = entry.value;
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: EdgeInsets.only(bottom: isLast ? 0 : 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

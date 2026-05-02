@@ -57,6 +57,5 @@ class Med {
         precaution: json["Précautions d’emploi"],
         propriete: json['Propriété']);
   }
-  @override
   String sortName() => name;
 }

@@ -39,10 +39,10 @@ class _FaculterState extends State<Faculter> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _backgroundColor,
-      body: CustomScrollView(
-        slivers: [
-          _buildModernAppBar(),
-          SliverToBoxAdapter(
+      body: Column(
+        children: [
+          _buildModernHeader(),
+          Expanded(
             child: RefreshIndicator(
               onRefresh: _refreshData,
               color: _primaryColor,
@@ -69,7 +69,12 @@ class _FaculterState extends State<Faculter> {
                   }
 
                   final faculties = snapshot.data!;
-                  return _buildFacultiesGrid(faculties);
+                  // Sort faculties by id in ascending order (0 to 4)
+                  final sortedFaculties = List<Fac>.from(faculties)
+                    ..sort((a, b) => a.id.compareTo(b.id));
+                  return SingleChildScrollView(
+                    child: _buildFacultiesGrid(sortedFaculties),
+                  );
                 },
               ),
             ),
@@ -79,54 +84,205 @@ class _FaculterState extends State<Faculter> {
     );
   }
 
-  Widget _buildModernAppBar() {
-    return SliverAppBar(
-      expandedHeight: 120,
-      pinned: true,
-      flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [_primaryColor, const Color(0xFF42A5F5)],
-            ),
-          ),
-        ),
-        title: const Text(
-          'Filières Académiques',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-        centerTitle: true,
+  Widget _buildModernHeader() {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenHeight < 700;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: isSmallScreen ? 12 : 16,
+        top: statusBarHeight + 8,
       ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-        onPressed: () => Navigator.pop(context),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            _primaryColor,
+            _primaryColor.withOpacity(0.8),
+            const Color(0xFF42A5F5),
+          ],
+          stops: const [0.0, 0.7, 1.0],
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: _primaryColor.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
-      actions: [
-        Container(
-          margin: const EdgeInsets.only(right: 16),
-          child: IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
+      child: Stack(
+        children: [
+          // Background decorative elements
+          Positioned(
+            right: -15,
+            top: statusBarHeight - 5,
+            child: Container(
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(
-                Icons.school_outlined,
-                color: Colors.white,
-                size: 24,
+                color: Colors.white.withOpacity(0.08),
+                shape: BoxShape.circle,
               ),
             ),
-            onPressed: () {},
           ),
-        ),
-      ],
+          Positioned(
+            right: 25,
+            top: statusBarHeight + 10,
+            child: Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.04),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          // Back button
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // Main content
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              children: [
+                const SizedBox(width: 50), // Space for back button
+                // Compact icon container
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.15),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Icon(
+                    Icons.school_outlined,
+                    color: Colors.white,
+                    size: isSmallScreen ? 20 : 22,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Enhanced text content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Filières Académiques',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: isSmallScreen ? 16 : 18,
+                          letterSpacing: 0.3,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.2),
+                              offset: const Offset(0, 1),
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                            width: 0.5,
+                          ),
+                        ),
+                        child: Text(
+                          'Programmes d\'études',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: isSmallScreen ? 10 : 11,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Smaller decorative element
+                Container(
+                  width: 2,
+                  height: isSmallScreen ? 25 : 30,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withOpacity(0.25),
+                        Colors.white.withOpacity(0.08),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/Models/publication.dart';
 import 'package:medpharm/Screens/calculeScreen.dart';
 import 'package:medpharm/Screens/carlendriergrosesse.dart';
 import 'package:medpharm/Screens/faculterScreenPage.dart';
 import 'package:medpharm/Screens/medicamentscreen.dart';
 import 'package:medpharm/Screens/pharmacie.dart';
 import 'package:medpharm/Screens/venteMaetiels.dart';
+import 'package:medpharm/Utils/transitions.dart';
 import 'package:provider/provider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -18,10 +22,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late MyProvider provider;
-  bool isConnected = true;
-  late Stream<List<ConnectivityResult>> connectivityStream;
+  bool _isConnected = true;
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
   late List<Widget> grid;
+  Future<List<Publication>>? _publicationFuture;
   bool _isLoading = true;
 
   // Modern color scheme
@@ -33,20 +37,26 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    provider = context.read<MyProvider>();
-    grid = _buildGrid(); // Build grid once
-    _initializeData();
-    _setupConnectivity();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeData();
+      _setupConnectivity();
+    });
   }
 
   Future<void> _initializeData() async {
+    final provider = context.read<MyProvider>();
     try {
+      _publicationFuture = provider.getPublication();
+
       await Future.wait([
         provider.loadMedicamentData(),
         provider.loadPharmacieData(),
       ]);
       if (mounted) {
-        setState(() => _isLoading = false);
+        setState(() {
+          _isLoading = false;
+          grid = _buildGrid();
+        });
       }
     } catch (e) {
       debugPrint('Error loading data: $e');
@@ -57,31 +67,61 @@ class _HomeState extends State<Home> {
   }
 
   void _setupConnectivity() {
-    connectivityStream = Connectivity().onConnectivityChanged;
+    _connectivitySubscription?.cancel();
+    _connectivitySubscription =
+        Connectivity().onConnectivityChanged.listen((results) {
+      final connected =
+          results.any((result) => result != ConnectivityResult.none);
+
+      if (!mounted) return;
+
+      final wasConnected = _isConnected;
+      setState(() => _isConnected = connected);
+
+      if (!wasConnected && connected) {
+        _refreshPublications();
+      }
+    });
+
     _checkConnectivity();
   }
 
   @override
   void dispose() {
-    // Clean up any subscriptions or controllers here
+    _connectivitySubscription?.cancel();
     super.dispose();
+  }
+
+  void _refreshPublications() {
+    final provider = context.read<MyProvider>();
+    setState(() {
+      _publicationFuture = provider.getPublication();
+    });
+  }
+
+  double _calculateAspectRatio(Size screenSize, bool isTablet) {
+    if (isTablet) return 1.0;
+    final screenHeight = screenSize.height;
+    if (screenHeight < 600) return 0.9;
+    if (screenHeight < 700) return 1.0;
+    if (screenHeight < 800) return 1.1;
+    return 1.2;
   }
 
   List<Widget> _buildGrid() {
     final List<Map<String, dynamic>> gridItems = [
       {
-        'title': 'Médicament',
-        'image': 'assets/Interface/medicament.png',
+        'title': 'Medicaments',
+        'image': 'assets/accueil/medicament.png',
         'color': const Color(0xFF4CAF50),
         'route': () => Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const MedicamentsScreen()),
+              PremiumPageRoute(page: const MedicamentsScreen()),
             ),
       },
       {
         'title': 'Cours',
-        'image': 'assets/Interface/cours.png',
+        'image': 'assets/accueil/cours.png',
         'color': const Color(0xFF2196F3),
         'route': () => Navigator.push(
               context,
@@ -90,16 +130,16 @@ class _HomeState extends State<Home> {
       },
       {
         'title': 'Pharmacie',
-        'image': 'assets/Interface/pharmacie.png',
+        'image': 'assets/accueil/pharmacie.png',
         'color': const Color(0xFF9C27B0),
         'route': () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PharmacieScreen()),
+              PremiumPageRoute(page: const PharmacieScreen()),
             ),
       },
       {
-        'title': 'Matériels',
-        'image': 'assets/Interface/materiel.png',
+        'title': 'Equipements',
+        'image': 'assets/accueil/materiel.png',
         'color': const Color(0xFFFF9800),
         'route': () => Navigator.push(
               context,
@@ -108,7 +148,7 @@ class _HomeState extends State<Home> {
       },
       {
         'title': 'Outils',
-        'image': 'assets/Interface/outils.png',
+        'image': 'assets/accueil/outils.png',
         'color': const Color(0xFFF44336),
         'route': () => Navigator.push(
               context,
@@ -117,7 +157,7 @@ class _HomeState extends State<Home> {
       },
       {
         'title': 'Grossesse',
-        'image': 'assets/Interface/grossesse.png',
+        'image': 'assets/accueil/grossesse.png',
         'color': const Color(0xFF795548),
         'route': () => Navigator.push(
               context,
@@ -143,81 +183,112 @@ class _HomeState extends State<Home> {
     required Color color,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: _cardColor,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cardWidth = constraints.maxWidth;
+        final cardHeight = constraints.maxHeight;
+        final isSmallCard = cardWidth < 150 || cardHeight < 150;
+
+        final imageSize = isSmallCard ? 50.0 : 60.0;
+        final padding = isSmallCard ? 12.0 : 16.0;
+        final fontSize = isSmallCard ? 13.0 : 16.0;
+        final iconPadding = isSmallCard ? 8.0 : 12.0;
+        final spacing = isSmallCard ? 8.0 : 12.0;
+
+        return Container(
+          decoration: BoxDecoration(
+            color: _cardColor,
             borderRadius: BorderRadius.circular(16),
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Image.asset(
-                        imagePath,
-                        width: 80,
-                        height: 80,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: onTap,
+              child: Padding(
+                padding: EdgeInsets.all(padding),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: Container(
+                        width: imageSize,
+                        height: imageSize,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(iconPadding),
+                          child: Image.asset(
+                            imagePath,
+                            width: imageSize,
+                            height: imageSize,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(
+                                Icons.medical_services,
+                                size: imageSize * 0.6,
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: _textColor,
+                    SizedBox(height: spacing),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.w600,
+                          color: _textColor,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   void _checkConnectivity() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    setState(() => isConnected = connectivityResult != ConnectivityResult.none);
+    final connectivityResults = await Connectivity().checkConnectivity();
+    final connected =
+        connectivityResults.any((result) => result != ConnectivityResult.none);
 
-    connectivityStream.listen((result) {
-      for (var result in result) {
-        setState(() => isConnected = result != ConnectivityResult.none);
+    if (!mounted) return;
 
-        if (isConnected) {
-          provider.getPublication();
-        }
-      }
-    });
+    final wasConnected = _isConnected;
+    setState(() => _isConnected = connected);
+
+    if (!wasConnected && connected) {
+      _refreshPublications();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.height < 700;
+    final isTablet = screenSize.width > 600;
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -231,46 +302,55 @@ class _HomeState extends State<Home> {
       ),
       child: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  _buildPublicationCard(),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Services Disponibles',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: _textColor,
+          : CustomScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      SizedBox(height: isSmallScreen ? 12 : 16),
+                      _buildPublicationCard(),
+                      SizedBox(height: isSmallScreen ? 12 : 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Services Disponibles',
+                            style: TextStyle(
+                              fontSize: isSmallScreen ? 20 : 24,
+                              fontWeight: FontWeight.bold,
+                              color: _textColor,
+                            ),
+                          ),
                         ),
                       ),
+                      SizedBox(height: isSmallScreen ? 12 : 16),
+                    ],
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: isTablet ? 3 : 2,
+                      childAspectRatio:
+                          _calculateAspectRatio(screenSize, isTablet),
+                      crossAxisSpacing: isSmallScreen ? 12 : 16,
+                      mainAxisSpacing: isSmallScreen ? 12 : 16,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => grid[index],
+                      childCount: grid.length,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: grid.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.1,
-                      ),
-                      itemBuilder: (context, index) => grid[index],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(height: isSmallScreen ? 16 : 20),
+                ),
+              ],
             ),
     );
   }
@@ -291,7 +371,7 @@ class _HomeState extends State<Home> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: FutureBuilder(
-          future: provider.getPublication(),
+          future: _publicationFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
@@ -303,7 +383,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               );
-            } else if (snapshot.hasData && isConnected) {
+            } else if (snapshot.hasData && _isConnected) {
               return SizedBox(
                 height: 180,
                 child: CarouselSlider(
@@ -317,7 +397,7 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(16),
                         child: Image.network(
                           item.image,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               color: _cardColor,
@@ -340,7 +420,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               );
-            } else if (!isConnected) {
+            } else if (!_isConnected) {
               return _buildErrorCard('Mode hors connexion');
             } else {
               return _buildErrorCard('Aucune publication disponible');

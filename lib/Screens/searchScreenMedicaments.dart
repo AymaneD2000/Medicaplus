@@ -2,14 +2,15 @@ import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:medpharm/Models/med.dart';
 import 'package:medpharm/Screens/medicamentdetailscreen.dart';
+import 'package:medpharm/Utils/transitions.dart';
 import 'package:gap/gap.dart';
 import 'package:medpharm/Widgets/az_navigation.dart';
 
 class SearchMedicamentScreen extends StatefulWidget {
-  List<Med> listes;
-  String hintText;
+  final List<Med> listes;
+  final String hintText;
 
-  SearchMedicamentScreen(
+  const SearchMedicamentScreen(
       {super.key, required this.listes, required this.hintText});
 
   @override
@@ -26,8 +27,6 @@ class _SearchMedicamentScreenState extends State<SearchMedicamentScreen> {
   final Color _backgroundColor = const Color(0xFFF5F5F5);
   final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);
-  final Color _successColor = const Color(0xFF4CAF50);
-  final Color _errorColor = const Color(0xFFE53935);
 
   @override
   void initState() {
@@ -323,10 +322,10 @@ class _SearchMedicamentScreenState extends State<SearchMedicamentScreen> {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        MedicamentDetailsScreen(
-                                            medicament: med),
+                                  PremiumPageRoute(
+                                    page: MedicamentDetailsScreen(
+                                      medicament: med,
+                                    ),
                                   ),
                                 );
                               },

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medpharm/Models/amo.dart';
 import 'package:medpharm/Screens/AmoView.dart';
+import 'package:medpharm/Utils/transitions.dart';
 
 // ignore: must_be_immutable
 class SearchAmoScreenDCI extends StatefulWidget {
@@ -20,7 +21,6 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
   List<Amo> filtered = [];
 
   // Modern color scheme
-  final Color _primaryColor = const Color(0xFF02B1EC);
   final Color _secondaryColor = const Color(0xFF4CAF50);
   final Color _backgroundColor = const Color(0xFFF5F5F5);
   final Color _cardColor = Colors.white;
@@ -184,7 +184,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                   onChanged: _performSearch,
                 ),
               ),
-              if (filtered.isNotEmpty) ...[
+              if (filtered.isNotEmpty && searchController.text.isNotEmpty) ...[
                 const Gap(12),
                 Text(
                   '${filtered.length} résultat${filtered.length > 1 ? 's' : ''} trouvé${filtered.length > 1 ? 's' : ''}',
@@ -284,8 +284,8 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => AmoDetailsScreen(medicament: pharmacy),
+              PremiumPageRoute(
+                page: AmoDetailsScreen(medicament: pharmacy),
               ),
             );
           },

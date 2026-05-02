@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:medpharm/Models/materiels.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VenteCover extends StatefulWidget {
   final Materiel materiel;
@@ -17,10 +18,70 @@ class _VenteCoverState extends State<VenteCover> {
   // Modern color scheme
   final Color _primaryColor = const Color(0xFF1E88E5);
   final Color _secondaryColor = const Color(0xFF42A5F5);
-  final Color _accentColor = const Color(0xFF1976D2);
   final Color _cardColor = Colors.white;
   final Color _textColor = const Color(0xFF1D1B20);
   final Color _backgroundColor = const Color(0xFFF8F9FA);
+
+  bool _isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavoriteStatus();
+  }
+
+  Future<void> _loadFavoriteStatus() async {
+    if (widget.materiel.id == null) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final favorites = prefs.getStringList('favorite_materials') ?? [];
+    setState(() {
+      _isFavorite = favorites.contains(widget.materiel.id.toString());
+    });
+  }
+
+  Future<void> _toggleFavorite() async {
+    // Check if materiel has an id
+    if (widget.materiel.id == null) {
+      _showErrorSnackBar(
+          context, "Impossible d'ajouter ce matériel aux favoris");
+      return;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    final favorites = prefs.getStringList('favorite_materials') ?? [];
+    final materialId = widget.materiel.id!.toString();
+
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+
+    if (_isFavorite) {
+      if (!favorites.contains(materialId)) {
+        favorites.add(materialId);
+      }
+    } else {
+      favorites.remove(materialId);
+    }
+
+    await prefs.setStringList('favorite_materials', favorites);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            _isFavorite ? 'Ajouté aux favoris ✓' : 'Retiré des favoris',
+          ),
+          backgroundColor: _isFavorite ? Colors.green : _primaryColor,
+          duration: const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+    }
+  }
 
   String _formatPrice(String price) {
     try {
@@ -35,25 +96,99 @@ class _VenteCoverState extends State<VenteCover> {
     }
   }
 
-  void launchWhatsApp(
-      BuildContext context, String phone, String message) async {
-    final whatsappUrl =
-        "https://wa.me/$phone/?text=${Uri.encodeQueryComponent(message)}";
-    if (await canLaunchUrl(Uri.parse(whatsappUrl))) {
-      await launchUrl(Uri.parse(whatsappUrl));
-    } else {
-      _showErrorSnackBar(
-          context, "WhatsApp n'est pas installé sur cet appareil.");
+  String _normalizeWhatsAppPhone(String phone) {
+    var normalized = phone.replaceAll(RegExp(r'[^0-9+]'), '');
+
+    if (normalized.startsWith('00')) {
+      normalized = '+${normalized.substring(2)}';
+    }
+
+    if (normalized.startsWith('+')) {
+      final digits = normalized.substring(1).replaceAll(RegExp(r'\D'), '');
+      return '+$digits';
+    }
+
+    return normalized.replaceAll(RegExp(r'\D'), '');
+  }
+
+  Future<bool> _safeLaunchExternal(Uri uri) async {
+    try {
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
     }
   }
 
-  void launchPhoneDialer(BuildContext context, String phoneNumber) async {
-    final phoneUrl = "tel:$phoneNumber";
-    if (await canLaunchUrl(Uri.parse(phoneUrl))) {
-      await launchUrl(Uri.parse(phoneUrl));
-    } else {
-      _showErrorSnackBar(context,
-          "L'application téléphone n'est pas disponible sur cet appareil.");
+  Future<void> launchWhatsApp(String phone, String message) async {
+    final normalizedPhone = _normalizeWhatsAppPhone(phone);
+    final waMePhone = normalizedPhone.startsWith('+')
+        ? normalizedPhone.substring(1)
+        : normalizedPhone;
+
+    if (waMePhone.isEmpty) {
+      if (!mounted) return;
+      _showErrorSnackBar(context, 'Numéro WhatsApp invalide.');
+      return;
+    }
+
+    final appUri = Uri.parse('whatsapp://send').replace(queryParameters: {
+      'phone': waMePhone,
+      'text': message,
+    });
+
+    final waMeUri = Uri.https('wa.me', '/$waMePhone', {
+      'text': message,
+    });
+
+    final apiUri = Uri.https('api.whatsapp.com', '/send', {
+      'phone': waMePhone,
+      'text': message,
+    });
+
+    final appUriNoPhone =
+        Uri.parse('whatsapp://send').replace(queryParameters: {
+      'text': message,
+    });
+
+    var launched = await _safeLaunchExternal(appUri);
+
+    if (!launched) {
+      launched = await _safeLaunchExternal(waMeUri);
+    }
+
+    if (!launched) {
+      launched = await _safeLaunchExternal(apiUri);
+    }
+
+    if (!launched) {
+      launched = await _safeLaunchExternal(appUriNoPhone);
+    }
+
+    if (!launched && mounted) {
+      _showErrorSnackBar(
+        context,
+        "Impossible d'ouvrir WhatsApp sur cet appareil.",
+      );
+    }
+  }
+
+  Future<void> launchPhoneDialer(String phoneNumber) async {
+    final normalizedPhone = phoneNumber.replaceAll(RegExp(r'[^0-9+]'), '');
+
+    if (normalizedPhone.isEmpty) {
+      if (!mounted) return;
+      _showErrorSnackBar(context, 'Numéro de téléphone invalide.');
+      return;
+    }
+
+    final launched =
+        await _safeLaunchExternal(Uri.parse('tel:$normalizedPhone'));
+
+    if (!launched && mounted) {
+      _showErrorSnackBar(
+        context,
+        "L'application téléphone n'est pas disponible sur cet appareil.",
+      );
     }
   }
 
@@ -77,39 +212,186 @@ class _VenteCoverState extends State<VenteCover> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 100,
+            expandedHeight: 88,
+            collapsedHeight: 60,
+            toolbarHeight: 60,
             floating: false,
             pinned: true,
             elevation: 0,
+            scrolledUnderElevation: 0,
             backgroundColor: _primaryColor,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [_primaryColor, _secondaryColor],
+            surfaceTintColor: Colors.transparent,
+            centerTitle: true,
+            titleSpacing: 0,
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Détail du matériel',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 17,
+                    letterSpacing: 0.1,
                   ),
                 ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
-                    child: Text(
-                      widget.materiel.title,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                const Gap(2),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.14),
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.18),
+                    ),
+                  ),
+                  child: const Text(
+                    'Équipement médical',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            leadingWidth: 58,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 12, top: 9, bottom: 9),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.18),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.28),
+                        width: 1,
                       ),
-                      textAlign: TextAlign.center,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          blurRadius: 12,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Colors.white,
+                      size: 17,
                     ),
                   ),
                 ),
               ),
             ),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.pop(context),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 12, top: 9, bottom: 9),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: _toggleFavorite,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 220),
+                      curve: Curves.easeOut,
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: _isFavorite
+                            ? Colors.redAccent.withOpacity(0.9)
+                            : Colors.white.withOpacity(0.18),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: _isFavorite
+                              ? Colors.white.withOpacity(0.25)
+                              : Colors.white.withOpacity(0.28),
+                          width: 1,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                (_isFavorite ? Colors.redAccent : Colors.black)
+                                    .withOpacity(0.12),
+                            blurRadius: 14,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        _isFavorite
+                            ? Icons.favorite_rounded
+                            : Icons.favorite_border_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFF1565C0),
+                    _primaryColor,
+                    _secondaryColor,
+                  ],
+                  stops: const [0.0, 0.55, 1.0],
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: -42,
+                    right: -26,
+                    child: Container(
+                      width: 130,
+                      height: 130,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.07),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: -34,
+                    bottom: -62,
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.08),
+                          width: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 72,
+                    bottom: 10,
+                    child: Icon(
+                      Icons.medical_services_outlined,
+                      color: Colors.white.withOpacity(0.08),
+                      size: 42,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           SliverToBoxAdapter(
@@ -289,73 +571,263 @@ class _VenteCoverState extends State<VenteCover> {
   }
 
   Widget _buildPriceSection() {
+    final hasPrice = widget.materiel.price.trim().isNotEmpty;
+    final formattedPrice =
+        hasPrice ? _formatPrice(widget.materiel.price) : 'Prix sur demande';
+
     return Container(
-      padding: const EdgeInsets.all(24),
+      width: double.infinity,
+      padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: _cardColor,
-        borderRadius: BorderRadius.circular(20),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            _primaryColor.withOpacity(0.95),
+            _secondaryColor.withOpacity(0.72),
+            const Color(0xFF90CAF9).withOpacity(0.45),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+            color: _primaryColor.withOpacity(0.24),
+            blurRadius: 26,
+            offset: const Offset(0, 14),
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Row(
+      child: Container(
+        decoration: BoxDecoration(
+          color: _cardColor,
+          borderRadius: BorderRadius.circular(28),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(28),
+          child: Stack(
             children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: _accentColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child:
-                    Image.asset('assets/icon/prix.png', width: 24, height: 24),
-              ),
-              const Gap(16),
-              Expanded(
-                child: Text(
-                  'Prix unitaire',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: _textColor,
+              Positioned(
+                top: -46,
+                right: -34,
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _primaryColor.withOpacity(0.06),
                   ),
+                ),
+              ),
+              Positioned(
+                bottom: -58,
+                left: -44,
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _secondaryColor.withOpacity(0.08),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [_primaryColor, _secondaryColor],
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: _primaryColor.withOpacity(0.25),
+                                blurRadius: 14,
+                                offset: const Offset(0, 7),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.payments_rounded,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                        const Gap(14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Prix unitaire',
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w800,
+                                  color: _textColor,
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                              const Gap(3),
+                              Text(
+                                'Montant affiché par article',
+                                style: TextStyle(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: _textColor.withOpacity(0.55),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(
+                              color: Colors.green.withOpacity(0.18),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.verified_rounded,
+                                color: Colors.green.shade700,
+                                size: 14,
+                              ),
+                              const Gap(5),
+                              Text(
+                                'Disponible',
+                                style: TextStyle(
+                                  color: Colors.green.shade700,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Gap(22),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            const Color(0xFFF7FBFF),
+                            _primaryColor.withOpacity(0.055),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(22),
+                        border: Border.all(
+                          color: _primaryColor.withOpacity(0.1),
+                          width: 1.2,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            hasPrice ? 'MONTANT À PAYER' : 'PRIX',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              color: _primaryColor.withOpacity(0.72),
+                              letterSpacing: 1.6,
+                            ),
+                          ),
+                          const Gap(10),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  formattedPrice,
+                                  style: TextStyle(
+                                    fontSize: hasPrice ? 44 : 28,
+                                    fontWeight: FontWeight.w900,
+                                    color: _primaryColor,
+                                    letterSpacing: -1.2,
+                                    height: 1,
+                                  ),
+                                ),
+                                if (hasPrice) ...[
+                                  const Gap(8),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 4),
+                                    child: Text(
+                                      'FCFA',
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w900,
+                                        color: _textColor.withOpacity(0.68),
+                                        letterSpacing: 1,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                          const Gap(14),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _primaryColor.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.chat_bubble_outline_rounded,
+                                  color: _primaryColor,
+                                  size: 15,
+                                ),
+                                const Gap(7),
+                                Text(
+                                  'Contactez le vendeur pour confirmer',
+                                  style: TextStyle(
+                                    color: _primaryColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          const Gap(20),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [_primaryColor, _secondaryColor],
-              ),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  "${_formatPrice(widget.materiel.price)} FCFA",
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 0.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -363,92 +835,137 @@ class _VenteCoverState extends State<VenteCover> {
   Widget _buildActionButtons() {
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: _buildActionButton(
-                onPressed: () {
-                  launchWhatsApp(
-                    context,
-                    widget.materiel.telephone,
-                    "Bonjour! Je suis intéressé(e) par ce matériel médical :\n\n"
-                    "📋 Nom: ${widget.materiel.title}\n"
-                    "💰 Prix: ${_formatPrice(widget.materiel.price)} FCFA\n"
-                    "${widget.materiel.description != null && widget.materiel.description!.isNotEmpty ? '📝 Description: ${widget.materiel.description}\n' : ''}"
-                    "\nPouvez-vous me donner plus d'informations ?",
-                  );
-                },
-                icon: 'assets/icon/commander.png',
-                label: 'Commander',
-                color: Colors.blue.withOpacity(0.1),
-                isWhatsApp: true,
-              ),
-            ),
-            const Gap(16),
-            Expanded(
-              child: _buildActionButton(
-                onPressed: () {
-                  launchPhoneDialer(context, widget.materiel.telephone);
-                },
-                icon: 'assets/icon/appeler.png',
-                label: 'Appeler',
-                color: Colors.blue.withOpacity(0.1),
-              ),
-            ),
-          ],
+        // Commander button (WhatsApp)
+        _buildModernActionButton(
+          onPressed: () {
+            launchWhatsApp(
+              widget.materiel.telephone,
+              "Bonjour! Je suis intéressé(e) par ce matériel médical :\n\n"
+              "📋 Nom: ${widget.materiel.title}\n"
+              "💰 Prix: ${_formatPrice(widget.materiel.price)} FCFA\n"
+              "${widget.materiel.description != null && widget.materiel.description!.isNotEmpty ? '📝 Description: ${widget.materiel.description}\n' : ''}"
+              "\nPouvez-vous me donner plus d'informations ?",
+            );
+          },
+          icon: 'assets/materiel/commander.png',
+          label: 'Commander via WhatsApp',
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color(0xFF25D366),
+              const Color(0xFF128C7E),
+            ],
+          ),
+          shadowColor: const Color(0xFF25D366),
+        ),
+        const Gap(16),
+
+        // Appeler button
+        _buildModernActionButton(
+          onPressed: () {
+            launchPhoneDialer(widget.materiel.telephone);
+          },
+          icon: 'assets/materiel/appeler.png',
+          label: 'Appeler maintenant',
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              _primaryColor,
+              _secondaryColor,
+            ],
+          ),
+          shadowColor: _primaryColor,
         ),
       ],
     );
   }
 
-  Widget _buildActionButton({
+  Widget _buildModernActionButton({
     required VoidCallback onPressed,
     required String icon,
     required String label,
-    required Color color,
-    bool isWhatsApp = false,
+    required Gradient gradient,
+    required Color shadowColor,
   }) {
     return Container(
+      width: double.infinity,
+      height: 70,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: color.withOpacity(0.3),
-        //     blurRadius: 12,
-        //     offset: const Offset(0, 4),
-        //   ),
-        // ],
+        gradient: gradient,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor.withOpacity(0.4),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
-      child: ElevatedButton.icon(
-        onPressed: onPressed,
-        icon: isWhatsApp
-            ? Container(
-                width: 24,
-                height: 24,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/icon/commander.png"),
-                    fit: BoxFit.contain,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Icon
+                Container(
+                  width: 40,
+                  height: 40,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: Image.asset(
+                    icon,
+                    width: 24,
+                    height: 24,
+                    color: Colors.white,
                   ),
                 ),
-              )
-            : Image.asset(icon, width: 24, height: 24),
-        label: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
+                const Gap(16),
+
+                // Label
+                Expanded(
+                  child: Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 0.5,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+                // Arrow icon
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          elevation: 0,
         ),
       ),
     );

@@ -29,18 +29,12 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
   //List<dynamic> medicamentsData = [];
   List<dynamic> classth = [];
   final tabs = <Tab>[
-    Tab(
-      icon: Image.asset(
-        "assets/images/az.png",
-        height: 21,
-      ),
+    const Tab(
+      icon: Icon(Icons.sort_by_alpha, size: 21),
       text: "Nom",
     ),
-    Tab(
-      icon: Image.asset(
-        "assets/images/info.png",
-        height: 21,
-      ),
+    const Tab(
+      icon: Icon(Icons.info_outline, size: 21),
       text: "Info",
     ),
   ];
@@ -113,7 +107,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                         size: 40,
                       ),
                       Text(
-                        "MedicaPlus",
+                        "MedPharm",
                         style: TextStyle(
                             fontFamily: 'TimesNewRoman', fontSize: 23),
                       )
@@ -148,9 +142,9 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: const BorderSide(color: Colors.green)),
-                        suffixIcon: Image.asset(
-                          'assets/images/recherche.png',
-                          scale: 20,
+                        suffixIcon: const Icon(
+                          Icons.search,
+                          size: 20,
                         ),
                         hintText: 'Rechercher des Noms...',
                         border: OutlineInputBorder(
@@ -172,14 +166,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return const Center(child: Text('No PDF files found.'));
                       } else {
-                        final data = snapshot.data!
-                            .map((filePath) => filePath.split('/').last)
-                            .toList();
-                        final list =
-                            List.generate(growable: true, data.length, (index) {
-                          return Prescription(name: data[index]);
-                        });
-                        return Center();
+                        return const Center();
                         // return StickyAzList(
                         //     options: const StickyAzOptions(
                         //         startWithSpecialSymbol: true,

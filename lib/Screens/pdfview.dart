@@ -214,15 +214,15 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: color.withOpacity(0.1), width: 1.5),
-            color: color.withOpacity(0.03),
+            border: Border.all(color: color.withValues(alpha: 0.1), width: 1.5),
+            color: color.withValues(alpha: 0.03),
           ),
           child: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(icon, color: color, size: 24),
@@ -255,7 +255,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 14,
-                color: color.withOpacity(0.5),
+                color: color.withValues(alpha: 0.5),
               ),
             ],
           ),
@@ -279,7 +279,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -471,6 +471,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
         description: pdf.description,
         url: pdf.url,
         addLogo: addLogo,
+        context: context,
       );
 
       if (downloadedPdf != null) {
@@ -808,26 +809,26 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
         ],
       ),
       body: Container(
-        color: Colors.white,
+        color: Colors.blue,
         child: SfPdfViewerTheme(
           data: const SfPdfViewerThemeData(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.blue,
           ),
           child: Stack(
             children: <Widget>[
-              // White background container
+              // Blue background container for the space between PDF pages
               Container(
                 width: double.infinity,
                 height: double.infinity,
-                color: Colors.white,
+                color: Colors.blue,
               ),
-              // PDF Viewer wrapped in Material with white background
+              // PDF Viewer wrapped in Material with blue page spacing background
               Material(
-                color: Colors.white,
+                color: Colors.blue,
                 child: Container(
                   width: double.infinity,
                   height: double.infinity,
-                  color: Colors.white,
+                  color: Colors.blue,
                   child: _resolvedPath != null
                       ? widget.isLocalFile
                           ? SfPdfViewer.file(

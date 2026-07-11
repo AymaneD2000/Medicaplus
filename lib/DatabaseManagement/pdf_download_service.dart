@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -7,6 +8,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
 
 import '../Models/downloaded_pdf.dart';
+import '../Utils/permission_service.dart';
 
 class PdfDownloadService {
   static Database? _database;
@@ -127,8 +129,18 @@ class PdfDownloadService {
     required String description,
     required String url,
     bool addLogo = false,
+    BuildContext? context,
   }) async {
     try {
+      // For external download, check storage permission first
+      if (addLogo && context != null && context.mounted) {
+        final hasPermission =
+            await PermissionService.requestStoragePermission(context);
+        if (!hasPermission) {
+          return null;
+        }
+      }
+
       // For simple download, check if already downloaded
       if (!addLogo && await isPdfDownloaded(originalId)) {
         return await getDownloadedPdf(originalId);
@@ -317,9 +329,19 @@ class PdfDownloadService {
     String originalId,
     String name,
     String description,
-    String originalUrl,
-  ) async {
+    String originalUrl, {
+    BuildContext? context,
+  }) async {
     try {
+      // Check storage permission first
+      if (context != null && context.mounted) {
+        final hasPermission =
+            await PermissionService.requestStoragePermission(context);
+        if (!hasPermission) {
+          return null;
+        }
+      }
+
       // Read the local PDF file
       final file = File(localPath);
       if (!await file.exists()) {

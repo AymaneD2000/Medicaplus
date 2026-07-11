@@ -32,7 +32,7 @@ class _SecondCalculeState extends State<SecondCalcule> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -75,7 +75,7 @@ class _SecondCalculeState extends State<SecondCalcule> {
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
-                  color: _textColor.withOpacity(0.5),
+                  color: _textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ],
@@ -116,7 +116,7 @@ class _SecondCalculeState extends State<SecondCalcule> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -138,7 +138,7 @@ class _SecondCalculeState extends State<SecondCalcule> {
                     'Choisissez le médicament pour calculer la dose appropriée',
                     style: TextStyle(
                       fontSize: 16,
-                      color: _textColor.withOpacity(0.8),
+                      color: _textColor.withValues(alpha: 0.8),
                       height: 1.5,
                     ),
                   ),

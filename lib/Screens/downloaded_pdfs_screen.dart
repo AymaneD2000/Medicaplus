@@ -601,6 +601,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
         pdf.name,
         pdf.description,
         pdf.originalUrl,
+        context: context,
       );
 
       if (exportedPdf != null) {
@@ -777,7 +778,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
@@ -793,7 +794,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
               decoration: InputDecoration(
                 hintText: 'Rechercher des pdf...',
                 hintStyle: TextStyle(
-                  color: _textColor.withOpacity(0.5),
+                  color: _textColor.withValues(alpha: 0.5),
                   fontSize: 16,
                 ),
                 prefixIcon: Icon(
@@ -808,7 +809,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
                       IconButton(
                         icon: Icon(
                           Icons.clear,
-                          color: _textColor.withOpacity(0.5),
+                          color: _textColor.withValues(alpha: 0.5),
                         ),
                         onPressed: () {
                           _searchController.clear();
@@ -966,7 +967,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
               icon: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -985,7 +986,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(
@@ -1047,7 +1048,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
             Icon(
               Icons.search_off,
               size: 64,
-              color: _textColor.withOpacity(0.3),
+              color: _textColor.withValues(alpha: 0.3),
             ),
             const Gap(16),
             Text(
@@ -1064,7 +1065,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -1106,13 +1107,13 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
             Container(
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: _primaryColor.withOpacity(0.05),
+                color: _primaryColor.withValues(alpha: 0.05),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.cloud_off_rounded,
                 size: 80,
-                color: _primaryColor.withOpacity(0.2),
+                color: _primaryColor.withValues(alpha: 0.2),
               ),
             ),
             const Gap(32),
@@ -1132,7 +1133,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15,
-                color: _textColor.withOpacity(0.5),
+                color: _textColor.withValues(alpha: 0.5),
                 height: 1.5,
               ),
             ),
@@ -1176,7 +1177,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: _primaryColor.withOpacity(0.08),
+            color: _primaryColor.withValues(alpha: 0.08),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -1208,10 +1209,10 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
                   width: 60,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: _primaryColor.withOpacity(0.05),
+                    color: _primaryColor.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: _primaryColor.withOpacity(0.1),
+                      color: _primaryColor.withValues(alpha: 0.1),
                       width: 1,
                     ),
                   ),
@@ -1249,7 +1250,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(0.1),
+                                color: Colors.green.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
@@ -1268,7 +1269,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
                         pdf.description,
                         style: TextStyle(
                           fontSize: 13,
-                          color: _textColor.withOpacity(0.6),
+                          color: _textColor.withValues(alpha: 0.6),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -1317,13 +1318,13 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 12, color: _textColor.withOpacity(0.4)),
+        Icon(icon, size: 12, color: _textColor.withValues(alpha: 0.4)),
         const Gap(4),
         Text(
           text,
           style: TextStyle(
             fontSize: 11,
-            color: _textColor.withOpacity(0.4),
+            color: _textColor.withValues(alpha: 0.4),
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -1339,7 +1340,7 @@ class _DownloadedPdfsScreenState extends State<DownloadedPdfsScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
       ),
       child: IconButton(

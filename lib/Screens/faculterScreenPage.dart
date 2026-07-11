@@ -103,7 +103,7 @@ class _FaculterState extends State<Faculter> {
           end: Alignment.bottomRight,
           colors: [
             _primaryColor,
-            _primaryColor.withOpacity(0.8),
+            _primaryColor.withValues(alpha: 0.8),
             const Color(0xFF42A5F5),
           ],
           stops: const [0.0, 0.7, 1.0],
@@ -114,7 +114,7 @@ class _FaculterState extends State<Faculter> {
         ),
         boxShadow: [
           BoxShadow(
-            color: _primaryColor.withOpacity(0.2),
+            color: _primaryColor.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -130,7 +130,7 @@ class _FaculterState extends State<Faculter> {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.08),
+                color: Colors.white.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
             ),
@@ -142,7 +142,7 @@ class _FaculterState extends State<Faculter> {
               width: 25,
               height: 25,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.04),
+                color: Colors.white.withValues(alpha: 0.04),
                 shape: BoxShape.circle,
               ),
             ),
@@ -160,10 +160,10 @@ class _FaculterState extends State<Faculter> {
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -191,18 +191,18 @@ class _FaculterState extends State<Faculter> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.15),
+                        Colors.white.withValues(alpha: 0.25),
+                        Colors.white.withValues(alpha: 0.15),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
+                        color: Colors.black.withValues(alpha: 0.08),
                         blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),
@@ -230,7 +230,7 @@ class _FaculterState extends State<Faculter> {
                           letterSpacing: 0.3,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               offset: const Offset(0, 1),
                               blurRadius: 1,
                             ),
@@ -242,10 +242,10 @@ class _FaculterState extends State<Faculter> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             width: 0.5,
                           ),
                         ),
@@ -271,8 +271,8 @@ class _FaculterState extends State<Faculter> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.08),
+                        Colors.white.withValues(alpha: 0.25),
+                        Colors.white.withValues(alpha: 0.08),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(1),
@@ -300,7 +300,7 @@ class _FaculterState extends State<Faculter> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -315,7 +315,7 @@ class _FaculterState extends State<Faculter> {
             Text(
               'Chargement des filières...',
               style: TextStyle(
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -360,7 +360,7 @@ class _FaculterState extends State<Faculter> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -371,7 +371,7 @@ class _FaculterState extends State<Faculter> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: _primaryColor.withOpacity(0.1),
+              color: _primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -398,7 +398,7 @@ class _FaculterState extends State<Faculter> {
                   '$count filière${count > 1 ? 's' : ''} académique${count > 1 ? 's' : ''}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: _textColor.withOpacity(0.7),
+                    color: _textColor.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -427,7 +427,7 @@ class _FaculterState extends State<Faculter> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: cardColor.withOpacity(0.2),
+            color: cardColor.withValues(alpha: 0.2),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -463,7 +463,7 @@ class _FaculterState extends State<Faculter> {
                         fit: BoxFit.contain,
                         width: double.infinity,
                         placeholder: (context, url) => Container(
-                          color: cardColor.withOpacity(0.1),
+                          color: cardColor.withValues(alpha: 0.1),
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
@@ -473,7 +473,7 @@ class _FaculterState extends State<Faculter> {
                           ),
                         ),
                         errorWidget: (context, url, error) => Container(
-                          color: cardColor.withOpacity(0.1),
+                          color: cardColor.withValues(alpha: 0.1),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -516,7 +516,7 @@ class _FaculterState extends State<Faculter> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: cardColor.withOpacity(0.1),
+                    color: cardColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -565,7 +565,7 @@ class _FaculterState extends State<Faculter> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -593,7 +593,7 @@ class _FaculterState extends State<Faculter> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),
@@ -645,7 +645,7 @@ class _FaculterState extends State<Faculter> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -673,7 +673,7 @@ class _FaculterState extends State<Faculter> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
               ),
             ),
             const Gap(32),

@@ -77,8 +77,10 @@ class _FiliereScreenState extends State<FiliereScreen> {
       await SupabaseManagement().removeFiliere(filiere);
       await _loadFilieres();
       _showSuccessSnackBar('Filière supprimée avec succès');
-    } catch (error) {
-      _showErrorSnackBar('Erreur lors de la suppression de la filière');
+    } catch (error, stackTrace) {
+      debugPrint('Error deleting filiere: $error');
+      debugPrint('Stack trace: $stackTrace');
+      _showErrorSnackBar('Erreur: $error');
     } finally {
       setState(() => _isOperationInProgress = false);
     }
@@ -228,7 +230,7 @@ class _FiliereScreenState extends State<FiliereScreen> {
                     child: Card(
                       elevation: 6,
                       color: Colors.white,
-                      shadowColor: Colors.grey.withOpacity(0.5),
+                      shadowColor: Colors.grey.withValues(alpha: 0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -464,7 +466,8 @@ class _AddFiliereDialogState extends State<AddFiliereDialog> {
 
       _imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, SupabaseManagement.signedUrlExpiryInSeconds);
+          .createSignedUrl(
+              filePath, SupabaseManagement.signedUrlExpiryInSeconds);
 
       setState(() => _isUploading = false);
 
@@ -787,7 +790,8 @@ class _EditFiliereDialogState extends State<EditFiliereDialog> {
 
       _imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, SupabaseManagement.signedUrlExpiryInSeconds);
+          .createSignedUrl(
+              filePath, SupabaseManagement.signedUrlExpiryInSeconds);
 
       setState(() => _isUploading = false);
 
@@ -868,13 +872,16 @@ class _EditFiliereDialogState extends State<EditFiliereDialog> {
           ),
         );
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
+      debugPrint('Error updating filiere: $error');
+      debugPrint('Stack trace: $stackTrace');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Erreur lors de la modification de la filière'),
+            content: Text('Erreur: $error'),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 6),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),

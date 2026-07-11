@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/cours_provider.dart';
 import 'package:medpharm/Models/semestre.dart';
 import 'package:medpharm/Screens/filieresviewer.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class SemestreScreen extends StatefulWidget {
 }
 
 class _SemestreScreenState extends State<SemestreScreen> {
-  late MyProvider provider;
+  late CoursProvider provider;
   bool _isLoading = true;
   bool _hasError = false;
   String _errorMessage = '';
@@ -36,7 +36,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
   @override
   void initState() {
     super.initState();
-    provider = Provider.of<MyProvider>(context, listen: false);
+    provider = Provider.of<CoursProvider>(context, listen: false);
     _loadSemestres();
   }
 
@@ -110,7 +110,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
             Text(
               widget.classeName,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withValues(alpha: 0.9),
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -131,7 +131,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(
@@ -177,7 +177,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -192,7 +192,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
             Text(
               'Chargement des semestres...',
               style: TextStyle(
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -237,7 +237,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -248,7 +248,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: _primaryColor.withOpacity(0.1),
+              color: _primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -275,7 +275,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
                   '${semestres.length} semestre${semestres.length > 1 ? 's' : ''} disponible${semestres.length > 1 ? 's' : ''}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: _textColor.withOpacity(0.7),
+                    color: _textColor.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -304,7 +304,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: cardColor.withOpacity(0.2),
+            color: cardColor.withValues(alpha: 0.2),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -342,7 +342,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
                         fit: BoxFit.contain,
                         width: double.infinity,
                         placeholder: (context, url) => Container(
-                          color: cardColor.withOpacity(0.1),
+                          color: cardColor.withValues(alpha: 0.1),
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
@@ -352,7 +352,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
                           ),
                         ),
                         errorWidget: (context, url, error) => Container(
-                          color: cardColor.withOpacity(0.1),
+                          color: cardColor.withValues(alpha: 0.1),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -406,7 +406,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: cardColor.withOpacity(0.1),
+                      color: cardColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -453,7 +453,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -481,7 +481,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),
@@ -530,7 +530,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -558,7 +558,7 @@ class _SemestreScreenState extends State<SemestreScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),

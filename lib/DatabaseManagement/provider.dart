@@ -13,6 +13,12 @@ import 'package:medpharm/data/repositories/medicament_repository.dart';
 import 'package:medpharm/data/repositories/pharmacie_repository.dart';
 import 'package:uuid/uuid.dart';
 
+/// Legacy provider kept for backward compatibility.
+/// New code should use the domain-specific providers:
+/// - MedicamentProvider
+/// - PharmacieProvider
+/// - CoursProvider
+/// - MaterielProvider
 class MyProvider extends ChangeNotifier {
   List<Classe> classes = [];
   List<Fac> faculter = [];
@@ -97,7 +103,6 @@ class MyProvider extends ChangeNotifier {
 
   Future<void> addFiliere(Filiere f) async {
     try {
-      // Generate a UUID for the new filiere
       final String id = const Uuid().v4();
       final filiereWithId = Filiere(
         id: id,
@@ -230,7 +235,7 @@ class MyProvider extends ChangeNotifier {
       String nomSemetre, String image, String classeName) async {
     try {
       final semestre = Semestre(
-        id: const Uuid().v4(), // Generate a new UUID
+        id: const Uuid().v4(),
         nomSemetre: nomSemetre,
         image: image,
         nomClasse: classeName,

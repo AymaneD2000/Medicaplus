@@ -71,7 +71,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -85,7 +85,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -110,7 +110,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
             "Le score de Wells est une méthode d'estimation de la probabilité clinique d'embolie pulmonaire.",
             style: TextStyle(
               fontSize: 16,
-              color: _textColor.withOpacity(0.8),
+              color: _textColor.withValues(alpha: 0.8),
               height: 1.5,
             ),
           ),
@@ -128,7 +128,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -142,7 +142,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -221,10 +221,10 @@ class _WellsScorePageState extends State<WellsScorePage> {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: value ? _primaryColor.withOpacity(0.1) : Colors.transparent,
+        color: value ? _primaryColor.withValues(alpha: 0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: value ? _primaryColor : Colors.grey.withOpacity(0.3),
+          color: value ? _primaryColor : Colors.grey.withValues(alpha: 0.3),
           width: value ? 2 : 1,
         ),
       ),
@@ -268,7 +268,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -281,7 +281,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -298,7 +298,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
                     'Score Total',
                     style: TextStyle(
                       fontSize: 16,
-                      color: _textColor.withOpacity(0.7),
+                      color: _textColor.withValues(alpha: 0.7),
                     ),
                   ),
                   Text(
@@ -318,7 +318,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -358,7 +358,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -372,7 +372,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -397,7 +397,7 @@ class _WellsScorePageState extends State<WellsScorePage> {
             'EP : embolie pulmonaire\nTVP : thrombose veineuse profonde',
             style: TextStyle(
               fontSize: 16,
-              color: _textColor.withOpacity(0.8),
+              color: _textColor.withValues(alpha: 0.8),
               height: 1.5,
             ),
           ),

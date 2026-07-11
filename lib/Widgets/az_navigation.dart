@@ -66,7 +66,7 @@
 //         minHeight: widget.itemSize * 8, // Minimum height for visibility
 //       ),
 //       decoration: BoxDecoration(
-//         color: widget.backgroundColor.withOpacity(0.1),
+//         color: widget.backgroundColor.withValues(alpha: 0.1),
 //         borderRadius: BorderRadius.circular(
 //             (widget.itemSize + widget.itemPadding * 2) / 2),
 //       ),
@@ -151,7 +151,7 @@ class AZNavigation extends StatelessWidget {
     return Container(
       width: itemSize + 4,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: Colors.white.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(itemSize / 2),
       ),
       child: ListView.builder(

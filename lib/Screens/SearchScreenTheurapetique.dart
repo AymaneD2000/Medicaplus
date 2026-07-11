@@ -44,7 +44,7 @@ class _SearchClasseTheuraScreenDCIState
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -105,7 +105,7 @@ class _SearchClasseTheuraScreenDCIState
       child: ListTile(
         onTap: onTap,
         leading: CircleAvatar(
-          backgroundColor: _primaryColor.withOpacity(0.1),
+          backgroundColor: _primaryColor.withValues(alpha: 0.1),
           child: Icon(Icons.category, color: _primaryColor),
         ),
         title: Text(

@@ -227,7 +227,7 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
         border: Border.all(color: Colors.blue[100]!),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
+            color: Colors.grey.withValues(alpha: 0.15),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -381,7 +381,7 @@ class _MaterielHomePageState extends State<MaterielHomePage> {
                     child: Card(
                       elevation: 6,
                       color: Colors.white,
-                      shadowColor: Colors.grey.withOpacity(0.5),
+                      shadowColor: Colors.grey.withValues(alpha: 0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -619,20 +619,17 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
     });
 
     try {
-      final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
       final filePath = 'materiels/$fileName';
 
-      await Supabase.instance.client.storage
-          .from('avatars')
-          .upload(filePath, imageFile!);
+      await Supabase.instance.client.storage.from('avatars').upload(
+          filePath, imageFile!,
+          fileOptions: const FileOptions(contentType: 'image/jpeg'));
 
-      final imageUrl = await Supabase.instance.client.storage
-          .from('avatars')
-          .createSignedUrl(
-              filePath, SupabaseManagement.signedUrlExpiryInSeconds);
-
+      // Store just the path — _withStoragePaths in addMateriel will
+      // also extract it, but storing the path directly is more reliable.
       setState(() {
-        _imageUrl = imageUrl;
+        _imageUrl = filePath;
         isUploading = false;
       });
 
@@ -760,7 +757,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
             Card(
               elevation: 10,
               color: Colors.white,
-              shadowColor: Colors.grey.withOpacity(0.5),
+              shadowColor: Colors.grey.withValues(alpha: 0.5),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -889,7 +886,7 @@ class _MaterielFormPageState extends State<MaterielFormPage> {
             Card(
               elevation: 10,
               color: Colors.white,
-              shadowColor: Colors.grey.withOpacity(0.5),
+              shadowColor: Colors.grey.withValues(alpha: 0.5),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

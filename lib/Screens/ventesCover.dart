@@ -212,7 +212,7 @@ class _VenteCoverState extends State<VenteCover> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 88,
+            expandedHeight: 10,
             collapsedHeight: 60,
             toolbarHeight: 60,
             floating: false,
@@ -223,39 +223,16 @@ class _VenteCoverState extends State<VenteCover> {
             surfaceTintColor: Colors.transparent,
             centerTitle: true,
             titleSpacing: 0,
-            title: Column(
+            title: const Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'Détail du matériel',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
                     fontSize: 17,
                     letterSpacing: 0.1,
-                  ),
-                ),
-                const Gap(2),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.14),
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.18),
-                    ),
-                  ),
-                  child: const Text(
-                    'Équipement médical',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 10.5,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.4,
-                    ),
                   ),
                 ),
               ],
@@ -270,15 +247,15 @@ class _VenteCoverState extends State<VenteCover> {
                   onTap: () => Navigator.pop(context),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.18),
+                      color: Colors.white.withValues(alpha: 0.18),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.28),
+                        color: Colors.white.withValues(alpha: 0.28),
                         width: 1,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
+                          color: Colors.black.withValues(alpha: 0.08),
                           blurRadius: 12,
                           offset: const Offset(0, 5),
                         ),
@@ -308,20 +285,20 @@ class _VenteCoverState extends State<VenteCover> {
                       height: 42,
                       decoration: BoxDecoration(
                         color: _isFavorite
-                            ? Colors.redAccent.withOpacity(0.9)
-                            : Colors.white.withOpacity(0.18),
+                            ? Colors.redAccent.withValues(alpha: 0.9)
+                            : Colors.white.withValues(alpha: 0.18),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: _isFavorite
-                              ? Colors.white.withOpacity(0.25)
-                              : Colors.white.withOpacity(0.28),
+                              ? Colors.white.withValues(alpha: 0.25)
+                              : Colors.white.withValues(alpha: 0.28),
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
                             color:
                                 (_isFavorite ? Colors.redAccent : Colors.black)
-                                    .withOpacity(0.12),
+                                    .withValues(alpha: 0.12),
                             blurRadius: 14,
                             offset: const Offset(0, 6),
                           ),
@@ -362,7 +339,7 @@ class _VenteCoverState extends State<VenteCover> {
                       height: 130,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.07),
+                        color: Colors.white.withValues(alpha: 0.07),
                       ),
                     ),
                   ),
@@ -375,7 +352,7 @@ class _VenteCoverState extends State<VenteCover> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.08),
+                          color: Colors.white.withValues(alpha: 0.08),
                           width: 18,
                         ),
                       ),
@@ -386,7 +363,7 @@ class _VenteCoverState extends State<VenteCover> {
                     bottom: 10,
                     child: Icon(
                       Icons.medical_services_outlined,
-                      color: Colors.white.withOpacity(0.08),
+                      color: Colors.white.withValues(alpha: 0.08),
                       size: 42,
                     ),
                   ),
@@ -424,7 +401,7 @@ class _VenteCoverState extends State<VenteCover> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -437,7 +414,7 @@ class _VenteCoverState extends State<VenteCover> {
           fit: BoxFit.contain,
           width: double.infinity,
           placeholder: (context, url) => Container(
-            color: _primaryColor.withOpacity(0.1),
+            color: _primaryColor.withValues(alpha: 0.1),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -450,7 +427,7 @@ class _VenteCoverState extends State<VenteCover> {
                   Text(
                     'Chargement de l\'image...',
                     style: TextStyle(
-                      color: _textColor.withOpacity(0.7),
+                      color: _textColor.withValues(alpha: 0.7),
                       fontSize: 14,
                     ),
                   ),
@@ -459,7 +436,7 @@ class _VenteCoverState extends State<VenteCover> {
             ),
           ),
           errorWidget: (context, url, error) => Container(
-            color: _primaryColor.withOpacity(0.1),
+            color: _primaryColor.withValues(alpha: 0.1),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -481,7 +458,7 @@ class _VenteCoverState extends State<VenteCover> {
                 Text(
                   'Impossible de charger l\'image',
                   style: TextStyle(
-                    color: _textColor.withOpacity(0.7),
+                    color: _textColor.withValues(alpha: 0.7),
                     fontSize: 14,
                   ),
                 ),
@@ -501,7 +478,7 @@ class _VenteCoverState extends State<VenteCover> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -515,7 +492,7 @@ class _VenteCoverState extends State<VenteCover> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -559,7 +536,7 @@ class _VenteCoverState extends State<VenteCover> {
                 widget.materiel.description!,
                 style: TextStyle(
                   fontSize: 16,
-                  color: _textColor.withOpacity(0.8),
+                  color: _textColor.withValues(alpha: 0.8),
                   height: 1.6,
                 ),
               ),
@@ -583,15 +560,15 @@ class _VenteCoverState extends State<VenteCover> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            _primaryColor.withOpacity(0.95),
-            _secondaryColor.withOpacity(0.72),
-            const Color(0xFF90CAF9).withOpacity(0.45),
+            _primaryColor.withValues(alpha: 0.95),
+            _secondaryColor.withValues(alpha: 0.72),
+            const Color(0xFF90CAF9).withValues(alpha: 0.45),
           ],
         ),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: _primaryColor.withOpacity(0.24),
+            color: _primaryColor.withValues(alpha: 0.24),
             blurRadius: 26,
             offset: const Offset(0, 14),
           ),
@@ -614,7 +591,7 @@ class _VenteCoverState extends State<VenteCover> {
                   height: 150,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _primaryColor.withOpacity(0.06),
+                    color: _primaryColor.withValues(alpha: 0.06),
                   ),
                 ),
               ),
@@ -626,7 +603,7 @@ class _VenteCoverState extends State<VenteCover> {
                   height: 150,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _secondaryColor.withOpacity(0.08),
+                    color: _secondaryColor.withValues(alpha: 0.08),
                   ),
                 ),
               ),
@@ -649,7 +626,7 @@ class _VenteCoverState extends State<VenteCover> {
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
-                                color: _primaryColor.withOpacity(0.25),
+                                color: _primaryColor.withValues(alpha: 0.25),
                                 blurRadius: 14,
                                 offset: const Offset(0, 7),
                               ),
@@ -681,7 +658,7 @@ class _VenteCoverState extends State<VenteCover> {
                                 style: TextStyle(
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.w600,
-                                  color: _textColor.withOpacity(0.55),
+                                  color: _textColor.withValues(alpha: 0.55),
                                 ),
                               ),
                             ],
@@ -693,10 +670,10 @@ class _VenteCoverState extends State<VenteCover> {
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.1),
+                            color: Colors.green.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(100),
                             border: Border.all(
-                              color: Colors.green.withOpacity(0.18),
+                              color: Colors.green.withValues(alpha: 0.18),
                             ),
                           ),
                           child: Row(
@@ -734,12 +711,12 @@ class _VenteCoverState extends State<VenteCover> {
                           end: Alignment.bottomRight,
                           colors: [
                             const Color(0xFFF7FBFF),
-                            _primaryColor.withOpacity(0.055),
+                            _primaryColor.withValues(alpha: 0.055),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(22),
                         border: Border.all(
-                          color: _primaryColor.withOpacity(0.1),
+                          color: _primaryColor.withValues(alpha: 0.1),
                           width: 1.2,
                         ),
                       ),
@@ -750,7 +727,7 @@ class _VenteCoverState extends State<VenteCover> {
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
-                              color: _primaryColor.withOpacity(0.72),
+                              color: _primaryColor.withValues(alpha: 0.72),
                               letterSpacing: 1.6,
                             ),
                           ),
@@ -780,42 +757,12 @@ class _VenteCoverState extends State<VenteCover> {
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w900,
-                                        color: _textColor.withOpacity(0.68),
+                                        color: _textColor.withValues(alpha: 0.68),
                                         letterSpacing: 1,
                                       ),
                                     ),
                                   ),
                                 ],
-                              ],
-                            ),
-                          ),
-                          const Gap(14),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _primaryColor.withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.chat_bubble_outline_rounded,
-                                  color: _primaryColor,
-                                  size: 15,
-                                ),
-                                const Gap(7),
-                                Text(
-                                  'Contactez le vendeur pour confirmer',
-                                  style: TextStyle(
-                                    color: _primaryColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -849,15 +796,19 @@ class _VenteCoverState extends State<VenteCover> {
           },
           icon: 'assets/materiel/commander.png',
           label: 'Commander via WhatsApp',
-          gradient: LinearGradient(
+          subtitle: 'Envoyer une demande au vendeur',
+          gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFF25D366),
-              const Color(0xFF128C7E),
+              Color(0xFF25D366),
+              Color(0xFF1FAF68),
+              Color(0xFF128C7E),
             ],
+            stops: [0.0, 0.52, 1.0],
           ),
           shadowColor: const Color(0xFF25D366),
+          actionIcon: Icons.chat_rounded,
         ),
         const Gap(16),
 
@@ -868,15 +819,19 @@ class _VenteCoverState extends State<VenteCover> {
           },
           icon: 'assets/materiel/appeler.png',
           label: 'Appeler maintenant',
+          subtitle: 'Contacter directement le vendeur',
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
+              const Color(0xFF1565C0),
               _primaryColor,
               _secondaryColor,
             ],
+            stops: const [0.0, 0.55, 1.0],
           ),
           shadowColor: _primaryColor,
+          actionIcon: Icons.call_rounded,
         ),
       ],
     );
@@ -886,84 +841,151 @@ class _VenteCoverState extends State<VenteCover> {
     required VoidCallback onPressed,
     required String icon,
     required String label,
+    required String subtitle,
     required Gradient gradient,
     required Color shadowColor,
+    required IconData actionIcon,
   }) {
     return Container(
       width: double.infinity,
-      height: 70,
       decoration: BoxDecoration(
-        gradient: gradient,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: shadowColor.withOpacity(0.4),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            color: shadowColor.withValues(alpha: 0.28),
+            blurRadius: 24,
+            offset: const Offset(0, 12),
           ),
         ],
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(20),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Icon
-                Container(
-                  width: 40,
-                  height: 40,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
-                      width: 1,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Material(
+          color: Colors.transparent,
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: gradient,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: InkWell(
+              onTap: onPressed,
+              borderRadius: BorderRadius.circular(24),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: -28,
+                    right: -18,
+                    child: Container(
+                      width: 92,
+                      height: 92,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.1),
+                      ),
                     ),
                   ),
-                  child: Image.asset(
-                    icon,
-                    width: 24,
-                    height: 24,
-                    color: Colors.white,
-                  ),
-                ),
-                const Gap(16),
-
-                // Label
-                Expanded(
-                  child: Text(
-                    label,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      letterSpacing: 0.5,
+                  Positioned(
+                    bottom: -36,
+                    left: -26,
+                    child: Container(
+                      width: 96,
+                      height: 96,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.1),
+                          width: 18,
+                        ),
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                ),
-
-                // Arrow icon
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(8),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 78),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 14,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.18),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.28),
+                                width: 1,
+                              ),
+                            ),
+                            child: Image.asset(
+                              icon,
+                              width: 26,
+                              height: 26,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const Gap(14),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  label,
+                                  style: const TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
+                                    letterSpacing: 0.2,
+                                    height: 1.15,
+                                  ),
+                                  softWrap: true,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.visible,
+                                ),
+                                const Gap(4),
+                                Text(
+                                  subtitle,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white.withValues(alpha: 0.78),
+                                    height: 1.2,
+                                  ),
+                                  softWrap: true,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Gap(12),
+                          Container(
+                            width: 38,
+                            height: 38,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.18),
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.2),
+                              ),
+                            ),
+                            child: Icon(
+                              actionIcon,
+                              color: Colors.white,
+                              size: 19,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                    size: 16,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

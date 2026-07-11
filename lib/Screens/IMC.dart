@@ -269,7 +269,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -283,7 +283,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -308,7 +308,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
             'L\'indice de masse corporelle (IMC) est une mesure utilisée pour estimer la corpulence d\'une personne en fonction de son poids et de sa taille.',
             style: TextStyle(
               fontSize: 16,
-              color: _textColor.withOpacity(0.8),
+              color: _textColor.withValues(alpha: 0.8),
               height: 1.5,
             ),
           ),
@@ -326,7 +326,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -340,7 +340,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -389,7 +389,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             decoration: BoxDecoration(
-              border: Border.all(color: _primaryColor.withOpacity(0.3)),
+              border: Border.all(color: _primaryColor.withValues(alpha: 0.3)),
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButton<String>(
@@ -436,11 +436,11 @@ class _IMCCalculatorState extends State<IMCCalculator> {
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: _primaryColor.withOpacity(0.3)),
+              borderSide: BorderSide(color: _primaryColor.withValues(alpha: 0.3)),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: _primaryColor.withOpacity(0.3)),
+              borderSide: BorderSide(color: _primaryColor.withValues(alpha: 0.3)),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -518,7 +518,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -531,7 +531,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -548,7 +548,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
                     'Votre IMC',
                     style: TextStyle(
                       fontSize: 16,
-                      color: _textColor.withOpacity(0.7),
+                      color: _textColor.withValues(alpha: 0.7),
                     ),
                   ),
                   Text(
@@ -568,7 +568,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -608,7 +608,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -622,7 +622,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _secondaryColor.withOpacity(0.1),
+                  color: _secondaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -647,9 +647,9 @@ class _IMCCalculatorState extends State<IMCCalculator> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: _secondaryColor.withOpacity(0.05),
+              color: _secondaryColor.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: _secondaryColor.withOpacity(0.2)),
+              border: Border.all(color: _secondaryColor.withValues(alpha: 0.2)),
             ),
             child: Text(
               'IMC = Poids (kg) / Taille² (m)',
@@ -676,7 +676,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
   //       borderRadius: BorderRadius.circular(16),
   //       boxShadow: [
   //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.05),
+  //           color: Colors.black.withValues(alpha: 0.05),
   //           blurRadius: 10,
   //           offset: const Offset(0, 4),
   //         ),
@@ -690,7 +690,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
   //             Container(
   //               padding: const EdgeInsets.all(8),
   //               decoration: BoxDecoration(
-  //                 color: _primaryColor.withOpacity(0.1),
+  //                 color: _primaryColor.withValues(alpha: 0.1),
   //                 borderRadius: BorderRadius.circular(8),
   //               ),
   //               child: Icon(
@@ -755,7 +755,7 @@ class _IMCCalculatorState extends State<IMCCalculator> {
   //             description,
   //             style: TextStyle(
   //               fontSize: 14,
-  //               color: _textColor.withOpacity(0.8),
+  //               color: _textColor.withValues(alpha: 0.8),
   //             ),
   //           ),
   //         ),

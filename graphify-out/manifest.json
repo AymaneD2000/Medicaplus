@@ -1,0 +1,467 @@
+{
+  "DatabaseManagement/pdf_download_service.dart": {
+    "mtime": 1778758534.5151095,
+    "ast_hash": "9bcb4c4ea2d3abeede2a63315bf50c38",
+    "semantic_hash": "9bcb4c4ea2d3abeede2a63315bf50c38"
+  },
+  "DatabaseManagement/provider.dart": {
+    "mtime": 1778692063.720984,
+    "ast_hash": "966f82e12681d21811990b2943bc692d",
+    "semantic_hash": "966f82e12681d21811990b2943bc692d"
+  },
+  "DatabaseManagement/providers/cours_provider.dart": {
+    "mtime": 1778691321.7875829,
+    "ast_hash": "0d8a35149c55171d0e7fb62a276c3aea",
+    "semantic_hash": "0d8a35149c55171d0e7fb62a276c3aea"
+  },
+  "DatabaseManagement/providers/materiel_provider.dart": {
+    "mtime": 1778691324.4252138,
+    "ast_hash": "117fbc34b66a4335622f5f7abe546692",
+    "semantic_hash": "117fbc34b66a4335622f5f7abe546692"
+  },
+  "DatabaseManagement/providers/medicament_provider.dart": {
+    "mtime": 1778691305.1977205,
+    "ast_hash": "6755df2d150c3b9fe29f20ed2f08d02c",
+    "semantic_hash": "6755df2d150c3b9fe29f20ed2f08d02c"
+  },
+  "DatabaseManagement/providers/pharmacie_provider.dart": {
+    "mtime": 1778691308.2960875,
+    "ast_hash": "064c50ebfb95071fbfe65977e0a1b2e1",
+    "semantic_hash": "064c50ebfb95071fbfe65977e0a1b2e1"
+  },
+  "DatabaseManagement/providers/providers.dart": {
+    "mtime": 1778691463.3962214,
+    "ast_hash": "6d14dfa10b8406d0b9046ea986fcec71",
+    "semantic_hash": "6d14dfa10b8406d0b9046ea986fcec71"
+  },
+  "DatabaseManagement/supabasemanagement.dart": {
+    "mtime": 1778691968.911941,
+    "ast_hash": "a9379480eb30ecd0aae53a15427e026a",
+    "semantic_hash": "a9379480eb30ecd0aae53a15427e026a"
+  },
+  "Models/amo.dart": {
+    "mtime": 1777729420.5300994,
+    "ast_hash": "6d02bb40d882a35d487c28656f34d0df",
+    "semantic_hash": "6d02bb40d882a35d487c28656f34d0df"
+  },
+  "Models/classemodel.dart": {
+    "mtime": 1778682271.869183,
+    "ast_hash": "0b27aac6afc26c01cc141741b374d9b1",
+    "semantic_hash": "0b27aac6afc26c01cc141741b374d9b1"
+  },
+  "Models/downloaded_pdf.dart": {
+    "mtime": 1750853291.3623893,
+    "ast_hash": "f33bbfa665d30f5d38d6393090922b22",
+    "semantic_hash": "f33bbfa665d30f5d38d6393090922b22"
+  },
+  "Models/faculter.dart": {
+    "mtime": 1737281162.7843034,
+    "ast_hash": "adb3c9ce042381168b3191065a2c6ff0",
+    "semantic_hash": "adb3c9ce042381168b3191065a2c6ff0"
+  },
+  "Models/filiere.dart": {
+    "mtime": 1752185766.4371474,
+    "ast_hash": "2534ab1fc78a85334c23c966c4c1aae8",
+    "semantic_hash": "2534ab1fc78a85334c23c966c4c1aae8"
+  },
+  "Models/materiels.dart": {
+    "mtime": 1750853290.2155046,
+    "ast_hash": "51f24f1a2b6d3fb1e5022be37b5cef54",
+    "semantic_hash": "51f24f1a2b6d3fb1e5022be37b5cef54"
+  },
+  "Models/med.dart": {
+    "mtime": 1777729423.1392868,
+    "ast_hash": "4358102438fa58763a6266b95ad335a7",
+    "semantic_hash": "4358102438fa58763a6266b95ad335a7"
+  },
+  "Models/pdf.dart": {
+    "mtime": 1751843797.659601,
+    "ast_hash": "b29b2509710e45f1a5215c7e6734e1e4",
+    "semantic_hash": "b29b2509710e45f1a5215c7e6734e1e4"
+  },
+  "Models/prescription.dart": {
+    "mtime": 1777729424.0717194,
+    "ast_hash": "cc86084f64c3f6a9bd6f3efbd960fa99",
+    "semantic_hash": "cc86084f64c3f6a9bd6f3efbd960fa99"
+  },
+  "Models/publication.dart": {
+    "mtime": 1750508788.1550736,
+    "ast_hash": "069b2ca7e02cdab147ddcea30b655ba0",
+    "semantic_hash": "069b2ca7e02cdab147ddcea30b655ba0"
+  },
+  "Models/semestre.dart": {
+    "mtime": 1752184101.4644072,
+    "ast_hash": "6d893dbe96dd8e6ed37e82eb65b89fa8",
+    "semantic_hash": "6d893dbe96dd8e6ed37e82eb65b89fa8"
+  },
+  "Screens/AddClasseScreen.dart": {
+    "mtime": 1778759404.4523175,
+    "ast_hash": "ec80bc15eb1d0c6141bbaa4598e1e3d4",
+    "semantic_hash": "ec80bc15eb1d0c6141bbaa4598e1e3d4"
+  },
+  "Screens/AmoView.dart": {
+    "mtime": 1778759254.6197383,
+    "ast_hash": "1a2917e3f70173e13fbf2135b2e9ef87",
+    "semantic_hash": "1a2917e3f70173e13fbf2135b2e9ef87"
+  },
+  "Screens/Appgar.dart": {
+    "mtime": 1778759404.401709,
+    "ast_hash": "efbcb8ed34cf5f6f7502a31b135d8691",
+    "semantic_hash": "efbcb8ed34cf5f6f7502a31b135d8691"
+  },
+  "Screens/IMC.dart": {
+    "mtime": 1778759270.6074016,
+    "ast_hash": "fbed5437695af20262fabe4ab11005c8",
+    "semantic_hash": "fbed5437695af20262fabe4ab11005c8"
+  },
+  "Screens/Malmart.dart": {
+    "mtime": 1773596467.2290134,
+    "ast_hash": "d6a2dcc8cafc0ae8a9aa22c046ce6d71",
+    "semantic_hash": "d6a2dcc8cafc0ae8a9aa22c046ce6d71"
+  },
+  "Screens/ManageFiliere.dart": {
+    "mtime": 1778759381.2091508,
+    "ast_hash": "50e1ff54cc27ed3dbb4ee103947243e1",
+    "semantic_hash": "50e1ff54cc27ed3dbb4ee103947243e1"
+  },
+  "Screens/ManagePDF.dart": {
+    "mtime": 1778759404.4728389,
+    "ast_hash": "c1ad0b301f64940cb789156840958ce2",
+    "semantic_hash": "c1ad0b301f64940cb789156840958ce2"
+  },
+  "Screens/ManageSemestre.dart": {
+    "mtime": 1778759404.43921,
+    "ast_hash": "0d606f16ce1d7df50f1ceab716f57903",
+    "semantic_hash": "0d606f16ce1d7df50f1ceab716f57903"
+  },
+  "Screens/SearchScreenTheurapetique.dart": {
+    "mtime": 1778759386.171646,
+    "ast_hash": "643c634f9efa2781850bfa2f13c83105",
+    "semantic_hash": "643c634f9efa2781850bfa2f13c83105"
+  },
+  "Screens/SemestreScreen.dart": {
+    "mtime": 1778759404.4449842,
+    "ast_hash": "17ec46d28d5ebd2d86cf71c4f1c436c0",
+    "semantic_hash": "17ec46d28d5ebd2d86cf71c4f1c436c0"
+  },
+  "Screens/artemether.dart": {
+    "mtime": 1778759404.4118767,
+    "ast_hash": "c023e3a463a818d47a2a0f0700b23eb2",
+    "semantic_hash": "c023e3a463a818d47a2a0f0700b23eb2"
+  },
+  "Screens/artesunate.dart": {
+    "mtime": 1778759404.4813604,
+    "ast_hash": "cb90e885a198b7573d74875f3a257497",
+    "semantic_hash": "cb90e885a198b7573d74875f3a257497"
+  },
+  "Screens/auth/auth_layout.dart": {
+    "mtime": 1783772831.1304429,
+    "ast_hash": "1a17f1f1ddd14b63e9361b8cbc803f7b",
+    "semantic_hash": "1a17f1f1ddd14b63e9361b8cbc803f7b"
+  },
+  "Screens/auth/forgot_password_screen.dart": {
+    "mtime": 1783772923.6224856,
+    "ast_hash": "bbeb70fa57b0ca677badc056254fb940",
+    "semantic_hash": "bbeb70fa57b0ca677badc056254fb940"
+  },
+  "Screens/auth/login_screen.dart": {
+    "mtime": 1783773103.3237653,
+    "ast_hash": "459134c363d03493cb633caa91e183ef",
+    "semantic_hash": "459134c363d03493cb633caa91e183ef"
+  },
+  "Screens/auth/register_screen.dart": {
+    "mtime": 1783773103.324572,
+    "ast_hash": "18b9e547ef8ead0ca1a366d547852c9c",
+    "semantic_hash": "18b9e547ef8ead0ca1a366d547852c9c"
+  },
+  "Screens/auth/update_password_screen.dart": {
+    "mtime": 1783773103.3252187,
+    "ast_hash": "23ab99bf752225e44c8b2f96c9138b15",
+    "semantic_hash": "23ab99bf752225e44c8b2f96c9138b15"
+  },
+  "Screens/calculeScreen.dart": {
+    "mtime": 1778759404.4975317,
+    "ast_hash": "e68d25d0e84c7ff301e260f407a09600",
+    "semantic_hash": "e68d25d0e84c7ff301e260f407a09600"
+  },
+  "Screens/carlendriergrosesse.dart": {
+    "mtime": 1778759387.6062877,
+    "ast_hash": "bff2c69580ab3f41d1e41963b2571dcc",
+    "semantic_hash": "bff2c69580ab3f41d1e41963b2571dcc"
+  },
+  "Screens/categorieMedicamentView.dart": {
+    "mtime": 1770679525.6297057,
+    "ast_hash": "6741f924f7261a7a2a4e3b88b31b3705",
+    "semantic_hash": "6741f924f7261a7a2a4e3b88b31b3705"
+  },
+  "Screens/classviewr.dart": {
+    "mtime": 1778759404.4889188,
+    "ast_hash": "fc96c96d4c2a0a30fc0eb1b1238abc99",
+    "semantic_hash": "fc96c96d4c2a0a30fc0eb1b1238abc99"
+  },
+  "Screens/dashboard.dart": {
+    "mtime": 1783773065.3968685,
+    "ast_hash": "4f66c0ad994ab053118ad2021866d19c",
+    "semantic_hash": "4f66c0ad994ab053118ad2021866d19c"
+  },
+  "Screens/downloaded_pdfs_screen.dart": {
+    "mtime": 1778759271.1338527,
+    "ast_hash": "7c816ccb2ce8a8453abc152d66fc076e",
+    "semantic_hash": "7c816ccb2ce8a8453abc152d66fc076e"
+  },
+  "Screens/faculterScreenPage.dart": {
+    "mtime": 1778759390.61503,
+    "ast_hash": "f7234e894356b0c49f3804fc30e2a813",
+    "semantic_hash": "f7234e894356b0c49f3804fc30e2a813"
+  },
+  "Screens/filieresviewer.dart": {
+    "mtime": 1778759404.4080808,
+    "ast_hash": "833f1556e67c16469cd5602e2484f9ae",
+    "semantic_hash": "833f1556e67c16469cd5602e2484f9ae"
+  },
+  "Screens/force_update_screen.dart": {
+    "mtime": 1783252462.7374678,
+    "ast_hash": "223f9760ae0b1430fff9a34202fe8a15",
+    "semantic_hash": "223f9760ae0b1430fff9a34202fe8a15"
+  },
+  "Screens/glascow.dart": {
+    "mtime": 1778759404.4171484,
+    "ast_hash": "3d09eaac1d857f1aedd7b25f7f5b1a66",
+    "semantic_hash": "3d09eaac1d857f1aedd7b25f7f5b1a66"
+  },
+  "Screens/hba.dart": {
+    "mtime": 1778759404.4049294,
+    "ast_hash": "5606d72fe3c43259c05d3a72bd4fc3f9",
+    "semantic_hash": "5606d72fe3c43259c05d3a72bd4fc3f9"
+  },
+  "Screens/home.dart": {
+    "mtime": 1778759250.6855297,
+    "ast_hash": "d51cee16d3910fd4216bcaed57c13bdf",
+    "semantic_hash": "d51cee16d3910fd4216bcaed57c13bdf"
+  },
+  "Screens/info.dart": {
+    "mtime": 1765049581.34791,
+    "ast_hash": "e3e7a48877f28912a90f140aeadf5638",
+    "semantic_hash": "e3e7a48877f28912a90f140aeadf5638"
+  },
+  "Screens/manageMateriels.dart": {
+    "mtime": 1778759404.4943614,
+    "ast_hash": "ab401d3aa4a54bc0e422e99c03c7ce6f",
+    "semantic_hash": "ab401d3aa4a54bc0e422e99c03c7ce6f"
+  },
+  "Screens/managePublication.dart": {
+    "mtime": 1778759268.3875473,
+    "ast_hash": "c49073b11fe60726c881f3981d50d681",
+    "semantic_hash": "c49073b11fe60726c881f3981d50d681"
+  },
+  "Screens/medicamentdetailscreen.dart": {
+    "mtime": 1778759248.3380218,
+    "ast_hash": "966eedab52cac921469dc80bdf95b832",
+    "semantic_hash": "966eedab52cac921469dc80bdf95b832"
+  },
+  "Screens/medicamentscreen.dart": {
+    "mtime": 1778759404.48678,
+    "ast_hash": "dda042bae223ce8eb34058b560120dd7",
+    "semantic_hash": "dda042bae223ce8eb34058b560120dd7"
+  },
+  "Screens/paracetamol.dart": {
+    "mtime": 1778759404.4199295,
+    "ast_hash": "6df7ef3fcc4ff033d981a39ad595474a",
+    "semantic_hash": "6df7ef3fcc4ff033d981a39ad595474a"
+  },
+  "Screens/pdfassetsviewer.dart": {
+    "mtime": 1777734173.0240889,
+    "ast_hash": "f5b48805d6014865fd4caef1a39dd92e",
+    "semantic_hash": "f5b48805d6014865fd4caef1a39dd92e"
+  },
+  "Screens/pdfclientview.dart": {
+    "mtime": 1778759404.4228323,
+    "ast_hash": "0570a3bbc3ca0b2c42da69636eaed9e9",
+    "semantic_hash": "0570a3bbc3ca0b2c42da69636eaed9e9"
+  },
+  "Screens/pdfview.dart": {
+    "mtime": 1778759269.5559518,
+    "ast_hash": "dfa879ea7aa520eddcf318aee624cf65",
+    "semantic_hash": "dfa879ea7aa520eddcf318aee624cf65"
+  },
+  "Screens/pharmacie.dart": {
+    "mtime": 1778759404.4306712,
+    "ast_hash": "fa88540dbe22b813463a879bbe8edf5e",
+    "semantic_hash": "fa88540dbe22b813463a879bbe8edf5e"
+  },
+  "Screens/prescription.dart": {
+    "mtime": 1777729901.7587469,
+    "ast_hash": "c26a2bf4f00971586b2976c4abfff213",
+    "semantic_hash": "c26a2bf4f00971586b2976c4abfff213"
+  },
+  "Screens/quinine.dart": {
+    "mtime": 1778759404.4775498,
+    "ast_hash": "f175e1268db67e5702c25b1e221db33b",
+    "semantic_hash": "f175e1268db67e5702c25b1e221db33b"
+  },
+  "Screens/searchScreen prescription.dart": {
+    "mtime": 1773596466.1753075,
+    "ast_hash": "1b832e209318104860d515368d3a800b",
+    "semantic_hash": "1b832e209318104860d515368d3a800b"
+  },
+  "Screens/searchScreen.dart": {
+    "mtime": 1778759404.4283118,
+    "ast_hash": "59f9c4537c2bfa7294195d9921ba386a",
+    "semantic_hash": "59f9c4537c2bfa7294195d9921ba386a"
+  },
+  "Screens/searchScreenAmoAmo.dart": {
+    "mtime": 1778759259.496175,
+    "ast_hash": "3c190bdbdd82c3349b08acb6d19c463e",
+    "semantic_hash": "3c190bdbdd82c3349b08acb6d19c463e"
+  },
+  "Screens/searchScreenAmoDCI.dart": {
+    "mtime": 1778759404.425805,
+    "ast_hash": "66fd245bedc873cfc86265911d108bbd",
+    "semantic_hash": "66fd245bedc873cfc86265911d108bbd"
+  },
+  "Screens/searchScreenMedClasse.dart": {
+    "mtime": 1778759404.4142804,
+    "ast_hash": "99c9f4512ce120cac3f74ca255d0f5a4",
+    "semantic_hash": "99c9f4512ce120cac3f74ca255d0f5a4"
+  },
+  "Screens/searchScreenMedicaments.dart": {
+    "mtime": 1778759404.4841602,
+    "ast_hash": "099e6ccac0ae1bb2e7a2c0e48bf9ce5b",
+    "semantic_hash": "099e6ccac0ae1bb2e7a2c0e48bf9ce5b"
+  },
+  "Screens/secondCalcul.dart": {
+    "mtime": 1778759404.4329853,
+    "ast_hash": "230b16f0ab4ece45343ae5d8503d8005",
+    "semantic_hash": "230b16f0ab4ece45343ae5d8503d8005"
+  },
+  "Screens/venteMaetiels.dart": {
+    "mtime": 1778759404.5017369,
+    "ast_hash": "cd7ccd9e35ad61d90001208f8f1916b0",
+    "semantic_hash": "cd7ccd9e35ad61d90001208f8f1916b0"
+  },
+  "Screens/ventesCover.dart": {
+    "mtime": 1778759404.4558313,
+    "ast_hash": "45123d8de4bbc435f11d4514825c0f9b",
+    "semantic_hash": "45123d8de4bbc435f11d4514825c0f9b"
+  },
+  "Screens/wells_score.dart": {
+    "mtime": 1778759404.4361997,
+    "ast_hash": "2069f584c0a628a8822b227b9dd184ff",
+    "semantic_hash": "2069f584c0a628a8822b227b9dd184ff"
+  },
+  "Utils/admin_gate.dart": {
+    "mtime": 1778758584.7713985,
+    "ast_hash": "cf03aaf5c2fa8fe835b33ce084799996",
+    "semantic_hash": "cf03aaf5c2fa8fe835b33ce084799996"
+  },
+  "Utils/app_review_service.dart": {
+    "mtime": 1783266649.255973,
+    "ast_hash": "2680228dd5626d5f8fc49259a697cd14",
+    "semantic_hash": "2680228dd5626d5f8fc49259a697cd14"
+  },
+  "Utils/permission_service.dart": {
+    "mtime": 1778758505.3728628,
+    "ast_hash": "9003b6b8f225e30ceaf171354af22957",
+    "semantic_hash": "9003b6b8f225e30ceaf171354af22957"
+  },
+  "Utils/transitions.dart": {
+    "mtime": 1773608295.254924,
+    "ast_hash": "42b5899da6364094ce373c9a11645a2f",
+    "semantic_hash": "42b5899da6364094ce373c9a11645a2f"
+  },
+  "Utils/version_check_service.dart": {
+    "mtime": 1783252439.9255779,
+    "ast_hash": "760b4b73f1dfdfc5a131dd492c1df23c",
+    "semantic_hash": "760b4b73f1dfdfc5a131dd492c1df23c"
+  },
+  "Utils/version_gate.dart": {
+    "mtime": 1783773026.5590932,
+    "ast_hash": "5bdd46a011da020f16741cf932e3a168",
+    "semantic_hash": "5bdd46a011da020f16741cf932e3a168"
+  },
+  "Widgets/amoattributescard.dart": {
+    "mtime": 1737281162.7875807,
+    "ast_hash": "3b86dc9f7c257611641196c61e85b582",
+    "semantic_hash": "3b86dc9f7c257611641196c61e85b582"
+  },
+  "Widgets/attributesCard.dart": {
+    "mtime": 1737286916.0271866,
+    "ast_hash": "2d12cf55dd1a6b6b1ff488fba4ef96ba",
+    "semantic_hash": "2d12cf55dd1a6b6b1ff488fba4ef96ba"
+  },
+  "Widgets/az_navigation.dart": {
+    "mtime": 1778759270.7974136,
+    "ast_hash": "6799585db8cf0fc15c467708c94bdb73",
+    "semantic_hash": "6799585db8cf0fc15c467708c94bdb73"
+  },
+  "Widgets/card.dart": {
+    "mtime": 1745752371.0842392,
+    "ast_hash": "5fd2efeb757d8026a3b43097eae16ed9",
+    "semantic_hash": "5fd2efeb757d8026a3b43097eae16ed9"
+  },
+  "Widgets/pdf.json": {
+    "mtime": 1737281162.78786,
+    "ast_hash": "e4aa2978773ccecd3344510d92839fe7",
+    "semantic_hash": "e4aa2978773ccecd3344510d92839fe7"
+  },
+  "Widgets/publiciteCard.dart": {
+    "mtime": 1737281162.7879148,
+    "ast_hash": "68b329da9893e34099c7d8ad5cb9c940",
+    "semantic_hash": "68b329da9893e34099c7d8ad5cb9c940"
+  },
+  "auth/auth_controller.dart": {
+    "mtime": 1783773155.7953043,
+    "ast_hash": "36455c90b7f1546aaa5c9794ab4f9d76",
+    "semantic_hash": "36455c90b7f1546aaa5c9794ab4f9d76"
+  },
+  "auth/auth_gate.dart": {
+    "mtime": 1783772923.9276586,
+    "ast_hash": "e20f9cbf81319fe28cc0c06856a0eec6",
+    "semantic_hash": "e20f9cbf81319fe28cc0c06856a0eec6"
+  },
+  "auth/auth_repository.dart": {
+    "mtime": 1783773155.676203,
+    "ast_hash": "9e9335ca3c737bc4a6057dc8cdd12454",
+    "semantic_hash": "9e9335ca3c737bc4a6057dc8cdd12454"
+  },
+  "auth/supabase_auth_repository.dart": {
+    "mtime": 1783773155.9199715,
+    "ast_hash": "f7b826b658e81584970310df52b07633",
+    "semantic_hash": "f7b826b658e81584970310df52b07633"
+  },
+  "data/datasources/local/local_json_datasource.dart": {
+    "mtime": 1777728915.29718,
+    "ast_hash": "fe0490a67319a7060305737dcc01e5d1",
+    "semantic_hash": "fe0490a67319a7060305737dcc01e5d1"
+  },
+  "data/repositories/medicament_repository.dart": {
+    "mtime": 1777728947.1723638,
+    "ast_hash": "fdae4df3e80ec19c6135c01d62afd4cb",
+    "semantic_hash": "fdae4df3e80ec19c6135c01d62afd4cb"
+  },
+  "data/repositories/pharmacie_repository.dart": {
+    "mtime": 1777729473.5501819,
+    "ast_hash": "da589818405e34f3d450a235d28815d0",
+    "semantic_hash": "da589818405e34f3d450a235d28815d0"
+  },
+  "firebase_options.dart": {
+    "mtime": 1773596330.1207888,
+    "ast_hash": "54eb08a988273e55b9c9dae658af5f35",
+    "semantic_hash": "54eb08a988273e55b9c9dae658af5f35"
+  },
+  "main.dart": {
+    "mtime": 1783773026.4396503,
+    "ast_hash": "6a32efc58cddaecb8cf1a0cdd6b343e4",
+    "semantic_hash": "6a32efc58cddaecb8cf1a0cdd6b343e4"
+  },
+  "theme/app_theme.dart": {
+    "mtime": 1778759133.9021506,
+    "ast_hash": "6071579aadf320090df8a9674c997d2f",
+    "semantic_hash": "6071579aadf320090df8a9674c997d2f"
+  },
+  "utils.dart": {
+    "mtime": 1777729871.4041817,
+    "ast_hash": "2beee7ac62766e9d2d12a1eb618cf803",
+    "semantic_hash": "2beee7ac62766e9d2d12a1eb618cf803"
+  }
+}

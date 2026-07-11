@@ -43,7 +43,7 @@ class _SearchMedicamentClasseScreenState
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -104,7 +104,7 @@ class _SearchMedicamentClasseScreenState
       child: ListTile(
         onTap: onTap,
         leading: CircleAvatar(
-          backgroundColor: _primaryColor.withOpacity(0.1),
+          backgroundColor: _primaryColor.withValues(alpha: 0.1),
           child: Icon(Icons.medication, color: _primaryColor),
         ),
         title: Text(
@@ -117,7 +117,7 @@ class _SearchMedicamentClasseScreenState
         ),
         subtitle: med.nomCommercial.isNotEmpty
             ? Text(med.nomCommercial.join(', '),
-                style: TextStyle(color: _textColor.withOpacity(0.7)))
+                style: TextStyle(color: _textColor.withValues(alpha: 0.7)))
             : null,
       ),
     );

@@ -49,7 +49,7 @@ class _SearchMedicamentScreenState extends State<SearchMedicamentScreen> {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -110,7 +110,7 @@ class _SearchMedicamentScreenState extends State<SearchMedicamentScreen> {
   //       borderRadius: BorderRadius.circular(16),
   //       boxShadow: [
   //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.05),
+  //           color: Colors.black.withValues(alpha: 0.05),
   //           blurRadius: 8,
   //           offset: const Offset(0, 2),
   //         ),
@@ -144,7 +144,7 @@ class _SearchMedicamentScreenState extends State<SearchMedicamentScreen> {
   //                       Text(
   //                         med.nomCommercial.take(2).join(', '),
   //                         style: TextStyle(
-  //                           color: _textColor.withOpacity(0.7),
+  //                           color: _textColor.withValues(alpha: 0.7),
   //                           fontSize: 14,
   //                         ),
   //                         maxLines: 1,
@@ -189,7 +189,7 @@ class _SearchMedicamentScreenState extends State<SearchMedicamentScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -213,7 +213,7 @@ class _SearchMedicamentScreenState extends State<SearchMedicamentScreen> {
                         med.name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: _primaryColor.withOpacity(0.7),
+                          color: _primaryColor.withValues(alpha: 0.7),
                           fontSize: 16,
                         ),
                       ),
@@ -354,7 +354,7 @@ class _SearchMedicamentScreenState extends State<SearchMedicamentScreen> {
                                 );
                               }
                             },
-                            // backgroundColor: _primaryColor.withOpacity(0.1),
+                            // backgroundColor: _primaryColor.withValues(alpha: 0.1),
                             // selectedColor: _primaryColor,
                             // textColor: _primaryColor,
                             // selectedTextColor: Colors.white,

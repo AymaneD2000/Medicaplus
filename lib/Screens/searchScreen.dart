@@ -102,7 +102,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                         //         );
                         //       }
                         //     },
-                        //     // backgroundColor: _secondaryColor.withOpacity(0.1),
+                        //     // backgroundColor: _secondaryColor.withValues(alpha: 0.1),
                         //     // selectedColor: _secondaryColor,
                         //     // textColor: _secondaryColor,
                         //     // selectedTextColor: Colors.white,
@@ -128,7 +128,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: _secondaryColor.withOpacity(0.3),
+            color: _secondaryColor.withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -143,7 +143,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
@@ -172,7 +172,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     ),
@@ -181,6 +181,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                 child: TextField(
                   controller: searchController,
                   autofocus: true,
+                  cursorColor: _secondaryColor,
                   style: TextStyle(
                     color: _textColor,
                     fontSize: 16,
@@ -210,7 +211,24 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                         : null,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none,
+                      borderSide: BorderSide(
+                        color: _secondaryColor.withValues(alpha: 0.35),
+                        width: 1.2,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(
+                        color: _secondaryColor.withValues(alpha: 0.35),
+                        width: 1.2,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(
+                        color: _secondaryColor,
+                        width: 2,
+                      ),
                     ),
                     filled: true,
                     fillColor: _cardColor,
@@ -227,7 +245,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                 Text(
                   '${filtered.length} résultat${filtered.length > 1 ? 's' : ''} trouvé${filtered.length > 1 ? 's' : ''}',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -298,7 +316,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -348,7 +366,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                         Text(
                           pharmacy.presantation.take(2).join(', '),
                           style: TextStyle(
-                            color: _textColor.withOpacity(0.7),
+                            color: _textColor.withValues(alpha: 0.7),
                             fontSize: 14,
                           ),
                           maxLines: 2,
@@ -374,13 +392,13 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: _primaryColor.withOpacity(0.1),
+                            color: Colors.blue.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             'AMO',
                             style: TextStyle(
-                              color: _primaryColor,
+                              color: Colors.blue,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
@@ -393,7 +411,7 @@ class _SearchAmoScreenState extends State<SearchAmoScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.1),
+                            color: Colors.red.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Text(

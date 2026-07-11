@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/materiel_provider.dart';
 import 'package:medpharm/Models/materiels.dart';
 import 'package:medpharm/Screens/ventesCover.dart';
 import 'package:provider/provider.dart';
@@ -228,7 +228,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                   _buildSearchAndFilters(),
                   if (_showFilters) _buildAdvancedFilters(),
                   FutureBuilder<List<Materiel>>(
-                    future: context.read<MyProvider>().getMateriel(),
+                    future: context.read<MaterielProvider>().getMateriel(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return _buildLoadingView();
@@ -301,12 +301,12 @@ class _BooksHomePageState extends State<BooksHomePage>
         color: _cardColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: _primaryColor.withOpacity(0.08),
+          color: _primaryColor.withValues(alpha: 0.08),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: _primaryColor.withOpacity(0.08),
+            color: _primaryColor.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -330,7 +330,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: _primaryColor.withOpacity(0.24),
+                      color: _primaryColor.withValues(alpha: 0.24),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),
@@ -364,7 +364,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: _textColor.withOpacity(0.58),
+                        color: _textColor.withValues(alpha: 0.58),
                         height: 1.3,
                       ),
                     ),
@@ -405,13 +405,13 @@ class _BooksHomePageState extends State<BooksHomePage>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            categoryColor.withOpacity(0.12),
-            categoryColor.withOpacity(0.035),
+            categoryColor.withValues(alpha: 0.12),
+            categoryColor.withValues(alpha: 0.035),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: categoryColor.withOpacity(0.18),
+          color: categoryColor.withValues(alpha: 0.18),
           width: 1,
         ),
       ),
@@ -422,7 +422,7 @@ class _BooksHomePageState extends State<BooksHomePage>
             bottom: -22,
             child: Icon(
               category['icon'] as IconData,
-              color: categoryColor.withOpacity(0.08),
+              color: categoryColor.withValues(alpha: 0.08),
               size: 82,
             ),
           ),
@@ -432,7 +432,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               Container(
                 padding: const EdgeInsets.all(11),
                 decoration: BoxDecoration(
-                  color: categoryColor.withOpacity(0.14),
+                  color: categoryColor.withValues(alpha: 0.14),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Icon(
@@ -457,7 +457,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               Text(
                 subtitle,
                 style: TextStyle(
-                  color: _textColor.withOpacity(0.58),
+                  color: _textColor.withValues(alpha: 0.58),
                   fontSize: 11.5,
                   fontWeight: FontWeight.w500,
                   height: 1.2,
@@ -491,7 +491,7 @@ class _BooksHomePageState extends State<BooksHomePage>
           end: Alignment.bottomRight,
           colors: [
             _primaryColor,
-            _primaryColor.withOpacity(0.8),
+            _primaryColor.withValues(alpha: 0.8),
             _secondaryColor,
           ],
           stops: const [0.0, 0.7, 1.0],
@@ -502,7 +502,7 @@ class _BooksHomePageState extends State<BooksHomePage>
         ),
         boxShadow: [
           BoxShadow(
-            color: _primaryColor.withOpacity(0.2),
+            color: _primaryColor.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -518,7 +518,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.08),
+                color: Colors.white.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
             ),
@@ -530,7 +530,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               width: 25,
               height: 25,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.04),
+                color: Colors.white.withValues(alpha: 0.04),
                 shape: BoxShape.circle,
               ),
             ),
@@ -548,10 +548,10 @@ class _BooksHomePageState extends State<BooksHomePage>
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -584,10 +584,10 @@ class _BooksHomePageState extends State<BooksHomePage>
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -615,18 +615,18 @@ class _BooksHomePageState extends State<BooksHomePage>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.15),
+                        Colors.white.withValues(alpha: 0.25),
+                        Colors.white.withValues(alpha: 0.15),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
+                        color: Colors.black.withValues(alpha: 0.08),
                         blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),
@@ -655,7 +655,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                           letterSpacing: 0.3,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               offset: const Offset(0, 1),
                               blurRadius: 1,
                             ),
@@ -667,10 +667,10 @@ class _BooksHomePageState extends State<BooksHomePage>
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             width: 0.5,
                           ),
                         ),
@@ -697,8 +697,8 @@ class _BooksHomePageState extends State<BooksHomePage>
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.08),
+                        Colors.white.withValues(alpha: 0.25),
+                        Colors.white.withValues(alpha: 0.08),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(1),
@@ -723,7 +723,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
@@ -739,7 +739,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               decoration: InputDecoration(
                 hintText: 'Rechercher des Equipements...',
                 hintStyle: TextStyle(
-                  color: _textColor.withOpacity(0.5),
+                  color: _textColor.withValues(alpha: 0.5),
                   fontSize: 16,
                 ),
                 prefixIcon: Icon(
@@ -754,7 +754,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                       IconButton(
                         icon: Icon(
                           Icons.clear,
-                          color: _textColor.withOpacity(0.5),
+                          color: _textColor.withValues(alpha: 0.5),
                         ),
                         onPressed: () {
                           _searchController.clear();
@@ -816,7 +816,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 2),
                   ),
@@ -996,7 +996,7 @@ class _BooksHomePageState extends State<BooksHomePage>
   //                   ),
   //                   boxShadow: [
   //                     BoxShadow(
-  //                       color: Colors.black.withOpacity(0.05),
+  //                       color: Colors.black.withValues(alpha: 0.05),
   //                       blurRadius: 8,
   //                       offset: const Offset(0, 2),
   //                     ),
@@ -1055,7 +1055,7 @@ class _BooksHomePageState extends State<BooksHomePage>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -1066,7 +1066,7 @@ class _BooksHomePageState extends State<BooksHomePage>
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: _primaryColor.withOpacity(0.1),
+              color: _primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -1093,7 +1093,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                   '$count matériel${count > 1 ? 's' : ''} trouvé${count > 1 ? 's' : ''}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: _textColor.withOpacity(0.7),
+                    color: _textColor.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -1103,7 +1103,7 @@ class _BooksHomePageState extends State<BooksHomePage>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.1),
+                color: Colors.red.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -1185,7 +1185,7 @@ class _BooksHomePageState extends State<BooksHomePage>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: cardColor.withOpacity(0.2),
+            color: cardColor.withValues(alpha: 0.2),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -1208,7 +1208,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          //color: cardColor.withOpacity(0.1),
+                          //color: cardColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: ClipRRect(
@@ -1218,7 +1218,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                             fit: BoxFit.contain,
                             width: double.infinity,
                             placeholder: (context, url) => Container(
-                              color: cardColor.withOpacity(0.1),
+                              color: cardColor.withValues(alpha: 0.1),
                               child: Center(
                                 child: CircularProgressIndicator(
                                   valueColor:
@@ -1228,7 +1228,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                               ),
                             ),
                             errorWidget: (context, url, error) => Container(
-                              color: cardColor.withOpacity(0.1),
+                              color: cardColor.withValues(alpha: 0.1),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -1265,7 +1265,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: Colors.black.withValues(alpha: 0.1),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 ),
@@ -1301,7 +1301,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: cardColor.withOpacity(0.1),
+                    color: cardColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -1329,7 +1329,7 @@ class _BooksHomePageState extends State<BooksHomePage>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: cardColor.withOpacity(0.1),
+            color: cardColor.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -1351,7 +1351,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: cardColor.withOpacity(0.1),
+                    color: cardColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: ClipRRect(
@@ -1360,7 +1360,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                       imageUrl: material.image,
                       fit: BoxFit.contain,
                       placeholder: (context, url) => Container(
-                        color: cardColor.withOpacity(0.1),
+                        color: cardColor.withValues(alpha: 0.1),
                         child: Center(
                           child: CircularProgressIndicator(
                             valueColor:
@@ -1370,7 +1370,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                         ),
                       ),
                       errorWidget: (context, url, error) => Container(
-                        color: cardColor.withOpacity(0.1),
+                        color: cardColor.withValues(alpha: 0.1),
                         child: Icon(
                           Icons.medical_services_outlined,
                           color: cardColor,
@@ -1401,7 +1401,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: cardColor.withOpacity(0.1),
+                          color: cardColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -1425,8 +1425,8 @@ class _BooksHomePageState extends State<BooksHomePage>
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           color: isFavorite
-                              ? Colors.red.withOpacity(0.1)
-                              : Colors.grey.withOpacity(0.1),
+                              ? Colors.red.withValues(alpha: 0.1)
+                              : Colors.grey.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Icon(
@@ -1498,7 +1498,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               'Chargement des Equipements...',
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -1522,7 +1522,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -1550,7 +1550,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),
@@ -1599,7 +1599,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -1625,7 +1625,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               "Les Equipements seront bientôt disponibles",
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -1648,7 +1648,7 @@ class _BooksHomePageState extends State<BooksHomePage>
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -1674,7 +1674,7 @@ class _BooksHomePageState extends State<BooksHomePage>
               "Essayez de modifier vos critères de recherche",
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
               ),
             ),
             const SizedBox(height: 24),

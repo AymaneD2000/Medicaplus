@@ -78,7 +78,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
         ),
         boxShadow: [
           BoxShadow(
-            color: _secondaryColor.withOpacity(0.3),
+            color: _secondaryColor.withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -93,7 +93,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
@@ -119,7 +119,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                           'Dénomination Commune Internationale',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                           ),
                         ),
                       ],
@@ -134,7 +134,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     ),
@@ -143,6 +143,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                 child: TextField(
                   controller: searchController,
                   autofocus: true,
+                  cursorColor: _secondaryColor,
                   style: TextStyle(
                     color: _textColor,
                     fontSize: 16,
@@ -172,7 +173,24 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                         : null,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none,
+                      borderSide: BorderSide(
+                        color: _secondaryColor.withValues(alpha: 0.35),
+                        width: 1.2,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(
+                        color: _secondaryColor.withValues(alpha: 0.35),
+                        width: 1.2,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(
+                        color: _secondaryColor,
+                        width: 2,
+                      ),
                     ),
                     filled: true,
                     fillColor: _cardColor,
@@ -189,7 +207,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                 Text(
                   '${filtered.length} résultat${filtered.length > 1 ? 's' : ''} trouvé${filtered.length > 1 ? 's' : ''}',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -271,7 +289,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -331,7 +349,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                       //   Text(
                       //     pharmacy.classtherapique.first.toString(),
                       //     style: TextStyle(
-                      //       color: _textColor.withOpacity(0.7),
+                      //       color: _textColor.withValues(alpha: 0.7),
                       //       fontSize: 12,
                       //     ),
                       //     maxLines: 1,
@@ -344,7 +362,7 @@ class _SearchAmoScreenDCIState extends State<SearchAmoScreenDCI> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
+                            color: Colors.blue.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(

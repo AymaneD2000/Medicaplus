@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/materiel_provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/medicament_provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/pharmacie_provider.dart';
 import 'package:medpharm/Models/publication.dart';
 import 'package:medpharm/Screens/calculeScreen.dart';
 import 'package:medpharm/Screens/carlendriergrosesse.dart';
@@ -44,13 +46,15 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _initializeData() async {
-    final provider = context.read<MyProvider>();
+    final materielProvider = context.read<MaterielProvider>();
+    final medicamentProvider = context.read<MedicamentProvider>();
+    final pharmacieProvider = context.read<PharmacieProvider>();
     try {
-      _publicationFuture = provider.getPublication();
+      _publicationFuture = materielProvider.getPublication();
 
       await Future.wait([
-        provider.loadMedicamentData(),
-        provider.loadPharmacieData(),
+        medicamentProvider.loadMedicamentData(),
+        pharmacieProvider.loadPharmacieData(),
       ]);
       if (mounted) {
         setState(() {
@@ -93,9 +97,9 @@ class _HomeState extends State<Home> {
   }
 
   void _refreshPublications() {
-    final provider = context.read<MyProvider>();
+    final materielProvider = context.read<MaterielProvider>();
     setState(() {
-      _publicationFuture = provider.getPublication();
+      _publicationFuture = materielProvider.getPublication();
     });
   }
 
@@ -201,7 +205,7 @@ class _HomeState extends State<Home> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withValues(alpha: 0.08),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -296,7 +300,7 @@ class _HomeState extends State<Home> {
           end: Alignment.bottomCenter,
           colors: [
             _backgroundColor,
-            _backgroundColor.withOpacity(0.8),
+            _backgroundColor.withValues(alpha: 0.8),
           ],
         ),
       ),
@@ -362,7 +366,7 @@ class _HomeState extends State<Home> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/medicament_provider.dart';
 import 'package:medpharm/Models/med.dart';
 import 'package:provider/provider.dart';
 
@@ -84,7 +84,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -96,7 +96,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
             ),
             onPressed: () async {
               final success = await context
-                  .read<MyProvider>()
+                  .read<MedicamentProvider>()
                   .changeFavoris(widget.medicament.name);
               if (success && mounted) {
                 setState(() {
@@ -225,14 +225,14 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             spreadRadius: 2,
             offset: const Offset(0, 4),
           ),
         ],
         border: Border.all(
-          color: _primaryColor.withOpacity(0.2),
+          color: _primaryColor.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -281,7 +281,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.4,
-                      color: _textColor.withOpacity(0.8),
+                      color: _textColor.withValues(alpha: 0.8),
                     ),
                   ),
                 ],
@@ -308,7 +308,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -321,7 +321,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -366,7 +366,7 @@ class _MedicamentDetailsScreenState extends State<MedicamentDetailsScreen> {
                         height: 6,
                         margin: const EdgeInsets.only(top: 8, right: 12),
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.6),
+                          color: color.withValues(alpha: 0.6),
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),

@@ -262,7 +262,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -276,7 +276,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -303,7 +303,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             'L\'hémoglobine glyquée (HbA1c) est le reflet de l\'équilibre glycémique des trois derniers mois. Cette formule permet de faire le lien entre HbA1c et la glycémie plasmatique moyenne présente chez un patient.',
             style: TextStyle(
               fontSize: 16,
-              color: _textColor.withOpacity(0.8),
+              color: _textColor.withValues(alpha: 0.8),
               height: 1.5,
             ),
           ),
@@ -321,7 +321,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -335,7 +335,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -372,11 +372,11 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               hintText: _selectedUnit == '%' ? 'Ex: 7.5' : 'Ex: 58',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: _primaryColor.withOpacity(0.3)),
+                borderSide: BorderSide(color: _primaryColor.withValues(alpha: 0.3)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: _primaryColor.withOpacity(0.3)),
+                borderSide: BorderSide(color: _primaryColor.withValues(alpha: 0.3)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -407,7 +407,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             decoration: BoxDecoration(
-              border: Border.all(color: _primaryColor.withOpacity(0.3)),
+              border: Border.all(color: _primaryColor.withValues(alpha: 0.3)),
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButton<String>(
@@ -498,7 +498,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -511,7 +511,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -555,7 +555,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -592,9 +592,9 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.05),
+        color: color.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -604,7 +604,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               label,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.8),
+                color: _textColor.withValues(alpha: 0.8),
               ),
             ),
           ),
@@ -630,7 +630,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -644,7 +644,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _secondaryColor.withOpacity(0.1),
+                  color: _secondaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -684,9 +684,9 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: _secondaryColor.withOpacity(0.05),
+        color: _secondaryColor.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _secondaryColor.withOpacity(0.2)),
+        border: Border.all(color: _secondaryColor.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -722,7 +722,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
   //       borderRadius: BorderRadius.circular(16),
   //       boxShadow: [
   //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.05),
+  //           color: Colors.black.withValues(alpha: 0.05),
   //           blurRadius: 10,
   //           offset: const Offset(0, 4),
   //         ),
@@ -736,7 +736,7 @@ class _HbA1cScreenState extends State<HbA1cScreen> {
   //             Container(
   //               padding: const EdgeInsets.all(8),
   //               decoration: BoxDecoration(
-  //                 color: _primaryColor.withOpacity(0.1),
+  //                 color: _primaryColor.withValues(alpha: 0.1),
   //                 borderRadius: BorderRadius.circular(8),
   //               ),
   //               child: Icon(

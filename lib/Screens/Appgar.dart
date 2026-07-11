@@ -124,7 +124,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -138,7 +138,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -163,7 +163,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
             "Le score d'Apgar est une évaluation de l'état de santé d'un nouveau-né. Il est calculé à 1, 5 et 10 minutes après la naissance.",
             style: TextStyle(
               fontSize: 16,
-              color: _textColor.withOpacity(0.8),
+              color: _textColor.withValues(alpha: 0.8),
               height: 1.5,
             ),
           ),
@@ -187,7 +187,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -201,7 +201,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -225,7 +225,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.1),
+                  color: _primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -264,11 +264,11 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
         border: Border.all(
           color: groupValue == value
               ? _primaryColor
-              : Colors.grey.withOpacity(0.3),
+              : Colors.grey.withValues(alpha: 0.3),
           width: groupValue == value ? 2 : 1,
         ),
         color: groupValue == value
-            ? _primaryColor.withOpacity(0.05)
+            ? _primaryColor.withValues(alpha: 0.05)
             : Colors.transparent,
       ),
       child: RadioListTile<int>(
@@ -302,7 +302,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -315,7 +315,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -332,7 +332,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
                     'Score Total',
                     style: TextStyle(
                       fontSize: 16,
-                      color: _textColor.withOpacity(0.7),
+                      color: _textColor.withValues(alpha: 0.7),
                     ),
                   ),
                   Text(
@@ -352,7 +352,7 @@ class _AppgarHomePageState extends State<AppgarHomePage> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(

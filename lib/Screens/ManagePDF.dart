@@ -141,8 +141,10 @@ class _PdfScreenState extends State<PdfScreen> {
       await SupabaseManagement().removePdf(pdf);
       await _loadPdfs();
       _showSuccessSnackBar('PDF supprimé avec succès');
-    } catch (error) {
-      _showErrorSnackBar('Erreur lors de la suppression du PDF');
+    } catch (error, stackTrace) {
+      debugPrint('Error deleting PDF: $error');
+      debugPrint('Stack trace: $stackTrace');
+      _showErrorSnackBar('Erreur: $error');
     } finally {
       setState(() => _isOperationInProgress = false);
     }
@@ -159,8 +161,10 @@ class _PdfScreenState extends State<PdfScreen> {
       );
       await _loadPdfs();
       _showSuccessSnackBar('PDF modifié avec succès');
-    } catch (error) {
-      _showErrorSnackBar('Erreur lors de la modification du PDF');
+    } catch (error, stackTrace) {
+      debugPrint('Error updating PDF: $error');
+      debugPrint('Stack trace: $stackTrace');
+      _showErrorSnackBar('Erreur: $error');
     } finally {
       setState(() => _isOperationInProgress = false);
     }
@@ -320,7 +324,7 @@ class _PdfScreenState extends State<PdfScreen> {
                     child: Card(
                       elevation: 6,
                       color: Colors.white,
-                      shadowColor: Colors.grey.withOpacity(0.5),
+                      shadowColor: Colors.grey.withValues(alpha: 0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

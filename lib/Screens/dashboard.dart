@@ -3,6 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:medpharm/Screens/AddClasseScreen.dart';
 import 'package:medpharm/Screens/manageMateriels.dart';
 import 'package:medpharm/Screens/managePublication.dart';
+import 'package:medpharm/Utils/admin_gate.dart';
+import 'package:medpharm/Utils/app_review_service.dart';
+import 'package:medpharm/auth/auth_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:medpharm/Screens/home.dart';
 import 'package:medpharm/Screens/downloaded_pdfs_screen.dart';
@@ -25,6 +29,14 @@ class _DashBoardState extends State<DashBoard> {
   void initState() {
     super.initState();
     _checkFirstLaunch();
+    _maybeRequestReview();
+  }
+
+  Future<void> _maybeRequestReview() async {
+    // Delay so the prompt appears once the user is settled in the app rather
+    // than during startup.
+    await Future.delayed(const Duration(seconds: 3));
+    await const AppReviewService().registerSessionAndMaybeRequest();
   }
 
   Future<void> _checkFirstLaunch() async {
@@ -138,10 +150,23 @@ class _DashBoardState extends State<DashBoard> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 22),
+                      _buildDrawerSectionLabel('COMPTE'),
+                      const SizedBox(height: 10),
+                      _buildDrawerSectionCard(
+                        children: [
+                          _buildDrawerItem(
+                            icon: Icons.logout_rounded,
+                            title: 'Se déconnecter',
+                            onTap: _confirmSignOut,
+                            destructive: true,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-                _buildDrawerFooter(),
+                // _buildDrawerFooter(),
               ],
             ),
           ),
@@ -171,41 +196,50 @@ class _DashBoardState extends State<DashBoard> {
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           // ========================================
-          // ADMIN ACTIONS (Comment/Uncomment based on version)
+          // ADMIN ACTIONS (Protected by admin gate)
           //========================================
-          _buildAppBarAction(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const CategorySelectionScreen()),
-              );
-            },
-            icon: Icons.school_outlined,
-            tooltip: 'Gérer les Classes',
-          ),
-          _buildAppBarAction(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MaterielHomePage()),
-              );
-            },
-            icon: Icons.medical_services_outlined,
-            tooltip: 'Gérer les Equipements',
-          ),
-          _buildAppBarAction(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const PublicationHomePage()),
-              );
-            },
-            icon: Icons.article_outlined,
-            tooltip: 'Gérer les Publications',
-          ),
+          // _buildAppBarAction(
+          //   onPressed: () async {
+          //     final authenticated = await AdminGate.authenticate(context);
+          //     if (authenticated && mounted) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => const CategorySelectionScreen()),
+          //       );
+          //     }
+          //   },
+          //   icon: Icons.school_outlined,
+          //   tooltip: 'Gérer les Classes',
+          // ),
+          // _buildAppBarAction(
+          //   onPressed: () async {
+          //     final authenticated = await AdminGate.authenticate(context);
+          //     if (authenticated && mounted) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => const MaterielHomePage()),
+          //       );
+          //     }
+          //   },
+          //   icon: Icons.medical_services_outlined,
+          //   tooltip: 'Gérer les Equipements',
+          // ),
+          // _buildAppBarAction(
+          //   onPressed: () async {
+          //     final authenticated = await AdminGate.authenticate(context);
+          //     if (authenticated && mounted) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => const PublicationHomePage()),
+          //       );
+          //     }
+          //   },
+          //   icon: Icons.article_outlined,
+          //   tooltip: 'Gérer les Publications',
+          // ),
           //========================================
 
           _buildAppBarAction(
@@ -252,6 +286,10 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Widget _buildDrawerHeader() {
+    final user = context.watch<AuthController>().user;
+    final displayName = user?.displayName ?? 'Utilisateur MedPharm';
+    final email = user?.email ?? '';
+
     return Container(
       margin: const EdgeInsets.fromLTRB(18, 18, 18, 10),
       decoration: BoxDecoration(
@@ -312,41 +350,49 @@ class _DashBoardState extends State<DashBoard> {
               Row(
                 children: [
                   Container(
-                    width: 62,
-                    height: 62,
+                    width: 58,
+                    height: 58,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.22),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(19),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.26),
+                        color: Colors.white.withValues(alpha: 0.28),
                       ),
                     ),
-                    child: const Icon(
-                      Icons.local_pharmacy_rounded,
-                      size: 32,
-                      color: Colors.white,
+                    child: Text(
+                      user?.initials ?? 'M',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 14),
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'MedPharm',
-                          style: TextStyle(
+                          displayName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 25,
+                            fontSize: 18,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.2,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
-                          'Votre espace médical',
-                          style: TextStyle(
+                          email,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
                             color: Colors.white70,
-                            fontSize: 13,
+                            fontSize: 12.5,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -421,6 +467,7 @@ class _DashBoardState extends State<DashBoard> {
     required IconData icon,
     required String title,
     required VoidCallback onTap,
+    bool destructive = false,
   }) {
     return Material(
       color: Colors.transparent,
@@ -447,7 +494,7 @@ class _DashBoardState extends State<DashBoard> {
                 ),
                 child: Icon(
                   icon,
-                  color: _primaryColor,
+                  color: destructive ? Colors.red.shade600 : _primaryColor,
                   size: 21,
                 ),
               ),
@@ -455,10 +502,12 @@ class _DashBoardState extends State<DashBoard> {
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 15,
-                    color: Color(0xFF1D1B20),
+                    color: destructive
+                        ? Colors.red.shade700
+                        : const Color(0xFF1D1B20),
                     letterSpacing: -0.1,
                   ),
                 ),
@@ -483,6 +532,40 @@ class _DashBoardState extends State<DashBoard> {
     );
   }
 
+  Future<void> _confirmSignOut() async {
+    Navigator.pop(context);
+    final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            icon: const Icon(Icons.logout_rounded, color: Color(0xFF02B1EC)),
+            title: const Text('Se déconnecter ?'),
+            content: const Text(
+              'Vous devrez saisir à nouveau vos identifiants pour accéder à MedPharm.',
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                child: const Text('Annuler'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(dialogContext, true),
+                child: const Text('Se déconnecter'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+
+    if (!confirmed || !mounted) return;
+    final result = await context.read<AuthController>().signOut();
+    if (!result.success && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result.message ?? 'Déconnexion impossible.')),
+      );
+    }
+  }
+
   Widget _buildDrawerFooter() {
     return Container(
       margin: const EdgeInsets.fromLTRB(18, 4, 18, 18),
@@ -497,12 +580,6 @@ class _DashBoardState extends State<DashBoard> {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.verified_user_rounded,
-            color: _primaryColor,
-            size: 20,
-          ),
-          const SizedBox(width: 10),
           const Expanded(
             child: Text(
               'MedPharm',
@@ -788,7 +865,7 @@ class _DashBoardState extends State<DashBoard> {
 
                         // Version and copyright
                         const Text(
-                          'Version: MedPharm© 1.0.7 - 2026 tous droits réservés.',
+                          'Version: MedPharm© 1.0.9 - 2026 tous droits réservés.',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -873,7 +950,7 @@ class _DashBoardState extends State<DashBoard> {
 
                         // Copyright
                         Text(
-                          'MedPharm© 1.0.7 - 2026 tous droits réservés.',
+                          'MedPharm© 1.0.9 - 2026 tous droits réservés.',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey[600],

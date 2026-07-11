@@ -75,7 +75,7 @@ class _ArtesunateScreenState extends State<ArtesunateScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -107,7 +107,7 @@ class _ArtesunateScreenState extends State<ArtesunateScreen> {
             decoration: BoxDecoration(
               color: _backgroundColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: _primaryColor.withOpacity(0.2)),
+              border: Border.all(color: _primaryColor.withValues(alpha: 0.2)),
             ),
             child: TextField(
               controller: _controller,
@@ -121,19 +121,19 @@ class _ArtesunateScreenState extends State<ArtesunateScreen> {
               decoration: InputDecoration(
                 hintText: 'Entrez le poids en kg',
                 hintStyle: TextStyle(
-                  color: _textColor.withOpacity(0.5),
+                  color: _textColor.withValues(alpha: 0.5),
                 ),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 border: InputBorder.none,
                 suffixText: 'kg',
                 suffixStyle: TextStyle(
-                  color: _textColor.withOpacity(0.7),
+                  color: _textColor.withValues(alpha: 0.7),
                   fontWeight: FontWeight.w500,
                 ),
                 prefixIcon: Icon(
                   Icons.monitor_weight,
-                  color: _primaryColor.withOpacity(0.7),
+                  color: _primaryColor.withValues(alpha: 0.7),
                 ),
               ),
             ),
@@ -231,7 +231,7 @@ class _ArtesunateScreenState extends State<ArtesunateScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -262,9 +262,9 @@ class _ArtesunateScreenState extends State<ArtesunateScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: _successColor.withOpacity(0.1),
+              color: _successColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: _successColor.withOpacity(0.3)),
+              border: Border.all(color: _successColor.withValues(alpha: 0.3)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -283,7 +283,7 @@ class _ArtesunateScreenState extends State<ArtesunateScreen> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: _textColor.withOpacity(0.7),
+                    color: _textColor.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -304,7 +304,7 @@ class _ArtesunateScreenState extends State<ArtesunateScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -383,7 +383,7 @@ class _ArtesunateScreenState extends State<ArtesunateScreen> {
                     text: value,
                     style: TextStyle(
                       fontSize: 16,
-                      color: _textColor.withOpacity(0.8),
+                      color: _textColor.withValues(alpha: 0.8),
                     ),
                   ),
                 ],

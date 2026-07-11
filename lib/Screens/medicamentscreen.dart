@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/medicament_provider.dart';
 
 import 'package:medpharm/Models/med.dart';
 
@@ -54,7 +54,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
   }
 
   Future<void> _loadData() async {
-    final provider = context.read<MyProvider>();
+    final provider = context.read<MedicamentProvider>();
     print('Starting to load medicament data...');
     await provider.loadMedicamentData();
     print(
@@ -83,7 +83,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
           end: Alignment.bottomRight,
           colors: [
             _primaryColor,
-            _primaryColor.withOpacity(0.8),
+            _primaryColor.withValues(alpha: 0.8),
             const Color(0xFF4FC3F7),
           ],
           stops: const [0.0, 0.7, 1.0],
@@ -94,7 +94,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: _primaryColor.withOpacity(0.2),
+            color: _primaryColor.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -110,7 +110,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.08),
+                color: Colors.white.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
             ),
@@ -122,7 +122,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
               width: 25,
               height: 25,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.04),
+                color: Colors.white.withValues(alpha: 0.04),
                 shape: BoxShape.circle,
               ),
             ),
@@ -140,10 +140,10 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -171,18 +171,18 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.15),
+                        Colors.white.withValues(alpha: 0.25),
+                        Colors.white.withValues(alpha: 0.15),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
+                        color: Colors.black.withValues(alpha: 0.08),
                         blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),
@@ -211,7 +211,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                           letterSpacing: 0.3,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               offset: const Offset(0, 1),
                               blurRadius: 1,
                             ),
@@ -224,10 +224,10 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               width: 0.5,
                             ),
                           ),
@@ -253,8 +253,8 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.08),
+                        Colors.white.withValues(alpha: 0.25),
+                        Colors.white.withValues(alpha: 0.08),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(1),
@@ -279,7 +279,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -315,7 +315,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -357,7 +357,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
                         Text(
                           med.nomCommercial.take(2).join(', '),
                           style: TextStyle(
-                            color: _primaryColor.withOpacity(0.7),
+                            color: _primaryColor.withValues(alpha: 0.7),
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
@@ -430,7 +430,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
     );
   }
 
-  Widget _buildMedicationsTab(MyProvider provider) {
+  Widget _buildMedicationsTab(MedicamentProvider provider) {
     return Column(
       children: [
         _buildSearchBar(
@@ -526,7 +526,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
     );
   }
 
-  Widget _buildFavoritesTab(MyProvider provider) {
+  Widget _buildFavoritesTab(MedicamentProvider provider) {
     return Column(
       children: [
         _buildSearchBar(
@@ -629,7 +629,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
         children: [
           _buildHeader('Medicaments', subtitle: 'Base de données médicale'),
           Expanded(
-            child: Consumer<MyProvider>(
+            child: Consumer<MedicamentProvider>(
               builder: (context, provider, child) {
                 print(
                     'Consumer builder called. Medicament count: ${provider.medicament.length}');
@@ -654,7 +654,7 @@ class _MedicamentsScreenState extends State<MedicamentsScreen> {
           color: _cardColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),

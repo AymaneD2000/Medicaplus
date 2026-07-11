@@ -182,7 +182,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                               return Card(
                                 elevation: 8,
                                 color: Colors.white,
-                                shadowColor: Colors.grey.withOpacity(0.3),
+                                shadowColor: Colors.grey.withValues(alpha: 0.3),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 ),
@@ -212,7 +212,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                                           height: 50,
                                           decoration: BoxDecoration(
                                             color: (style['color'] as Color)
-                                                .withOpacity(0.1),
+                                                .withValues(alpha: 0.1),
                                             borderRadius:
                                                 BorderRadius.circular(25),
                                           ),
@@ -304,11 +304,10 @@ class _ManageClasseState extends State<ManageClasse> {
       await SupabaseManagement().removeClasse(classe);
       await _loadClasses();
       _showSuccessSnackBar('Classe supprimée avec succès');
-    } catch (error) {
-      _showErrorSnackBar('Erreur lors de la suppression de la classe');
-      print('Error deleting class: $error');
-
+    } catch (error, stackTrace) {
       debugPrint('Error deleting class: $error');
+      debugPrint('Stack trace: $stackTrace');
+      _showErrorSnackBar('Erreur: $error');
     } finally {
       setState(() => _isOperationInProgress = false);
     }
@@ -458,7 +457,7 @@ class _ManageClasseState extends State<ManageClasse> {
                     child: Card(
                       elevation: 6,
                       color: Colors.white,
-                      shadowColor: Colors.grey.withOpacity(0.5),
+                      shadowColor: Colors.grey.withValues(alpha: 0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -698,7 +697,8 @@ class _AddClasseDialogState extends State<AddClasseDialog> {
 
       _imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, SupabaseManagement.signedUrlExpiryInSeconds);
+          .createSignedUrl(
+              filePath, SupabaseManagement.signedUrlExpiryInSeconds);
 
       setState(() => _isUploading = false);
 
@@ -1040,7 +1040,8 @@ class _EditClasseDialogState extends State<EditClasseDialog> {
 
       _imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, SupabaseManagement.signedUrlExpiryInSeconds);
+          .createSignedUrl(
+              filePath, SupabaseManagement.signedUrlExpiryInSeconds);
 
       setState(() => _isUploading = false);
 
@@ -1099,15 +1100,16 @@ class _EditClasseDialogState extends State<EditClasseDialog> {
     setState(() => _isSaving = true);
 
     try {
+      final originalNom = widget.classe.nom;
       Classe updatedClasse = Classe(
-        id: widget.classe.id,
         nom: _classeController.text.trim(),
         description: widget.classe.description,
         idfaculter: widget.classe.idfaculter,
         image: _imageUrl,
       );
 
-      await SupabaseManagement().updateClasse(updatedClasse);
+      await SupabaseManagement()
+          .updateClasse(updatedClasse, originalNom: originalNom);
 
       if (mounted) {
         Navigator.pop(context);
@@ -1122,13 +1124,16 @@ class _EditClasseDialogState extends State<EditClasseDialog> {
           ),
         );
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
+      debugPrint('Error updating class: $error');
+      debugPrint('Stack trace: $stackTrace');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Erreur lors de la modification de la classe'),
+            content: Text('Erreur: $error'),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 6),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),

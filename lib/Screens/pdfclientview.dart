@@ -239,15 +239,15 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: color.withOpacity(0.1), width: 1.5),
-            color: color.withOpacity(0.03),
+            border: Border.all(color: color.withValues(alpha: 0.1), width: 1.5),
+            color: color.withValues(alpha: 0.03),
           ),
           child: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(icon, color: color, size: 24),
@@ -280,7 +280,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 14,
-                color: color.withOpacity(0.5),
+                color: color.withValues(alpha: 0.5),
               ),
             ],
           ),
@@ -304,7 +304,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -656,8 +656,10 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
   }
 
   Widget _buildModernAppBar() {
+    final showResultCount = _isSearching && _searchController.text.isNotEmpty;
+
     return SliverAppBar(
-      expandedHeight: 140,
+      expandedHeight: _isSearching ? (showResultCount ? 178 : 158) : 140,
       pinned: true,
       backgroundColor: _primaryColor,
       flexibleSpace: FlexibleSpaceBar(
@@ -670,81 +672,116 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
             ),
           ),
         ),
-        title: _isSearching
-            ? Container(
-                height: 46,
-                constraints: const BoxConstraints(maxWidth: 420),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.85),
-                    width: 1.2,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.16),
-                      blurRadius: 18,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  autofocus: true,
-                  textInputAction: TextInputAction.search,
-                  style: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 15.5,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  cursorColor: _primaryColor,
-                  decoration: InputDecoration(
-                    hintText: 'Rechercher un document...',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    border: InputBorder.none,
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 4,
-                      vertical: 13,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.search_rounded,
-                      color: _primaryColor,
-                      size: 21,
-                    ),
-                    suffixIcon: _searchController.text.isEmpty
-                        ? null
-                        : IconButton(
-                            tooltip: 'Effacer',
-                            icon: Icon(
-                              Icons.close_rounded,
-                              color: Colors.grey.shade600,
-                              size: 19,
-                            ),
-                            onPressed: () {
-                              _searchController.clear();
-                              _filterPdfs('');
-                            },
-                          ),
-                  ),
-                  onChanged: _filterPdfs,
-                ),
-              )
-            : const Text(
-                'Documents PDF',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
+        title: Text(
+          _isSearching ? 'Recherche' : 'Documents PDF',
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
         centerTitle: true,
       ),
+      bottom: _isSearching
+          ? PreferredSize(
+              preferredSize: Size.fromHeight(showResultCount ? 104 : 84),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: _cardColor,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        controller: _searchController,
+                        autofocus: true,
+                        cursorColor: Colors.blue,
+                        textInputAction: TextInputAction.search,
+                        style: TextStyle(
+                          color: _textColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Rechercher un document...',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[500],
+                            fontSize: 16,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Colors.blue,
+                            size: 24,
+                          ),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: Colors.grey[600],
+                                  ),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    _filterPdfs('');
+                                  },
+                                )
+                              : null,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                              color: Colors.blue.withValues(alpha: 0.35),
+                              width: 1.2,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                              color: Colors.blue.withValues(alpha: 0.35),
+                              width: 1.2,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Colors.blue,
+                              width: 2,
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: _cardColor,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 16,
+                          ),
+                        ),
+                        onChanged: _filterPdfs,
+                      ),
+                    ),
+                    if (showResultCount) ...[
+                      const Gap(12),
+                      Text(
+                        '${_filteredPdfs.length} document${_filteredPdfs.length > 1 ? 's' : ''} trouvé${_filteredPdfs.length > 1 ? 's' : ''}',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            )
+          : null,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: () => Navigator.pop(context),
@@ -772,7 +809,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               icon: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -798,7 +835,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               icon: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -846,7 +883,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -861,7 +898,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
             Text(
               'Chargement des documents...',
               style: TextStyle(
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -906,7 +943,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -917,7 +954,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: _primaryColor.withOpacity(0.1),
+              color: _primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -944,7 +981,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                   '${_filteredPdfs.length} document${_filteredPdfs.length > 1 ? 's' : ''} disponible${_filteredPdfs.length > 1 ? 's' : ''}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: _textColor.withOpacity(0.7),
+                    color: _textColor.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -973,7 +1010,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: cardColor.withOpacity(0.15),
+            color: cardColor.withValues(alpha: 0.15),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -1002,7 +1039,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                   width: 80,
                   height: 100,
                   decoration: BoxDecoration(
-                    // color: cardColor.withOpacity(0.1),
+                    // color: cardColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: ClipRRect(
@@ -1011,7 +1048,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                       imageUrl: pdf.image,
                       fit: BoxFit.contain,
                       placeholder: (context, url) => Container(
-                        color: cardColor.withOpacity(0.1),
+                        color: cardColor.withValues(alpha: 0.1),
                         child: Center(
                           child: CircularProgressIndicator(
                             valueColor:
@@ -1021,7 +1058,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                         ),
                       ),
                       errorWidget: (context, url, error) => Container(
-                        color: cardColor.withOpacity(0.1),
+                        color: cardColor.withValues(alpha: 0.1),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -1067,7 +1104,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                           pdf.description,
                           style: TextStyle(
                             fontSize: 14,
-                            color: _textColor.withOpacity(0.7),
+                            color: _textColor.withValues(alpha: 0.7),
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -1080,7 +1117,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                       //       padding: const EdgeInsets.symmetric(
                       //           horizontal: 8, vertical: 4),
                       //       decoration: BoxDecoration(
-                      //         color: cardColor.withOpacity(0.1),
+                      //         color: cardColor.withValues(alpha: 0.1),
                       //         borderRadius: BorderRadius.circular(8),
                       //       ),
                       //       child: Row(
@@ -1115,7 +1152,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                     // View Button
                     Container(
                       decoration: BoxDecoration(
-                        color: cardColor.withOpacity(0.1),
+                        color: cardColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: IconButton(
@@ -1140,7 +1177,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                     // Download Button
                     Container(
                       decoration: BoxDecoration(
-                        color: cardColor.withOpacity(0.1),
+                        color: cardColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: _downloadingPdfs.contains(pdf.id)
@@ -1190,7 +1227,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -1218,7 +1255,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),
@@ -1267,7 +1304,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -1299,7 +1336,7 @@ class _PdfGridScreenState extends State<PdfGridScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),

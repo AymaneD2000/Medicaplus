@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/pharmacie_provider.dart';
 import 'package:medpharm/Models/amo.dart';
 import 'package:medpharm/Screens/AmoView.dart';
 import 'package:medpharm/Screens/searchScreen.dart';
@@ -46,13 +46,13 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
   }
 
   Future<void> _loadData() async {
-    final provider = context.read<MyProvider>();
+    final provider = context.read<PharmacieProvider>();
     if (provider.pharmacies.isEmpty) {
       await provider.loadPharmacieData();
     }
   }
 
-  void _updateSortedLists(MyProvider provider) {
+  void _updateSortedLists(PharmacieProvider provider) {
     const tabs = [0, 1, 2, 3, 4];
     for (final index in tabs) {
       _sortedLists[index] = _getSortedList(provider, index);
@@ -69,7 +69,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -83,7 +83,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -110,7 +110,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.8),
+                color: _textColor.withValues(alpha: 0.8),
                 height: 1.5,
               ),
             ),
@@ -120,7 +120,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
     );
   }
 
-  List<Amo> _getSortedList(MyProvider provider, int tabIndex) {
+  List<Amo> _getSortedList(PharmacieProvider provider, int tabIndex) {
     List<Amo> list;
 
     switch (tabIndex) {
@@ -192,7 +192,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final provider = context.watch<MyProvider>();
+        final provider = context.watch<PharmacieProvider>();
         _updateSortedLists(provider); // Update on data change
 
         final sortedPharmacies = _sortedLists[tabIndex] ?? [];
@@ -225,7 +225,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                         return _buildPharmacyCard(
                           onFavorite: () async {
                             final success = await context
-                                .read<MyProvider>()
+                                .read<PharmacieProvider>()
                                 .changeFavorisPharmacie(pharmacy.name);
                             if (success && mounted) {
                               setState(() {
@@ -330,7 +330,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
           end: Alignment.bottomRight,
           colors: [
             _secondaryColor,
-            _secondaryColor.withOpacity(0.8),
+            _secondaryColor.withValues(alpha: 0.8),
             const Color(0xFF66BB6A),
           ],
           stops: const [0.0, 0.7, 1.0],
@@ -341,7 +341,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: _secondaryColor.withOpacity(0.2),
+            color: _secondaryColor.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -357,7 +357,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.08),
+                color: Colors.white.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
             ),
@@ -369,7 +369,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
               width: 25,
               height: 25,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.04),
+                color: Colors.white.withValues(alpha: 0.04),
                 shape: BoxShape.circle,
               ),
             ),
@@ -387,10 +387,10 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -418,18 +418,18 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.15),
+                        Colors.white.withValues(alpha: 0.25),
+                        Colors.white.withValues(alpha: 0.15),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
+                        color: Colors.black.withValues(alpha: 0.08),
                         blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),
@@ -458,7 +458,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                           letterSpacing: 0.3,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               offset: const Offset(0, 1),
                               blurRadius: 1,
                             ),
@@ -471,10 +471,10 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               width: 0.5,
                             ),
                           ),
@@ -500,8 +500,8 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.08),
+                        Colors.white.withValues(alpha: 0.25),
+                        Colors.white.withValues(alpha: 0.08),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(1),
@@ -526,7 +526,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -577,7 +577,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -635,7 +635,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                         Text(
                           formatPrice(pharmacy.prix),
                           style: TextStyle(
-                            color: Colors.green.withOpacity(0.7),
+                            color: Colors.green.withValues(alpha: 0.7),
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                           ),
@@ -645,7 +645,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                         Text(
                           formatList(pharmacy.presantation),
                           style: TextStyle(
-                            color: _textColor.withOpacity(0.7),
+                            color: _textColor.withValues(alpha: 0.7),
                             fontSize: 14,
                           ),
                           maxLines: 1,
@@ -662,8 +662,8 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     color: pharmacy.amo
-                        ? Colors.blue.withOpacity(0.1)
-                        : Colors.red.withOpacity(0.1),
+                        ? Colors.blue.withValues(alpha: 0.1)
+                        : Colors.red.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
@@ -825,7 +825,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
   //                           );
   //                         }
   //                       },
-  //                       // backgroundColor: _secondaryColor.withOpacity(0.1),
+  //                       // backgroundColor: _secondaryColor.withValues(alpha: 0.1),
   //                       // selectedColor: _secondaryColor,
   //                       // textColor: _secondaryColor,
   //                       // selectedTextColor: Colors.white,
@@ -848,7 +848,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
         children: [
           _buildHeader('Pharmacie', subtitle: 'Base de données pharmaceutique'),
           Expanded(
-            child: Consumer<MyProvider>(
+            child: Consumer<PharmacieProvider>(
               builder: (context, provider, child) {
                 switch (_currentIndex) {
                   case 0:
@@ -912,7 +912,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
           color: _cardColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
@@ -962,7 +962,7 @@ class _PharmacieScreenState extends State<PharmacieScreen> {
     );
   }
 
-  void _navigateToSearch(MyProvider provider, int tabIndex) {
+  void _navigateToSearch(PharmacieProvider provider, int tabIndex) {
     final routes = [
       () =>
           SearchAmoScreen(listes: _sortedLists[0]!, hintText: 'Rechercher...'),

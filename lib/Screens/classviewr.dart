@@ -108,7 +108,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(
@@ -154,7 +154,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -169,7 +169,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
             Text(
               'Chargement des classes...',
               style: TextStyle(
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -214,7 +214,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -225,7 +225,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: _primaryColor.withOpacity(0.1),
+              color: _primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -252,7 +252,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                   '${_classes.length} classe${_classes.length > 1 ? 's' : ''} disponible${_classes.length > 1 ? 's' : ''}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: _textColor.withOpacity(0.7),
+                    color: _textColor.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -281,7 +281,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: cardColor.withOpacity(0.2),
+            color: cardColor.withValues(alpha: 0.2),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -319,7 +319,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                         fit: BoxFit.contain,
                         width: double.infinity,
                         placeholder: (context, url) => Container(
-                          color: cardColor.withOpacity(0.1),
+                          color: cardColor.withValues(alpha: 0.1),
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
@@ -329,7 +329,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                           ),
                         ),
                         errorWidget: (context, url, error) => Container(
-                          color: cardColor.withOpacity(0.1),
+                          color: cardColor.withValues(alpha: 0.1),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -372,7 +372,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                   Text(
                     classe.description,
                     style: TextStyle(
-                      color: _textColor.withOpacity(0.6),
+                      color: _textColor.withValues(alpha: 0.6),
                       fontSize: 12,
                     ),
                     textAlign: TextAlign.center,
@@ -385,7 +385,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: cardColor.withOpacity(0.1),
+                    color: cardColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -431,7 +431,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -459,7 +459,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),
@@ -508,7 +508,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -536,7 +536,7 @@ class _ClassGridScreenState extends State<ClassGridScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: _textColor.withOpacity(0.7),
+                color: _textColor.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),

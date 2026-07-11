@@ -370,15 +370,11 @@ class SupabaseManagement {
     });
   }
 
-  Future<void> updateClasse(Classe c) async {
-    if (c.id == null) {
-      throw Exception('Classe ID is required for updates');
-    }
-
+  Future<void> updateClasse(Classe c, {required String originalNom}) async {
     await supabase
         .from('classe')
         .update(_withStoragePaths(c.toMap(), storageFields: const ['image']))
-        .eq('id', c.id!)
+        .eq('nom', originalNom)
         .then((value) {
       getAllClasse();
     });
@@ -467,22 +463,24 @@ class SupabaseManagement {
     // Delete the associated image from storage
     await _deleteFileFromStorage(c.image);
 
-    if (c.id == null) {
-      throw Exception('Classe ID is required for deletion');
-    }
-
     // Delete the database record
-    await supabase.from('classe').delete().eq('id', c.id!).then((value) {});
+    await supabase.from('classe').delete().eq('nom', c.nom).then((value) {});
   }
 
   removeMateriel(Materiel c) async {
     // Delete the associated image from storage
     await _deleteFileFromStorage(c.image);
+    if (c.id == null) {
+      throw Exception('Materiel ID is required for deletion');
+    }
     // Delete the database record
     await supabase.from('materiel').delete().eq('id', c.id!).then((value) {});
   }
 
   updateMateriel(Materiel c) async {
+    if (c.id == null) {
+      throw Exception('Materiel ID is required for updates');
+    }
     await supabase
         .from('materiel')
         .update(_withStoragePaths(c.toMap(), storageFields: const ['image']))
@@ -554,6 +552,9 @@ class SupabaseManagement {
   }
 
   updatePublication(Publication p) async {
+    if (p.idpublication == null) {
+      throw Exception('Publication ID is required for updates');
+    }
     await supabase
         .from('publication')
         .update(_withStoragePaths(p.toMap(), storageFields: const ['image']))
@@ -564,6 +565,9 @@ class SupabaseManagement {
   deletePublication(Publication p) async {
     // Delete the associated image from storage
     await _deleteFileFromStorage(p.image);
+    if (p.idpublication == null) {
+      throw Exception('Publication ID is required for deletion');
+    }
     // Delete the database record
     await supabase
         .from('publication')
@@ -584,15 +588,23 @@ class SupabaseManagement {
 
   Future<List<Materiel>> getMateriel() async {
     final response = await supabase.from('materiel').select("*");
+    final rows = await _withFreshSignedUrls(
+      response,
+      storageFields: const ['image'],
+    );
     List<Materiel> documents =
-        response.map((e) => Materiel.fromSnapshot(e)).toList();
+        rows.map((e) => Materiel.fromSnapshot(e)).toList();
     return documents;
   }
 
   Future<List<Publication>> getPublication() async {
     final response = await supabase.from('publication').select("*");
+    final rows = await _withFreshSignedUrls(
+      response,
+      storageFields: const ['image'],
+    );
     List<Publication> documents =
-        response.map((e) => Publication.fromSnapshot(e)).toList();
+        rows.map((e) => Publication.fromSnapshot(e)).toList();
     return documents;
   }
 

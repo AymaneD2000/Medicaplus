@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:medpharm/DatabaseManagement/provider.dart';
+import 'package:medpharm/DatabaseManagement/providers/cours_provider.dart';
 import 'package:medpharm/DatabaseManagement/supabasemanagement.dart';
 import 'package:medpharm/Models/semestre.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,7 @@ class ManageSemestre extends StatefulWidget {
 }
 
 class _ManageSemestreState extends State<ManageSemestre> {
-  late MyProvider provider;
+  late CoursProvider provider;
   bool isLoading = true;
   bool isOperationInProgress = false;
   List<Semestre> semestres = [];
@@ -29,7 +29,7 @@ class _ManageSemestreState extends State<ManageSemestre> {
   @override
   void initState() {
     super.initState();
-    provider = Provider.of<MyProvider>(context, listen: false);
+    provider = Provider.of<CoursProvider>(context, listen: false);
     _loadSemestres();
   }
 
@@ -120,8 +120,10 @@ class _ManageSemestreState extends State<ManageSemestre> {
       await provider.deleteSemestre(id, semestre.image);
       await _loadSemestres();
       _showSuccessSnackBar('Semestre supprimé avec succès');
-    } catch (e) {
-      _showErrorSnackBar('Erreur lors de la suppression du semestre');
+    } catch (error, stackTrace) {
+      debugPrint('Error deleting semestre: $error');
+      debugPrint('Stack trace: $stackTrace');
+      _showErrorSnackBar('Erreur: $error');
     } finally {
       setState(() => isOperationInProgress = false);
     }
@@ -213,7 +215,7 @@ class _ManageSemestreState extends State<ManageSemestre> {
                     child: Card(
                       elevation: 6,
                       color: Colors.white,
-                      shadowColor: Colors.grey.withOpacity(0.5),
+                      shadowColor: Colors.grey.withValues(alpha: 0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -403,12 +405,12 @@ class _AddSemestreDialogState extends State<AddSemestreDialog> {
   bool _isUploading = false;
   bool _isSaving = false;
   File? _imageFile;
-  late MyProvider provider;
+  late CoursProvider provider;
 
   @override
   void initState() {
     super.initState();
-    provider = Provider.of<MyProvider>(context, listen: false);
+    provider = Provider.of<CoursProvider>(context, listen: false);
     if (widget.semestreToEdit != null) {
       _semestreController.text = widget.semestreToEdit!.nomSemetre;
       _imageUrl = widget.semestreToEdit!.image;
@@ -450,7 +452,8 @@ class _AddSemestreDialogState extends State<AddSemestreDialog> {
 
       _imageUrl = await Supabase.instance.client.storage
           .from('avatars')
-          .createSignedUrl(filePath, SupabaseManagement.signedUrlExpiryInSeconds);
+          .createSignedUrl(
+              filePath, SupabaseManagement.signedUrlExpiryInSeconds);
 
       setState(() => _isUploading = false);
 
@@ -539,15 +542,16 @@ class _AddSemestreDialogState extends State<AddSemestreDialog> {
           ),
         );
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
+      debugPrint('Error saving semestre: $error');
+      debugPrint('Stack trace: $stackTrace');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(widget.semestreToEdit != null
-                ? 'Erreur lors de la modification du semestre'
-                : 'Erreur lors de l\'ajout du semestre'),
+            content: Text('Erreur: $error'),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 6),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
